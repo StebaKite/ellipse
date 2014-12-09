@@ -1,0 +1,157 @@
+	body {
+		margin: 0px;
+		padding: 0px;
+		background-color: #ffffff;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+		background-color: #ffffff;
+		background-repeat: repeat-x;
+		color: #515151;
+	}
+	
+	frame {
+		border-style: solid;
+		border-width:1px;
+		color: #FF9933;
+	}
+	
+	#main {
+		margin-left: 20px;
+	}
+
+	#menu-accordion {
+		float: left;
+		width: 250px;
+		margin-left: 10px;
+		margin-top: 15px;
+	}
+	#menu-accordion h3 {
+		font-size: 1em;
+	}
+	#menu-accordion ul {
+		padding: 0px;
+		margin: 0px;
+		margin-bottom: 10px;
+		list-style-type: disc;
+	}
+	#menu-accordion li a {
+		color: #515151;
+		font-weight: bolder;
+		text-decoration: none;
+	}
+	#menu-accordion li a:hover {
+		color: #85010f;
+	}
+	* {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+	}
+	h1 {
+		text-align: center;
+		font-size: 1.5em;
+		color: #3399FF;
+	}
+	h2 {
+		text-align: left;
+		font-size: 1.2em;
+	}
+	h3 {
+		text-align: left;
+		margin-top: 50px;
+		font-size: 1.2em;
+		color: #3399FF;
+	}
+	hr { 
+		display: block;
+		margin-top: 0.5em;
+		margin-bottom: 0.5em;
+		margin-left: auto;
+		margin-right: auto;
+		border-style: inset;
+		border-width: 1px;
+	} 
+	
+	input[type="text"], textarea {
+		border: 1px solid #515151;
+	}
+	
+	.smallNote {
+		font-size: 0.8em;
+	}
+	
+	a:link {
+		text-decoration: none;
+	}
+
+	a:visited {
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	a:active {
+		text-decoration: underline;
+	}
+	.result, .ricerca, .dettaglio, .datiCreate {
+		border: 7px solid #ececec;
+	}
+	.result tfoot, .ricerca tfoot, .dettaglio tfoot, .datiCreate tfoot {
+		text-align: right;
+	}
+
+	.result th, .dettaglio th {
+		font-weight: bolder;
+		background-color: #666666;
+		color: white;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+	.result th a {
+		text-decoration: none;
+		color: white;
+	}
+
+	.result .on, .dettaglio .on {
+		background-color: #ECECEC;
+	}
+	.result .connesso {
+		background-color: #ECECEC;
+		font-weight: bolder;
+	}
+
+	.result .error {
+		background-color: #aa0433;
+		color: white; 
+		font-weight: bolder;
+	}
+
+	.result .center {
+		text-align: center;
+	}
+	.result .icon {
+		width: 20px;
+		text-align: center;
+	}
+	.result td.right {
+		text-align: right;
+	}
+
+	.insert .field_label {
+		text-align: right;
+	}
+	.insert .field_value {
+		text-align: left;
+	}
+
+	.dettaglio .value {
+		text-align: right;
+		font-weight: bolder;
+	}
+	.dettaglio .value a {
+		color: #aa0433;
+		font-weight: bolder;
+		text-decoration: none;
+	}	
+	
