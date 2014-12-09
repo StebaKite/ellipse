@@ -1,0 +1,104 @@
+<div id="body">
+	<div id="main">
+		<form method="post" action="%azione%" >
+			<h2>%titoloPagina%</h2>
+			<table class="datiCreate">
+				<tbody>
+					<tr>
+						<td>%ml.cognome% :</td>
+						<td class="tooltip"><input type="text" name="cognome" required style="%cognomeStyle%" title="%cognomeTip%" size="30" maxlength="30" value="%cognome%" %cognomeDisable% /></td>
+						<td class="td">%ml.nome% :</td>
+						<td class="tooltip"><input type="text" name="nome" style="%nomeStyle%" title="%nomeTip%" required size="30" maxlength="30" value="%nome%" %nomeDisable% /></td>
+					</tr>
+					<tr>
+						<td>%ml.indirizzo% :</td>
+						<td class="tooltip"><input type="text" name="indirizzo" style="%indirizzoStyle%" title="%indirizzoTip%" required size="30" maxlength="30" value="%indirizzo%"></td>
+						<td class="td">%ml.citta% :</td>
+						<td class="tooltip"><input type="text" name="citta" style="%cittaStyle%" title="%cittaTip%" required size="30" maxlength="30" value="%citta%"></td>
+						<td class="td">%ml.provincia% :</td>
+						<td class="tooltip"><input type="text" name="provincia" style="%provinciaStyle%" title="%provinciaTip%" required size="4" maxlength="2" value="%provincia%"></td>
+					</tr>
+					<tr>
+						<td>%ml.cap% :</td>
+						<td class="tooltip"><input type="text" name="cap" style="%capStyle%" title="%capTip%" required size="6" maxlength="6" value="%cap%"></td>
+						<td>%ml.eta% :</td>
+						<td class="tooltip"><input type="text" name="eta" style="%etaStyle%" title="%etaTip%" required size="6" maxlength="6" value="%eta%"></td>
+						<td>%ml.tipo% :</td>
+						<td>
+							<div class="radioset">
+								<input type="radio" id="definitivo" name="tipo" value="D" checked="checked"><label for="definitivo">%ml.def%</label>
+								<input type="radio" id="provvisorio" name="tipo" value="P"><label for="provvisorio">%ml.prov%</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>%ml.natoa% :</td>
+						<td class="tooltip"><input type="text" name="luogonascita" style="%luogoNascitaStyle%" title="%luogoNascitaTip%" required size="30" maxlength="30" value="%luogoNascita%"></td>
+						<td class="td">%ml.il% :</td>
+						<td class="tooltip"><input class="datepicker" type="text" name="datanascita" style="%dataNascitaStyle%" title="%dataNascitaTip%" required size="10" maxlength="10" value="%dataNascita%"></td>
+						<td>%ml.sesso% :</td>
+						<td>
+							<div class="radioset">
+								<input type="radio" id="maschio" name="sesso" value="M" checked="checked"><label for="maschio">%ml.maschio%</label>
+								<input type="radio" id="femmina" name="sesso" value="F"><label for="femmina">%ml.femmina%</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>%ml.codFis% :</td>
+						<td class="tooltip"><input type="text" name="codfiscale" style="%codiceFiscaleStyle%" title="%codiceFiscaleTip%" required size="25" maxlength="16" value="%codiceFiscale%"></td>
+						<td class="td">%ml.piva% :</td>
+						<td class="tooltip"><input type="text" name="partitaiva" style="%partitaIvaStyle%" title="%partitaIvaTip%" size="25" maxlength="10" value="%partitaIva%"></td>
+					</tr>
+					<tr>
+						<td>%ml.telFisso% :</td>
+						<td class="tooltip"><input type="text" name="telefonofisso" style="%telefonoFissoStyle%" title="%telefonoFissoTip%" required size="25" maxlength="20" value="%telefonoFisso%"></td>
+						<td class="td">%ml.telPort% :</td>
+						<td class="tooltip"><input type="text" name="telefonoportatile" style="%telefonoPortatileStyle%" title="%telefonoPortatileTip%" size="25" maxlength="20" value="%telefonoPortatile%"></td>
+					</tr>
+					<tr>
+						<td>%ml.email% :</td>
+						<td class="tooltip" colspan="4"><input type="text" name="email" style="%emailStyle%" title="%emailTip%" size="80" maxlength="80" value="%email%"></td>
+					</tr>
+					<tr>
+						<td>%ml.listino% :</td>
+						<td class="tooltip" style="%listinoStyle%" title="%listinoTip%">
+							<select class="selectmenu" name="listino" >
+								%listino%
+							</select>
+						</td>
+						<td>%ml.medico% :</td>
+						<td style="%medicoStyle%" title="%medicoTip%">
+							<select class="selectmenu" name="medico" style="%medicoStyle%" title="%medicoTip%">
+								%medico%
+							</select>
+						</td>
+						<td>%ml.lab% :</td>
+						<td style="%laboratorioStyle%" title="%laboratorioTip%">
+							<select class="selectmenu" name="laboratorio" style="%laboratorioStyle%" title="%laboratorioTip%">
+								%laboratorio%
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>%ml.dataIns% :</td>
+						<td class="tooltip"><input type="text" name="datainserimento" style="%dataInserimentoStyle%" title="%dataInserimentoTip%" readonly size="10" maxlength="10" value="%dataInserimento%"></td>
+						<td>%ml.dataMod% :</td>
+						<td class="tooltip"><input type="text" name="datamodifica" style="%dataModificaStyle%" title="%dataModificaTip%" readonly size="10" maxlength="10" value="%dataModifica%"></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="6" align="right" class="tooltip"><button class="button" title="Crea il nuovo paziente" >%ml.conferma%</button></td>
+					</tr>
+				</tfoot>
+			</table>
+			<br/>
+		</form>
+		<form class="tooltip" method="post" action="../paziente/ricercaPazienteFacade.class.php?modo=go" >
+			<button class="button" title="Torna alla funzione precedente" %azione% >%ml.indietro%</button>
+			<td><input type="hidden" name="cognome" value="%cognomeRicerca%" /></td>
+		</form>
+	</div>
+</div>
+

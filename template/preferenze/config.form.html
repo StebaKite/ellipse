@@ -1,0 +1,108 @@
+<div id="body">
+	<div id="main">
+		<form method="post" action="%azione%" >
+			<h2>System configuration</h2>
+			<table class="datiCreate">
+				<tbody>
+					<tr>
+						<td><h3>%ml.db%</h3></td>
+						<td><h3>%ml.cartelle%</h3></td>
+					</tr>
+					<tr>
+						<td>
+							<table>
+								<tbody>
+									<tr>
+										<td>Server :</td>
+										<td><input readonly name="%ml.server%" type="text" style="" size="30" maxlength="30" title="%ml.server%" value="AAA"/></td>
+									</tr>
+									<tr>
+										<td>Port :</td>
+										<td><input readonly name="%ml.port%" type="text" style="" size="10" maxlength="10" title="%ml.port%" value="AAA"/></td>
+									</tr>
+									<tr>
+										<td>User :</td>
+										<td><input readonly name="%ml.user%" type="text" style="" size="10" maxlength="10" title="%ml.user%" value="AAA"/></td>
+									</tr>
+									<tr>
+										<td>Password :</td>
+										<td><input readonly name="%ml.password%" type="password" style="" size="10" maxlength="10" title="%ml.password%" value="pippolo"/></td>
+									</tr>
+									<tr>
+										<td>Database :</td>
+										<td>
+											<div class="radioset">
+												<input type="radio" id="prod" name="database" checked value="ellipse.prod"><label for="prod">%ml.prod%</label>
+												<input type="radio" id="test" name="database" value="ellipse.text"><label for="test">%ml.test%</label>
+											</div	
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>	
+						<td>
+							<table>
+								<tbody>
+									<tr>
+										<td>Template :</td>
+										<td><input readonly name="%ml.template%" type="text" style="" size="50" maxlength="50" title="%ml.template%" value="AAA"/></td>
+									</tr>
+									<tr>
+										<td>Header :</td>
+										<td><input readonly name="%ml.header%" type="text" style="" size="50" maxlength="50" title="%ml.header%" value="AAA"/></td>
+									</tr>
+									<tr>
+										<td>Fouter :</td>
+										<td><input readonly name="%ml.fouter%" type="text" style="" size="50" maxlength="50" title="%ml.fouter%" value="AAA"/></td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td><h3>%ml.lingue%</h3></td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<table>
+								<tbody>
+									<tr>
+										<td>Current :</td>
+										<td>
+											<div class="radioset">
+													<input type="radio" id="it" name="language" checked value="it"><label for="it">%ml.it%</label>
+													<input type="radio" id="en" name="language" value="en"><label for="en">%ml.en%</label>
+											</div>	
+										</td>
+									</tr>
+									<tr>
+										<td>Path 1 :</td>
+										<td><input required name="%ml.path 1%" type="text" style="" size="70" maxlength="100" title="%ml.path 1%" value="AAA"/></td>
+									</tr>
+									<tr>
+										<td>Path 2 :</td>
+										<td><input name="%ml.path 2%" type="text" style="" size="70" maxlength="100" title="%ml.path 2%" value="AAA"/></td>
+									</tr>
+									<tr>
+										<td>Path 3 :</td>
+										<td><input name="%ml.path 3%" type="text" style="" size="70" maxlength="100" title="%ml.path 3%" value="AAA"/></td>
+									</tr>
+									<tr>
+										<td>Path 4 :</td>
+										<td><input name="%ml.path 4%" type="text" style="" size="70" maxlength="100" title="%ml.path 4%" value="AAA"/></td>
+									</tr>
+								</tbody>
+							</table>				
+						</td>
+					</tr>
+					
+				</tbody>		
+				<tfoot>
+					<tr>
+						<td colspan="6" align="right" class="tooltip"><button class="button" title="Conferma le modifiche fatte" >%ml.conferma%</button></td>
+					</tr>
+				</tfoot>
+			</table>	
+		</form>
+	</div>
+</div>

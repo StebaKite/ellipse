@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="us">
+<head>
+	<meta charset="utf-8">
+	<title>Ellipse</title>
+	<link href="../../jquery/jquery-ui.css" rel="stylesheet">
+	<style type="text/css" media="screen">
+		@import url("../../css/main.css");
+		@import url("../../css/jquery.css");
+	</style>
+</head>
+<body>
+<div id="body">
+	<div id="main">
+		<form method="post" action="../paziente/creaPazienteGo.class.php" >
+			<h2>Crea Nuovo Paziente</h2>
+			<table class="datiCreate">
+				<tbody>
+					<tr>
+						<td>Cognome :</td>
+						<td class="tooltip"><input type="text" name="cognome" required style="$cognomeStyle" title="$cognomeTip" size="30" maxlength="30" value="$cognome" $cognomeDisable /></td>
+						<td class="td">Nome :</td>
+						<td class="tooltip"><input type="text" name="nome" style="$nomeStyle" title="$nomeTip" required size="30" maxlength="30" value="$nome" $nomeDisable /></td>
+					</tr>
+					<tr>
+						<td>Indirizzo:</td>
+						<td class="tooltip"><input type="text" name="indirizzo" style="$indirizzoStyle" title="$indirizzoTip" required size="30" maxlength="30" value="$indirizzo"></td>
+						<td class="td">Citt&agrave;:</td>
+						<td class="tooltip"><input type="text" name="citta" style="$cittaStyle" title="$cittaTip" required size="30" maxlength="30" value="$citta"></td>
+						<td class="td">Provincia:</td>
+						<td class="tooltip"><input type="text" name="provincia" style="$provinciaStyle" title="$provinciaTip" required size="5" maxlength="10" value="$provincia"></td>
+					</tr>
+					<tr>
+						<td>Cap:</td>
+						<td class="tooltip"><input type="text" name="cap" style="$capStyle" title="$capTip" required size="6" maxlength="6" value="$cap"></td>
+						<td>Et&agrave;:</td>
+						<td class="tooltip"><input type="text" name="eta" style="$etaStyle" title="$etaTip" required size="6" maxlength="6" value="$eta"></td>
+					</tr>
+					<tr>
+						<td>Nato a:</td>
+						<td class="tooltip"><input type="text" name="luogonascita" style="$luogoNascitaStyle" title="$luogoNascitaTip" required size="30" maxlength="30" value="$luogoNascita"></td>
+						<td class="td">Il:</td>
+						<td class="tooltip"><input class="datepicker" type="text" name="datanascita" style="$datanascitaStyle" title="$datanascitaTip" required size="10" maxlength="10" value="$datanascita"></td>
+						<td>Sesso:</td>
+						<td>
+							<div id="radioset">
+								<input type="radio" id="maschio" name="radio" checked="checked"><label for="maschio">Maschio</label>
+								<input type="radio" id="femmina" name="radio"><label for="femmina">Femmina</label>
+							</div>		
+						</td>
+					</tr>
+					<tr>
+						<td>Codice Fiscale:</td>
+						<td class="tooltip"><input type="text" name="codfiscale" style="$codfiscaleStyle" title="$codfiscaleTip" size="25" maxlength="16" value="$codfiscale"></td>
+						<td class="td">Partita Iva:</td>
+						<td class="tooltip"><input type="text" name="partitaiva" style="$partitaivaStyle" title="$partitaivaTip" size="25" maxlength="10" value="$partitaiva"></td>
+					</tr>
+					<tr>
+						<td>Telefono Fisso:</td>
+						<td class="tooltip"><input type="text" name="telefonofisso" style="$telefonoFissoStyle" title="$telefonoFissoTip" required size="25" maxlength="20" value="$telefonoFisso"></td>
+						<td class="td">Telefono Portatile:</td>
+						<td class="tooltip"><input type="text" name="telefonoportatile" style="$telefonoPortatileStyle" title="$telefonoPortatileTip" size="25" maxlength="20" value="$telefonoPortatile"></td>
+					</tr>
+					<tr class="tr">
+						<td>Email:</td>
+						<td class="tooltip" colspan="4"><input type="text" name="email" style="$emailStyle" title="$emailTip" size="80" maxlength="80" value="$email"></td>
+					</tr>
+					<tr>
+						<td>Listino:</td>
+						<td>
+							<select class="selectmenu" name="listino">	
+								<option value="1" >List1
+							</select>
+						</td>
+						<td>Medico:</td>
+						<td>
+							<select class="selectmenu" name="medico">
+								<option value="1" >Med1
+							</select>
+						</td>
+						<td>Laboratorio:</td>
+						<td>
+							<select class="selectmenu" name="laboratorio">
+								<option value="1" >Lab1
+							</select>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="6" align="right" class="tooltip"><button class="button" title="Crea il nuovo paziente" $azione >$testoAzione</button></td>		
+					</tr>	
+				</tfoot>
+			</table>
+			<br/>
+		</form>
+		<form method="post" action="../paziente/ricercaPazienteGo.class.php" >
+			<button class="button" title="Torna alla funzione precedente" $azione >Indietro</button>
+			<td><input type="hidden" name="cognomeRicerca" value="$cognomeRicerca" /></td>
+		</form>			
+	</div>
+</div>
+<script src="../../jquery/external/jquery/jquery.js"></script>
+<script src="../../jquery/jquery-ui.js"></script>
+<script src="../../js/local.js"></script>
+</body>
+</html>
+

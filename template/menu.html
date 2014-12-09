@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="us">
+<head>
+	<meta charset="utf-8">
+	<title>Odontolinux!</title>
+	<link href="../jquery/jquery-ui.css" rel="stylesheet">
+	<style type="text/css" media="screen">
+	
+		@import url("../css/main.css");
+		@import url("../css/jquery.css");
+		
+	</style>
+</head>
+<body>
+	<div id="body">
+	
+		<div id="menu-accordion">
+			<h3>Pazienti</h3>
+			<div>
+				<li><a href="../src/paziente/ricercaPazienteFacade.class.php?modo=start" target="corpo">Ricerca Paziente</a></li>
+				<li><a href="../src/paziente/ricercaPreventivoFacade.class.php?modo=start" target="corpo">Ricerca Preventivo</a></li>
+				<li><a href="../src/paziente/ricercaFatturaFacade.class.php?modo=start" target="corpo">Ricerca Fattura</a></li>
+			</div>
+			<h3>Impostazioni</h3>
+			<div>
+				<li><a href="../src/impostazioni/ricercaCategoriaFacade.class.php?modo=start" target="corpo">Categorie Listini</a></li>
+				<li><a href="../src/impostazioni/ricercaMediciFacade.class.php?modo=start" target="corpo">Medici</a></li>
+				<li><a href="../src/impostazioni/ricercaLaboratoriFacade.class.php?modo=start" target="corpo">Laboratori</a></li>
+				<li><a href="../src/impostazioni/ricercaAnnotazioneFatturaFacade.class.php?modo=start" target="corpo">Annotazioni Fatture</a></li>
+			</div>
+			<h3>Preferenze</h3>
+			<div>
+				<li><a href="../src/utility/modificaConfigFacade.class.php?modo=start" target="corpo">Configurazioni di Sistema</a></li>
+			</div>
+		</div>
+		
+	
+<script src="../jquery/external/jquery/jquery.js"></script>
+<script src="../jquery/jquery-ui.js"></script>
+<script src="../js/local.js"></script>
+
+</body>
+</html>

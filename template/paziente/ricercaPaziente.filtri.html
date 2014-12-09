@@ -1,0 +1,21 @@
+<div id="body">
+	<div id="main">
+		<form method="post" action="../paziente/ricercaPazienteFacade.class.php?modo=go" >
+			<h2>%ml.ricercaPaziente%</h2>
+			<table class="ricerca">
+				<tbody>
+					<tr>
+						<td>%ml.cognome% :</td>
+						<td class="tooltip"><input 	type="text" name="cognome" style="%cognomeStyle%" title="%cognomeTip%" size="50" value="%cognome%" %cognomeDisable% /></td>
+						<td class="tooltip"><button class="button" title="%ml.cercaTip%" >%ml.cerca%</button></td>
+					</tr>
+				</tbody>
+			</table>
+			<br/>
+		</form>
+		<form class="tooltip" method="post" action="../paziente/creaPazienteFacade.class.php?modo=start">
+			<button id="buttonCrea" class="button" title="%ml.nuovoTip%" >%ml.nuovo%</button>
+			<input type="hidden" name="cognome" value="%cognome%"/>
+		</form>
+		<br/>
+
