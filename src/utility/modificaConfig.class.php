@@ -5,6 +5,7 @@ class modificaConfig {
 	private static $root;
 	private static $cognomeRicerca;
 	private static $azione = "../utility/modificaConfigFacade.class.php?modo=go";
+	private static $configFile = "/ellipse/config/ellipse.config.ini";
 
 	function __construct() {
 		
@@ -36,6 +37,8 @@ class modificaConfig {
 		
 		$config->setTitoloPagina("%ml.modificaConfig%");
 		$config->setModificaConfig($config);		
+		
+		$config = parse_ini_file($configFile);
 		
 		// Compone la pagina
 		include($testata);
