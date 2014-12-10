@@ -10,6 +10,8 @@ indietro = Indietro
 conferma = Conferma
 nuovo = Nuovo
 cerca = Cerca
+prod = Prod
+test = Test
 ;
 ; Tips ---------------------------------
 ;
@@ -21,7 +23,7 @@ nuovoTip = Crea un nuovo paziente
 creaNuovoPaziente = Crea Nuovo Paziente
 ricercaPaziente = Ricerca Paziente
 modificaPaziente = Modifica Paziente
-modificaConfig = Modifica Configurazioni di Sistema
+modificaConfig = Configurazioni di Sistema
 ;
 ; Messaggi -----------------------------
 ;
@@ -63,6 +65,16 @@ maschio = Maschio
 femmina = Femmina
 dataIns = Inserito
 dataMod = Modificato
+server = Server
+porta = Porta
+user = Userid
+password = Password
+database = Base dati
+db = Base Dati
+cartelle = Cartelle
+lingue = Lingua
+it = Italiano
+en = Inglese
 ;
 dataNasc = Data Nascita
 azioni = Azioni

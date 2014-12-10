@@ -12,6 +12,10 @@ class config {
 
 	private static $hostname;
 	private static $portnum;
+	private static $user;
+	private static $password;
+	private static $databaseProd;
+	private static $databaseTest;
 
 
 
@@ -39,6 +43,24 @@ class config {
 	public function setModificaConfig($modificaConfig) {
 		self::$modificaConfig = $modificaConfig;
 	}
+	public function setHostname($hostname) {
+		self::$hostname = $hostname;
+	}
+	public function setPortnum($portnum) {
+		self::$portnum = $portnum;
+	}
+	public function setUser($user) {
+		self::$user = $user;
+	}
+	public function setPassword($password) {
+		self::$password = $password;
+	}
+	public function setDatabaseProd($databaseProd) {
+		self::$databaseProd = $databaseProd;
+	}
+	public function setDatabaseTest($databaseTest) {
+		self::$databaseTest = $databaseTest;
+	}
 	
 
 
@@ -59,6 +81,24 @@ class config {
 	}
 	public function getModificaConfig() {
 		return self::$modificaConfig;
+	}
+	public function getHostname() {
+		return self::$hostname;
+	}
+	public function getPortnum() {
+		return self::$portnum;
+	}
+	public function getUser() {
+		return self::$user;
+	}
+	public function getPassword() {
+		return self::$password;
+	}
+	public function getDatabaseProd() {
+		return self::$databaseProd;
+	}
+	public function getDatabaseTest() {
+		return self::$databaseTest;
 	}
 
 
@@ -95,7 +135,15 @@ class config {
 
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
-			'%azione%' => $this->getAzione()
+			'%azione%' => $this->getAzione(),
+			'%server%' => $this->getHostname(),
+			'%porta%' => $this->getPortnum(),
+			'%user%' => $this->getUser(),
+			'%password%' => $this->getPassword(),
+			'%dbProdChecked%' => $this->getDatabaseProd(),
+			'%dbTestChecked%' => $this->getDatabaseTest()
+				
+			
 		);
 
 		$utility = new utility();

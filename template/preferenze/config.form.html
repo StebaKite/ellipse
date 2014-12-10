@@ -1,7 +1,7 @@
 <div id="body">
 	<div id="main">
 		<form method="post" action="%azione%" >
-			<h2>System configuration</h2>
+			<h2>%ml.modificaConfig%</h2>
 			<table class="datiCreate">
 				<tbody>
 					<tr>
@@ -22,7 +22,7 @@
 									</tr>
 									<tr>
 										<td>%ml.user% :</td>
-										<td><input required name="user" type="text" style="" size="10" maxlength="10" title="%ml.userTitle%" value="AAA"/></td>
+										<td><input required name="user" type="text" style="" size="10" maxlength="10" title="%ml.userTitle%" value="%user%"/></td>
 									</tr>
 									<tr>
 										<td>%ml.password% :</td>
@@ -32,8 +32,8 @@
 										<td>%ml.database% :</td>
 										<td>
 											<div class="radioset">
-												<input type="radio" id="prod" name="database" checked value="ellipse.prod"><label for="prod">%ml.prod%</label>
-												<input type="radio" id="test" name="database" value="ellipse.text"><label for="test">%ml.test%</label>
+												<input type="radio" id="prod" name="database" %dbProdChecked% value="ellipse.prod"><label for="prod">%ml.prod%</label>
+												<input type="radio" id="test" name="database" %dbTestChecked% value="ellipse.test"><label for="test">%ml.test%</label>
 											</div	
 										</td>
 									</tr>

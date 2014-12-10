@@ -38,7 +38,22 @@ class modificaConfig {
 		$config->setTitoloPagina("%ml.modificaConfig%");
 		$config->setModificaConfig($config);		
 		
-		$config = parse_ini_file($configFile);
+		$file = self::$root . self::$configFile;
+		$cnf = parse_ini_file($file);
+		$config->setHostname($cnf['hostname']);
+		$config->setPortnum($cnf['portnum']);
+		$config->setUser($cnf['username']);
+		$config->setPassword($cnf['password']);
+		
+		if ($cnf['dbname'] == "ellipse.prod") {
+			 $config->setDatabaseProd("checked");
+			 $config->setDatabaseTest("");
+		}
+		if ($cnf['dbname'] == "ellipse.test") {
+			 $config->setDatabaseTest("checked");
+			 $config->setDatabaseProd("");
+		 }
+			
 		
 		// Compone la pagina
 		include($testata);
