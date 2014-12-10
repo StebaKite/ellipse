@@ -10,6 +10,8 @@ class config {
 	private static $messaggio;	
 	private static $modificaConfig;
 
+	private static $hostname;
+	private static $portnum;
 
 
 
