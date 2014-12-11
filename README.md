@@ -25,7 +25,7 @@ Ellipse è una Webapp costruita attorno ad un'unico obiettivo : il Dental Manage
 
 </ul>
 
-Può essere installata su un server linux locale e accedibile in rete locale da un qualsiasi device che abbia a bordo un broser (tablet, pc, smartphone, ecc), oppure può essere ospitata da un Hosting Provider e accedibile ovunque tu sia via rete Internet. Tutti i tuoi dati sempre a portata di mano ovunque ti trovi!!
+Può essere installata su un server linux locale e accedibile localmente via wifi da un qualsiasi device che abbia a bordo un broser (tablet, pc, smartphone, ecc), oppure può essere ospitata da un Hosting Provider e accedibile ovunque tu sia via rete Internet. Tutti i tuoi dati sempre a portata di mano ovunque ti trovi!!
 
 <strong>COME E' FATTA</strong><br/>
 E' realizzata in PHP5 (Full OO), HTML5, CSS3, Jquery, PostgreSQL
