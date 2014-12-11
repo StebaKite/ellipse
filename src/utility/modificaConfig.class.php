@@ -189,10 +189,6 @@ class modificaConfig {
 		echo $utility->tailTemplate($template);
 		
 		include($piede);
-
-
-
-		
 	}
 }
 
