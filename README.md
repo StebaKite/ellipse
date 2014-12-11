@@ -1,7 +1,7 @@
 Ellipse 1.0
 ============
 
-IL NOME
+IL NOME\n
 L'idea del nome deriva dell'orbita che ogni pianeta descrive nel suo ruotare attorno al sole.
 Ogni pianeta è parte di un equilibrio universale che genera e da la vita. Un equilibrio raggiungibile dal rispetto di numerosi fattori, dettagli, comportamenti.
 Ellipse è la traettoria precisa di una massa sospesa nell'universo cosmico che, nel suo andare, perfeziona e perpetua la vita.
