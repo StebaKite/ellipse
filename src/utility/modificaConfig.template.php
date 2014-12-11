@@ -31,6 +31,10 @@ class config {
 	private static $languageEn;
 	private static $languageFr;
 	private static $languageDe;
+	private static $languageItDisabled;
+	private static $languageEnDisabled;
+	private static $languageFrDisabled;
+	private static $languageDeDisabled;
 
 
 	//-----------------------------------------------------------------------------
@@ -114,11 +118,18 @@ class config {
 	public function setLanguageDe($languageDe) {
 		self::$languageDe = $languageDe;		
 	}
-	
-
-
-
-
+	public function setLanguageItDisabled($languageItDisabled) {
+		self::$languageItDisabled = $languageItDisabled;		
+	}
+	public function setLanguageEnDisabled($languageEnDisabled) {
+		self::$languageEnDisabled = $languageEnDisabled;		
+	}
+	public function setLanguageFrDisabled($languageFrDisabled) {
+		self::$languageFrDisabled = $languageFrDisabled;		
+	}
+	public function setLanguageDeDisabled($languageDeDisabled) {
+		self::$languageDeDisabled = $languageDeDisabled;		
+	}
 	
 	// ----------------------------------------------------------------------------
 	// Getters --------------------------------------------------------------------
@@ -192,10 +203,18 @@ class config {
 	public function getLanguageDe() {
 		return self::$languageDe;
 	}
-
-
-
-
+	public function getLanguageItDisabled() {
+		return self::$languageItDisabled;
+	}
+	public function getLanguageEnDisabled() {
+		return self::$languageEnDisabled;
+	}
+	public function getLanguageFrDisabled() {
+		return self::$languageFrDisabled;
+	}
+	public function getLanguageDeDisabled() {
+		return self::$languageDeDisabled;
+	}
 
 	// template ------------------------------------------------
 
@@ -246,10 +265,11 @@ class config {
 			'%languageIt%' => $this->getLanguageIt(),
 			'%languageEn%' => $this->getLanguageEn(),
 			'%languageFr%' => $this->getLanguageFr(),
-			'%languageDe%' => $this->getLanguageDe()
-			
-				
-			
+			'%languageDe%' => $this->getLanguageDe(),
+			'%languageItDisabled%' => $this->getLanguageItDisabled(),
+			'%languageEnDisabled%' => $this->getLanguageEnDisabled(),
+			'%languageFrDisabled%' => $this->getLanguageFrDisabled(),
+			'%languageDeDisabled%' => $this->getLanguageDeDisabled()
 		);
 
 		$utility = new utility();
