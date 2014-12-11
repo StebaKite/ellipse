@@ -2,12 +2,26 @@
 
 
 <strong>IL NOME</strong><br/>
-L'idea del nome deriva dell'orbita che ogni pianeta descrive nel suo ruotare attorno al sole.
-Ogni pianeta è parte di un equilibrio universale che genera e da la vita. Un equilibrio raggiungibile dal rispetto di numerosi fattori, dettagli, comportamenti.
-Ellipse è la traettoria precisa di una massa sospesa nell'universo cosmico che, nel suo andare, perfeziona e perpetua la vita.
+<i>L'idea del nome deriva dell'orbita che ogni pianeta descrive nel suo ruotare attorno al sole come parte di un equilibrio universale che genera e da la vita. Un equilibrio raggiungibile dal rispetto di numerosi fattori, dettagli, comportamenti.
+Ellipse è la traettoria precisa di una massa sospesa nell'universo cosmico che, nel suo andare, perfeziona e perpetua la vita.</i>
 
 <strong>COS'E'</strong><br/>
 Ellipse è una applicazione web costruita attorno ad un'unico obiettivo : il Dental Management Service.
+<br/>
+<ul>
+  <li>Listini</li>
+  <li>Medici</li>
+  <li>Laboratori</li>
+  <li>Anagrafica Pazienti</li>
+  <li>Radiografie e documentazione allegata</li>
+  <li>Generazione documenti</li>
+  <li>Prime visite</li>
+  <li>Preventivi</li>
+  <li>Cartelle Cliniche</li>
+  <li>Fatture</li>
+  <li>...</li>
+
+</ul>
 
 <strong>COME E' FATTA</strong><br/>
 E' realizzata in PHP5 (Full OO), HTML5, CSS3, Jquery, PostgreSQL
