@@ -16,6 +16,8 @@ L'app gira su una APACHE2 installato preferibilmente su un server Linux.
 Multilingua e in grado di lavorare contemporaneamente su una base dati ufficiale e una di test.
 
 <strong>INSTALLAZIONE</strong><br/>
-1.  Clona o scarica il repository sul Tuo Desktop
-2.  Copia tutto il repository nella cartella html/www dell'apache
-3.  Crea lo schema del DB PostgreSQL utilizzando la script di creazione
+<ul>
+  <li>Clona o scarica il repository sul Tuo Desktop</li>
+  <li>Copia tutto il repository nella cartella html/www dell'apache</li>
+  <li>Crea lo schema del DB PostgreSQL utilizzando la script di creazione</li>
+</ul>
