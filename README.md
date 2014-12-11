@@ -6,7 +6,7 @@
 Ellipse è la traettoria precisa di una massa sospesa nell'universo cosmico che, nel suo andare, perfeziona e perpetua la vita.</i>
 
 <strong>COS'E'</strong><br/>
-Ellipse è una applicazione web costruita attorno ad un'unico obiettivo : il Dental Management Service.
+Ellipse è una Webapp costruita attorno ad un'unico obiettivo : il Dental Management Service.
 <br/>
 <ul>
   <li>Listini</li>
@@ -24,6 +24,8 @@ Ellipse è una applicazione web costruita attorno ad un'unico obiettivo : il Den
   <li>...</li>
 
 </ul>
+
+Può essere installata su un server linux locale e accedibile in rete locale da un qualsiasi device che abbia a bordo un broser (tablet, pc, smartphone, ecc), oppure può essere ospitata da un Hosting Provider e accedibile ovunque tu sia via rete Internet. Tutti i tuoi dati sempre a portata di mano ovunque ti trovi!!
 
 <strong>COME E' FATTA</strong><br/>
 E' realizzata in PHP5 (Full OO), HTML5, CSS3, Jquery, PostgreSQL
