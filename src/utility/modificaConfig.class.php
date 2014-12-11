@@ -45,16 +45,25 @@ class modificaConfig {
 		$config->setUser($cnf['username']);
 		$config->setPassword($cnf['password']);
 		
-		if ($cnf['dbname'] == "ellipse.prod") {
-			 $config->setDatabaseProd("checked");
-			 $config->setDatabaseTest("");
-		}
-		if ($cnf['dbname'] == "ellipse.test") {
-			 $config->setDatabaseTest("checked");
-			 $config->setDatabaseProd("");
-		 }
+		if ($cnf['dbname'] == "ellipse.prod") $config->setDatabaseProd("checked");
+		if ($cnf['dbname'] == "ellipse.test") $config->setDatabaseTest("checked");
 			
-		
+		$config->setTemplate($cnf['template']);
+		$config->setTestataPagina($cnf['testataPagina']);
+		$config->setPiedePagina($cnf['piedePagina']);
+		$config->setMessaggioInfo($cnf['messaggioInfo']);
+		$config->setMessaggioErrore($cnf['messaggioErrore']);
+	
+		if ($cnf['language'] == "it") $config->setLanguageIt("checked");
+		if ($cnf['language'] == "en") $config->setLanguageEn("checked");
+		if ($cnf['language'] == "fr") $config->setLanguageFr("checked");
+		if ($cnf['language'] == "de") $config->setLanguageDe("checked");
+			
+		$config->setLanguageFileIt($cnf['languageFile_it']);
+		$config->setLanguageFileEn($cnf['languageFile_en']);
+		$config->setLanguageFileFr($cnf['languageFile_fr']);
+		$config->setLanguageFileDe($cnf['languageFile_de']);
+			
 		// Compone la pagina
 		include($testata);
 		$config->inizializzaPagina();
@@ -63,6 +72,32 @@ class modificaConfig {
 	}
 
 	public function go() {
+		
+		require_once 'utility.class.php';
+		require_once 'modificaConfig.template.php';
+
+		// Template
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		$testata = self::$root . $array['testataPagina'];
+		$piede = self::$root . $array['piedePagina'];
+		$messaggioErrore = self::$root . $array['messaggioErrore'];
+		$messaggioInfo = self::$root . $array['messaggioInfo'];
+
+		$config = new config();
+		$config->setAzione($this->getAzione());
+
+		$config->setHostname($_POST['server']);
+		$config->setPortnum($_POST['porta']);
+		$config->setUser($_POST['user']);
+		$config->setPassword($_POST['password']);
+		
+		if ($_POST['database'] == 'prod') $config->setDatabaseProd('checked');
+		if ($_POST['database'] == 'test') $config->setDatabaseTest('checked');
+		
+		
+		
 	}
 }
 

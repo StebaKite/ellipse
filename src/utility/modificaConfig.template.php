@@ -17,6 +17,20 @@ class config {
 	private static $databaseProd;
 	private static $databaseTest;
 
+	private static $template;
+	private static $testataPagina;
+	private static $piedePagina;
+	private static $messaggioInfo;
+	private static $messaggioErrore;
+
+	private static $languageFileIt;
+	private static $languageFileEn;
+	private static $languageFileFr;
+	private static $languageFileDe;
+	private static $languageIt;
+	private static $languageEn;
+	private static $languageFr;
+	private static $languageDe;
 
 
 	//-----------------------------------------------------------------------------
@@ -61,6 +75,45 @@ class config {
 	public function setDatabaseTest($databaseTest) {
 		self::$databaseTest = $databaseTest;
 	}
+	public function setTemplate($template) {
+		self::$template = $template;
+	}
+	public function setTestataPagina($testataPagina) {
+		self::$testataPagina = $testataPagina;
+	}
+	public function setPiedePagina($piedePagina) {
+		self::$piedePagina = $piedePagina;		
+	}
+	public function setMessaggioInfo($messaggioInfo) {
+		self::$messaggioInfo = $messaggioInfo;		
+	}
+	public function setMessaggioErrore($messaggioErrore) {
+		self::$messaggioErrore = $messaggioErrore;		
+	}
+	public function setLanguageFileIt($languageFileIt) {
+		self::$languageFileIt = $languageFileIt;		
+	}
+	public function setLanguageFileEn($languageFileEn) {
+		self::$languageFileEn = $languageFileEn;		
+	}
+	public function setLanguageFileFr($languageFileFr) {
+		self::$languageFileFr = $languageFileFr;		
+	}
+	public function setLanguageFileDe($languageFileDe) {
+		self::$languageFileDe = $languageFileDe;		
+	}
+	public function setLanguageIt($languageIt) {
+		self::$languageIt = $languageIt;		
+	}
+	public function setLanguageEn($languageEn) {
+		self::$languageEn = $languageEn;		
+	}
+	public function setLanguageFr($languageFr) {
+		self::$languageFr = $languageFr;		
+	}
+	public function setLanguageDe($languageDe) {
+		self::$languageDe = $languageDe;		
+	}
 	
 
 
@@ -99,6 +152,45 @@ class config {
 	}
 	public function getDatabaseTest() {
 		return self::$databaseTest;
+	}
+	public function getTemplate() {
+		return self::$template;
+	}
+	public function getTestataPagina() {
+		return self::$testataPagina;
+	}
+	public function getPiedePagina() {
+		return self::$piedePagina;
+	}
+	public function getMessaggioInfo() {
+		return self::$messaggioInfo;
+	}
+	public function getMessaggioErrore() {
+		return self::$messaggioErrore;
+	}
+	public function getLanguageFileIt() {
+		return self::$languageFileIt;
+	}
+	public function getLanguageFileEn() {
+		return self::$languageFileEn;
+	}
+	public function getLanguageFileFr() {
+		return self::$languageFileFr;
+	}
+	public function getLanguageFileDe() {
+		return self::$languageFileDe;
+	}
+	public function getLanguageIt() {
+		return self::$languageIt;
+	}
+	public function getLanguageEn() {
+		return self::$languageEn;
+	}
+	public function getLanguageFr() {
+		return self::$languageFr;
+	}
+	public function getLanguageDe() {
+		return self::$languageDe;
 	}
 
 
@@ -141,7 +233,21 @@ class config {
 			'%user%' => $this->getUser(),
 			'%password%' => $this->getPassword(),
 			'%dbProdChecked%' => $this->getDatabaseProd(),
-			'%dbTestChecked%' => $this->getDatabaseTest()
+			'%dbTestChecked%' => $this->getDatabaseTest(),
+			'%template%' => $this->getTemplate(),
+			'%testataPagina%' => $this->getTestataPagina(),
+			'%piedePagina%' => $this->getPiedePagina(),
+			'%messaggioInfo%' => $this->getMessaggioInfo(),
+			'%messaggioErrore%' => $this->getMessaggioErrore(),
+			'%languageFileIt%' => $this->getLanguageFileIt(),
+			'%languageFileEn%' => $this->getLanguageFileEn(),
+			'%languageFileFr%' => $this->getLanguageFileFr(),
+			'%languageFileDe%' => $this->getLanguageFileDe(),
+			'%languageIt%' => $this->getLanguageIt(),
+			'%languageEn%' => $this->getLanguageEn(),
+			'%languageFr%' => $this->getLanguageFr(),
+			'%languageDe%' => $this->getLanguageDe()
+			
 				
 			
 		);
