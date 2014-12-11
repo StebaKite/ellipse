@@ -18,6 +18,8 @@ Ellipse è una applicazione web costruita attorno ad un'unico obiettivo : il Den
   <li>Prime visite</li>
   <li>Preventivi</li>
   <li>Cartelle Cliniche</li>
+  <li>Prescrizioni</li>
+  <li>Anamnesi</li>
   <li>Fatture</li>
   <li>...</li>
 
