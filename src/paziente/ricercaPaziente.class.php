@@ -6,6 +6,7 @@ class ricercaPaziente {
 
 	private static $messaggio;
 	private static $cognomeRicerca;
+	private static $queryRicercaPaziente = "/paziente/ricercaPaziente.sql";
 
 	function __construct() {
 		
@@ -97,9 +98,19 @@ class ricercaPaziente {
 		$cognome = $ricercaPazienteTemplate->getCognome();
 		$esito = TRUE;
 
-		$db = new database();
+		// carica e ritaglia il comando sql da lanciare
+		
+		$replace = array('%cognome%' => $ricercaPazienteTemplate->getCognome());
 
-		$sql = "select idpaziente, cognome, nome, to_char(datanascita, 'DD/MM/YYYY'), codicefiscale from paziente.paziente where cognome like '" . $cognome . "%'";
+		$utility = new utility();
+		$array = $utility->getConfig();
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaPaziente;
+
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+
+		// esegue la query
+		
+		$db = new database();
 		$result = $db->getData($sql);
 		error_log($sql);
 		
