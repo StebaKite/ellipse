@@ -9,6 +9,7 @@ class config {
 	private static $titoloPagina;
 	private static $messaggio;	
 	private static $modificaConfig;
+	private static $config;
 
 	private static $hostname;
 	private static $portnum;
@@ -18,10 +19,19 @@ class config {
 	private static $databaseTest;
 
 	private static $template;
+	private static $templateStyle;
+	
 	private static $testataPagina;
+	private static $testataPaginaStyle;
+
 	private static $piedePagina;
+	private static $piedePaginaStyle;
+	
 	private static $messaggioInfo;
+	private static $messaggioInfoStyle;
+	
 	private static $messaggioErrore;
+	private static $messaggioErroreStyle;
 
 	private static $languageFileIt;
 	private static $languageFileEn;
@@ -65,6 +75,9 @@ class config {
 	public function setModificaConfig($modificaConfig) {
 		self::$modificaConfig = $modificaConfig;
 	}
+	public function setConfig($config) {
+		self::$config = $config;
+	}
 	public function setHostname($hostname) {
 		self::$hostname = $hostname;
 	}
@@ -86,17 +99,32 @@ class config {
 	public function setTemplate($template) {
 		self::$template = $template;
 	}
+	public function setTemplateStyle($templateStyle) {
+		self::$templateStyle = $templateStyle;
+	}
 	public function setTestataPagina($testataPagina) {
 		self::$testataPagina = $testataPagina;
+	}
+	public function setTestataPaginaStyle($testataPaginaStyle) {
+		self::$testataPaginaStyle = $testataPaginaStyle;
 	}
 	public function setPiedePagina($piedePagina) {
 		self::$piedePagina = $piedePagina;		
 	}
+	public function setPiedePaginaStyle($piedePaginaStyle) {
+		self::$piedePaginaStyle = $piedePaginaStyle;		
+	}
 	public function setMessaggioInfo($messaggioInfo) {
 		self::$messaggioInfo = $messaggioInfo;		
 	}
+	public function setMessaggioInfoStyle($messaggioInfoStyle) {
+		self::$messaggioInfoStyle = $messaggioInfoStyle;		
+	}
 	public function setMessaggioErrore($messaggioErrore) {
 		self::$messaggioErrore = $messaggioErrore;		
+	}
+	public function setMessaggioErroreStyle($messaggioErroreStyle) {
+		self::$messaggioErroreStyle = $messaggioErroreStyle;		
 	}
 	public function setLanguageFileIt($languageFileIt) {
 		self::$languageFileIt = $languageFileIt;		
@@ -164,6 +192,9 @@ class config {
 	public function getModificaConfig() {
 		return self::$modificaConfig;
 	}
+	public function getConfig() {
+		return self::$config;
+	}
 	public function getHostname() {
 		return self::$hostname;
 	}
@@ -185,17 +216,32 @@ class config {
 	public function getTemplate() {
 		return self::$template;
 	}
+	public function getTemplateStyle() {
+		return self::$templateStyle;
+	}
 	public function getTestataPagina() {
 		return self::$testataPagina;
+	}
+	public function getTestataPaginaStyle() {
+		return self::$testataPaginaStyle;
 	}
 	public function getPiedePagina() {
 		return self::$piedePagina;
 	}
+	public function getPiedePaginaStyle() {
+		return self::$piedePaginaStyle;
+	}
 	public function getMessaggioInfo() {
 		return self::$messaggioInfo;
 	}
+	public function getMessaggioInfoStyle() {
+		return self::$messaggioInfoStyle;
+	}
 	public function getMessaggioErrore() {
 		return self::$messaggioErrore;
+	}
+	public function getMessaggioErroreStyle() {
+		return self::$messaggioErroreStyle;
 	}
 	public function getLanguageFileIt() {
 		return self::$languageFileIt;
@@ -260,6 +306,90 @@ class config {
 		
 		$esito = TRUE;
 
+		$config = $this->getConfig();
+
+		// controllo l'esistenza dei file multilingua configurati
+		
+		if ($this->getLanguageFileIt() != "") {
+			if (!file_exists(self::$root . $this->getLanguageFileIt())) {
+				$esito = FALSE;
+				$config->setLanguageFileItStyle("border-color:#ff0000; border-width:2px;");
+				$config->setLanguageItDisabled("disabled");
+			}
+		}
+		else {
+			$config->setLanguageItDisabled("disabled");
+		}
+		
+		if ($this->getLanguageFileEn() != "") {
+			if (!file_exists(self::$root . $this->getLanguageFileEn())) {
+				$esito = FALSE;
+				$config->setLanguageFileEnStyle("border-color:#ff0000; border-width:2px;");
+				$config->setLanguageEnDisabled("disabled");
+			}
+		}
+		else {
+			$config->setLanguageEnDisabled("disabled");
+		}
+		
+		if ($this->getLanguageFileFr() != "") {
+			if (!file_exists(self::$root . $this->getLanguageFileFr())) {
+				$esito = FALSE;
+				$config->setLanguageFileFrStyle("border-color:#ff0000; border-width:2px;");
+				$config->setLanguageFrDisabled("disabled");
+			}
+		}
+		else {
+			$config->setLanguageFrDisabled("disabled");
+		}
+		
+		if ($this->getLanguageFileDe() != "") {
+			if (!file_exists(self::$root . $this->getLanguageFileDe())) {
+				$esito = FALSE;
+				$config->setLanguageFileDeStyle("border-color:#ff0000; border-width:2px;");
+				$config->setLanguageDeDisabled("disabled");
+			}
+		}
+		else {
+			$config->setLanguageDeDisabled("disabled");
+		}
+		
+		// controllo l'esistenza dei template
+		
+		if ($this->getTemplate() != "") {
+			if (!file_exists(self::$root . $this->getTemplate())) {
+				$esito = FALSE;
+				$config->setTemplateStyle("border-color:#ff0000; border-width:2px;");
+			}
+		}
+		
+		if ($this->getTestataPagina() != "") {
+			if (!file_exists(self::$root . $this->getTestataPagina())) {
+				$esito = FALSE;
+				$config->setTestataPaginaStyle("border-color:#ff0000; border-width:2px;");
+			}
+		}
+		
+		if ($this->getPiedePagina() != "") {
+			if (!file_exists(self::$root . $this->getPiedePagina())) { 
+				$esito = FALSE;
+				$config->setPiedePaginaStyle("border-color:#ff0000; border-width:2px;");
+			}
+		}
+		
+		if ($this->getMessaggioInfo() != "") {
+			if (!file_exists(self::$root . $this->getMessaggioInfo())) { 
+				$esito = FALSE;
+				$config->setMessaggioInfoStyle("border-color:#ff0000; border-width:2px;");
+			}
+		}
+		
+		if ($this->getMessaggioErrore() != "") {
+			if (!file_exists(self::$root . $this->getMessaggioErrore())) { 
+				$esito = FALSE;
+				$config->setMessaggioErroreStyle("border-color:#ff0000; border-width:2px;");
+			}
+		}
 		
 		return $esito;
 	}
@@ -291,6 +421,11 @@ class config {
 			'%piedePagina%' => $this->getPiedePagina(),
 			'%messaggioInfo%' => $this->getMessaggioInfo(),
 			'%messaggioErrore%' => $this->getMessaggioErrore(),
+			'%templateStyle%' => $this->getTemplateStyle(),
+			'%testataPaginaStyle%' => $this->getTestataPaginaStyle(),
+			'%piedePaginaStyle%' => $this->getPiedePaginaStyle(),
+			'%messaggioInfoStyle%' => $this->getMessaggioInfoStyle(),
+			'%messaggioErroreStyle%' => $this->getMessaggioErroreStyle(),
 			'%languageFileIt%' => $this->getLanguageFileIt(),
 			'%languageFileEn%' => $this->getLanguageFileEn(),
 			'%languageFileFr%' => $this->getLanguageFileFr(),

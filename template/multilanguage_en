@@ -1,0 +1,95 @@
+; ------------------------------------------------------------------------------
+; Il file x le traduzioni viene applicato dalla funzione che carica il template. 
+; Il formato del campo in pagina deve essere: %ml.label%
+; Il formato della traduzione deve essere: nome label = traduzione in lingua
+; ------------------------------------------------------------------------------
+;
+; Bottoni ------------------------------
+;
+indietro = Indietro
+conferma = Conferma
+nuovo = Nuovo
+cerca = Cerca
+prod = Prod
+test = Test
+;
+; Tips ---------------------------------
+;
+cercaTip = Avvia la ricerca del paziente
+nuovoTip = Crea un nuovo paziente
+;
+; Funzioni -----------------------------
+;
+creaNuovoPaziente = Crea Nuovo Paziente
+ricercaPaziente = Ricerca Paziente
+modificaPaziente = Modifica Paziente
+modificaConfig = Configurazioni di Sistema
+;
+; Messaggi -----------------------------
+;
+trovati = Trovati
+pazienti = Pazienti
+trovato = Trovato
+paziente = Paziente
+norisultati = La ricerca non ha prodotto risultati
+creaPazienteOk = Paziente creato con successo
+creaPazienteKo = Errore inserimento dati paziente
+modPazienteOk = Paziente modificato con successo
+modPazienteKo = Errore modifica dati paziente
+readPazienteKo = Errore lettura dati paziente
+modConfigOk = Configurazioni di sistema modificate con successo
+modConfigKo = Errore modifica configurazioni di sistema
+;
+; Campi form ---------------------------
+;
+cognome = Cognome
+nome = Nome
+indirizzo = Indirizzo
+citta = Citt&agrave;
+provincia = Provincia
+cap = CAP
+eta = Et&agrave;
+tipo = Tipo
+natoa = Nato a
+il = Il
+sesso = Sesso
+codFis = Codice Fiscale
+piva = Partita Iva
+telFisso = Telefono Fisso
+telPort = Telefono Portatile
+email = Email
+listino = Listino
+medico = Medico
+lab = Laboratorio
+def = Definitivo
+prov = Provvisorio
+maschio = Maschio
+femmina = Femmina
+dataIns = Inserito
+dataMod = Modificato
+server = Server
+porta = Porta
+user = Userid
+password = Password
+database = Base dati
+db = Base Dati
+cartelle = Cartelle
+lingue = Lingua
+it = Italiano
+en = Inglese
+fr = Francese
+de = Tedesco
+template = Template
+testataPagina = Testata template
+piedePagina = Piede template
+messaggioInfo = Messaggio Info
+messaggioErrore = Messaggio Errore
+corrente = Corrente
+languageFileIt = Italiano
+languageFileEn = Inglese
+languageFileFr = Francese
+languageFileDe = Tedesco 
+;
+dataNasc = Data Nascita
+azioni = Azioni
+attivita = Attivit&agrave; Relazionate

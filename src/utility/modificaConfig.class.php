@@ -125,119 +125,39 @@ class modificaConfig {
 		if ($_POST['language'] == 'fr') $config->setLanguageFr('checked');
 		if ($_POST['language'] == 'de') $config->setLanguageDe('checked');
 
+		$config->setLanguageFileIt($_POST['languageFileIt']);
+		$config->setLanguageFileEn($_POST['languageFileEn']);
+		$config->setLanguageFileFr($_POST['languageFileFr']);
+		$config->setLanguageFileDe($_POST['languageFileDe']);
+
 		// Compone la pagina
 		include($testata);
 		$config->inizializzaPagina();
-		$config->displayPagina();
 
 		// Fa il controllo dei dati immessi e modifica il file
-		if ($this->controlli($config)) {
+		$config->setConfig($config);
+
+		if ($config->controlliLogici()) {
+						
 			if ($this->modifica($config)) {
+				$config->displayPagina();			
 				$replace = array('%messaggio%' => '%ml.modConfigOk%');
 				$template = $utility->tailFile($utility->getTemplate($messaggioInfo), $replace);		
 				echo $utility->tailTemplate($template);
 			} else {
+				$config->displayPagina();			
 				$replace = array('%messaggio%' => '%ml.modConfigKo%');
-				$template = $utility->tailFile($utility->getTemplate($messaggioInfo), $replace);		
+				$template = $utility->tailFile($utility->getTemplate($messaggioErrore), $replace);		
 				echo $utility->tailTemplate($template);
 			}
 		} else {
+			$config->displayPagina();			
 			$replace = array('%messaggio%' => '%ml.modConfigKo%');
-			$template = $utility->tailFile($utility->getTemplate($messaggioInfo), $replace);		
+			$template = $utility->tailFile($utility->getTemplate($messaggioErrore), $replace);		
 			echo $utility->tailTemplate($template);
 		}
 
 		include($piede);
-	}
-	
-	public function controlli($config) {
-
-		$esito = TRUE;
-		
-		// controllo l'esistenza dei file multilingua configurati
-		
-		if ($_POST['languageFileIt'] != "") {
-			if (file_exists(self::$root . $_POST['languageFileIt'])) 
-				$config->setLanguageFileIt($_POST['languageFileIt']);
-			else 
-				$config->setLanguageFileIt("");
-				$esito = FALSE;
-		}
-
-		if ($_POST['languageFileEn'] != "") {
-			if (file_exists(self::$root . $_POST['languageFileEn'])) 
-				$config->setLanguageFileEn($_POST['languageFileEn']);
-			else 
-				$config->setLanguageFileEn("");
-				$esito = FALSE;
-		}
-			
-		if ($_POST['languageFileFr'] != "") {
-			if (file_exists(self::$root . $_POST['languageFileFr'])) 
-				$config->setLanguageFileFr($_POST['languageFileFr']);
-			else 
-				$config->setLanguageFileFr("");
-				$esito = FALSE;
-		}
-		
-		if ($_POST['languageFileDe'] != "") {
-			if (file_exists(self::$root . $_POST['languageFileDe'])) 
-				$config->setLanguageFileDe($_POST['languageFileDe']);
-			else 
-				$config->setLanguageFileDe("");
-				$esito = FALSE;
-		}
-		
-		// l'esistenza del file di traduzione abilita il bottone di switch della lingua altrimenti lo disabilita
-		
-		if ($config->getLanguageFileIt() == "") $config->setLanguageItDisabled("disabled");
-		if ($config->getLanguageFileEn() == "") $config->setLanguageEnDisabled("disabled");
-		if ($config->getLanguageFileFr() == "") $config->setLanguageFrDisabled("disabled");
-		if ($config->getLanguageFileDe() == "") $config->setLanguageDeDisabled("disabled");
-		
-		// controllo l'esistenza dei tamplate
-		
-		if ($_POST['template'] != "") {
-			if (file_exists(self::$root . $_POST['template'])) 
-				$config->setTemplate($_POST['template']);
-			else 
-				$config->setTemplate(""]);
-				$esito = FALSE;
-		}
-		
-		if ($_POST['testataPagina'] != "") {
-			if (file_exists(self::$root . $_POST['testataPagina'])) 
-				$config->setTestataPagina($_POST['testataPagina']);
-			else 
-				$config->setTestataPagina(""]);
-				$esito = FALSE;
-		}
-		
-		if ($_POST['piedePagina'] != "") {
-			if (file_exists(self::$root . $_POST['piedePagina'])) 
-				$config->setPiedePagina($_POST['piedePagina']);
-			else 
-				$config->setPiedePagina(""]);
-				$esito = FALSE;
-		}
-		
-		if ($_POST['messaggioInfo'] != "") {
-			if (file_exists(self::$root . $_POST['messaggioInfo'])) 
-				$config->setMessaggioInfo($_POST['messaggioInfo']);
-			else 
-				$config->setMessaggioInfo(""]);
-				$esito = FALSE;
-		}
-		
-		if ($_POST['messaggioErrore'] != "") {
-			if (file_exists(self::$root . $_POST['messaggioErrore'])) 
-				$config->setMessaggioErrore($_POST['messaggioErrore']);
-			else 
-				$config->setMessaggioErrore(""]);
-				$esito = FALSE;
-		}
-
-		return $esito;
 	}
 	
 	public function modifica($config) {
