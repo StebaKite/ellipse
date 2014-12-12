@@ -43,17 +43,17 @@ class utility {
 		$lingua = $array['language'];
 		$lanFile = "languageFile_" . $lingua; 
 
-		$languageFile = self::$root . $array[$lanFile];
+		$fileLingua = self::$root . $array[$lanFile];
 
 		/*
 		 * Se non trova il file corrispondente alla lingua impostata, il metodo
 		 * restituisce il template così com'è senza traduzioni
 		 */ 
-		if (file_exists($languageFile)) {
-			return $this->tailFile($template, $this->getMultilanguageFile($languageFile));
+		if (file_exists($fileLingua)) {
+			return $this->tailFile($template, $this->getMultilanguageFile($fileLingua));
 		}
 		else {
-			error_log("Multilanguage file " . $languageFile . " not found, template use");
+			error_log("Multilanguage file " . $fileLingua . " not found, template use");
 			return $template;
 		}
 		

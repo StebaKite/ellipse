@@ -27,6 +27,10 @@ class config {
 	private static $languageFileEn;
 	private static $languageFileFr;
 	private static $languageFileDe;
+	private static $languageFileItStyle;
+	private static $languageFileEnStyle;
+	private static $languageFileFrStyle;
+	private static $languageFileDeStyle;
 	private static $languageIt;
 	private static $languageEn;
 	private static $languageFr;
@@ -106,6 +110,20 @@ class config {
 	public function setLanguageFileDe($languageFileDe) {
 		self::$languageFileDe = $languageFileDe;		
 	}
+	
+	public function setLanguageFileItStyle($languageFileItStyle) {
+		self::$languageFileItStyle = $languageFileItStyle;		
+	}
+	public function setLanguageFileEnStyle($languageFileEnStyle) {
+		self::$languageFileEnStyle = $languageFileEnStyle;		
+	}
+	public function setLanguageFileFrStyle($languageFileFrStyle) {
+		self::$languageFileFrStyle = $languageFileFrStyle;		
+	}
+	public function setLanguageFileDeStyle($languageFileDeStyle) {
+		self::$languageFileDeStyle = $languageFileDeStyle;		
+	}
+	
 	public function setLanguageIt($languageIt) {
 		self::$languageIt = $languageIt;		
 	}
@@ -191,6 +209,21 @@ class config {
 	public function getLanguageFileDe() {
 		return self::$languageFileDe;
 	}
+	
+	public function getLanguageFileItStyle() {
+		return self::$languageFileItStyle;
+	}
+	public function getLanguageFileEnStyle() {
+		return self::$languageFileEnStyle;
+	}
+	public function getLanguageFileFrStyle() {
+		return self::$languageFileFrStyle;
+	}
+	public function getLanguageFileDeStyle() {
+		return self::$languageFileDeStyle;
+	}
+
+	
 	public function getLanguageIt() {
 		return self::$languageIt;
 	}
@@ -262,6 +295,10 @@ class config {
 			'%languageFileEn%' => $this->getLanguageFileEn(),
 			'%languageFileFr%' => $this->getLanguageFileFr(),
 			'%languageFileDe%' => $this->getLanguageFileDe(),
+			'%languageFileItStyle%' => $this->getLanguageFileItStyle(),
+			'%languageFileEnStyle%' => $this->getLanguageFileEnStyle(),
+			'%languageFileFrStyle%' => $this->getLanguageFileFrStyle(),
+			'%languageFileDeStyle%' => $this->getLanguageFileDeStyle(),
 			'%languageIt%' => $this->getLanguageIt(),
 			'%languageEn%' => $this->getLanguageEn(),
 			'%languageFr%' => $this->getLanguageFr(),
