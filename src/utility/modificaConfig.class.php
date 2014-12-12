@@ -66,6 +66,7 @@ class modificaConfig {
 		$config->setMessaggioInfo($cnf['messaggioInfo']);
 		$config->setMessaggioErrore($cnf['messaggioErrore']);
 	
+		// setta il bottone della lingua e disabilita quelli che non hanno il file delle traduzioni
 		if ($cnf['language'] == "it") $config->setLanguageIt("checked");
 		if ($cnf['language'] == "en") $config->setLanguageEn("checked");
 		if ($cnf['language'] == "fr") $config->setLanguageFr("checked");
@@ -124,31 +125,122 @@ class modificaConfig {
 		if ($_POST['language'] == 'fr') $config->setLanguageFr('checked');
 		if ($_POST['language'] == 'de') $config->setLanguageDe('checked');
 
-		// controllo l'esistenza dei file multilingua
-		if (file_exists(self::$root . $_POST['languageFileIt'])) 
-			$config->setLanguageFileIt($_POST['languageFileIt']);
-		else 
-			$config->setLanguageFileIt("");
+		// Compone la pagina
+		include($testata);
+		$config->inizializzaPagina();
+		$config->displayPagina();
 
-		if (file_exists(self::$root . $_POST['languageFileEn'])) 
-			$config->setLanguageFileEn($_POST['languageFileEn']);
-		else 
-			$config->setLanguageFileEn("");
-		
-		if (file_exists(self::$root . $_POST['languageFileFr'])) 
-			$config->setLanguageFileFr($_POST['languageFileFr']);
-		else 
-			$config->setLanguageFileFr("");
-		
-		if (file_exists(self::$root . $_POST['languageFileDe'])) 
-			$config->setLanguageFileDe($_POST['languageFileDe']);
-		else 
-			$config->setLanguageFileDe("");
+		// Fa il controllo dei dati immessi e modifica il file
+		if ($this->controlli($config)) {
+			if ($this->modifica($config)) {
+				$replace = array('%messaggio%' => '%ml.modConfigOk%');
+				$template = $utility->tailFile($utility->getTemplate($messaggioInfo), $replace);		
+				echo $utility->tailTemplate($template);
+			} else {
+				$replace = array('%messaggio%' => '%ml.modConfigKo%');
+				$template = $utility->tailFile($utility->getTemplate($messaggioInfo), $replace);		
+				echo $utility->tailTemplate($template);
+			}
+		} else {
+			$replace = array('%messaggio%' => '%ml.modConfigKo%');
+			$template = $utility->tailFile($utility->getTemplate($messaggioInfo), $replace);		
+			echo $utility->tailTemplate($template);
+		}
 
+		include($piede);
+	}
+	
+	public function controlli($config) {
+
+		$esito = TRUE;
+		
+		// controllo l'esistenza dei file multilingua configurati
+		
+		if ($_POST['languageFileIt'] != "") {
+			if (file_exists(self::$root . $_POST['languageFileIt'])) 
+				$config->setLanguageFileIt($_POST['languageFileIt']);
+			else 
+				$config->setLanguageFileIt("");
+				$esito = FALSE;
+		}
+
+		if ($_POST['languageFileEn'] != "") {
+			if (file_exists(self::$root . $_POST['languageFileEn'])) 
+				$config->setLanguageFileEn($_POST['languageFileEn']);
+			else 
+				$config->setLanguageFileEn("");
+				$esito = FALSE;
+		}
+			
+		if ($_POST['languageFileFr'] != "") {
+			if (file_exists(self::$root . $_POST['languageFileFr'])) 
+				$config->setLanguageFileFr($_POST['languageFileFr']);
+			else 
+				$config->setLanguageFileFr("");
+				$esito = FALSE;
+		}
+		
+		if ($_POST['languageFileDe'] != "") {
+			if (file_exists(self::$root . $_POST['languageFileDe'])) 
+				$config->setLanguageFileDe($_POST['languageFileDe']);
+			else 
+				$config->setLanguageFileDe("");
+				$esito = FALSE;
+		}
+		
+		// l'esistenza del file di traduzione abilita il bottone di switch della lingua altrimenti lo disabilita
+		
 		if ($config->getLanguageFileIt() == "") $config->setLanguageItDisabled("disabled");
 		if ($config->getLanguageFileEn() == "") $config->setLanguageEnDisabled("disabled");
 		if ($config->getLanguageFileFr() == "") $config->setLanguageFrDisabled("disabled");
 		if ($config->getLanguageFileDe() == "") $config->setLanguageDeDisabled("disabled");
+		
+		// controllo l'esistenza dei tamplate
+		
+		if ($_POST['template'] != "") {
+			if (file_exists(self::$root . $_POST['template'])) 
+				$config->setTemplate($_POST['template']);
+			else 
+				$config->setTemplate(""]);
+				$esito = FALSE;
+		}
+		
+		if ($_POST['testataPagina'] != "") {
+			if (file_exists(self::$root . $_POST['testataPagina'])) 
+				$config->setTestataPagina($_POST['testataPagina']);
+			else 
+				$config->setTestataPagina(""]);
+				$esito = FALSE;
+		}
+		
+		if ($_POST['piedePagina'] != "") {
+			if (file_exists(self::$root . $_POST['piedePagina'])) 
+				$config->setPiedePagina($_POST['piedePagina']);
+			else 
+				$config->setPiedePagina(""]);
+				$esito = FALSE;
+		}
+		
+		if ($_POST['messaggioInfo'] != "") {
+			if (file_exists(self::$root . $_POST['messaggioInfo'])) 
+				$config->setMessaggioInfo($_POST['messaggioInfo']);
+			else 
+				$config->setMessaggioInfo(""]);
+				$esito = FALSE;
+		}
+		
+		if ($_POST['messaggioErrore'] != "") {
+			if (file_exists(self::$root . $_POST['messaggioErrore'])) 
+				$config->setMessaggioErrore($_POST['messaggioErrore']);
+			else 
+				$config->setMessaggioErrore(""]);
+				$esito = FALSE;
+		}
+
+		return $esito;
+	}
+	
+	public function modifica($config) {
 		
 		// riparso il file di configurazione per prendere le impostazioni attuali
 		// e preparo una array di replace da applicare
@@ -176,19 +268,9 @@ class modificaConfig {
 		// poi prendo il contenuto del file e applico i replacement e riscrivo il risultato sul file
 		$temp = file_get_contents($file);
 		$temp = str_replace(array_keys($replace), array_values($replace), $temp);
-		file_put_contents($file,$temp);
+		$result = file_put_contents($file,$temp);
 
-		// Compone la pagina
-		include($testata);
-		$config->inizializzaPagina();
-		$config->displayPagina();
-
-		//messaggio di modifica effettuata
-		$replace = array('%messaggio%' => '%ml.modConfigOk%');
-		$template = $utility->tailFile($utility->getTemplate($messaggioInfo), $replace);		
-		echo $utility->tailTemplate($template);
-		
-		include($piede);
+		return $result;
 	}
 }
 

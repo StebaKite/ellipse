@@ -38,6 +38,7 @@ modPazienteOk = Paziente modificato con successo
 modPazienteKo = Errore modifica dati paziente
 readPazienteKo = Errore lettura dati paziente
 modConfigOk = Configurazioni di sistema modificate con successo
+modConfigKo = Errore modifica configurazioni di sistema
 ;
 ; Campi form ---------------------------
 ;
