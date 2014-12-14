@@ -163,24 +163,51 @@ class ricercaPazienteTemplate {
 			$pazientiTrovati = $this->getPazientiTrovati();
 
 			$rowcounter = 0;
+			$oggi = date('d/m/Y');
+			
+			while ($row = pg_fetch_array($pazientiTrovati)) {
 
-			while ($row = pg_fetch_row($pazientiTrovati)) {
+				// evidenzia in bold la riga se è stata inserita o modificata oggi
+				
+				if ($rowcounter % 2 == 0) {
+					if (($row['datainserimento'] == $oggi) or ($row['datamodifica'] == $oggi)) {
+						$class = "class='modifiedOn'";
+					}
+					else {
+						$class = "class='on'";
+					}
+				}
+				else {
+					if (($row['datainserimento'] == $oggi) or ($row['datamodifica'] == $oggi)) {
+						$class = "class='modifiedOff'";
+					}
+					else {
+						$class = "class=''";
+					}
+				}
 
-				if ($rowcounter % 2 == 0)
-					$class = "class='on'";
+				// nasconde il bottone cancella paziente se ha figli legati
+			
+				if (($row['numvisite'] > 0) or
+					($row['numpreventivi'] > 0) or
+					($row['numcartellecliniche'] > 0))
+					$bottoneCancella = "";
 				else
-					$class = "class=''";
+					$bottoneCancella = "<a class='tooltip' href='cancellaPazienteFacade.class.php?modo=start&idPaziente=%idPaziente%'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
 
 				++$rowcounter;			
 
 				$replace = array(
 					'%class%' => $class,
 					'%cognomeRicerca%' => $this->getCognome(),
-					'%idPaziente%' => stripslashes($row[0]),
-					'%cognome%' => stripslashes($row[1]),
-					'%nome%' => stripslashes($row[2]),
-					'%dataNascita%' => stripslashes($row[3]),
-					'%codiceFiscale%' => stripslashes($row[4])
+					'%idPaziente%' => stripslashes($row['idpaziente']),
+					'%cognome%' => stripslashes($row['cognome']),
+					'%nome%' => stripslashes($row['nome']),
+					'%dataNascita%' => stripslashes($row['datanascita']),
+					'%numvisite%' => stripslashes($row['numvisite']),
+					'%numpreventivi%' => stripslashes($row['numpreventivi']),
+					'%numcartellecliniche%' => stripslashes($row['numcartellecliniche']),
+					'%bottoneCancella%' => $bottoneCancella
 				);
 
 				$riga = $templateRiga;

@@ -67,6 +67,7 @@ maschio = Maschio
 femmina = Femmina
 dataIns = Inserito
 dataMod = Modificato
+;
 server = Server
 porta = Porta
 user = Userid
@@ -89,6 +90,10 @@ languageFileIt = Italiano
 languageFileEn = Inglese
 languageFileFr = Francese
 languageFileDe = Tedesco 
+;
+numVisite = Vis.
+numPreventivi = Prev.
+numCartelleCliniche = Cart.
 ;
 dataNasc = Data Nascita
 azioni = Azioni

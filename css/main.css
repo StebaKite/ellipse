@@ -135,8 +135,11 @@
 	.result .on, .dettaglio .on {
 		background-color: #ECECEC;
 	}
-	.result .connesso {
+	.result .modifiedOn {
 		background-color: #ECECEC;
+		font-weight: bolder;
+	}
+	.result .modifiedOff {
 		font-weight: bolder;
 	}
 	.result .error {
