@@ -64,7 +64,7 @@ $( "#dialog" ).dialog({
 });
 
 // Link to open the dialog
-$( "#dialog-link" ).click(function( event ) {
+$( ".dialog-link" ).click(function( event ) {
 	$( "#dialog" ).dialog( "open" );
 	event.preventDefault();
 });

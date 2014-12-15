@@ -17,6 +17,8 @@ test = Test
 ;
 cercaTip = Avvia la ricerca del paziente
 nuovoTip = Crea un nuovo paziente
+confermaCreazionePaziente = Crea il nuovo paziente
+confermaCancellazionePaziente = Cancella il paziente
 ;
 ; Funzioni -----------------------------
 ;
@@ -39,6 +41,8 @@ modPazienteKo = Errore modifica dati paziente
 readPazienteKo = Errore lettura dati paziente
 modConfigOk = Configurazioni di sistema modificate con successo
 modConfigKo = Errore modifica configurazioni di sistema
+canPazienteOk = Paziente cancellato con successo
+canPazienteKo = Errore cancellazione paziente
 ;
 ; Campi form ---------------------------
 ;

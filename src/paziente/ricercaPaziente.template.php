@@ -192,8 +192,8 @@ class ricercaPazienteTemplate {
 					($row['numpreventivi'] > 0) or
 					($row['numcartellecliniche'] > 0))
 					$bottoneCancella = "";
-				else
-					$bottoneCancella = "<a class='tooltip' href='cancellaPazienteFacade.class.php?modo=start&idPaziente=%idPaziente%'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
+				else				
+					$bottoneCancella = "<a class='tooltip' href='cancellaPazienteFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&cognRic=" . $this->getCognome() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
 
 				++$rowcounter;			
 
@@ -215,10 +215,15 @@ class ricercaPazienteTemplate {
 			}
 		}
 		else {
+			
+			if ($this->getMessaggio() != "") {
+				$replace = array('%messaggio%' => $this->getMessaggio());
+				$template = $utility->tailFile($utility->getTemplate($messaggioInfo), $replace);				
+				echo $utility->tailTemplate($template);
+			};
 
 			$replace = array('%messaggio%' => '%ml.norisultati%');
-			$template = $utility->tailFile($utility->getTemplate($messaggioErrore), $replace);
-			
+			$template = $utility->tailFile($utility->getTemplate($messaggioErrore), $replace);		
 			echo $utility->tailTemplate($template);
 		}
 		echo $utility->getTemplate($risultatiPiede);

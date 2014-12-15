@@ -1,14 +1,14 @@
 <?php
 
-class modificaPaziente {
+class cancellaPaziente {
 	
 	private static $root;
 
 	private static $idPaziente;
 	private static $cognomeRicerca;
 	private static $queryRicercaIdPaziente = "/paziente/ricercaIdPaziente.sql";	
-	private static $queryModificaPaziente = "/paziente/modificaPaziente.sql";	
-	private static $azione = "../paziente/modificaPazienteFacade.class.php?modo=go";
+	private static $queryCancellaPaziente = "/paziente/cancellaPaziente.sql";	
+	private static $azione = "../paziente/cancellaPazienteFacade.class.php?modo=go";
 
 	function __construct() {
 		
@@ -67,34 +67,88 @@ class modificaPaziente {
 			$row = pg_fetch_array($result);
 			
 			$paziente = new paziente();
-
 			$paziente->setIdPaziente(trim($row['idpaziente']));
+			
 			$paziente->setCognome(trim($row["cognome"]));
+			$paziente->setCognomeDisable("readonly");
+			$paziente->setCognomeStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setNome(trim($row["nome"]));
+			$paziente->setNomeDisable("readonly");
+			$paziente->setNomeStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setIndirizzo(trim($row["indirizzo"]));
+			$paziente->setIndirizzoDisable("readonly");
+			$paziente->setIndirizzoStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setCitta(trim($row["citta"]));
+			$paziente->setCittaDisable("readonly");
+			$paziente->setCittaStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setCap(trim($row["cap"]));
+			$paziente->setCapDisable("readonly");
+			$paziente->setCapStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setProvincia(trim($row["provincia"]));
+			$paziente->setProvinciaDisable("readonly");
+			$paziente->setProvinciaStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setEta(trim($row["eta"]));
+			$paziente->setEtaDisable("readonly");
+			$paziente->setEtaStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setSesso(trim($row["sesso"]));		
+			$paziente->setSessoDisable("disabled");
+			
+			$paziente->setTipo(trim($row["tipo"]));		
+			$paziente->setTipoDisable("disabled");
+			
 			$paziente->setLuogoNascita(trim($row["luogonascita"]));
+			$paziente->setLuogoNascitaDisable("readonly");
+			$paziente->setLuogoNascitaStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setDataNascita(trim($row["datanascita"]));
+			$paziente->setDataNascitaDisable("readonly");
+			$paziente->setDataNascitaStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setCodiceFiscale(trim($row["codicefiscale"]));
+			$paziente->setCodiceFiscaleDisable("readonly");
+			$paziente->setCodiceFiscaleStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setPartitaIva(trim($row["partitaiva"]));
+			$paziente->setPartitaIvaDisable("readonly");
+			$paziente->setPartitaIvaStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setTelefonoFisso(trim($row["telefonofisso"]));
+			$paziente->setTelefonoFissoDisable("readonly");
+			$paziente->setTelefonoFissoStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setTelefonoPortatile(trim($row["telefonoportatile"]));
+			$paziente->setTelefonoPortatileDisable("readonly");
+			$paziente->setTelefonoPortatileStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setEmail(trim($row["email"]));
-			$paziente->setDataInserimento(trim($row["datainserimento"]));
+			$paziente->setEmailDisable("readonly");
+			$paziente->setEmailStyle("color:#adadad; border:1px solid;");
+			
+			$paziente->setDataInserimento(trim($row["datainserimento"]));			
 			$paziente->setDataInserimentoStyle("color:#adadad; border:1px solid;");
 			$paziente->setDataModifica(trim($row["datamodifica"]));
 			$paziente->setDataModificaStyle("color:#adadad; border:1px solid;");
+			
 			$paziente->setListino(trim($row["idlistino"]));
+			$paziente->setListinoDisable("disabled");
+			
 			$paziente->setMedico(trim($row["idmedico"]));
+			$paziente->setMedicoDisable("disabled");
+			
 			$paziente->setLaboratorio(trim($row["idlaboratorio"]));
+			$paziente->setLaboratorioDisable("disabled");			
 
 			$paziente->setAzione($this->getAzione() . "&idPaziente=" . $this->getIdPaziente() . "&cognRic=" . $this->getCognomeRicerca());
+			$paziente->setConfermaTip("%ml.confermaCancellazionePaziente%");
 			$paziente->setCognomeRicerca($this->getCognomeRicerca());
-			$paziente->setTitoloPagina("%ml.modificaPaziente%");
+ 			$paziente->setTitoloPagina("%ml.cancellaPaziente%");
 			$paziente->setPaziente($paziente);		
 			
 			include($testata);
@@ -128,61 +182,32 @@ class modificaPaziente {
 
 		$paziente = new paziente();
 
-		$paziente->setCognome($_POST["cognome"]);
-		$paziente->setNome($_POST["nome"]);
-		$paziente->setIndirizzo($_POST["indirizzo"]);
-		$paziente->setCitta($_POST["citta"]);
-		$paziente->setCap($_POST["cap"]);
-		$paziente->setProvincia($_POST["provincia"]);
-		$paziente->setEta($_POST["eta"]);
-		$paziente->setSesso($_POST["sesso"]);		
-		$paziente->setTipo($_POST["tipo"]);		
-		$paziente->setLuogoNascita($_POST["luogonascita"]);
-		$paziente->setDataNascita($_POST["datanascita"]);
-		$paziente->setCodiceFiscale($_POST["codfiscale"]);
-		$paziente->setPartitaIva($_POST["partitaiva"]);
-		$paziente->setTelefonoFisso($_POST["telefonofisso"]);
-		$paziente->setTelefonoPortatile($_POST["telefonoportatile"]);
-		$paziente->setEmail($_POST["email"]);
-		$paziente->setDataInserimento($_POST["datainserimento"]);
-		$paziente->setListino($_POST["listino"]);
-		$paziente->setMedico($_POST["medico"]);
-		$paziente->setLaboratorio($_POST["laboratorio"]);
-
 		$paziente->setAzione($this->getAzione() . "&idPaziente=" . $this->getIdPaziente() . "&cognRic=" . $this->getCognomeRicerca());
 		$paziente->setIdPaziente($this->getIdPaziente());
 		$paziente->setCognomeRicerca($this->getCognomeRicerca());
-		$paziente->setTitoloPagina("%modificaPaziente%");
+		$paziente->setTitoloPagina("%cancellaPaziente%");
 		$paziente->setPaziente($paziente);
 		
-		if ($paziente->controlliLogici()) {
-
-			if ($this->modifica($paziente)) {
-				$ricercaPaziente = new ricercaPaziente();
-				$ricercaPaziente->setMessaggio("%ml.modPazienteOk%");
-				$ricercaPaziente->setCognomeRicerca($this->getCognomeRicerca());
-				$ricercaPaziente->go();
-			}
-			else {
-				include($testata);
-				
-				$paziente->displayPagina();
-				$replace = array('%messaggio%' => '%ml.modPazienteKo%');
-				
-				$template = $utility->tailFile($utility->getTemplate($messaggioErrore), $replace);			
-				echo $utility->tailTemplate($template);
-
-				include($piede);
-			}
+		if ($this->cancella($paziente)) {
+			$ricercaPaziente = new ricercaPaziente();
+			$ricercaPaziente->setMessaggio("%ml.canPazienteOk%");
+			$ricercaPaziente->setCognomeRicerca($this->getCognomeRicerca());
+			$ricercaPaziente->go();
 		}
 		else {
 			include($testata);
+			
 			$paziente->displayPagina();
+			$replace = array('%messaggio%' => '%ml.canPazienteKo%');
+			
+			$template = $utility->tailFile($utility->getTemplate($messaggioErrore), $replace);			
+			echo $utility->tailTemplate($template);
+
 			include($piede);
-		} 
+		}
 	}
 
-	private function modifica($paziente) {
+	private function cancella($paziente) {
 	
 		require_once 'database.class.php';
 		require_once 'utility.class.php';
@@ -196,35 +221,15 @@ class modificaPaziente {
 
 		// carica e ritaglia il comando sql da lanciare
 		$replace = array(
-			'%idPaziente%' => $paziente->getIdPaziente(),
-			'%cognome%' => addslashes(ucwords(trim($paziente->getCognome()))),
-			'%nome%' => addslashes(ucwords(trim($paziente->getNome()))),
-			'%indirizzo%' => addslashes(ucwords(trim($paziente->getIndirizzo()))),
-			'%citta%' => addslashes(ucwords(trim($paziente->getCitta()))),
-			'%cap%' => trim($paziente->getCap()),
-			'%provincia%' => addslashes(ucwords(trim($paziente->getProvincia()))),
-			'%eta%' => trim($paziente->getEta()),
-			'%sesso%' => trim($paziente->getSesso()),
-			'%tipo%' => trim($paziente->getTipo()),
-			'%luogoNascita%' => addslashes(ucwords(trim($paziente->getLuogoNascita()))),
-			'%dataNascita%' => trim($paziente->getDataNascita()),
-			'%codiceFiscale%' => strtoupper(trim($paziente->getCodiceFiscale())),
-			'%partitaIva%' => trim($paziente->getPartitaIva()),
-			'%telefonoFisso%' => trim($paziente->getTelefonoFisso()),
-			'%telefonoPortatile%' => trim($paziente->getTelefonoPortatile()),
-			'%email%' => addslashes(trim($paziente->getEmail())),
-			'%dataInserimento%' => trim($paziente->getDataInserimento()),
-			'%medico%' => trim($paziente->getMedico()),
-			'%laboratorio%' => trim($paziente->getLaboratorio()),
-			'%listino%' => trim($paziente->getListino())
-			);
+			'%idpaziente%' => $paziente->getIdPaziente()
+		);
 
-		$sqlTemplate = self::$root . $array['query'] . self::$queryModificaPaziente;
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 
 		$esito = TRUE;
 
-		$db = new database();		
+		$db = new database();						
 		$result = $db->getData($sql);
 		error_log($sql);
 			

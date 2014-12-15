@@ -39,6 +39,7 @@ class creaPaziente {
 
 		$paziente = new paziente();
 		$paziente->setAzione($this->getAzione());
+		$paziente->setConfermaTip("%ml.confermaCreazionePaziente%");
 		
 		$paziente->setCognomeRicerca(ucwords($_POST["cognome"]));
 		$paziente->setTitoloPagina("%ml.creaNuovoPaziente%");

@@ -6,6 +6,7 @@ class paziente {
 	private static $pagina = "/paziente/paziente.form.html";
 	
 	private static $azione;
+	private static $confermaTip;
 	private static $titoloPagina;
 	private static $messaggio;	
 	private static $paginaProvenienza;
@@ -133,6 +134,9 @@ class paziente {
 	
 	public function setAzione($azione) {
 		self::$azione = $azione;
+	}
+	public function setConfermaTip($tip) {
+		self::$confermaTip = $tip;
 	}
 	public function setTitoloPagina($titoloPagina) {
 		self::$titoloPagina = $titoloPagina;
@@ -456,6 +460,9 @@ class paziente {
 	public function getAzione() {
 		return self::$azione;
 	}
+	public function getConfermaTip() {
+		return self::$confermaTip;
+	}
 	public function getTitoloPagina() {
 		return self::$titoloPagina;
 	}
@@ -778,26 +785,64 @@ class paziente {
 	public function inizializzaPagina() {
 	
 		$this->setCognome("");
+		$this->setCognomeDisable("");
+		
 		$this->setNome("");
+		$this->setNomeDisable("");
+		
 		$this->setIndirizzo("");
+		$this->setIndirizzoDisable("");
+		
 		$this->setCitta("");
+		$this->setCittaDisable("");
+		
 		$this->setProvincia("");
+		$this->setProvinciaDisable("");
+		
 		$this->setCap("");
+		$this->setCapDisable("");
+		
 		$this->setEta("");
+		$this->setEtaDisable("");
+		
 		$this->setLuogoNascita("");
+		$this->setLuogoNascitaDisable("");
+		
 		$this->setDataNascita("");
+		$this->setDataNascitaDisable("");
+		
 		$this->setSesso("M");
+		$this->setSessoDisable("");
+		
 		$this->setTipo("D");
+		$this->setTipoDisable("");
+		
 		$this->setCodiceFiscale("");
+		$this->setCodiceFiscaleDisable("");
+		
 		$this->setPartitaIva("");
+		$this->setPartitaIvaDisable("");
+		
 		$this->setTelefonoFisso("");
+		$this->setTelefonoFissoDisable("");
+		
 		$this->setTelefonoPortatile("");
+		$this->setTelefonoPortatileDisable("");
+		
 		$this->setEmail("");
+		$this->setEmailDisable("");
+		
+		$this->setListino("");
+		$this->setListinoDisable("");
+		
+		$this->setMedico("");
+		$this->setMedicoDisable("");
+		
+		$this->setLaboratorio("");
+		$this->setLaboratorioDisable("");
+		
 		$this->setDataInserimento(date("d/m/Y"));
 		$this->setDataModifica("");
-		$this->setListino("");
-		$this->setMedico("");
-		$this->setLaboratorio("");
 
 	}
 
@@ -920,9 +965,18 @@ class paziente {
 		}
 		//-------------------------------------------------------------										
 
+		if ($this->getSesso() == "M") {
+			$sessoMaschio = "checked";
+			$sessoFemmina = "";
+		} else {
+			$sessoMaschio = "";
+			$sessoFemmina = "checked";
+		}
+
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
 			'%azione%' => $this->getAzione(),
+			'%confermaTip%' => $this->getConfermaTip(),
 			'%cognome%' => $this->getCognome(),
 			'%cognomeStyle%' => $this->getCognomeStyle(),
 			'%cognomeTip%' => $this->getCognomeTip(),
@@ -959,6 +1013,8 @@ class paziente {
 			'%dataNascitaStyle%' => $this->getDatanascitaStyle() ,
 			'%dataNascitaTip%' => $this->getDatanascitaTip(),
 			'%dataNascitaDisable%' => $this->getDatanascitaDisable(),
+			'%sessoMaschioChecked%' => $sessoMaschio,
+			'%sessoFemminaChecked%' => $sessoFemmina,
 			'%sesso%' => $this->getSesso(),
 			'%sessoStyle%' => $this->getSessoStyle(),
 			'%sessoTip%' => $this->getSessoTip(),
