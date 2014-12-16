@@ -1051,7 +1051,6 @@ class paziente {
 			'%dataModificaStyle%' => $this->getDataModificaStyle(),
 			'%dataModificaTip%' => $this->getDataModificaTip(),
 			'%dataModificaDisable%' => $this->getDataModificaDisable(),
-			'%azione%' => $this->getAzione(),
 			'%titoloPagina%' => $this->getTitoloPagina(),
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),
 			'%listino%' => $listino,
