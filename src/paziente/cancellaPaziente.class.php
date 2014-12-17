@@ -149,10 +149,21 @@ class cancellaPaziente {
 			$paziente->setConfermaTip("%ml.confermaCancellazionePaziente%");
 			$paziente->setCognomeRicerca($this->getCognomeRicerca());
  			$paziente->setTitoloPagina("%ml.cancellaPaziente%");
+ 			
+			// set dei totali prelevati ---------------------------------
+			$paziente->setTotaleVisiteIncorso($row['numvisite_incorso']);
+			$paziente->setTotaleVisitePreventivate($row['numvisite_preventivate']);
+			$paziente->setTotalePreventiviProposti($row['numpreventivi_proposti']);
+			$paziente->setTotalePreventiviAccettati($row['numpreventivi_accettati']);
+			$paziente->setTotaleCartelleAttive($row['numcartellecliniche_attive']);
+			$paziente->setTotaleCartelleIncorso($row['numcartellecliniche_incorso']);
+			$paziente->setTotaleCartelleChiuse($row['numcartellecliniche_chiuse']); 			
+ 			
 			$paziente->setPaziente($paziente);		
 			
 			include($testata);
 			$paziente->displayPagina();
+			$paziente->displayTotali();
 			include($piede);
 		}
 		else {

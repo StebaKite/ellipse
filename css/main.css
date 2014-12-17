@@ -15,6 +15,16 @@
 		color: #FF9933;
 	}
 	
+	.totali {
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+	
+	.totali td {
+		text-align: right;
+		background-color: #ffffff;
+	}
+	
 	#main {
 		margin-left: 20px;
 		margin-right: 20px;
@@ -141,6 +151,15 @@
 	}
 	.result .modifiedOff {
 		font-weight: bolder;
+	}
+	.result .provModifiedOn {
+		background-color: #ECECEC;
+		font-weight: bolder;
+		color: #A5A5A5;
+	}
+	.result .provModifiedOff {
+		font-weight: bolder;
+		color: #A5A5A5;
 	}
 	.result .error {
 		background-color: #aa0433;

@@ -4,6 +4,9 @@ class paziente {
 	
 	private static $root;
 	private static $pagina = "/paziente/paziente.form.html";
+	private static $totaliVisita = "/paziente/dettaglioPaziente.totali.visita.html";
+	private static $totaliPreventivo = "/paziente/dettaglioPaziente.totali.preventivo.html";
+	private static $totaliCartelle = "/paziente/dettaglioPaziente.totali.cartelle.html";
 	
 	private static $azione;
 	private static $confermaTip;
@@ -120,6 +123,14 @@ class paziente {
 	private static $laboratorioTip;
 	private static $laboratorioDisable;
 
+	private static $totaleVisiteIncorso;
+	private static $totaleVisitePreventivate;
+	private static $totalePreventiviProposti;
+	private static $totalePreventiviAccettati;
+	private static $totaleCartelleAttive;
+	private static $totaleCartelleIncorso;
+	private static $totaleCartelleChiuse;
+	
 	//-----------------------------------------------------------------------------
 
 	function __construct() {
@@ -453,6 +464,29 @@ class paziente {
 	public function setLaboratorioDisable($disable) {
 		self::$laboratorioDisable = $disable;	
 	}			
+	//-----------------------	
+		
+	public function setTotaleVisiteIncorso($totaleVisiteIncorso) {
+		self::$totaleVisiteIncorso = $totaleVisiteIncorso;	
+	}			
+	public function setTotaleVisitePreventivate($totaleVisitePreventivate) {
+		self::$totaleVisitePreventivate = $totaleVisitePreventivate;	
+	}			
+	public function setTotalePreventiviProposti($totalePreventiviProposti) {
+		self::$totalePreventiviProposti = $totalePreventiviProposti;	
+	}			
+	public function setTotalePreventiviAccettati($totalePreventiviAccettati) {
+		self::$totalePreventiviAccettati = $totalePreventiviAccettati;	
+	}			
+	public function setTotaleCartelleAttive($totaleCartelleAttive) {
+		self::$totaleCartelleAttive = $totaleCartelleAttive;	
+	}			
+	public function setTotaleCartelleIncorso($totaleCartelleIncorso) {
+		self::$totaleCartelleIncorso = $totaleCartelleIncorso;	
+	}			
+	public function setTotaleCartelleChiuse($totaleCartelleChiuse) {
+		self::$totaleCartelleChiuse = $totaleCartelleChiuse;	
+	}			
 	
 	// ----------------------------------------------------------------------------
 	// Getters --------------------------------------------------------------------
@@ -779,6 +813,29 @@ class paziente {
 	public function getLaboratorioDisable() {
 		return self::$laboratorioDisable;
 	}
+	//-----------------------	
+	
+	public function getTotaleVisiteIncorso() {
+		return self::$totaleVisiteIncorso;
+	}
+	public function getTotaleVisitePreventivate() {
+		return self::$totaleVisitePreventivate;
+	}
+	public function getTotalePreventiviProposti() {
+		return self::$totalePreventiviProposti;
+	}
+	public function getTotalePreventiviAccettati() {
+		return self::$totalePreventiviAccettati;
+	}
+	public function getTotaleCartelleAttive() {
+		return self::$totaleCartelleAttive;
+	}
+	public function getTotaleCartelleIncorso() {
+		return self::$totaleCartelleIncorso;
+	}
+	public function getTotaleCartelleChiuse() {
+		return self::$totaleCartelleChiuse;
+	}
 
 	// template ------------------------------------------------
 
@@ -937,7 +994,7 @@ class paziente {
 		$laboratorio = "<option value=''>";
 
 		//-------------------------------------------------------------
-		$sql = "select idListino, descrizione from paziente.listino";
+		$sql = "select idListino, descrizioneListino from paziente.listino";
 		$result = $db->getData($sql);
 		while ($row = pg_fetch_row($result)) {
 			if ($paziente->getListino() == $row[0])
@@ -964,6 +1021,16 @@ class paziente {
 				$laboratorio = $laboratorio . "<option value='$row[0]' >$row[1]";
 		}
 		//-------------------------------------------------------------										
+
+		if ($this->getTipo() == "D") {
+			$tipoDefinitivo = "checked";
+			$tipoProvvisorio = "";
+		}
+		if ($this->getTipo() == "P") {
+			$tipoDefinitivo = "";
+			$tipoProvvisorio = "checked";
+		}
+
 
 		if ($this->getSesso() == "M") {
 			$sessoMaschio = "checked";
@@ -1013,6 +1080,8 @@ class paziente {
 			'%dataNascitaStyle%' => $this->getDatanascitaStyle() ,
 			'%dataNascitaTip%' => $this->getDatanascitaTip(),
 			'%dataNascitaDisable%' => $this->getDatanascitaDisable(),
+			'%tipoDefinitivoChecked%' => $tipoDefinitivo,
+			'%tipoProvvisorioChecked%' => $tipoProvvisorio,
 			'%sessoMaschioChecked%' => $sessoMaschio,
 			'%sessoFemminaChecked%' => $sessoFemmina,
 			'%sesso%' => $this->getSesso(),
@@ -1066,6 +1135,87 @@ class paziente {
 			'%laboratorioTip%' => $this->getLaboratorioTip(),
 			'%laboratorioDisable%' => $this->getLaboratorioDisable()
 		);
+
+		$utility = new utility();
+
+		$template = $utility->tailFile($utility->getTemplate($form), $replace);
+		echo $utility->tailTemplate($template);		
+	}	
+	
+	public function displayTotali() {
+
+		$paziente = $this->getPaziente();
+
+		if (($this->getTotaleVisiteIncorso() > 0) or ($this->getTotaleVisitePreventivate() > 0))		
+			$this->displayTotaliVisite();
+
+		if (($this->getTotalePreventiviProposti() > 0) or ($this->getTotalePreventiviAccettati() > 0))		
+			$this->displayTotaliPreventivi();
+
+		if (($this->getTotaleCartelleAttive() > 0) or ($this->getTotaleCartelleIncorso() > 0) or ($this->getTotaleCartelleChiuse() > 0))		
+			$this->displayTotaliCartelleCliniche();
+	}
+	
+	private function displayTotaliVisite() {
+
+		require_once 'utility.class.php';
+		
+		// Template --------------------------------------------------------------
+
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		$form = self::$root . $array['template'] . self::$totaliVisita;
+		
+		$replace = array(
+			'%numvisite_incorso%' => $this->getTotaleVisiteIncorso(),
+			'%numvisite_preventivate%' => $this->getTotaleVisitePreventivate()
+		);		
+
+		$utility = new utility();
+
+		$template = $utility->tailFile($utility->getTemplate($form), $replace);
+		echo $utility->tailTemplate($template);
+	}
+
+	private function displayTotaliPreventivi() {
+
+		require_once 'utility.class.php';
+		
+		// Template --------------------------------------------------------------
+
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		$form = self::$root . $array['template'] . self::$totaliPreventivo;
+		
+		$replace = array(
+			'%numpreventivi_proposti%' => $this->getTotalePreventiviProposti(),
+			'%numpreventivi_accettati%' => $this->getTotalePreventiviAccettati()
+		);		
+
+		$utility = new utility();
+
+		$template = $utility->tailFile($utility->getTemplate($form), $replace);
+		echo $utility->tailTemplate($template);		
+	}
+
+	private function displayTotaliCartelleCliniche() {
+
+		require_once 'utility.class.php';
+		
+		// Template --------------------------------------------------------------
+
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		$form = self::$root . $array['template'] . self::$totaliCartelle;
+		
+		$replace = array(
+			'%numcartellecliniche_attive%' => $this->getTotaleCartelleAttive(),
+			'%numcartellecliniche_incorso%' => $this->getTotaleCartelleIncorso(),
+			'%numcartellecliniche_chiuse%' => $this->getTotaleCartelleChiuse()
+		);		
 
 		$utility = new utility();
 

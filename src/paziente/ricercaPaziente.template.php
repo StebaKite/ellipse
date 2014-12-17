@@ -171,7 +171,8 @@ class ricercaPazienteTemplate {
 				
 				if ($rowcounter % 2 == 0) {
 					if (($row['datainserimento'] == $oggi) or ($row['datamodifica'] == $oggi)) {
-						$class = "class='modifiedOn'";
+						if ($row['tipo'] == "D") $class = "class='modifiedOn'";
+						if ($row['tipo'] == "P") $class = "class='provModifiedOn'";
 					}
 					else {
 						$class = "class='on'";
@@ -179,7 +180,8 @@ class ricercaPazienteTemplate {
 				}
 				else {
 					if (($row['datainserimento'] == $oggi) or ($row['datamodifica'] == $oggi)) {
-						$class = "class='modifiedOff'";
+						if ($row['tipo'] == "D") $class = "class='modifiedOff'";
+						if ($row['tipo'] == "P") $class = "class='provModifiedOff'";
 					}
 					else {
 						$class = "class=''";
@@ -187,13 +189,15 @@ class ricercaPazienteTemplate {
 				}
 
 				// nasconde il bottone cancella paziente se ha figli legati
-			
-				if (($row['numvisite'] > 0) or
-					($row['numpreventivi'] > 0) or
-					($row['numcartellecliniche'] > 0))
-					$bottoneCancella = "";
-				else				
-					$bottoneCancella = "<a class='tooltip' href='cancellaPazienteFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&cognRic=" . $this->getCognome() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
+				// solo nel caso di paziente provvisorio compare il bottone anche se ha figli  (delete cascade su db)
+
+				$bottoneCancella = "<a class='tooltip' href='cancellaPazienteFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&cognRic=" . $this->getCognome() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
+
+				if ($row['tipo'] == "D") {
+					if (($row['numvisite'] > 0) or
+						($row['numpreventivi'] > 0) or
+						($row['numcartellecliniche'] > 0))  $bottoneCancella = "";
+				}
 
 				++$rowcounter;			
 
@@ -215,16 +219,15 @@ class ricercaPazienteTemplate {
 			}
 		}
 		else {
-			
-			if ($this->getMessaggio() != "") {
-				$replace = array('%messaggio%' => $this->getMessaggio());
-				$template = $utility->tailFile($utility->getTemplate($messaggioInfo), $replace);				
-				echo $utility->tailTemplate($template);
-			};
 
-			$replace = array('%messaggio%' => '%ml.norisultati%');
-			$template = $utility->tailFile($utility->getTemplate($messaggioErrore), $replace);		
+			$text0 = $this->getMessaggio();
+			if ($text0 != "") {$text0 = $text0 . " - ";};
+
+			$replace = array('%messaggio%' => $text0 . '%ml.norisultati%');
+			$template = $utility->tailFile($utility->getTemplate($messaggioErrore), $replace);
+			
 			echo $utility->tailTemplate($template);
+
 		}
 		echo $utility->getTemplate($risultatiPiede);
 	}	

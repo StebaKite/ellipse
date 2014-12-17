@@ -76,7 +76,8 @@ class modificaPaziente {
 			$paziente->setCap(trim($row["cap"]));
 			$paziente->setProvincia(trim($row["provincia"]));
 			$paziente->setEta(trim($row["eta"]));
-			$paziente->setSesso(trim($row["sesso"]));		
+			$paziente->setSesso(trim($row["sesso"]));
+			$paziente->setTipo(trim($row["tipo"]));
 			$paziente->setLuogoNascita(trim($row["luogonascita"]));
 			$paziente->setDataNascita(trim($row["datanascita"]));
 			$paziente->setCodiceFiscale(trim($row["codicefiscale"]));
