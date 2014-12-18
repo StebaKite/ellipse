@@ -127,7 +127,7 @@
 	.result, .ricerca, .dettaglio, .datiCreate {
 		border: 7px solid #ececec;
 	}
-	.result tfoot, .ricerca tfoot, .dettaglio tfoot, .datiCreate tfoot {
+	.result tfoot, .result_alt tfoot, .ricerca tfoot, .dettaglio tfoot, .datiCreate tfoot {
 		text-align: right;
 	}
 

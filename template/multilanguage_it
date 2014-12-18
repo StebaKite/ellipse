@@ -28,6 +28,7 @@ ricercaPaziente = Ricerca Paziente
 modificaPaziente = Modifica Paziente
 modificaConfig = Configurazioni di Sistema
 cancellaPaziente = Cancella Paziente
+creaNuovaVisita = Crea Visita Iniziale
 ;
 ; Messaggi -----------------------------
 ;
@@ -115,3 +116,10 @@ numCartelleCliniche = Cart.
 dataNasc = Data Nascita
 azioni = Azioni
 attivita = Attivit&agrave; Relazionate
+;
+riepilogoVisita = Riepilogo lavori da effettuare
+dentiSingoli = Denti Singoli
+gruppiDenti = Gruppi di Denti
+cureGeneriche = Cure Generiche
+codice = Codice
+descrizioneLavoro = Descrizione lavoro

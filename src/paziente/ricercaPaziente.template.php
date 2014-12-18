@@ -188,6 +188,7 @@ class ricercaPazienteTemplate {
 					}
 				}
 
+				// BOTTONE CANCELLA -----------------------------------------------
 				// nasconde il bottone cancella paziente se ha figli legati
 				// solo nel caso di paziente provvisorio compare il bottone anche se ha figli  (delete cascade su db)
 
@@ -197,6 +198,16 @@ class ricercaPazienteTemplate {
 					if (($row['numvisite'] > 0) or
 						($row['numpreventivi'] > 0) or
 						($row['numcartellecliniche'] > 0))  $bottoneCancella = "";
+				}
+
+				// BOTTONE VISITE -----------------------------------------------
+				// Se il paziente non ha visite il bottone fa atterrare sulla pagina di creazione nuova visita
+				// altrimenti atterra sull'elenco delle visite
+
+				$bottoneVisite = "<a class='tooltip' href='ricercaVisiteFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "'><li class='ui-state-default ui-corner-all' title='Ricerca visita'><span class='ui-icon ui-icon-person'></span></li></a>";
+
+				if ($row['numvisite'] == 0) {
+					$bottoneVisite = "<a class='tooltip' href='creaVisitaFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "'><li class='ui-state-default ui-corner-all' title='Crea una nuova visita'><span class='ui-icon ui-icon-person'></span></li></a>";
 				}
 
 				++$rowcounter;			
@@ -211,7 +222,8 @@ class ricercaPazienteTemplate {
 					'%numvisite%' => stripslashes($row['numvisite']),
 					'%numpreventivi%' => stripslashes($row['numpreventivi']),
 					'%numcartellecliniche%' => stripslashes($row['numcartellecliniche']),
-					'%bottoneCancella%' => $bottoneCancella
+					'%bottoneCancella%' => $bottoneCancella,
+					'%bottoneVisite%' => $bottoneVisite
 				);
 
 				$riga = $templateRiga;
