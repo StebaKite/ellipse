@@ -18,7 +18,10 @@ class visita {
 	private static $esitoControlliLogici;
 	
 	private static $riepilogoDentiSingoli;
+	private static $dentiSingoli;
 	
+
+//	private static $
 	
 	//-----------------------------------------------------------------------------
 
@@ -62,8 +65,9 @@ class visita {
 	public function setRiepilogoDentiSingoli($riepilogoDentiSingoli) {
 		self::$riepilogoDentiSingoli = $riepilogoDentiSingoli;
 	}
-
-
+	public function setDentiSingoli ($dentiSingoli) {
+		self::$dentiSingoli = $dentiSingoli;
+	}
 
 
 	
@@ -100,9 +104,9 @@ class visita {
 	public function getRiepilogoDentiSingoli() {
 		return self::$riepilogoDentiSingoli;
 	}
-
-
-
+	public function getDentiSingoli() {
+		return self::$dentiSingoli;
+	}
 
 
 	// template ------------------------------------------------

@@ -5,12 +5,6 @@ $( "#menu-accordion" ).accordion({
 
 var formatDateJQ="dd/mm/yy";
 
-
-$( ".autocomplete" ).autocomplete({
-	source: vociListino
-});
-
-
 $( ".button" ).button();
 $( ".radioset" ).buttonset();
 
@@ -103,3 +97,8 @@ $( "#dialog-link, #icons li" ).hover(
 		$( this ).removeClass( "ui-state-hover" );
 	}
 );
+
+$( ".autocomplete" ).autocomplete({
+	source: vociListino
+});
+
