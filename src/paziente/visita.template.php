@@ -121,9 +121,45 @@ class visita {
 
 	public function controlliLogici() {
 		
-		$esito = TRUE;
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
 
+		$esito = TRUE;
 		
+		// Template --------------------------------------------------------------
+
+		$visita = $this->getVisita();
+
+		$utility = new utility();
+		$db = new database();
+
+		//-------------------------------------------------------------
+
+		$replace = array('%idlistino%' => $this->getIdListino());
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->getData($sql);
+		
+		while ($row = pg_fetch_row($result)) {			
+			$map .= "'" . $row[0] .  "' => '" . $row[0] . "',";
+		}
+
+		$vociValide = array($map);
+
+		// controllo esistenza delle voci immesse in pagina
+		// alla prima voce non esistente termina il controllo con un errore
+
+		for ($i = 0; $i < sizeof($this->getDentiSingoli()); $i++) {
+		
+			if ($dentiSingoli[$i][1] != "") {
+			
+				if (!array_key_exists($dentiSingoli[$i][1], $vociValide)) {
+					$esito = FALSE;
+					break;
+				}			
+			}
+		}		
 		return $esito;
 	}
 	
@@ -142,7 +178,6 @@ class visita {
 		$form = self::$root . $array['template'] . self::$pagina;
 
 		$db = new database();
-		$listino = "<option value=''>";
 
 		//-------------------------------------------------------------
 
