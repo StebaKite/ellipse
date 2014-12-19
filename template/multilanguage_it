@@ -46,6 +46,8 @@ modConfigOk = Configurazioni di sistema modificate con successo
 modConfigKo = Errore modifica configurazioni di sistema
 canPazienteOk = Paziente cancellato con successo
 canPazienteKo = Errore cancellazione paziente
+creaVisitaOk = Visita iniziale creata con successo
+creaVisitaKo = Errore creazione visita iniziale
 ;
 ; Campi form ---------------------------
 ;

@@ -7,6 +7,12 @@ class creaVisita {
 	private static $cognomeRicerca;
 	private static $idPaziente;
 	private static $idListino;
+	private static $queryCreaVisita = "/paziente/creaVisita.sql";
+	private static $queryCreaVoceVisita = "/paziente/creaVoceVisita.sql";
+	private static $queryRicercaVisitaInCorso = "/paziente/ricercaVisitaIncorsoPaziente.sql";
+	private static $queryRicercaVoceVisitaInCorso = "/paziente/ricercaVoceVisitaIncorsoPaziente.sql";
+	private static $inseritiDati = FALSE;
+
 
 	function __construct() {
 		
@@ -26,6 +32,9 @@ class creaVisita {
 	public function setCognomeRicerca($cognomeRicerca) {
 		self::$cognomeRicerca = $cognomeRicerca;
 	}
+	public function setInseritiDati($inseritiDati) {
+		self::$inseritiDati = $inseritiDati;
+	}
 
 	// ------------------------------------------------
 	
@@ -40,6 +49,9 @@ class creaVisita {
 	}
 	public function getCognomeRicerca() {
 		return self::$cognomeRicerca;
+	}
+	public function getInseritiDati() {
+		return self::$inseritiDati;
 	}
 
 	// ------------------------------------------------
@@ -61,6 +73,8 @@ class creaVisita {
 		$visita = new visita();		
 		$visita->setIdPaziente($this->getIdPaziente());
 		$visita->setIdListino($this->getIdListino());
+		$visita->setTitoloPagina('%ml.creaNuovaVisita%');
+		
 		
 		$this->startSingoli($visita);
 		
@@ -78,7 +92,7 @@ class creaVisita {
 
 	public function startSingoli($visita) {
 
-		$visita->setAzioneDentiSingoli($this->getAzioneDentiSingoli());
+		$visita->setAzioneDentiSingoli($this->getAzioneDentiSingoli() . "&idPaziente=" . $this->getIdPaziente() . "&idListino=" . $this->getIdListino());
 		$visita->setConfermaTip("%ml.confermaCreazioneVisita%");		
 	}
 		
@@ -102,26 +116,32 @@ class creaVisita {
 
 		$visita = new visita();
 		$visita->setDentiSingoli($this->prelevaCampiPagina());
-
+		$visita->setIdListino($this->getIdListino());	
+		$visita->setTitoloPagina('%ml.creaNuovaVisita%');
+		
 		include($testata);
+		$visita->displayPagina();
 
 		if ($visita->controlliLogici()) {
+			
 			if ($this->inserisci($visita)) {
-				$ricercaPaziente = new ricercaPaziente();
-				$ricercaPaziente->setMessaggio("%ml.creaVisitaOk%");
-				$ricercaPaziente->setCognomeRicerca($this->getCognomeRicerca());
-				$ricercaPaziente->go();
+
+				if ($this->getInseritiDati()) {
+					$replace = array('%messaggio%' => '%ml.creaVisitaOk%');				
+					$template = $utility->tailFile($utility->getTemplate($messaggioInfo), $replace);			
+					echo $utility->tailTemplate($template);
+				}
 			}
 			else {
-				$visita->displayPagina();
-				$replace = array('%messaggio%' => '%ml.creaVisitaKo%');
-				
+				$replace = array('%messaggio%' => '%ml.creaVisitaKo%');				
 				$template = $utility->tailFile($utility->getTemplate($messaggioErrore), $replace);			
 				echo $utility->tailTemplate($template);
 			}
 		}
 		else {
-			$paziente->displayPagina();
+			$replace = array('%messaggio%' => '%ml.creaVisitaKo%');				
+			$template = $utility->tailFile($utility->getTemplate($messaggioErrore), $replace);			
+			echo $utility->tailTemplate($template);
 		} 
 
 		include($piede);		
@@ -135,18 +155,98 @@ class creaVisita {
 		
 	private function inserisci($visita) {
 
-		$dentiSingoli = $visita->getDentiSingoli();
-			
-		for ($i = 0; $i < sizeof($dentiSingoli); $i++) {
+		require_once 'database.class.php';
 
+		$db = new database();
+		$db->beginTransaction();
 
+		/*
+		 * Una riga in "visita" e tutte le voci in tabella "voceVisita"
+		 */ 
 
+		if ($this->creaVisita($db)) {
 
+			$dentiSingoli = $visita->getDentiSingoli();
+			$idVisitaUsato = $db->getLastIdUsed(); 
+				
+			for ($i = 0; $i < sizeof($dentiSingoli); $i++) {
 
-		
+				if ($dentiSingoli[$i][1] != "") {
+					if (!$this->creaVoceVisita($db, $idVisitaUsato, trim($dentiSingoli[$i][0]), trim($dentiSingoli[$i][1]))) {
+						$db->rollbackTransaction();
+						error_log("Errore inserimento voce, eseguito Rollback");
+						return FALSE;	
+					}
+				}			
+			}
+			$db->commitTransaction();
+			return TRUE;				
 		}		
-		return TRUE;
+		return FALSE;
 	}
+	
+	private function creaVisita($db) {
+		
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		// Verifica esistenza visita in corso  (stato 00)
+
+		$replace = array(
+			'%idpaziente%' => $this->getIdPaziente(),
+			'%stato%' => '00'
+		);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaVisitaInCorso;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		if ($db->getNumrows() == 0) {
+
+			$replace = array('%idpaziente%' => $this->getIdPaziente());
+			
+			$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVisita;
+			$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+			$result = $db->execSql($sql);
+			
+			$this->setInseritiDati(TRUE);
+		} 	
+		return $result;
+	}
+	
+	private function creaVoceVisita($db, $idVisitaUsato, $nomeCampoForm, $codiceVoceListino) {
+		
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		// Ricerca esistenza voce per la visita in corso
+
+		$replace = array(
+			'%idvisita%' => $idVisitaUsato,
+			'%nomecampoform%' => trim($nomeCampoForm), 
+			'%codicevocelistino%' => trim($codiceVoceListino)
+		);
+
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaVoceVisitaInCorso;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		if ($db->getNumrows() == 0) {
+			
+			$replace = array(
+				'%nomecampoform%' => trim($nomeCampoForm),
+				'%codicevocelistino%' => trim($codiceVoceListino),
+				'%idvisita%' => $idVisitaUsato
+			);
+			
+			$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVoceVisita;
+			$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+			$result = $db->execSql($sql);
+			
+			$this->setInseritiDati(TRUE);
+		}
+		return $result;	
+	} 
 	
 	private function prelevaCampiPagina() {
 		
