@@ -1,5 +1,11 @@
 <?php
 
+
+
+
+
+
+
 class ricercaPaziente {
 
 	private static $root;
