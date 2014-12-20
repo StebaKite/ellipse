@@ -19,6 +19,7 @@ cercaTip = Avvia la ricerca del paziente
 nuovoTip = Crea un nuovo paziente
 confermaCreazionePaziente = Crea il nuovo paziente
 confermaCancellazionePaziente = Cancella il paziente
+rinfrescaDettaglioPaziente = Rilegge i dati del paziente
 ;
 ; Funzioni -----------------------------
 ;
@@ -26,6 +27,7 @@ creaNuovoPaziente = Crea Nuovo Paziente
 ricercaPaziente = Ricerca Paziente
 modificaPaziente = Modifica Paziente
 modificaConfig = Configurazioni di Sistema
+cancellaPaziente = Cancella Paziente
 ;
 ; Messaggi -----------------------------
 ;
@@ -94,6 +96,17 @@ languageFileIt = Italiano
 languageFileEn = Inglese
 languageFileFr = Francese
 languageFileDe = Tedesco 
+;
+totaliVisite = Visite
+visiteIncorso = In corso
+visitePreventivate = Preventivate
+totaliPreventivi = Preventivi
+preventiviProposti = Proposti
+preventiviAccettati = Accettati
+totaliCartelle = Cartelle Cliniche
+cartelleAttive = Attive
+cartelleIncorso = In corso
+cartelleChiuse = Chiuse
 ;
 numVisite = Vis.
 numPreventivi = Prev.

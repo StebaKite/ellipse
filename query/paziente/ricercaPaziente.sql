@@ -2,6 +2,7 @@ select
 	paziente.idpaziente,
 	paziente.cognome,
 	paziente.nome,
+	paziente.tipo,
 	to_char(paziente.datainserimento, 'DD/MM/YYYY') as datainserimento,
 	to_char(paziente.datamodifica, 'DD/MM/YYYY') as datamodifica,	
 	to_char(paziente.datanascita, 'DD/MM/YYYY') as datanascita,
