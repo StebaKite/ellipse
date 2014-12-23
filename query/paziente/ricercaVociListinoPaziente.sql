@@ -1,3 +1,6 @@
-select codicevocelistino
+select
+	codicevocelistino,
+	descrizionevoce
+	
 from paziente.vocelistino
 where idlistino = %idlistino%

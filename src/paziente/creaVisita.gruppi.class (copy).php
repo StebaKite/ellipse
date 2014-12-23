@@ -1,14 +1,15 @@
 <?php
 
-class creaVisita {
+class creaVisitaGruppi {
 
 	private static $root;
+	private static $tipo;
 	private static $testata;
 	private static $piede;
 	private static $messaggioInfo;
 	private static $messaggioErrore;
 	private static $singoliForm = "singoli";
-	private static $azioneDentiSingoli = "../paziente/creaVisitaFacade.class.php?modo=go";
+	private static $azioneGruppi = "../paziente/creaVisitaGruppiFacade.class.php?modo=go";
 	private static $cognomeRicerca;
 	private static $idPaziente;
 	private static $idListino;
@@ -19,6 +20,7 @@ class creaVisita {
 	private static $queryRicercaVisitaInCorso = "/paziente/ricercaVisitaIncorsoPaziente.sql";
 	private static $queryRicercaVoceVisitaInCorso = "/paziente/ricercaVoceVisitaIncorsoPaziente.sql";
 	private static $queryRiepilogoVociVisitaPaziente = "/paziente/riepilogoVociVisitaPaziente.sql";
+	private static $inseritiDati = FALSE;
 
 
 	function __construct() {
@@ -41,6 +43,12 @@ class creaVisita {
 	}
 	public function setCognomeRicerca($cognomeRicerca) {
 		self::$cognomeRicerca = $cognomeRicerca;
+	}
+	public function setInseritiDati($inseritiDati) {
+		self::$inseritiDati = $inseritiDati;
+	}
+	public function setTipo($tipo) {
+		self::$tipo = $tipo;
 	}
 	public function setTestata($testata) {
 		self::$testata = $testata;
@@ -72,8 +80,20 @@ class creaVisita {
 	public function getCognomeRicerca() {
 		return self::$cognomeRicerca;
 	}
+	public function getInseritiDati() {
+		return self::$inseritiDati;
+	}
 	public function getSingoliForm() {
 		return self::$singoliForm;
+	}
+	public function getGruppiForm() {
+		return self::$gruppiForm;
+	}
+	public function getCureForm() {
+		return self::$cureForm;
+	}
+	public function getTipo() {
+		return self::$tipo;
 	}
 	public function getTestata() {
 		return self::$testata;
@@ -108,8 +128,7 @@ class creaVisita {
 		$visita->setIdPaziente($this->getIdPaziente());
 		$visita->setIdListino($this->getIdListino());
 		$visita->setTitoloPagina('%ml.creaNuovaVisita%');
-		$visita->setCognomeRicerca($this->getCognomeRicerca());
-					
+				
 		$visita->setAzioneDentiSingoli($this->getAzioneDentiSingoli());
 		$visita->setConfermaTip("%ml.confermaCreazioneVisita%");		
 				
@@ -122,10 +141,20 @@ class creaVisita {
 		$visita->displayPagina();
 		include($piede);		
 	}
+
+	public function startSingoli($visita) {
+
+	}
+
+	public function startGruppi($visita) {
+
+//		$visita->setAzioneGruppi($this->getAzioneGruppi() . "&idPaziente=" . $this->getIdPaziente() . "&idListino=" . $this->getIdListino());
+//		$visita->setConfermaTip("%ml.confermaCreazioneVisita%");		
+	}
 		
 	public function go() {
 		
-		require_once 'ricercaVisita.class.php';
+		require_once 'ricercaPaziente.class.php';
 		require_once 'visita.template.php';
 		require_once 'utility.class.php';
 
@@ -144,6 +173,9 @@ class creaVisita {
 		$visita->setAzioneDentiSingoli($this->getAzioneDentiSingoli() . "&idPaziente=" . $this->getIdPaziente() . "&idListino=" . $this->getIdListino());
 		$visita->setConfermaTip("%ml.confermaCreazioneVisita%");		
 
+		$visita->setAzioneGruppi($this->getAzioneGruppi() . "&idPaziente=" . $this->getIdPaziente() . "&idListino=" . $this->getIdListino());
+		$visita->setConfermaTip("%ml.confermaCreazioneVisita%");		
+
 		$visita->setIdListino($this->getIdListino());	
 		$visita->setTitoloPagina('%ml.creaNuovaVisita%');
 		$visita->setDentiSingoli($this->prelevaCampiFormSingoli());
@@ -153,13 +185,16 @@ class creaVisita {
 		if ($visita->controlliLogici()) {
 			
 			if ($this->inserisciSingoli($visita)) {
-				
-				$ricercaVisita = new ricercaVisita();
-				$ricercaVisita->setIdPaziente($this->getIdPaziente());
-				$ricercaVisita->setIdListino($this->getIdListino());
-				$ricercaVisita->setMessaggio("%ml.creaVisitaOk%");
-				$ricercaVisita->setCognomeRicerca($this->getCognomeRicerca());
-				$ricercaVisita->start();
+
+		 		if ($this->getInseritiDati()) {
+					$ricercaVisita = new ricercaVisita();
+					$ricercaVisita->setMessaggio("%ml.creaVisitaOk%");
+					$ricercaVisita->go();
+				}
+				else {
+					$visita->setRiepilogoDentiSingoli($this->riepilogoVociInserite($visita));
+					$visita->displayPagina();
+				}
 			}
 			else {
 				$visita->displayPagina();
@@ -176,11 +211,41 @@ class creaVisita {
 		} 
 
 		include($this->getPiede());		
+
+//		if ($this->getTipo() == 'gruppi')  $this->goGruppi($visita, $utility);		
 	}
 		
 	public function goSingoli($visita, $utility) {
 
 	}
+/*		
+	public function goGruppi($visita, $utility) {
+
+		$visita->setIdListino($this->getIdListino());	
+		$visita->setTitoloPagina('%ml.creaNuovaVisita%');
+		
+		$visita->setVoceGruppo_1($_POST['voceGruppo_1']);
+		$visita->setDentiGruppo_1($this->prelevaCampiFormGruppo_1());
+		
+		$visita->setVoceGruppo_2($_POST['voceGruppo_2']);
+		$visita->setDentiGruppo_2($this->prelevaCampiFormGruppo_2());
+		
+		$visita->setVoceGruppo_3($_POST['voceGruppo_3']);
+		$visita->setDentiGruppo_3($this->prelevaCampiFormGruppo_3());
+		
+		$visita->setVoceGruppo_4($_POST['voceGruppo_4']);
+		$visita->setDentiGruppo_4($this->prelevaCampiFormGruppo_4());
+		
+		include($this->getTestata());
+
+					$visita->setRiepilogoDentiSingoli($this->riepilogoVociInserite($visita));
+					$visita->displayPagina();
+
+
+
+		include($this->getPiede());		
+	}
+*/		
 		
 	private function inserisciSingoli($visita) {
 
@@ -222,12 +287,27 @@ class creaVisita {
 		$utility = new utility();
 		$array = $utility->getConfig();
 
-		$replace = array('%idpaziente%' => $this->getIdPaziente());
+		// Verifica esistenza visita in corso  (stato 00)
+
+		$replace = array(
+			'%idpaziente%' => $this->getIdPaziente(),
+			'%stato%' => '00'
+		);
 		
-		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVisita;
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaVisitaInCorso;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
+		
+		if ($db->getNumrows() == 0) {
 
+			$replace = array('%idpaziente%' => $this->getIdPaziente());
+			
+			$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVisita;
+			$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+			$result = $db->execSql($sql);
+			
+			$this->setInseritiDati(TRUE);
+		} 	
 		return $result;
 	}
 	
@@ -235,20 +315,75 @@ class creaVisita {
 		
 		$utility = new utility();
 		$array = $utility->getConfig();
-			
+
+		// Ricerca esistenza voce per la visita in corso
+
 		$replace = array(
-			'%nomeForm%' => trim($nomeForm), 
-			'%nomecampoform%' => trim($nomeCampoForm),
-			'%codicevocelistino%' => trim($codiceVoceListino),
-			'%idvisita%' => $idVisitaUsato
+			'%idvisita%' => $idVisitaUsato,
+			'%nomecampoform%' => trim($nomeCampoForm), 
+			'%codicevocelistino%' => trim($codiceVoceListino)
 		);
-		
-		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVoceVisita;
+
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaVoceVisitaInCorso;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
-
+		
+		if ($db->getNumrows() == 0) {
+			
+			$replace = array(
+				'%nomeForm%' => trim($nomeForm), 
+				'%nomecampoform%' => trim($nomeCampoForm),
+				'%codicevocelistino%' => trim($codiceVoceListino),
+				'%idvisita%' => $idVisitaUsato
+			);
+			
+			$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVoceVisita;
+			$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+			$result = $db->execSql($sql);
+			
+			$this->setInseritiDati(TRUE);
+		}
 		return $result;	
 	} 
+	
+	public function riepilogoVociInserite($visita) {
+
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+
+		// Template --------------------------------------------------------------
+
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		$form = self::$root . $array['template'] . self::$riepilogo;
+
+		$db = new database();
+
+		//-------------------------------------------------------------
+
+		$vociVisitaDentiSingoli = "";
+		
+		$replace = array(
+			'%idpaziente%' => $visita->getIdPaziente(),
+			'%idvisita%' => $visita->getIdVisita()
+		);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRiepilogoVociVisitaPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->getData($sql);
+		
+		while ($row = pg_fetch_row($result)) {			
+			$vociVisitaDentiSingoli .= "<tr><td width='50'>" . $row[0] . "</td><td width='80'>" . $row[1] ."</td><td width='800'>" . $row[2] ."</td></tr>";
+		}
+
+		$replace = array(
+			'%vociVisitaDentiSingoli%' => $vociVisitaDentiSingoli
+		);
+
+		$template = $utility->tailFile($utility->getTemplate($form), $replace);
+		return $utility->tailTemplate($template);	
+	}
 	
 	private function prelevaCampiFormSingoli() {
 		
@@ -346,6 +481,116 @@ class creaVisita {
 		
 		return $dentiSingoli;
 	}
+/*	
+	private function prelevaCampiFormGruppo_1() {
+		
+		$dentiGruppo_1 = array();
+		
+		// primo gruppo --------------------------------------------------------------------------------------------------------------
+		
+		array_push($dentiGruppo_1, array('G-SD_18_1', $_POST['G-SD_18_1']), array('G-SD_17_1', $_POST['G-SD_17_1']), array('G-SD_16_1', $_POST['G-SD_16_1']));
+		array_push($dentiGruppo_1, array('G-SD_15_1', $_POST['G-SD_15_1']), array('G-SD_14_1', $_POST['G-SD_14_1']), array('G-SD_13_1', $_POST['G-SD_13_1']));
+		array_push($dentiGruppo_1, array('G-SD_12_1', $_POST['G-SD_12_1']), array('G-SD_11_1', $_POST['G-SD_11_1']));
+		
+		array_push($dentiGruppo_1, array('SS_21_1', $_POST['SS_21_1']), array('SS_22_1', $_POST['SS_22_1']), array('SS_23_1', $_POST['SS_23_1']));
+		array_push($dentiGruppo_1, array('SS_24_1', $_POST['SS_24_1']), array('SS_25_1', $_POST['SS_25_1']), array('SS_26_1', $_POST['SS_26_1']));
+		array_push($dentiGruppo_1, array('SS_27_1', $_POST['SS_27_1']), array('SS_28_1', $_POST['SS_28_1']));
+		
+		array_push($dentiGruppo_1, array('ID_48_1', $_POST['ID_48_1']), array('ID_47_1', $_POST['ID_47_1']), array('ID_46_1', $_POST['ID_46_1']));
+		array_push($dentiGruppo_1, array('ID_45_1', $_POST['ID_45_1']), array('ID_44_1', $_POST['ID_44_1']), array('ID_43_1', $_POST['ID_43_1']));
+		array_push($dentiGruppo_1, array('ID_42_1', $_POST['ID_42_1']), array('ID_41_1', $_POST['ID_41_1']));
+		
+		array_push($dentiGruppo_1, array('IS_31_1', $_POST['IS_31_1']), array('IS_32_1', $_POST['IS_32_1']), array('IS_33_1', $_POST['IS_33_1']));
+		array_push($dentiGruppo_1, array('IS_34_1', $_POST['IS_34_1']), array('IS_35_1', $_POST['IS_35_1']), array('IS_36_1', $_POST['IS_36_1']));
+		array_push($dentiGruppo_1, array('IS_37_1', $_POST['IS_37_1']), array('IS_38_1', $_POST['IS_38_1']));
+
+		// restituisce l'array
+		
+		return $dentiGruppo_1;
+	}
+	
+	private function prelevaCampiFormGruppo_2() {
+		
+		$dentiGruppo_2 = array();
+		
+		// secondo gruppo --------------------------------------------------------------------------------------------------------------
+		
+		array_push($dentiGruppo_2, array('SD_18_2', $_POST['SD_18_2']), array('SD_17_2', $_POST['SD_17_2']), array('SD_16_2', $_POST['SD_16_2']));
+		array_push($dentiGruppo_2, array('SD_15_2', $_POST['SD_15_2']), array('SD_14_2', $_POST['SD_14_2']), array('SD_13_2', $_POST['SD_13_2']));
+		array_push($dentiGruppo_2, array('SD_12_2', $_POST['SD_12_2']), array('SD_11_2', $_POST['SD_11_2']));
+		
+		array_push($dentiGruppo_2, array('SS_21_2', $_POST['SS_21_2']), array('SS_22_2', $_POST['SS_22_2']), array('SS_23_2', $_POST['SS_23_2']));
+		array_push($dentiGruppo_2, array('SS_24_2', $_POST['SS_24_2']), array('SS_25_2', $_POST['SS_25_2']), array('SS_26_2', $_POST['SS_26_2']));
+		array_push($dentiGruppo_2, array('SS_27_2', $_POST['SS_27_2']), array('SS_28_2', $_POST['SS_28_2']));
+		
+		array_push($dentiGruppo_2, array('ID_48_2', $_POST['ID_48_2']), array('ID_47_2', $_POST['ID_47_2']), array('ID_46_2', $_POST['ID_46_2']));
+		array_push($dentiGruppo_2, array('ID_45_2', $_POST['ID_45_2']), array('ID_44_2', $_POST['ID_44_2']), array('ID_43_2', $_POST['ID_43_2']));
+		array_push($dentiGruppo_2, array('ID_42_2', $_POST['ID_42_2']), array('ID_41_2', $_POST['ID_41_2']));
+		
+		array_push($dentiGruppo_2, array('IS_31_2', $_POST['IS_31_2']), array('IS_32_2', $_POST['IS_32_2']), array('IS_33_2', $_POST['IS_33_2']));
+		array_push($dentiGruppo_2, array('IS_34_2', $_POST['IS_34_2']), array('IS_35_2', $_POST['IS_35_2']), array('IS_36_2', $_POST['IS_36_2']));
+		array_push($dentiGruppo_2, array('IS_37_2', $_POST['IS_37_2']), array('IS_38_2', $_POST['IS_38_2']));
+
+		// restituisce l'array
+		
+		return $dentiGruppo_2;
+	}
+	
+	private function prelevaCampiFormGruppo_3() {
+		
+		$dentiGruppo_3 = array();
+		
+		// terzo gruppo --------------------------------------------------------------------------------------------------------------
+		
+		array_push($dentiGruppo_3, array('SD_18_3', $_POST['SD_18_3']), array('SD_17_3', $_POST['SD_17_3']), array('SD_16_3', $_POST['SD_16_3']));
+		array_push($dentiGruppo_3, array('SD_15_3', $_POST['SD_15_3']), array('SD_14_3', $_POST['SD_14_3']), array('SD_13_3', $_POST['SD_13_3']));
+		array_push($dentiGruppo_3, array('SD_12_3', $_POST['SD_12_3']), array('SD_11_3', $_POST['SD_11_3']));
+		
+		array_push($dentiGruppo_3, array('SS_21_3', $_POST['SS_21_3']), array('SS_22_3', $_POST['SS_22_3']), array('SS_23_3', $_POST['SS_23_3']));
+		array_push($dentiGruppo_3, array('SS_24_3', $_POST['SS_24_3']), array('SS_25_3', $_POST['SS_25_3']), array('SS_26_3', $_POST['SS_26_3']));
+		array_push($dentiGruppo_3, array('SS_27_3', $_POST['SS_27_3']), array('SS_28_3', $_POST['SS_28_3']));
+		
+		array_push($dentiGruppo_3, array('ID_48_3', $_POST['ID_48_3']), array('ID_47_3', $_POST['ID_47_3']), array('ID_46_3', $_POST['ID_46_3']));
+		array_push($dentiGruppo_3, array('ID_45_3', $_POST['ID_45_3']), array('ID_44_3', $_POST['ID_44_3']), array('ID_43_3', $_POST['ID_43_3']));
+		array_push($dentiGruppo_3, array('ID_42_3', $_POST['ID_42_3']), array('ID_41_3', $_POST['ID_41_3']));
+		
+		array_push($dentiGruppo_3, array('IS_31_3', $_POST['IS_31_3']), array('IS_32_3', $_POST['IS_32_3']), array('IS_33_3', $_POST['IS_33_3']));
+		array_push($dentiGruppo_3, array('IS_34_3', $_POST['IS_34_3']), array('IS_35_3', $_POST['IS_35_3']), array('IS_36_3', $_POST['IS_36_3']));
+		array_push($dentiGruppo_3, array('IS_37_3', $_POST['IS_37_3']), array('IS_38_3', $_POST['IS_38_3']));
+
+		// restituisce l'array
+		
+		return $dentiGruppo_3;
+	}
+	
+	private function prelevaCampiFormGruppo_4() {
+		
+		$dentiGruppo_4 = array();
+		
+		// quarto gruppo --------------------------------------------------------------------------------------------------------------
+		
+		array_push($dentiGruppo_4, array('SD_18_4', $_POST['SD_18_4']), array('SD_17_4', $_POST['SD_17_4']), array('SD_16_4', $_POST['SD_16_4']));
+		array_push($dentiGruppo_4, array('SD_15_4', $_POST['SD_15_4']), array('SD_14_4', $_POST['SD_14_4']), array('SD_13_4', $_POST['SD_13_4']));
+		array_push($dentiGruppo_4, array('SD_12_4', $_POST['SD_12_4']), array('SD_11_4', $_POST['SD_11_4']));
+		
+		array_push($dentiGruppo_4, array('SS_21_4', $_POST['SS_21_4']), array('SS_22_4', $_POST['SS_22_4']), array('SS_23_4', $_POST['SS_23_4']));
+		array_push($dentiGruppo_4, array('SS_24_4', $_POST['SS_24_4']), array('SS_25_4', $_POST['SS_25_4']), array('SS_26_4', $_POST['SS_26_4']));
+		array_push($dentiGruppo_4, array('SS_27_4', $_POST['SS_27_4']), array('SS_28_4', $_POST['SS_28_4']));
+		
+		array_push($dentiGruppo_4, array('ID_48_4', $_POST['ID_48_4']), array('ID_47_4', $_POST['ID_47_4']), array('ID_46_4', $_POST['ID_46_4']));
+		array_push($dentiGruppo_4, array('ID_45_4', $_POST['ID_45_4']), array('ID_44_4', $_POST['ID_44_4']), array('ID_43_4', $_POST['ID_43_4']));
+		array_push($dentiGruppo_4, array('ID_42_4', $_POST['ID_42_4']), array('ID_41_4', $_POST['ID_41_4']));
+		
+		array_push($dentiGruppo_4, array('IS_31_4', $_POST['IS_31_4']), array('IS_32_4', $_POST['IS_32_4']), array('IS_33_4', $_POST['IS_33_4']));
+		array_push($dentiGruppo_4, array('IS_34_4', $_POST['IS_34_4']), array('IS_35_4', $_POST['IS_35_4']), array('IS_36_4', $_POST['IS_36_4']));
+		array_push($dentiGruppo_4, array('IS_37_4', $_POST['IS_37_4']), array('IS_38_4', $_POST['IS_38_4']));
+
+		// restituisce l'array
+		
+		return $dentiGruppo_4;
+	}
+*/
+
 }
 
 ?>

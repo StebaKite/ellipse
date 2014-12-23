@@ -123,6 +123,9 @@
 	.result-alt td {
 		text-align: left;
 		background-color: #ffffff;
+	}	
+	.result-alt .on {
+		background-color: #000000;
 	}
 	.result, .ricerca, .dettaglio, .datiCreate {
 		border: 7px solid #ececec;

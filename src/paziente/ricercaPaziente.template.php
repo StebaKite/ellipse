@@ -204,10 +204,10 @@ class ricercaPazienteTemplate {
 				// Se il paziente non ha visite il bottone fa atterrare sulla pagina di creazione nuova visita
 				// altrimenti atterra sull'elenco delle visite
 
-				$bottoneVisite = "<a class='tooltip' href='ricercaVisiteFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "'><li class='ui-state-default ui-corner-all' title='Ricerca visita'><span class='ui-icon ui-icon-person'></span></li></a>";
+				$bottoneVisite = "<a class='tooltip' href='ricercaVisitaFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&cognRic=" . $this->getCognome(). "'><li class='ui-state-default ui-corner-all' title='Ricerca visita'><span class='ui-icon ui-icon-person'></span></li></a>";
 
 				if ($row['numvisite'] == 0) {
-					$bottoneVisite = "<a class='tooltip' href='creaVisitaFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "'><li class='ui-state-default ui-corner-all' title='Crea una nuova visita'><span class='ui-icon ui-icon-person'></span></li></a>";
+					$bottoneVisite = "<a class='tooltip' href='creaVisitaFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&cognRic=" . $this->getCognome(). "'><li class='ui-state-default ui-corner-all' title='Crea una nuova visita'><span class='ui-icon ui-icon-person'></span></li></a>";
 				}
 
 				++$rowcounter;			

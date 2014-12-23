@@ -12,6 +12,8 @@ nuovo = Nuovo
 cerca = Cerca
 prod = Prod
 test = Test
+gruppi = Gruppi di Denti
+cure = Cure Generiche
 ;
 ; Tips ---------------------------------
 ;
@@ -20,6 +22,10 @@ nuovoTip = Crea un nuovo paziente
 confermaCreazionePaziente = Crea il nuovo paziente
 confermaCancellazionePaziente = Cancella il paziente
 rinfrescaDettaglioPaziente = Rilegge i dati del paziente
+confermaCreazioneVisita = Crea la nuova visita
+funzPrec = Torna alla funzione precedente
+creaGruppi = Crea interventi su gruppi di denti
+creaCure = Crea cure generiche su tutti i denti
 ;
 ; Funzioni -----------------------------
 ;
@@ -29,13 +35,18 @@ modificaPaziente = Modifica Paziente
 modificaConfig = Configurazioni di Sistema
 cancellaPaziente = Cancella Paziente
 creaNuovaVisita = Crea Visita Iniziale
+ricercaVisita = Ricerca Visita Iniziale
 ;
 ; Messaggi -----------------------------
 ;
 trovati = Trovati
+trovate = Trovate
 pazienti = Pazienti
+visite = Visite
 trovato = Trovato
+trovata = Trovata
 paziente = Paziente
+visita = Visita
 norisultati = La ricerca non ha prodotto risultati
 creaPazienteOk = Paziente creato con successo
 creaPazienteKo = Errore inserimento dati paziente
@@ -124,4 +135,9 @@ dentiSingoli = Denti Singoli
 gruppiDenti = Gruppi di Denti
 cureGeneriche = Cure Generiche
 codice = Codice
+dente = Dente
 descrizioneLavoro = Descrizione lavoro
+vociListinoPaziente = Voci Listino Paziente
+idvisita = ID
+datainserimento = Inserita il 
+statovisita = Stato

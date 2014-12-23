@@ -1,0 +1,40 @@
+<body>
+
+<div id="body">
+	<div id="main">
+		<h2>%ml.ricercaVisita%</h2>
+		<table class="ricerca">
+			<tbody>
+				<tr>
+					<td>%ml.cognome% :</td>
+					<td><strong>%cognome%</strong></td>
+				</tr>
+				<tr>
+					<td>%ml.nome% :</td>
+					<td><strong>%nome%</strong></td>
+				</tr>
+				<tr>
+					<td>%ml.dataNasc% :</td>
+					<td><strong>%datanascita%</strong></td>
+				</tr>
+			</tbody>
+		</table>
+		<br/>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="../paziente/creaVisitaFacade.class.php?modo=start">
+						<button id="buttonCrea" class="button" title="%ml.nuovoTip%" >%ml.nuovo%</button>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+					</form>
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../paziente/ricercaPazienteFacade.class.php?modo=go" >
+						<button class="button" title="Torna alla funzione precedente" %azione% >%ml.indietro%</button>
+						<input type="hidden" name="cognome" value="%cognomeRicerca%"/>
+					</form>
+				</td>
+			</tr>
+		</table>

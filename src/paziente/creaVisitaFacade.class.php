@@ -5,15 +5,25 @@ require_once 'creaVisita.class.php';
 
 $creaVisita = new creaVisita();
 
-$creaVisita->setIdPaziente($_GET['idPaziente']);
-$creaVisita->setIdListino($_GET['idListino']);
+$method = $_SERVER['REQUEST_METHOD'];
+
+switch ($method) {
+	case 'GET':
+		$creaVisita->setIdPaziente($_GET['idPaziente']);
+		$creaVisita->setIdListino($_GET['idListino']);
+		$creaVisita->setCognomeRicerca($_GET['cognRic']);
+		break;
+	case 'POST':
+		$creaVisita->setIdPaziente($_POST['idPaziente']);
+		$creaVisita->setIdListino($_POST['idListino']);
+		$creaVisita->setCognomeRicerca($_POST['cognRic']);
+		break;
+	default:
+		error_log("ERRORE: tipo di chiamata REST non previsto!!");
+		break;
+}
 
 if ($_GET['modo'] == "start") $creaVisita->start();
-if ($_GET['modo'] == "go") {
-	
-	if ($_GET['tipo'] == "singoli") $creaVisita->goSingoli();
-	if ($_GET['tipo'] == "gruppi") $creaVisita->goGruppi();
-	if ($_GET['tipo'] == "cure") $creaVisita->goCure();
-}
+if ($_GET['modo'] == "go") $creaVisita->go();
 
 ?>

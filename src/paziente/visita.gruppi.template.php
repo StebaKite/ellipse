@@ -20,7 +20,20 @@ class visita {
 	private static $visita;
 	private static $esitoControlliLogici;
 	
-	private static $dentiSingoli;	
+	private static $dentiSingoli;
+	
+	private static $voceGruppo_1;
+	private static $dentiGruppo_1;
+	
+	private static $voceGruppo_2;
+	private static $dentiGruppo_2;
+	
+	private static $voceGruppo_3;
+	private static $dentiGruppo_3;
+	
+	private static $voceGruppo_4;
+	private static $dentiGruppo_4;
+	
 	private static $riepilogoDentiSingoli;
 
 	
@@ -75,6 +88,32 @@ class visita {
 	public function setDentiSingoli($dentiSingoli) {
 		self::$dentiSingoli = $dentiSingoli;
 	}
+	public function setDentiGruppo_1($dentiGruppo_1) {
+		self::$dentiGruppo_1 = $dentiGruppo_1;
+	}
+	public function setDentiGruppo_2($dentiGruppo_2) {
+		self::$dentiGruppo_2 = $dentiGruppo_2;
+	}
+	public function setDentiGruppo_3($dentiGruppo_3) {
+		self::$dentiGruppo_3 = $dentiGruppo_3;
+	}
+	public function setDentiGruppo_4($dentiGruppo_4) {
+		self::$dentiGruppo_4 = $dentiGruppo_4;
+	}
+	public function setVoceGruppo_1($voceGruppo_1) {
+		self::$voceGruppo_1 = $voceGruppo_1;
+	}
+	public function setVoceGruppo_2($voceGruppo_2) {
+		self::$voceGruppo_2 = $voceGruppo_2;
+	}
+	public function setVoceGruppo_3($voceGruppo_3) {
+		self::$voceGruppo_3 = $voceGruppo_3;
+	}
+	public function setVoceGruppo_4($voceGruppo_4) {
+		self::$voceGruppo_4 = $voceGruppo_4;
+	}
+
+
 	
 	// ----------------------------------------------------------------------------
 	// Getters --------------------------------------------------------------------
@@ -117,6 +156,30 @@ class visita {
 	}
 	public function getDentiSingoli() {
 		return self::$dentiSingoli;
+	}
+	public function getDentiGruppo_1() {
+		return self::$dentiGruppo_1;
+	}
+	public function getDentiGruppo_2() {
+		return self::$dentiGruppo_2;
+	}
+	public function getDentiGruppo_3() {
+		return self::$dentiGruppo_3;
+	}
+	public function getDentiGruppo_4() {
+		return self::$dentiGruppo_4;
+	}
+	public function getVoceGruppo_1() {
+		return self::$voceGruppo_1;
+	}
+	public function getVoceGruppo_2() {
+		return self::$voceGruppo_2;
+	}
+	public function getVoceGruppo_3() {
+		return self::$voceGruppo_3;
+	}
+	public function getVoceGruppo_4() {
+		return self::$voceGruppo_4;
 	}
 
 	// template ------------------------------------------------
@@ -293,7 +356,10 @@ class visita {
 		//-------------------------------------------------------------
 
 		$vociListino = "";			// per la form dei singoli
-		$vociListinoEsteso = "";	// per la tab di aiuto consultazione voci disponibili
+		$vociListinoGruppo_1 = "";	// per la form dei gruppi
+		$vociListinoGruppo_2 = "";	// per la form dei gruppi
+		$vociListinoGruppo_3 = "";	// per la form dei gruppi
+		$vociListinoGruppo_4 = "";	// per la form dei gruppi
 		
 		$replace = array('%idlistino%' => $this->getIdListino());
 		
@@ -304,8 +370,7 @@ class visita {
 		$rows = pg_fetch_all($result);
 		
 		foreach ($rows as $cod) {
-			$vociListino .= '"' . $cod['codicevocelistino'] . '",';			
-			$vociListinoEsteso .= "<tr><td>" . $cod['codicevocelistino'] . "</td><td>" . $cod['descrizionevoce'] . "</td></tr>";
+			$vociListino .= '"' . $cod['codicevocelistino'] . '",';
 		}	
 
 		$replace = array(
@@ -317,7 +382,6 @@ class visita {
 			'%idPaziente%' => $this->getIdPaziente(),
 			'%idListino%' => $this->getIdListino(),
 			'%vociListino%' => $vociListino,
-			'%vociListinoEsteso%' => $vociListinoEsteso,
 			'%riepilogoDentiSingoli%' => $this->getRiepilogoDentiSingoli()
 		);
 
@@ -330,6 +394,31 @@ class visita {
 			$valore = $singoli[1];
 			$replace[$chiave] = $valore;
 		}
+		
+		// prepara form denti in gruppo 1 ---------------------------
+
+		foreach ($rows as $cod) {
+
+			error_log(trim($cod['codicevocelistino']) . " - " . trim($this->getVoceGruppo_1()));
+			 
+			if (trim($cod['codicevocelistino']) === trim($this->getVoceGruppo_1())) {
+				$vociListinoGruppo_1 .= "<option name='voceGruppo_1' value='" . $cod['codicevocelistino'] . "' selected >" . $cod['descrizionevoce'] . "</option>";
+			}
+			else {
+				$vociListinoGruppo_1 .= "<option name='voceGruppo_1' value='" . $cod['codicevocelistino'] . "' >" . $cod['descrizionevoce'] . "</option>";
+			}	
+		}
+
+		$dentiGruppo_1 = $this->getDentiGruppo_1();
+		
+		foreach ($dentiGruppo_1 as $dente) {
+			$chiave = '%' . $dente[0] . '_checked%';
+			if ($dente[1] == 'on') $valore = 'checked';
+			else $valore = '';
+			$replace[$chiave] = $valore;		
+		}		
+				
+
 
 		$utility = new utility();
 
