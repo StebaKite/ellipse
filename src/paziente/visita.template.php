@@ -1,28 +1,12 @@
 <?php
 
-class visita {
+require_once 'visitaPaziente.abstract.class.php';
+
+class visita extends visitaPazienteAbstract {
 	
-	private static $root;
 	private static $pagina = "/paziente/visita.form.html";
-	private static $queryVociListinoPaziente = "/paziente/ricercaVociListinoPaziente.sql";
-	
 	private static $azioneDentiSingoli;
-	private static $azioneGruppi;
-	private static $confermaTip;
-	private static $titoloPagina;
-	private static $messaggio;	
-
-	private static $cognomeRicerca;
-
-	private static $idPaziente;
-	private static $idListino;
-	private static $idVisita;
-	private static $visita;
-	private static $esitoControlliLogici;
-	
 	private static $dentiSingoli;	
-	private static $riepilogoDentiSingoli;
-
 	
 	//-----------------------------------------------------------------------------
 
@@ -33,87 +17,19 @@ class visita {
 		set_include_path($pathToInclude);		
 	}
 
-	//-----------------------------------------------------------------------------
 	// Setters --------------------------------------------------------------------
 	
 	public function setAzioneDentiSingoli($azioneDentiSingoli) {
 		self::$azioneDentiSingoli = $azioneDentiSingoli;
 	}
-	public function setAzioneGruppi($azioneGruppi) {
-		self::$azioneGruppi = $azioneGruppi;
-	}
-	public function setConfermaTip($tip) {
-		self::$confermaTip = $tip;
-	}
-	public function setTitoloPagina($titoloPagina) {
-		self::$titoloPagina = $titoloPagina;
-	}
-	public function setMessaggio($messaggio) {
-		self::$messaggio = $messaggio;
-	}
-	public function setIdPaziente($idPaziente) {
-		self::$idPaziente = $idPaziente;
-	}
-	public function setIdVisita($idVisita) {
-		self::$idVisita = $idVisita;
-	}
-	public function setIdListino($idListino) {
-		self::$idListino = $idListino;
-	}
-	public function setCognomeRicerca($cognomeRicerca) {
-		self::$cognomeRicerca = $cognomeRicerca;
-	}
-	public function setVisita($visita) {
-		self::$visita = $visita;
-	}
-	public function setEsitoControlloLogici($esito) {
-		self::$esitoControlliLogici = $esito;
-	}
-	public function setRiepilogoDentiSingoli($riepilogoDentiSingoli) {
-		self::$riepilogoDentiSingoli = $riepilogoDentiSingoli;
-	}
 	public function setDentiSingoli($dentiSingoli) {
 		self::$dentiSingoli = $dentiSingoli;
 	}
 	
-	// ----------------------------------------------------------------------------
 	// Getters --------------------------------------------------------------------
 
 	public function getAzioneDentiSingoli() {
 		return self::$azioneDentiSingoli;
-	}
-	public function getAzioneGruppi() {
-		return self::$azioneGruppi;
-	}
-	public function getConfermaTip() {
-		return self::$confermaTip;
-	}
-	public function getTitoloPagina() {
-		return self::$titoloPagina;
-	}
-	public function getMessaggio() {
-		return self::$messaggio;
-	}
-	public function getIdPaziente() {
-		return self::$idPaziente;
-	}
-	public function getIdListino() {
-		return self::$idListino;
-	}
-	public function getIdVisita() {
-		return self::$idVisita;
-	}
-	public function getCognomeRicerca() {
-		return self::$cognomeRicerca;
-	}
-	public function getVisita() {
-		return self::$visita;
-	}
-	public function getEsitoControlliLogici() {
-		return self::$esitoControlliLogici;
-	}
-	public function getRiepilogoDentiSingoli() {
-		return self::$riepilogoDentiSingoli;
 	}
 	public function getDentiSingoli() {
 		return self::$dentiSingoli;
@@ -122,8 +38,6 @@ class visita {
 	// template ------------------------------------------------
 
 	public function inizializzaPagina() {
-	
-		$this->setRiepilogoDentiSingoli("");
 
 		$dentiSingoli = array();
 
@@ -311,14 +225,12 @@ class visita {
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
 			'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
-			'%azioneGruppi%' => $this->getAzioneGruppi(),
 			'%confermaTip%' => $this->getConfermaTip(),
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),
 			'%idPaziente%' => $this->getIdPaziente(),
 			'%idListino%' => $this->getIdListino(),
 			'%vociListino%' => $vociListino,
-			'%vociListinoEsteso%' => $vociListinoEsteso,
-			'%riepilogoDentiSingoli%' => $this->getRiepilogoDentiSingoli()
+			'%vociListinoEsteso%' => $vociListinoEsteso
 		);
 
 		// prepara form denti singoli -----------------------------

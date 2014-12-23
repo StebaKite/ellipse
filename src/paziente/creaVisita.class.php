@@ -1,24 +1,11 @@
 <?php
 
-class creaVisita {
+require_once 'visitaPaziente.abstract.class.php';
 
-	private static $root;
-	private static $testata;
-	private static $piede;
-	private static $messaggioInfo;
-	private static $messaggioErrore;
+class creaVisita extends visitaPazienteAbstract {
+	
 	private static $singoliForm = "singoli";
 	private static $azioneDentiSingoli = "../paziente/creaVisitaFacade.class.php?modo=go";
-	private static $cognomeRicerca;
-	private static $idPaziente;
-	private static $idListino;
-	private static $idVisita;
-	private static $riepilogo = "/paziente/visita.riepilogoDentiSingoli.form.html";
-	private static $queryCreaVisita = "/paziente/creaVisita.sql";
-	private static $queryCreaVoceVisita = "/paziente/creaVoceVisita.sql";
-	private static $queryRicercaVisitaInCorso = "/paziente/ricercaVisitaIncorsoPaziente.sql";
-	private static $queryRicercaVoceVisitaInCorso = "/paziente/ricercaVoceVisitaIncorsoPaziente.sql";
-	private static $queryRiepilogoVociVisitaPaziente = "/paziente/riepilogoVociVisitaPaziente.sql";
 
 
 	function __construct() {
@@ -29,63 +16,12 @@ class creaVisita {
 	}
 
 	// ------------------------------------------------
-
-	public function setIdPaziente($idPaziente) {
-		self::$idPaziente = $idPaziente;
-	}
-	public function setIdListino($idListino) {
-		self::$idListino = $idListino;
-	}
-	public function setIdVisita($idVisita) {
-		self::$idVisita = $idVisita;
-	}
-	public function setCognomeRicerca($cognomeRicerca) {
-		self::$cognomeRicerca = $cognomeRicerca;
-	}
-	public function setTestata($testata) {
-		self::$testata = $testata;
-	}
-	public function setPiede($piede) {
-		self::$piede = $piede;
-	}
-	public function setMessaggioInfo($messaggioInfo) {
-		self::$messaggioInfo = $messaggioInfo;
-	}
-	public function setMessaggioErrore($messaggioErrore) {
-		self::$messaggioErrore = $messaggioErrore;
-	}
-
-	// ------------------------------------------------
 	
 	public function getAzioneDentiSingoli() {
 		return self::$azioneDentiSingoli;
 	}
-	public function getIdPaziente() {
-		return self::$idPaziente;
-	}
-	public function getIdListino() {
-		return self::$idListino;
-	}
-	public function getIdVisita() {
-		return self::$idVisita;
-	}
-	public function getCognomeRicerca() {
-		return self::$cognomeRicerca;
-	}
 	public function getSingoliForm() {
 		return self::$singoliForm;
-	}
-	public function getTestata() {
-		return self::$testata;
-	}
-	public function getPiede() {
-		return self::$piede;
-	}
-	public function getMessaggioInfo() {
-		return self::$messaggioInfo;
-	}
-	public function getMessaggioErrore() {
-		return self::$messaggioErrore;
 	}
 
 	// ------------------------------------------------
@@ -141,7 +77,7 @@ class creaVisita {
 		$visita = new visita();
 
 		$visita->setDentiSingoli($this->prelevaCampiFormSingoli());
-		$visita->setAzioneDentiSingoli($this->getAzioneDentiSingoli() . "&idPaziente=" . $this->getIdPaziente() . "&idListino=" . $this->getIdListino());
+		$visita->setAzioneDentiSingoli($this->getAzioneDentiSingoli());
 		$visita->setConfermaTip("%ml.confermaCreazioneVisita%");		
 
 		$visita->setIdListino($this->getIdListino());	
@@ -178,10 +114,6 @@ class creaVisita {
 		include($this->getPiede());		
 	}
 		
-	public function goSingoli($visita, $utility) {
-
-	}
-		
 	private function inserisciSingoli($visita) {
 
 		require_once 'database.class.php';
@@ -216,39 +148,6 @@ class creaVisita {
 		}		
 		return FALSE;
 	}
-	
-	private function creaVisita($db) {
-		
-		$utility = new utility();
-		$array = $utility->getConfig();
-
-		$replace = array('%idpaziente%' => $this->getIdPaziente());
-		
-		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVisita;
-		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
-		$result = $db->execSql($sql);
-
-		return $result;
-	}
-	
-	private function creaVoceVisita($db, $idVisitaUsato, $nomeForm, $nomeCampoForm, $codiceVoceListino) {
-		
-		$utility = new utility();
-		$array = $utility->getConfig();
-			
-		$replace = array(
-			'%nomeForm%' => trim($nomeForm), 
-			'%nomecampoform%' => trim($nomeCampoForm),
-			'%codicevocelistino%' => trim($codiceVoceListino),
-			'%idvisita%' => $idVisitaUsato
-		);
-		
-		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVoceVisita;
-		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
-		$result = $db->execSql($sql);
-
-		return $result;	
-	} 
 	
 	private function prelevaCampiFormSingoli() {
 		

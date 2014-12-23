@@ -11,10 +11,10 @@
 		<div class="tabs">
 			<ul>
 				<li><a href="#tabs-1">%ml.gruppiDenti%</a></li>
-				<li><a href="#tabs-2">%ml.vociListinoPaziente%</a></li>
+				<li><a href="#tabs-2">%ml.cureGeneriche%</a></li>
 			</ul>
 			
-			<div id="tabs-1">
+			<div id="tabs-2">
 
 				<form method="post" id="gruppi" action="%azione%" >
 					<table class="datiCreate">
@@ -142,7 +142,7 @@
 										</tr>				
 									</table>
 								</td>
-								<td style="padding-left: 40px;">
+								<td style="padding-left: 50px;">
 									<select class="selectmenu"> %vociListinoGruppo_2% </select>
 
 									<table class="result-alt">
@@ -266,7 +266,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td style="padding-top: 5px;">
+								<td style="padding-top: 20px;">
 									<select class="selectmenu"> %vociListinoGruppo_3% </select>
 
 									<table class="result-alt">
@@ -388,7 +388,7 @@
 										</tr>				
 									</table>
 								</td>
-								<td style="padding-left: 40px; padding-top: 5px;">
+								<td style="padding-left: 50px; padding-top: 20px;">
 									<select class="selectmenu"> %vociListinoGruppo_4% </select>
 
 									<table class="result-alt">
@@ -515,65 +515,62 @@
 						<tfoot>
 							<tr>
 								<td colspan="2" align="right" class="tooltip"><button class="button" title="%confermaTip%" >%ml.conferma%</button></td>
-								<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-								<input type="hidden" name="idListino" value="%idListino%"/>
-								<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
 							</tr>
 						</tfoot>							
 					</table>
 				</form>
 				
+				%riepilogoDentiSingoli%
+				
 			</div>
 			
-			<div id="tabs-2">
+			<div id="tabs-3">
 								
-				<p>Questa funzionalit&agrave; di creazione visita iniziale per gruppi di denti ti permette di creare fino a quattro gruppi di intervento.</p>
-				<p>Le voci che hai a disposizione sono quelle del listino asssegnato al paziente elencato qui sotto.</p>
-				<h2>Come si fa</h2>
-				<ul>
-					<li>Selezione la voce di intervento in uno dei quattro men&ugrave; a discesa</li>
-					<li>Sotto il men&ugrave; che hai selezionato trovi i denti sui quali fare l'intervento, seleziona quelli di interesse</li>
-					<li>Conferma la creazione col bottone "Conferma"</li>
-				</ul>
-
-				<table class="result-alt" id="resultTable">
+				<input type="checkbox" id="cura0" name="cura0"><label for="cura0">Cura0</label><br/>
+				<input type="checkbox" id="cura1" name="cura1"><label for="cura0">Cura1</label><br/>
+				<input type="checkbox" id="cura2" name="cura2"><label for="cura0">Cura2</label><br/>
+				<input type="checkbox" id="cura3" name="cura3"><label for="cura0">Cura3</label><br/>
+				<input type="checkbox" id="cura4" name="cura4"><label for="cura0">Cura4</label><br/>
+				<input type="checkbox" id="cura5" name="cura5"><label for="cura0">Cura5</label><br/>
+				<input type="checkbox" id="cura6" name="cura6"><label for="cura0">Cura6</label><br/>
+				<input type="checkbox" id="cura7" name="cura7"><label for="cura0">Cura7</label><br/>
+				<input type="checkbox" id="cura8" name="cura8"><label for="cura0">Cura8</label><br/>
+				<input type="checkbox" id="cura9" name="cura9"><label for="cura0">Cura9</label><br/>
+				
+				<table class="result-alt">
+					<h2 class="demoHeaders">Preventivo</h2>
 					<thead>
-						<th width="80">%ml.codice%</th>
-						<th width="700">%ml.descrizioneLavoro%</th>
+						<tr>
+							<th>Codice</th>
+							<th>Descrizione lavoro</th>
+							<th>Prezzo</th>
+							<th></th>
+						</tr>
 					</thead>
-					<tbody>%vociListinoEsteso%</tbody>
-				</table>			
-								
+					<tbody>
+						<tr>
+							<td width="50">OCL</td>
+							<td width="500">Otturazione composita</td>
+							<td width="100" align="right">500</td>
+							<td id="icons"><a class="tooltip" href="#.php?modo=start&idVocePreventivo=%idVocePreventivo%"><li class="ui-state-default ui-corner-all" title="Modifica"><span class="ui-icon ui-icon-pencil"></span></li></a></td>
+						</tr>
+						<tr>
+							<td width="50">OCL</td>
+							<td width="500">Otturazione composita</td>
+							<td width="100" align="right">500</td>
+							<td id="icons"><a class="tooltip" href="#.php?modo=start&idVocePreventivo=%idVocePreventivo%"><li class="ui-state-default ui-corner-all" title="Modifica"><span class="ui-icon ui-icon-pencil"></span></li></a></td>
+						</tr>
+						<tr>
+							<td width="50">OCL</td>
+							<td width="500">Otturazione composita</td>
+							<td width="100" align="right">500</td>
+							<td id="icons"><a class="tooltip" href="#.php?modo=start&idVocePreventivo=%idVocePreventivo%"><li class="ui-state-default ui-corner-all" title="Modifica"><span class="ui-icon ui-icon-pencil"></span></li></a></td>
+						</tr>
+					</tbody>
+				</table>	
+				
 			</div>
 		</div>
-		<table>
-			<tr>
-				<td>
-					<form class="tooltip" method="post" action="../paziente/creaVisitaFacade.class.php?modo=start" >
-						<button class="button" title="%ml.creaSingoli%" %azione% >%ml.dentiSingoli%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-					</form>		
-				</td>
-				<td>
-					<form class="tooltip" method="post" action="../paziente/creaVisitaCureFacade.class.php?modo=start" >
-						<button class="button" title="%ml.creaCure%" %azione% >%ml.cure%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-					</form>		
-				</td>
-				<td>
-					<form class="tooltip" method="post" action="../paziente/ricercaVisitaFacade.class.php?modo=start" >
-						<button class="button" title="%ml.funzPrec%" %azione% >%ml.indietro%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-					</form>		
-				</td>
-			</tr>
-		</table>
 					
 	</div>
 </div>

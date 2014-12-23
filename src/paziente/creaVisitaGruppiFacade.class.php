@@ -1,7 +1,7 @@
 <?php
 
 set_include_path('/var/www/html/ellipse/src/paziente:/var/www/html/ellipse/src/utility');
-require_once 'creaVisita.Gruppi.class.php';
+require_once 'creaVisita.gruppi.class.php';
 
 $creaVisitaGruppi = new creaVisitaGruppi();
 
@@ -23,7 +23,7 @@ switch ($method) {
 		break;
 }
 
-if ($_GET['modo'] == "start") $$creaVisitaGruppi->start();
-if ($_GET['modo'] == "go") $$creaVisitaGruppi->go();
+if ($_GET['modo'] == "start") $creaVisitaGruppi->start();
+if ($_GET['modo'] == "go") $creaVisitaGruppi->go();
 
 ?>

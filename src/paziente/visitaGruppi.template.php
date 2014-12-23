@@ -1,29 +1,18 @@
 <?php
 
-class visitaGruppi {
-	
-	private static $root;
-	private static $pagina = "/paziente/visitaGruppi.form.html";
-	private static $queryVociListinoPaziente = "/paziente/ricercaVociListinoPaziente.sql";
-	
-	private static $azione;
-	private static $confermaTip;
-	private static $titoloPagina;
-	private static $messaggio;	
+require_once 'visitaPaziente.abstract.class.php';
 
-	private static $cognomeRicerca;
-
-	private static $idPaziente;
-	private static $idListino;
-	private static $idVisita;
-	private static $visita;
-	private static $esitoControlliLogici;
+class visitaGruppi extends visitaPazienteAbstract {
 	
-	private static $dentiGruppo_1;
+	private static $pagina = "/paziente/visita.gruppi.form.html";
+	private static $voceGruppo_1;
+	private static $dentiGruppo_1;	
+	private static $voceGruppo_2;
 	private static $dentiGruppo_2;
+	private static $voceGruppo_3;
 	private static $dentiGruppo_3;
+	private static $voceGruppo_4;
 	private static $dentiGruppo_4;
-
 	
 	//-----------------------------------------------------------------------------
 
@@ -34,36 +23,8 @@ class visitaGruppi {
 		set_include_path($pathToInclude);		
 	}
 
-	//-----------------------------------------------------------------------------
 	// Setters --------------------------------------------------------------------
 	
-	public function setAzione($azione) {
-		self::$azione = $azione;
-	}
-	public function setConfermaTip($tip) {
-		self::$confermaTip = $tip;
-	}
-	public function setTitoloPagina($titoloPagina) {
-		self::$titoloPagina = $titoloPagina;
-	}
-	public function setMessaggio($messaggio) {
-		self::$messaggio = $messaggio;
-	}
-	public function setIdPaziente($idPaziente) {
-		self::$idPaziente = $idPaziente;
-	}
-	public function setIdVisita($idVisita) {
-		self::$idVisita = $idVisita;
-	}
-	public function setIdListino($idListino) {
-		self::$idListino = $idListino;
-	}
-	public function setCognomeRicerca($cognomeRicerca) {
-		self::$cognomeRicerca = $cognomeRicerca;
-	}
-	public function setVisita($visita) {
-		self::$visita = $visita;
-	}
 	public function setDentiGruppo_1($dentiGruppo_1) {
 		self::$dentiGruppo_1 = $dentiGruppo_1;
 	}
@@ -76,37 +37,21 @@ class visitaGruppi {
 	public function setDentiGruppo_4($dentiGruppo_4) {
 		self::$dentiGruppo_4 = $dentiGruppo_4;
 	}
+	public function setVoceGruppo_1($voceGruppo_1) {
+		self::$voceGruppo_1 = $voceGruppo_1;
+	}
+	public function setVoceGruppo_2($voceGruppo_2) {
+		self::$voceGruppo_2 = $voceGruppo_2;
+	}
+	public function setVoceGruppo_3($voceGruppo_3) {
+		self::$voceGruppo_3 = $voceGruppo_3;
+	}
+	public function setVoceGruppo_4($voceGruppo_4) {
+		self::$voceGruppo_4 = $voceGruppo_4;
+	}
 	
-	// ----------------------------------------------------------------------------
 	// Getters --------------------------------------------------------------------
 
-	public function getAzione() {
-		return self::$azione;
-	}
-	public function getConfermaTip() {
-		return self::$confermaTip;
-	}
-	public function getTitoloPagina() {
-		return self::$titoloPagina;
-	}
-	public function getMessaggio() {
-		return self::$messaggio;
-	}
-	public function getIdPaziente() {
-		return self::$idPaziente;
-	}
-	public function getIdListino() {
-		return self::$idListino;
-	}
-	public function getIdVisita() {
-		return self::$idVisita;
-	}
-	public function getCognomeRicerca() {
-		return self::$cognomeRicerca;
-	}
-	public function getVisita() {
-		return self::$visita;
-	}
 	public function getDentiGruppo_1() {
 		return self::$dentiGruppo_1;
 	}
@@ -118,6 +63,18 @@ class visitaGruppi {
 	}
 	public function getDentiGruppo_4() {
 		return self::$dentiGruppo_4;
+	}
+	public function getVoceGruppo_1() {
+		return self::$voceGruppo_1;
+	}
+	public function getVoceGruppo_2() {
+		return self::$voceGruppo_2;
+	}
+	public function getVoceGruppo_3() {
+		return self::$voceGruppo_3;
+	}
+	public function getVoceGruppo_4() {
+		return self::$voceGruppo_4;
 	}
 
 	// template ------------------------------------------------
@@ -212,62 +169,6 @@ class visitaGruppi {
 
 		$this->setDentiGruppo_4($dentiGruppo_4);		
 	}
-
-	public function controlliLogici() {
-		
-		require_once 'database.class.php';
-		require_once 'utility.class.php';
-
-		$esito = TRUE;
-		
-		// Template --------------------------------------------------------------
-
-		$visita = $this->getVisita();
-
-		$utility = new utility();
-		$db = new database();
-
-		//-------------------------------------------------------------
-		$array = $utility->getConfig();
-
-		$replace = array('%idlistino%' => $this->getIdListino());
-		error_log("Carica le voci del listino : " . $this->getIdListino());
-		
-		$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoPaziente;
-		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
-		$result = $db->getData($sql);
-		
-		$vociValide[] = "";
-		
-		while ($row = pg_fetch_row($result)) {			
-			$vociValide[trim($row[0])] = trim($row[0]);
-		}
-
-		// controllo esistenza delle voci immesse in pagina
-		// alla prima voce non esistente termina il controllo con un errore
-
-		$dentiSingoli = $this->getDentiSingoli();
-		$numElePagina = sizeof($dentiSingoli);
-		error_log("Elementi in pagina : " . $numElePagina);
-		
-		for ($i = 0; $i < $numElePagina; $i++) {
-		
-			if ($dentiSingoli[$i][1] != "") {
-
-				error_log("Cerco voce immessa : " . trim($dentiSingoli[$i][1]));
-				
-				if (array_key_exists(trim($dentiSingoli[$i][1]), $vociValide)) {
-					error_log("Voce " . trim($dentiSingoli[$i][1]) . " ok");
-				}
-				else {
-					$esito = FALSE;
-					error_log("Voce " . trim($dentiSingoli[$i][1]) . " non valida");
-					break;
-				}			
-			}
-		}		
-		return $esito;
-	}
 	
 	public function displayPagina() {
 
@@ -287,7 +188,6 @@ class visitaGruppi {
 
 		//-------------------------------------------------------------
 
-		$vociListino = "";			// per la form dei singoli
 		$vociListinoEsteso = "";	// per la tab di aiuto consultazione voci disponibili
 		
 		$replace = array('%idlistino%' => $this->getIdListino());
@@ -297,40 +197,64 @@ class visitaGruppi {
 		$result = $db->getData($sql);
 		
 		$rows = pg_fetch_all($result);
-		
-		foreach ($rows as $cod) {
-			$vociListino .= '"' . $cod['codicevocelistino'] . '",';			
-			$vociListinoEsteso .= "<tr><td>" . $cod['codicevocelistino'] . "</td><td>" . $cod['descrizionevoce'] . "</td></tr>";
-		}	
 
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
-			'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
-			'%azioneGruppi%' => $this->getAzioneGruppi(),
+			'%azione%' => $this->getAzione(),
 			'%confermaTip%' => $this->getConfermaTip(),
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),
 			'%idPaziente%' => $this->getIdPaziente(),
 			'%idListino%' => $this->getIdListino(),
-			'%vociListino%' => $vociListino,
-			'%vociListinoEsteso%' => $vociListinoEsteso,
-			'%riepilogoDentiSingoli%' => $this->getRiepilogoDentiSingoli()
+			'%vociListinoEsteso%' => $this->preparaListinoEsteso($rows),
+			'%vociListinoGruppo_1%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_1()),
+			'%vociListinoGruppo_2%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_2()),
+			'%vociListinoGruppo_3%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_3()),
+			'%vociListinoGruppo_4%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_4())
 		);
 
-		// prepara form denti singoli -----------------------------
-	
-		$dentiSingoli = $this->getDentiSingoli();
+		// qui non serve ma va bene per la modifica
+		$replace = $this->preparaCheckbox($this->getDentiGruppo_1(), $replace);
+		// -----------------------------------------
 
-		foreach ($dentiSingoli as $singoli) {
-			$chiave = '%' . $singoli[0] . '%';
-			$valore = $singoli[1];
-			$replace[$chiave] = $valore;
-		}
+		
 
 		$utility = new utility();
 
 		$template = $utility->tailFile($utility->getTemplate($form), $replace);
 		echo $utility->tailTemplate($template);
-	}		
-}	
+	}	
+	
+	private function preparaComboGruppo($rows, $voceGruppo) {
+		
+		foreach ($rows as $cod) {
+			 
+			if (trim($cod['codicevocelistino']) === trim($voceGruppo))
+				$vociCombo .= "<option value='" . $cod['codicevocelistino'] . "' selected >" . $cod['descrizionevoce'] . "</option>";
+			else
+				$vociCombo .= "<option value='" . $cod['codicevocelistino'] . "' >" . $cod['descrizionevoce'] . "</option>";
+		}
+		return $vociCombo;
+	}
+	
+	private function preparaListinoEsteso($Rows) {
+		
+		foreach ($rows as $cod) {
+			$vociListino .= "<tr><td>" . $cod['codicevocelistino'] . "</td><td>" . $cod['descrizionevoce'] . "</td></tr>";			
+		}		
+		return $vociListino;
+	}
+	
+	// qui non serve ma va bene per la modifica
+	private function preparaCheckbox($dentiGruppo, $replaceArray) {
 
+		foreach ($dentiGruppo as $dente) {
+			$chiave = '%' . $dente[0] . '_checked%';
+			if ($dente[1] == 'on') $valore = 'checked';
+			else $valore = '';
+			$replaceArray[$chiave] = $valore;		
+		}		
+		return $replaceArray;
+	}	
+	//----------------------------------------
+}
 ?>

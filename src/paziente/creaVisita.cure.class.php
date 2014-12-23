@@ -2,10 +2,10 @@
 
 require_once 'visitaPaziente.abstract.class.php';
 
-class creaVisitaGruppi extends visitaPazienteAbstract {
+class creaVisitaCure extends visitaPazienteAbstract {
 
-	public static $gruppiForm = "gruppi";
-	public static $azione = "../paziente/creaVisitaGruppiFacade.class.php?modo=go";
+	public static $cureForm = "cure";
+	public static $azione = "../paziente/creaVisitaCureFacade.class.php?modo=go";
 
 	function __construct() {
 		
@@ -14,17 +14,17 @@ class creaVisitaGruppi extends visitaPazienteAbstract {
 		set_include_path($pathToInclude);		
 	}
 
-	// ------------------------------------------------
+	// -------------------------------------------------
 	
-	public function getGruppiForm() {
-		return self::$gruppiForm;
+	public function getCureForm() {
+		return self::$cureForm;
 	}
 
 	// ------------------------------------------------
 
 	public function start() {
 
-		require_once 'visitaGruppi.template.php';
+		require_once 'visitaCure.template.php';
 		require_once 'utility.class.php';
 
 		// Template

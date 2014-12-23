@@ -24,6 +24,7 @@ confermaCancellazionePaziente = Cancella il paziente
 rinfrescaDettaglioPaziente = Rilegge i dati del paziente
 confermaCreazioneVisita = Crea la nuova visita
 funzPrec = Torna alla funzione precedente
+creaSingoli = Crea interventi su denti singoli
 creaGruppi = Crea interventi su gruppi di denti
 creaCure = Crea cure generiche su tutti i denti
 ;

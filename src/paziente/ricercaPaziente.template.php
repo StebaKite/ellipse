@@ -1,17 +1,16 @@
 <?php
 
-class ricercaPazienteTemplate {
+require_once 'gestionePaziente.abstract.class.php';
+
+class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 	
-	private static $root;
-	private static $filtri = "/paziente/ricercaPaziente.filtri.html";
-	private static $risultatiTesta = "/paziente/ricercaPaziente.risultati.testata.html";
-	private static $risultatiCorpo = "/paziente/ricercaPaziente.risultati.corpo.html";
-	private static $risultatiPiede = "/paziente/ricercaPaziente.risultati.piede.html";
-	private static $messaggioInfo = "/messaggioInfo.html";
-	private static $messaggioErrore = "/messaggioErrore.html";
+	public static $filtri = "/paziente/ricercaPaziente.filtri.html";
+	public static $risultatiTesta = "/paziente/ricercaPaziente.risultati.testata.html";
+	public static $risultatiCorpo = "/paziente/ricercaPaziente.risultati.corpo.html";
+	public static $risultatiPiede = "/paziente/ricercaPaziente.risultati.piede.html";
+	public static $messaggioInfo = "/messaggioInfo.html";
+	public static $messaggioErrore = "/messaggioErrore.html";
 	
-	private static $azione;
-	private static $testoAzione;
 
 	private static $cognome;
 	private static $cognomeStyle;	
@@ -32,12 +31,7 @@ class ricercaPazienteTemplate {
 	}
 		
 	// Setters ---------------------------------
-	public function setAzione($azione) {
-		self::$azione = $azione;
-	}
-	public function setTestoAzione($testoAzione) {
-		self::$testoAzione = $testoAzione;
-	}	
+	
 	public function setCognome($cognome) {
 		self::$cognome = $cognome;	
 	}
@@ -61,12 +55,7 @@ class ricercaPazienteTemplate {
 	}
 		
 	// Getters --------------------------------
-	public function getAzione() {
-		return self::$azione;
-	}
-	public function getTestoAzione() {
-		return self::$testoAzione;
-	}
+
 	public function getCognome() {
 		return self::$cognome;
 	}

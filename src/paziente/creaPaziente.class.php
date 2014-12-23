@@ -1,9 +1,9 @@
 <?php
 
-class creaPaziente {
+require_once 'gestionePaziente.abstract.class.php';
 
-	private static $root;
-	private static $cognomeRicerca;
+class creaPaziente extends gestionePazienteAbstract {
+
 	private static $azione = "../paziente/creaPazienteFacade.class.php?modo=go";
 
 	function __construct() {
@@ -13,12 +13,6 @@ class creaPaziente {
 		set_include_path($pathToInclude);		
 	}
 
-	public function setCognomeRicerca($cognomeRicerca) {
-		self::$cognomeRicerca = $cognomeRicerca;
-	}
-	public function getCognomeRicerca() {
-		return self::$cognomeRicerca;
-	}
 	public function getAzione() {
 		return self::$azione;
 	}
