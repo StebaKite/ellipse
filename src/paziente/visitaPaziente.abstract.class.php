@@ -12,11 +12,14 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public static $titoloPagina;
 
 	public static $visita;
+	public static $visitaCure;
 	public static $esitoControlliLogici;
+	public static $cureGeneriche;
 
 	public static $queryCreaVisita = "/paziente/creaVisita.sql";
 	public static $queryCreaVoceVisita = "/paziente/creaVoceVisita.sql";
 	public static $queryVociListinoPaziente = "/paziente/ricercaVociListinoPaziente.sql";
+	public static $queryVociGenericheListinoPaziente = "/paziente/ricercaVociGenericheListinoPaziente.sql";
 	
 	// ------------------------------------------------
 
@@ -35,6 +38,9 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public function setVisita($visita) {
 		self::$visita = $visita;
 	}
+	public function setVisitaCure($visitaCure) {
+		self::$visitaCure = $visitaCure;
+	}
 	public function setEsitoControlloLogici($esito) {
 		self::$esitoControlliLogici = $esito;
 	}
@@ -43,6 +49,9 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	}
 	public function setTitoloPagina($titoloPagina) {
 		self::$titoloPagina = $titoloPagina;
+	}
+	public function setCureGeneriche($cureGeneriche) {
+		self::$cureGeneriche = $cureGeneriche;
 	}
 	
 	// ------------------------------------------------
@@ -62,6 +71,9 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public function getVisita() {
 		return self::$visita;
 	}
+	public function getVisitaCure() {
+		return self::$visitaCure;
+	}
 	public function getEsitoControlliLogici() {
 		return self::$esitoControlliLogici;
 	}
@@ -70,6 +82,9 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	}
 	public function getTitoloPagina() {
 		return self::$titoloPagina;
+	}
+	public function getCureGeneriche() {
+		return self::$cureGeneriche;
 	}
 
 	// ------------------------------------------------

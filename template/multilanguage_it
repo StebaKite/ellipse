@@ -17,6 +17,7 @@ cure = Cure Generiche
 ;
 ; Tips ---------------------------------
 ;
+selezionare = Selezionare
 cercaTip = Avvia la ricerca del paziente
 nuovoTip = Crea un nuovo paziente
 confermaCreazionePaziente = Crea il nuovo paziente
@@ -60,6 +61,7 @@ canPazienteOk = Paziente cancellato con successo
 canPazienteKo = Errore cancellazione paziente
 creaVisitaOk = Visita iniziale creata con successo
 creaVisitaKo = Errore creazione visita iniziale
+noVociGen = Voci cure generiche mancanti
 ;
 ; Campi form ---------------------------
 ;
