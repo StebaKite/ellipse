@@ -83,6 +83,9 @@ class visitaCure extends visitaPazienteAbstract {
 
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
+			'%cognome%' => $this->getCognome(),
+			'%nome%' => $this->getNome(),
+			'%datanascita%' => $this->getDataNascita(),
 			'%azione%' => $this->getAzione(),
 			'%confermaTip%' => $this->getConfermaTip(),
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),

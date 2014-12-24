@@ -14,6 +14,7 @@ prod = Prod
 test = Test
 gruppi = Gruppi di Denti
 cure = Cure Generiche
+preventiva = Preventiva
 ;
 ; Tips ---------------------------------
 ;
@@ -28,6 +29,7 @@ funzPrec = Torna alla funzione precedente
 creaSingoli = Crea interventi su denti singoli
 creaGruppi = Crea interventi su gruppi di denti
 creaCure = Crea cure generiche su tutti i denti
+preventivaVisita = Crea un preventivo sulla base delle voci inserite nella visita
 ;
 ; Funzioni -----------------------------
 ;
@@ -36,8 +38,11 @@ ricercaPaziente = Ricerca Paziente
 modificaPaziente = Modifica Paziente
 modificaConfig = Configurazioni di Sistema
 cancellaPaziente = Cancella Paziente
-creaNuovaVisita = Crea Visita Iniziale
+creaNuovaVisitaDentiSingoli = Crea Visita Iniziale - Denti Singoli
+creaNuovaVisitaDentiGruppi = Crea Visita Iniziale - Gruppi di Denti
+creaNuovaVisitaCure = Crea Visita Iniziale - Cure Generiche
 ricercaVisita = Ricerca Visita Iniziale
+dettaglioVisita = Dettaglio Visita Iniziale
 ;
 ; Messaggi -----------------------------
 ;
@@ -141,6 +146,6 @@ codice = Codice
 dente = Dente
 descrizioneLavoro = Descrizione lavoro
 vociListinoPaziente = Voci Listino Paziente
-idvisita = ID
+idvisita = ID Visita
 datainserimento = Inserita il 
 statovisita = Stato

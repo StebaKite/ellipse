@@ -43,13 +43,12 @@ class creaVisita extends visitaPazienteAbstract {
 		$visita = new visita();		
 		$visita->setIdPaziente($this->getIdPaziente());
 		$visita->setIdListino($this->getIdListino());
-		$visita->setTitoloPagina('%ml.creaNuovaVisita%');
 		$visita->setCognomeRicerca($this->getCognomeRicerca());
 					
 		$visita->setAzioneDentiSingoli($this->getAzioneDentiSingoli());
 		$visita->setConfermaTip("%ml.confermaCreazioneVisita%");		
 				
-		$visita->setTitoloPagina("%ml.creaNuovaVisita%");
+		$visita->setTitoloPagina("%ml.creaNuovaVisitaDentiSingoli%");
 		$visita->setVisita($visita);		
 
 		// Compone la pagina

@@ -1,0 +1,59 @@
+<body>
+	
+<div id="body">
+	<div id="main">
+		<form method="post" action="%azione%" >
+			<h2>%titoloPagina%</h2>
+			<table class="ricerca">
+				<tbody>
+					<tr>
+						<td>%ml.paziente% :</td> <td><strong>%cognome% %nome%</strong></td>
+						<td>%ml.dataNasc% :</td> <td><strong>%datanascita%</strong></td>
+					</tr>
+					<tr>
+						<td>%ml.idvisita% :</td> <td><strong>%idvisita%</strong></td>
+						<td>%ml.datainserimento% :</td> <td><strong>%datainserimento%</strong></td>
+					</tr>
+					<tr>
+						<td>%ml.statovisita% :</td> <td><strong>%stato%</strong></td>						
+					</tr>
+				</tbody>
+			</table>
+			<br/>
+			<table class="result">
+				<thead>
+					<tr>
+						<th width="50">%ml.codice%</th>
+						<th width="80">%ml.dente%</th>
+						<th width="700">%ml.descrizioneLavoro%</th>
+					</tr>
+				</thead>
+				<tbody>
+					%riepilogoVociVisita%
+				</tbody>
+			</table>	
+		</form>
+		<br/>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="../paziente/preventivaVisitaFacade.class.php?modo=start" >
+						<button class="button" title="%ml.preventivaVisita%" %azione% >%ml.preventiva%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../paziente/ricercaVisitaFacade.class.php?modo=start" >
+						<button class="button" title="%ml.funzPrec%" %azione% >%ml.indietro%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+					</form>		
+				</td>
+			</tr>
+		</table>			
+	</div>
+</div>
+<br/>

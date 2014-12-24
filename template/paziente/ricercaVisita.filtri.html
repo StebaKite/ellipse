@@ -6,14 +6,8 @@
 		<table class="ricerca">
 			<tbody>
 				<tr>
-					<td>%ml.cognome% :</td>
-					<td><strong>%cognome%</strong></td>
-				</tr>
-				<tr>
-					<td>%ml.nome% :</td>
-					<td><strong>%nome%</strong></td>
-				</tr>
-				<tr>
+					<td>%ml.paziente% :</td>
+					<td><strong>%cognome% %nome%</strong></td>
 					<td>%ml.dataNasc% :</td>
 					<td><strong>%datanascita%</strong></td>
 				</tr>
@@ -28,6 +22,9 @@
 						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
 						<input type="hidden" name="idListino" value="%idListino%"/>
 						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
 					</form>
 				</td>
 				<td>

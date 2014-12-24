@@ -12,11 +12,17 @@ switch ($method) {
 		$creaVisita->setIdPaziente($_GET['idPaziente']);
 		$creaVisita->setIdListino($_GET['idListino']);
 		$creaVisita->setCognomeRicerca($_GET['cognRic']);
+		$creaVisita->setCognome($_GET['cognome']);
+		$creaVisita->setNome($_GET['nome']);
+		$creaVisita->setDataNascita($_GET['datanascita']);
 		break;
 	case 'POST':
 		$creaVisita->setIdPaziente($_POST['idPaziente']);
 		$creaVisita->setIdListino($_POST['idListino']);
 		$creaVisita->setCognomeRicerca($_POST['cognRic']);
+		$creaVisita->setCognome($_POST['cognome']);
+		$creaVisita->setNome($_POST['nome']);
+		$creaVisita->setDataNascita($_POST['datanascita']);
 		break;
 	default:
 		error_log("ERRORE: tipo di chiamata REST non previsto!!");

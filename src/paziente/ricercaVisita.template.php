@@ -132,6 +132,11 @@ class ricercaVisitaTemplate {
 		$this->setVisite(pg_fetch_all($visiteTrovate));
 
 		foreach($this->getVisite() as $row) {
+			
+			$this->setCognome($row['cognome']);
+			$this->setNome($row['nome']);
+			$this->setDataNascita($row['datanascita']);
+			
 			$replace = array(
 				'%idPaziente%' => $row['idpaziente'],
 				'%idListino%' => $row['idlistino'],
@@ -217,6 +222,11 @@ class ricercaVisitaTemplate {
 				$replace = array(
 					'%class%' => $class,
 					'%idvisita%' => stripslashes($row['idvisita']),
+					'%idpaziente%' => stripslashes($row['idpaziente']),
+					'%cognome%' => $this->getCognome(),
+					'%nome%' => $this->getNome(),
+					'%datanascita%' => $this->getDataNascita(),
+					'%cognomeRicerca%' => $this->getCognomeRicerca(),
 					'%datainserimento%' => stripslashes($row['datainserimento']),
 					'%stato%' => stripslashes($row['stato'])
 				);

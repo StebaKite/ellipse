@@ -11,6 +11,12 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public static $confermaTip;
 	public static $titoloPagina;
 
+	public static $cognome;
+	public static $nome;
+	public static $dataNascita;
+	public static $dataInserimento;
+	public static $stato;
+
 	public static $visita;
 	public static $visitaCure;
 	public static $esitoControlliLogici;
@@ -20,6 +26,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public static $queryCreaVoceVisita = "/paziente/creaVoceVisita.sql";
 	public static $queryVociListinoPaziente = "/paziente/ricercaVociListinoPaziente.sql";
 	public static $queryVociGenericheListinoPaziente = "/paziente/ricercaVociGenericheListinoPaziente.sql";
+	public static $queryRiepilogoVociVisitaPaziente = "/paziente/riepilogoVociVisitaPaziente.sql";
 	
 	// ------------------------------------------------
 
@@ -53,6 +60,21 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public function setCureGeneriche($cureGeneriche) {
 		self::$cureGeneriche = $cureGeneriche;
 	}
+	public function setCognome($cognome) {
+		self::$cognome = $cognome;
+	}
+	public function setNome($nome) {
+		self::$nome = $nome;
+	}
+	public function setDataNascita($dataNascita) {
+		self::$dataNascita = $dataNascita;
+	}
+	public function setDataInserimento($dataInserimento) {
+		self::$dataInserimento = $dataInserimento;
+	}
+	public function setStato($stato) {
+		self::$stato = $stato;
+	}
 	
 	// ------------------------------------------------
 	
@@ -85,6 +107,21 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	}
 	public function getCureGeneriche() {
 		return self::$cureGeneriche;
+	}
+	public function getCognome() {
+		return self::$cognome;
+	}
+	public function getNome() {
+		return self::$nome;
+	}
+	public function getDataNascita() {
+		return self::$dataNascita;
+	}
+	public function getDataInserimento() {
+		return self::$dataInserimento;
+	}
+	public function getStato() {
+		return self::$stato;
 	}
 
 	// ------------------------------------------------

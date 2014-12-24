@@ -41,11 +41,11 @@ class creaVisitaGruppi extends visitaPazienteAbstract {
 		$visitaGruppi->setIdListino($this->getIdListino());
 		$visitaGruppi->setTitoloPagina('%ml.creaNuovaVisita%');
 				
-		$visitaGruppi->setAzione($this->getAzione());
+		$visitaGruppi->setAzione(self::$azione);
 		$visitaGruppi->setConfermaTip("%ml.confermaCreazioneVisita%");		
 				
-		$visitaGruppi->setTitoloPagina("%ml.creaNuovaVisita%");
-		$visitaGruppi->setVisita($visita);		
+		$visitaGruppi->setTitoloPagina("%ml.creaNuovaVisitaDentiGruppi%");
+		$visitaGruppi->setVisita($visitaGruppi);		
 
 		// Compone la pagina
 		include($testata);

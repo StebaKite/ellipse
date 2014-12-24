@@ -1,13 +1,10 @@
 <?php
 
-class ricercaVisita {
+require_once 'visitaPaziente.abstract.class.php';
 
-	private static $root;
+class ricercaVisita  extends visitaPazienteAbstract {
 
 	private static $messaggio;
-	private static $cognomeRicerca;
-	private static $idPaziente;
-	private static $idListino;
 	private static $queryRicercaVisitaPaziente = "/paziente/ricercaVisitaPaziente.sql";
 
 	function __construct() {
@@ -18,33 +15,16 @@ class ricercaVisita {
 	}
 
 	// Setters ---------------------------------
+	
 	public function setMessaggio($messaggio) {
 		self::$messaggio = $messaggio;
 	}
-	public function setCognomeRicerca($cognomeRicerca) {
-		self::$cognomeRicerca = $cognomeRicerca;
-	}
-	public function setIdPaziente($idPaziente) {
-		self::$idPaziente = $idPaziente;
-	}
-	public function setIdListino($idListino) {
-		self::$idListino = $idListino;
-	}
-	
+
 	// Getters --------------------------------
+
 	public function getMessaggio() {
 		return self::$messaggio;
 	}
-	public function getCognomeRicerca() {
-		return self::$cognomeRicerca;
-	}
-	public function getIdPaziente() {
-		return self::$idPaziente;
-	}
-	public function getIdListino() {
-		return self::$idListino;
-	}
-
 
 	public function start() {
 		

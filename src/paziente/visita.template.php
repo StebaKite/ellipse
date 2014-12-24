@@ -224,6 +224,9 @@ class visita extends visitaPazienteAbstract {
 
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
+			'%cognome%' => $this->getCognome(),
+			'%nome%' => $this->getNome(),
+			'%datanascita%' => $this->getDataNascita(),
 			'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
 			'%confermaTip%' => $this->getConfermaTip(),
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),

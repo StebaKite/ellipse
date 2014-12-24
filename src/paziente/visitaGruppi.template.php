@@ -200,6 +200,9 @@ class visitaGruppi extends visitaPazienteAbstract {
 
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
+			'%cognome%' => $this->getCognome(),
+			'%nome%' => $this->getNome(),
+			'%datanascita%' => $this->getDataNascita(),
 			'%azione%' => $this->getAzione(),
 			'%confermaTip%' => $this->getConfermaTip(),
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),
@@ -226,6 +229,8 @@ class visitaGruppi extends visitaPazienteAbstract {
 	
 	private function preparaComboGruppo($rows, $voceGruppo) {
 		
+		$vociCombo = "";
+		
 		foreach ($rows as $cod) {
 			 
 			if (trim($cod['codicevocelistino']) === trim($voceGruppo))
@@ -236,7 +241,9 @@ class visitaGruppi extends visitaPazienteAbstract {
 		return $vociCombo;
 	}
 	
-	private function preparaListinoEsteso($Rows) {
+	private function preparaListinoEsteso($rows) {
+		
+		$vociListino = "";
 		
 		foreach ($rows as $cod) {
 			$vociListino .= "<tr><td>" . $cod['codicevocelistino'] . "</td><td>" . $cod['descrizionevoce'] . "</td></tr>";			

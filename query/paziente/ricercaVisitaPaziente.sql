@@ -7,7 +7,10 @@ SELECT
   visita.idpaziente, 
   to_char(visita.datainserimento, 'DD/MM/YYYY') as datainserimento,
   to_char(visita.datamodifica, 'DD/MM/YYYY') as datamodifica,
-  visita.stato, 
+  case visita.stato
+	when '00' then 'In corso'
+	when '01' then 'Preventivata'
+  end as stato,
   visita.idvisita
   
 FROM paziente.paziente
@@ -16,4 +19,4 @@ FROM paziente.paziente
 	on visita.idpaziente = paziente.idpaziente
 
 WHERE paziente.idpaziente = %idpaziente%
-
+order by visita.idvisita desc

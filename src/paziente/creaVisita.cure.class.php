@@ -44,7 +44,7 @@ class creaVisitaCure extends visitaPazienteAbstract {
 		$visitaCure->setAzione(self::$azione);
 		$visitaCure->setConfermaTip("%ml.confermaCreazioneVisita%");		
 				
-		$visitaCure->setTitoloPagina("%ml.creaNuovaVisita%");
+		$visitaCure->setTitoloPagina("%ml.creaNuovaVisitaCure%");
 		$visitaCure->setVisitaCure($visitaCure);		
 
 		// Compone la pagina
