@@ -12,7 +12,7 @@
 			
 			<div id="tabs-1">
 
-				<form method="post" id="cure" action="%azione%" >
+				<form method="post" id="cure" action="%azioneCure%" >
 					<table class="datiCreate">
 						<tbody>
 							<tr>
@@ -60,10 +60,15 @@
 						</tbody>
 						<tfoot>
 							<tr>
-								<td colspan="2" align="right" class="tooltip"><button class="button" title="%confermaTip%" >%ml.conferma%</button></td>
-								<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-								<input type="hidden" name="idListino" value="%idListino%"/>
-								<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+								<td colspan="2" align="right" class="tooltip">
+									<button class="button" title="%confermaTip%" >%ml.conferma%</button>
+									<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+									<input type="hidden" name="idListino" value="%idListino%"/>
+									<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+									<input type="hidden" name="cognome" value="%cognome%"/>
+									<input type="hidden" name="nome" value="%nome%"/>
+									<input type="hidden" name="datanascita" value="%datanascita%"/>
+								</td>
 							</tr>
 						</tfoot>							
 					</table>
@@ -94,8 +99,8 @@
 		<table>
 			<tr>
 				<td>
-					<form class="tooltip" method="post" action="../paziente/creaVisitaFacade.class.php?modo=start" >
-						<button class="button" title="%ml.creaSingoli%" %azione% >%ml.dentiSingoli%</button>
+					<form class="tooltip" method="post" action="%azioneDentiSingoli%" >
+						<button class="button" title="%ml.singoliTip%">%ml.dentiSingoli%</button>
 						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
 						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
 						<input type="hidden" name="idListino" value="%idListino%"/>
@@ -105,8 +110,8 @@
 					</form>		
 				</td>
 				<td>
-					<form class="tooltip" method="post" action="../paziente/creaVisitaGruppiFacade.class.php?modo=start" >
-						<button class="button" title="%ml.creaGruppi%" %azione% >%ml.gruppi%</button>
+					<form class="tooltip" method="post" action="%azioneGruppi%" >
+						<button class="button" title="%gruppiTip%">%ml.gruppi%</button>
 						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
 						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
 						<input type="hidden" name="idListino" value="%idListino%"/>

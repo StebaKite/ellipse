@@ -4,7 +4,7 @@ require_once 'gestionePaziente.abstract.class.php';
 
 class creaPaziente extends gestionePazienteAbstract {
 
-	private static $azione = "../paziente/creaPazienteFacade.class.php?modo=go";
+	public static $azione = "../paziente/creaPazienteFacade.class.php?modo=go";
 
 	function __construct() {
 		

@@ -5,7 +5,9 @@ require_once 'visitaPaziente.abstract.class.php';
 class creaVisitaCure extends visitaPazienteAbstract {
 
 	public static $cureForm = "cure";
-	public static $azione = "../paziente/creaVisitaCureFacade.class.php?modo=go";
+	public static $azioneDentiSingoli = "../paziente/creaVisitaFacade.class.php?modo=start";
+	public static $azioneGruppi = "../paziente/creaVisitaGruppiFacade.class.php?modo=start";
+	public static $azioneCure = "../paziente/creaVisitaCureFacade.class.php?modo=go";
 
 	function __construct() {
 		
@@ -40,6 +42,14 @@ class creaVisitaCure extends visitaPazienteAbstract {
 		$visitaCure->setIdPaziente($this->getIdPaziente());
 		$visitaCure->setIdListino($this->getIdListino());
 		$visitaCure->setTitoloPagina('%ml.creaNuovaVisita%');
+
+		$visitaCure->setAzioneDentiSingoli(self::$azioneDentiSingoli);
+		$visitaCure->setAzioneGruppi(self::$azioneGruppi);
+		$visitaCure->setAzioneCure(self::$azioneCure);
+		
+		$visitaCure->setConfermaTip("%ml.confermaCreazioneVisita%");		
+		$visitaCure->setGruppiTip("%ml.creaGruppi%");		
+		$visitaCure->setCureTip("%ml.creaCure%");		
 				
 		$visitaCure->setAzione(self::$azione);
 		$visitaCure->setConfermaTip("%ml.confermaCreazioneVisita%");		
