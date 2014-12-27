@@ -3,12 +3,35 @@
 Class database {
 
 	private static $root;
+	private static $dblink;
+	private static $lastIdUsed;
+	private static $numrows;
 
 	function __construct() {
 		
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
 		$pathToInclude = self::$root . "/ellipse/src/paziente:" . self::$root . "/ellipse/src/utility";  
 		set_include_path($pathToInclude);		
+	}
+
+	public function getDbLink() {
+		return self::$dblink;
+	}
+	public function getLastIdUsed() {
+		return self::$lastIdUsed;
+	}
+	public function getNumrows() {
+		return self::$numrows;
+	}
+
+	public function setDbLink($dblink) {
+		self::$dblink = $dblink;
+	}
+	public function setLastIdUsed($lastIdUsed) {
+		self::$lastIdUsed = $lastIdUsed;
+	}
+	public function setNumrows($numrows) {
+		self::$numrows = $numrows;
 	}
 
 	public function getLink() {
@@ -29,11 +52,65 @@ Class database {
 
 	public function getData($sql) {
 
+		error_log("Eseguo la query : " . $sql);
 		$dblink = $this->getLink();
 		$result = pg_query($dblink, $sql);
 		pg_close($dblink); 
 		return $result;
-	}	
+	}
+	
+	public function beginTransaction() {
+
+		$dblink = $this->getLink();
+		$result = pg_query($dblink, "BEGIN");
+		
+		if ($result) {
+			error_log("BEGIN TRANSACTION");
+			$this->setDbLink($dblink);
+		}
+	}
+	
+	public function commitTransaction() {
+		
+		$result = pg_query($this->getDbLink(), "COMMIT");
+		
+		if ($result) {
+			error_log("COMMIT TRANSACTION");
+			pg_close($this->getDbLink()); 
+		}		
+	}
+	
+	public function rollbackTransaction() {
+	
+		$result = pg_query($this->getDbLink(), "ROLLBACK");
+		
+		if ($result) {
+			error_log("ROLLBACK TRANSACTION");
+			pg_close($this->getDbLink()); 
+		}		
+	}
+		
+	public function execSql($sql) {
+
+		if ($this->getDbLink() == null) {
+			error_log("Connessione DB mancante");
+			return FALSE;
+		}
+		else {
+			
+			// Esegue la query e se sulla INSERT e' impostata la clausola RETURNING, salva l'ID usato
+			// Salva il numero di righe risultato della query
+			
+			error_log("Eseguo la query : " . $sql);
+			$result = pg_query($this->getDbLink(), $sql);
+			
+			$row = pg_fetch_row($result);			
+			$this->setLastIdUsed($row['0']);
+			
+			$this->setNumrows(pg_num_rows($result));	
+			return $result;	
+		}
+	}
 }
 
 ?>

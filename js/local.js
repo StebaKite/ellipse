@@ -5,43 +5,11 @@ $( "#menu-accordion" ).accordion({
 
 var formatDateJQ="dd/mm/yy";
 
-var availableTags = [
-	"ActionScript",
-	"AppleScript",
-	"Asp",
-	"BASIC",
-	"C",
-	"C++",
-	"Clojure",
-	"COBOL",
-	"ColdFusion",
-	"Erlang",
-	"Fortran",
-	"Groovy",
-	"Haskell",
-	"Java",
-	"JavaScript",
-	"Lisp",
-	"Perl",
-	"PHP",
-	"Python",
-	"Ruby",
-	"Scala",
-	"Scheme"
-];
-$( "#autocomplete" ).autocomplete({
-	source: availableTags
-});
-
-
-
 $( ".button" ).button();
 $( ".radioset" ).buttonset();
 
 
-
-$( "#tabs" ).tabs();
-
+$( ".tabs" ).tabs({ width: 400 });
 
 
 $( "#dialog" ).dialog({
@@ -129,3 +97,8 @@ $( "#dialog-link, #icons li" ).hover(
 		$( this ).removeClass( "ui-state-hover" );
 	}
 );
+
+$( ".autocomplete" ).autocomplete({
+	source: vociListino
+});
+

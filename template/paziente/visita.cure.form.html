@@ -1,0 +1,133 @@
+<body>
+
+<div id="body">	
+	<div id="main">
+
+		<h2>%titoloPagina%</h2>
+		<div class="tabs">
+			<ul>
+				<li><a href="#tabs-1">%cognome% %nome% %datanascita%</a></li>
+				<li><a href="#tabs-2">%ml.vociListinoPaziente%</a></li>
+			</ul>
+			
+			<div id="tabs-1">
+
+				<form method="post" id="cure" action="%azione%" >
+					<table class="datiCreate">
+						<tbody>
+							<tr>
+								<td>
+									<select class="selectmenu" id="voceGenerica_1" name="voceGenerica_1">
+										<option value="">%ml.selezionare%</option>
+										 %voceGenerica_1%
+									</select>
+								</td>
+								<td style="padding-left: 40px;">
+									<select class="selectmenu" id="voceGenerica_2" name="voceGenerica_2">
+										<option value="">%ml.selezionare%</option>
+										%voceGenerica_2%
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td style="padding-top: 5px;">
+									<select class="selectmenu" id="voceGenerica_3" name="voceGenerica_3">
+										<option value="">%ml.selezionare%</option>
+										%voceGenerica_3%
+									</select>
+								</td>
+								<td style="padding-left: 40px; padding-top: 5px;">
+									<select class="selectmenu" id="voceGenerica_4" name="voceGenerica_4">
+										<option value="">%ml.selezionare%</option>
+										%voceGenerica_4%
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td style="padding-top: 5px;">
+									<select class="selectmenu" id="voceGenerica_5" name="voceGenerica_5">
+										<option value="">%ml.selezionare%</option>
+										%voceGenerica_5%
+									</select>
+								</td>
+								<td style="padding-left: 40px; padding-top: 5px;">
+									<select class="selectmenu" id="voceGenerica_6" name="voceGenerica_6">
+										<option value="">%ml.selezionare%</option>
+										%voceGenerica_6%
+									</select>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="2" align="right" class="tooltip"><button class="button" title="%confermaTip%" >%ml.conferma%</button></td>
+								<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+								<input type="hidden" name="idListino" value="%idListino%"/>
+								<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+							</tr>
+						</tfoot>							
+					</table>
+				</form>
+				
+			</div>
+			
+			<div id="tabs-2">
+								
+				<p>Questa funzionalit&agrave; di creazione visita iniziale con cure generiche ti permette di creare fino a sei tipi di cura generica.</p>
+				<p>Le voci che hai a disposizione sono quelle del listino asssegnato al paziente elencato qui sotto.</p>
+				<h2>Come si fa</h2>
+				<ul>
+					<li>Selezione la voce di intervento nel men&ugrave; a discesa</li>
+					<li>Conferma la creazione col bottone "Conferma"</li>
+				</ul>
+
+				<table class="result-alt" id="resultTable">
+					<thead>
+						<th width="80">%ml.codice%</th>
+						<th width="700">%ml.descrizioneLavoro%</th>
+					</thead>
+					<tbody>%vociListinoEsteso%</tbody>
+				</table>			
+								
+			</div>
+		</div>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="../paziente/creaVisitaFacade.class.php?modo=start" >
+						<button class="button" title="%ml.creaSingoli%" %azione% >%ml.dentiSingoli%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../paziente/creaVisitaGruppiFacade.class.php?modo=start" >
+						<button class="button" title="%ml.creaGruppi%" %azione% >%ml.gruppi%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../paziente/ricercaVisitaFacade.class.php?modo=start" >
+						<button class="button" title="%ml.funzPrec%" %azione% >%ml.indietro%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+			</tr>
+		</table>
+					
+	</div>
+</div>

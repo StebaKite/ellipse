@@ -1,17 +1,16 @@
 <?php
 
-class ricercaPazienteTemplate {
+require_once 'gestionePaziente.abstract.class.php';
+
+class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 	
-	private static $root;
-	private static $filtri = "/paziente/ricercaPaziente.filtri.html";
-	private static $risultatiTesta = "/paziente/ricercaPaziente.risultati.testata.html";
-	private static $risultatiCorpo = "/paziente/ricercaPaziente.risultati.corpo.html";
-	private static $risultatiPiede = "/paziente/ricercaPaziente.risultati.piede.html";
-	private static $messaggioInfo = "/messaggioInfo.html";
-	private static $messaggioErrore = "/messaggioErrore.html";
+	public static $filtri = "/paziente/ricercaPaziente.filtri.html";
+	public static $risultatiTesta = "/paziente/ricercaPaziente.risultati.testata.html";
+	public static $risultatiCorpo = "/paziente/ricercaPaziente.risultati.corpo.html";
+	public static $risultatiPiede = "/paziente/ricercaPaziente.risultati.piede.html";
+	public static $messaggioInfo = "/messaggioInfo.html";
+	public static $messaggioErrore = "/messaggioErrore.html";
 	
-	private static $azione;
-	private static $testoAzione;
 
 	private static $cognome;
 	private static $cognomeStyle;	
@@ -32,12 +31,7 @@ class ricercaPazienteTemplate {
 	}
 		
 	// Setters ---------------------------------
-	public function setAzione($azione) {
-		self::$azione = $azione;
-	}
-	public function setTestoAzione($testoAzione) {
-		self::$testoAzione = $testoAzione;
-	}	
+	
 	public function setCognome($cognome) {
 		self::$cognome = $cognome;	
 	}
@@ -61,12 +55,7 @@ class ricercaPazienteTemplate {
 	}
 		
 	// Getters --------------------------------
-	public function getAzione() {
-		return self::$azione;
-	}
-	public function getTestoAzione() {
-		return self::$testoAzione;
-	}
+
 	public function getCognome() {
 		return self::$cognome;
 	}
@@ -188,6 +177,7 @@ class ricercaPazienteTemplate {
 					}
 				}
 
+				// BOTTONE CANCELLA -----------------------------------------------
 				// nasconde il bottone cancella paziente se ha figli legati
 				// solo nel caso di paziente provvisorio compare il bottone anche se ha figli  (delete cascade su db)
 
@@ -197,6 +187,16 @@ class ricercaPazienteTemplate {
 					if (($row['numvisite'] > 0) or
 						($row['numpreventivi'] > 0) or
 						($row['numcartellecliniche'] > 0))  $bottoneCancella = "";
+				}
+
+				// BOTTONE VISITE -----------------------------------------------
+				// Se il paziente non ha visite il bottone fa atterrare sulla pagina di creazione nuova visita
+				// altrimenti atterra sull'elenco delle visite
+
+				$bottoneVisite = "<a class='tooltip' href='ricercaVisitaFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&cognRic=" . $this->getCognome() . "&cognome=" . stripslashes($row['cognome']) . "&nome=" . stripslashes($row['nome']) . "&datanascita=" . stripslashes($row['datanascita']) . "'><li class='ui-state-default ui-corner-all' title='Ricerca visita'><span class='ui-icon ui-icon-person'></span></li></a>";
+
+				if ($row['numvisite'] == 0) {
+					$bottoneVisite = "<a class='tooltip' href='creaVisitaFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&cognRic=" . $this->getCognome() . "&cognome=" . stripslashes($row['cognome']) . "&nome=" . stripslashes($row['nome']) . "&datanascita=" . stripslashes($row['datanascita']) . "'><li class='ui-state-default ui-corner-all' title='Crea una nuova visita'><span class='ui-icon ui-icon-person'></span></li></a>";
 				}
 
 				++$rowcounter;			
@@ -211,7 +211,8 @@ class ricercaPazienteTemplate {
 					'%numvisite%' => stripslashes($row['numvisite']),
 					'%numpreventivi%' => stripslashes($row['numpreventivi']),
 					'%numcartellecliniche%' => stripslashes($row['numcartellecliniche']),
-					'%bottoneCancella%' => $bottoneCancella
+					'%bottoneCancella%' => $bottoneCancella,
+					'%bottoneVisite%' => $bottoneVisite
 				);
 
 				$riga = $templateRiga;

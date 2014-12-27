@@ -28,6 +28,7 @@ class ricercaPaziente {
 	public function setCognomeRicerca($cognomeRicerca) {
 		self::$cognomeRicerca = $cognomeRicerca;
 	}
+	
 	// Getters --------------------------------
 	public function getMessaggio() {
 		return self::$messaggio;
@@ -88,7 +89,6 @@ class ricercaPaziente {
 			include($piede);
 		}	
 	}
-
 		
 	private function controlli() {
 	
@@ -118,7 +118,6 @@ class ricercaPaziente {
 		
 		$db = new database();
 		$result = $db->getData($sql);
-		error_log($sql);
 		
 		$ricercaPazienteTemplate->setNumeroPazientiTrovati(pg_num_rows($result));	
 		$ricercaPazienteTemplate->setPazientiTrovati($result);

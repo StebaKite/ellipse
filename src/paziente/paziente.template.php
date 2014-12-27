@@ -1,22 +1,13 @@
 <?php
 
-class paziente {
+require_once 'gestionePaziente.abstract.class.php';
+
+class paziente extends gestionePazienteAbstract {
 	
-	private static $root;
 	private static $pagina = "/paziente/paziente.form.html";
 	private static $totaliVisita = "/paziente/dettaglioPaziente.totali.visita.html";
 	private static $totaliPreventivo = "/paziente/dettaglioPaziente.totali.preventivo.html";
 	private static $totaliCartelle = "/paziente/dettaglioPaziente.totali.cartelle.html";
-	
-	private static $azione;
-	private static $confermaTip;
-	private static $titoloPagina;
-	private static $messaggio;	
-	private static $paginaProvenienza;
-	private static $cognomeRicerca;
-	private static $idPaziente;
-	private static $paziente;
-	private static $esitoControlliLogici;
 
 	private static $cognome;
 	private static $cognomeStyle;	
@@ -140,35 +131,10 @@ class paziente {
 		set_include_path($pathToInclude);		
 	}
 
-	//-----------------------------------------------------------------------------
 	// Setters --------------------------------------------------------------------
 	
-	public function setAzione($azione) {
-		self::$azione = $azione;
-	}
-	public function setConfermaTip($tip) {
-		self::$confermaTip = $tip;
-	}
-	public function setTitoloPagina($titoloPagina) {
-		self::$titoloPagina = $titoloPagina;
-	}
-	public function setMessaggio($messaggio) {
-		self::$messaggio = $messaggio;
-	}
-	public function setPaginaProvenienza($provenienza) {
-		self::$paginaProvenienza = $provenienza;
-	}
-	public function setCognomeRicerca($cognomeRicerca) {
-		self::$cognomeRicerca = $cognomeRicerca;
-	}
-	public function setIdPaziente($idPaziente) {
-		self::$idPaziente = $idPaziente;
-	}
 	public function setPaziente($paziente) {
 		self::$paziente = $paziente;
-	}
-	public function setEsitoControlloLogici($esito) {
-		self::$esitoControlliLogici = $esito;
 	}
 	//--------------------------------------------------
 	
@@ -488,35 +454,10 @@ class paziente {
 		self::$totaleCartelleChiuse = $totaleCartelleChiuse;	
 	}			
 	
-	// ----------------------------------------------------------------------------
 	// Getters --------------------------------------------------------------------
 
-	public function getAzione() {
-		return self::$azione;
-	}
-	public function getConfermaTip() {
-		return self::$confermaTip;
-	}
-	public function getTitoloPagina() {
-		return self::$titoloPagina;
-	}
-	public function getMessaggio() {
-		return self::$messaggio;
-	}
-	public function getPaginaProvenienza() {
-		return self::$paginaProvenienza;
-	}
-	public function getCognomeRicerca() {
-		return self::$cognomeRicerca;
-	}
-	public function getIdPaziente() {
-		return self::$idPaziente;
-	}
 	public function getPaziente() {
 		return self::$paziente;
-	}
-	public function getEsitoControlliLogici() {
-		return self::$esitoControlliLogici;
 	}
 
 	//--------------------------------------------------

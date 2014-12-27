@@ -12,14 +12,24 @@ nuovo = Nuovo
 cerca = Cerca
 prod = Prod
 test = Test
+gruppi = Gruppi di Denti
+cure = Cure Generiche
+preventiva = Preventiva
 ;
 ; Tips ---------------------------------
 ;
+selezionare = Selezionare
 cercaTip = Avvia la ricerca del paziente
 nuovoTip = Crea un nuovo paziente
 confermaCreazionePaziente = Crea il nuovo paziente
 confermaCancellazionePaziente = Cancella il paziente
 rinfrescaDettaglioPaziente = Rilegge i dati del paziente
+confermaCreazioneVisita = Crea la nuova visita
+funzPrec = Torna alla funzione precedente
+creaSingoli = Crea interventi su denti singoli
+creaGruppi = Crea interventi su gruppi di denti
+creaCure = Crea cure generiche su tutti i denti
+preventivaVisita = Crea un preventivo sulla base delle voci inserite nella visita
 ;
 ; Funzioni -----------------------------
 ;
@@ -28,13 +38,22 @@ ricercaPaziente = Ricerca Paziente
 modificaPaziente = Modifica Paziente
 modificaConfig = Configurazioni di Sistema
 cancellaPaziente = Cancella Paziente
+creaNuovaVisitaDentiSingoli = Crea Visita Iniziale - Denti Singoli
+creaNuovaVisitaDentiGruppi = Crea Visita Iniziale - Gruppi di Denti
+creaNuovaVisitaCure = Crea Visita Iniziale - Cure Generiche
+ricercaVisita = Ricerca Visita Iniziale
+dettaglioVisita = Dettaglio Visita Iniziale
 ;
 ; Messaggi -----------------------------
 ;
 trovati = Trovati
+trovate = Trovate
 pazienti = Pazienti
+visite = Visite
 trovato = Trovato
+trovata = Trovata
 paziente = Paziente
+visita = Visita
 norisultati = La ricerca non ha prodotto risultati
 creaPazienteOk = Paziente creato con successo
 creaPazienteKo = Errore inserimento dati paziente
@@ -45,6 +64,9 @@ modConfigOk = Configurazioni di sistema modificate con successo
 modConfigKo = Errore modifica configurazioni di sistema
 canPazienteOk = Paziente cancellato con successo
 canPazienteKo = Errore cancellazione paziente
+creaVisitaOk = Visita iniziale creata con successo
+creaVisitaKo = Errore creazione visita iniziale
+noVociGen = Voci cure generiche mancanti
 ;
 ; Campi form ---------------------------
 ;
@@ -115,3 +137,15 @@ numCartelleCliniche = Cart.
 dataNasc = Data Nascita
 azioni = Azioni
 attivita = Attivit&agrave; Relazionate
+;
+riepilogoVisita = Riepilogo lavori da effettuare
+dentiSingoli = Denti Singoli
+gruppiDenti = Gruppi di Denti
+cureGeneriche = Cure Generiche
+codice = Codice
+dente = Dente
+descrizioneLavoro = Descrizione lavoro
+vociListinoPaziente = Voci Listino Paziente
+idvisita = ID Visita
+datainserimento = Inserita il 
+statovisita = Stato

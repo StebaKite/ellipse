@@ -1,37 +1,17 @@
 <?php
 
-class modificaPaziente {
-	
-	private static $root;
+require_once 'gestionePaziente.abstract.class.php';
 
-	private static $idPaziente;
-	private static $cognomeRicerca;
-	private static $queryRicercaIdPaziente = "/paziente/ricercaIdPaziente.sql";	
-	private static $queryModificaPaziente = "/paziente/modificaPaziente.sql";	
-	private static $azione = "../paziente/modificaPazienteFacade.class.php?modo=go";
+class modificaPaziente extends gestionePazienteAbstract {
+	
+	public static $queryModificaPaziente = "/paziente/modificaPaziente.sql";	
+	public static $azione = "../paziente/modificaPazienteFacade.class.php?modo=go";
 
 	function __construct() {
 		
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
 		$pathToInclude = self::$root . "/ellipse/src/paziente:" . self::$root . "/ellipse/src/utility";  
 		set_include_path($pathToInclude);		
-	}
-
-	public function setIdPaziente($idPaziente) {
-		self::$idPaziente = $idPaziente;
-	}
-	public function setCognomeRicerca($cognomeRicerca) {
-		self::$cognomeRicerca = $cognomeRicerca;
-	}
-
-	public function getIdPaziente() {
-		return self::$idPaziente;
-	}
-	public function getCognomeRicerca() {
-		return self::$cognomeRicerca;
-	}
-	public function getAzione() {
-		return self::$azione;
 	}
 
 	public function start() {
