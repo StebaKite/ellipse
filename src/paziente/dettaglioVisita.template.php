@@ -59,7 +59,7 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 			if ($rowcounter % 2 == 0) $class = "class='on'";
 			else $class = "class=''";
 
-			$riepilogoVociVisita .= "<tr " . $class . "><td>" . $row['codicevocelistino'] . "</td><td>" . $row['nomecampoform'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
+			$riepilogoVociVisita .= "<tr " . $class . "><td>" . $row['nomeform'] . "</td><td>" . $row['nomecampoform'] . "</td><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
 			++$rowcounter;			
 		}	
 

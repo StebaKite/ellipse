@@ -1,8 +1,6 @@
 select
-	voce.codicevocelistino,
 	voce.nomecampoform,
-	voce.nomeform,
-	vocelistino.descrizionevoce
+	voce.codicevocelistino
 
 from paziente.visita as visita
 
@@ -18,5 +16,4 @@ from paziente.visita as visita
 	
 where paziente.idpaziente = %idpaziente%
   and visita.idvisita = %idvisita%
-  
-order by voce.nomeform, voce.nomecampoform  
+  and voce.nomeform = 'singoli'

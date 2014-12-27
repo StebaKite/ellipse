@@ -223,6 +223,7 @@ class ricercaVisitaTemplate {
 					'%class%' => $class,
 					'%idvisita%' => stripslashes($row['idvisita']),
 					'%idpaziente%' => stripslashes($row['idpaziente']),
+					'%idlistino%' => stripslashes($row['idlistino']),
 					'%cognome%' => $this->getCognome(),
 					'%nome%' => $this->getNome(),
 					'%datanascita%' => $this->getDataNascita(),

@@ -215,12 +215,6 @@ class visitaGruppi extends visitaPazienteAbstract {
 			'%vociListinoGruppo_4%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_4())
 		);
 
-		// qui non serve ma va bene per la modifica
-		$replace = $this->preparaCheckbox($this->getDentiGruppo_1(), $replace);
-		// -----------------------------------------
-
-		
-
 		$utility = new utility();
 
 		$template = $utility->tailFile($utility->getTemplate($form), $replace);
@@ -250,18 +244,5 @@ class visitaGruppi extends visitaPazienteAbstract {
 		}		
 		return $vociListino;
 	}
-	
-	// qui non serve ma va bene per la modifica
-	private function preparaCheckbox($dentiGruppo, $replaceArray) {
-
-		foreach ($dentiGruppo as $dente) {
-			$chiave = '%' . $dente[0] . '_checked%';
-			if ($dente[1] == 'on') $valore = 'checked';
-			else $valore = '';
-			$replaceArray[$chiave] = $valore;		
-		}		
-		return $replaceArray;
-	}	
-	//----------------------------------------
 }
 ?>

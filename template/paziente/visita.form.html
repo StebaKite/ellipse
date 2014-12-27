@@ -1,8 +1,16 @@
-<body>
+<body onload="impostaValori()">
 
 <script>
 	var vociListino = [%vociListino%];	
 </script>
+
+<script>
+	// questa function imposta le voci nella griglia per la modifica  ->  $('#SD_18_1').val("fgg");
+	function impostaValori() {	
+		%impostazioniVoci%		
+	}
+</script>
+
 	
 <div id="body">	
 	<div id="main">
@@ -10,7 +18,7 @@
 		<h2>%titoloPagina%</h2>
 		<div class="tabs">
 			<ul>
-				<li><a href="#tabs-1">%cognome% %nome% %datanascita%</a></li>
+				<li><a href="#tabs-1">%cognome% %nome% %datanascita% %visita% %idvisita%</a></li>
 				<li><a href="#tabs-2">%ml.vociListinoPaziente%</a></li>
 			</ul>
 			<div id="tabs-1">
@@ -298,10 +306,15 @@
 						</tbody>				
 						<tfoot>
 							<tr>
-								<td colspan="2" align="right" class="tooltip"><button class="button" title="%confermaTip%" >%ml.conferma%</button></td>
-								<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-								<input type="hidden" name="idListino" value="%idListino%"/>
-								<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+								<td colspan="2" align="right" class="tooltip">
+									<button class="button" title="%confermaTip%" >%ml.conferma%</button>
+									<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+									<input type="hidden" name="idListino" value="%idListino%"/>
+									<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+									<input type="hidden" name="cognome" value="%cognome%"/>
+									<input type="hidden" name="nome" value="%nome%"/>
+									<input type="hidden" name="datanascita" value="%datanascita%"/>
+								</td>
 							</tr>
 						</tfoot>
 					</table>
@@ -336,8 +349,8 @@
 		<table>
 			<tr>
 				<td>
-					<form class="tooltip" method="post" action="../paziente/creaVisitaGruppiFacade.class.php?modo=start" >
-						<button class="button" title="%ml.creaGruppi%" %azione% >%ml.gruppi%</button>
+					<form class="tooltip" method="post" action="%azioneGruppi%" >
+						<button class="button" title="%gruppiTip%">%ml.gruppi%</button>
 						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
 						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
 						<input type="hidden" name="idListino" value="%idListino%"/>
@@ -347,8 +360,8 @@
 					</form>		
 				</td>
 				<td>
-					<form class="tooltip" method="post" action="../paziente/creaVisitaCureFacade.class.php?modo=start" >
-						<button class="button" title="%ml.creaCure%" %azione% >%ml.cure%</button>
+					<form class="tooltip" method="post" action="%azioneCure%" >
+						<button class="button" title="%cureTip%">%ml.cure%</button>
 						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
 						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
 						<input type="hidden" name="idListino" value="%idListino%"/>
@@ -359,7 +372,7 @@
 				</td>
 				<td>
 					<form class="tooltip" method="post" action="../paziente/ricercaVisitaFacade.class.php?modo=start" >
-						<button class="button" title="%ml.funzPrec%" %azione% >%ml.indietro%</button>
+						<button class="button" title="%ml.funzPrec%">%ml.indietro%</button>
 						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
 						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
 						<input type="hidden" name="idListino" value="%idListino%"/>

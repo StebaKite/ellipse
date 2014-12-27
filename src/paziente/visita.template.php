@@ -5,8 +5,9 @@ require_once 'visitaPaziente.abstract.class.php';
 class visita extends visitaPazienteAbstract {
 	
 	private static $pagina = "/paziente/visita.form.html";
-	private static $azioneDentiSingoli;
+	
 	private static $dentiSingoli;	
+	private static $impostazioniVoci;
 	
 	//-----------------------------------------------------------------------------
 
@@ -19,118 +20,23 @@ class visita extends visitaPazienteAbstract {
 
 	// Setters --------------------------------------------------------------------
 	
-	public function setAzioneDentiSingoli($azioneDentiSingoli) {
-		self::$azioneDentiSingoli = $azioneDentiSingoli;
-	}
 	public function setDentiSingoli($dentiSingoli) {
 		self::$dentiSingoli = $dentiSingoli;
+	}
+	public function setImpostazioniVoci($impostazioniVoci) {
+		self::$impostazioniVoci = $impostazioniVoci;
 	}
 	
 	// Getters --------------------------------------------------------------------
 
-	public function getAzioneDentiSingoli() {
-		return self::$azioneDentiSingoli;
-	}
 	public function getDentiSingoli() {
 		return self::$dentiSingoli;
 	}
+	public function getImpostazioniVoci() {
+		return self::$impostazioniVoci;
+	}
 
 	// template ------------------------------------------------
-
-	public function inizializzaPagina() {
-
-		$dentiSingoli = array();
-
-		// arcata superiore destra (SD) ---------------------------------------------------------------------------------------------------------
-		
-		array_push($dentiSingoli, array('SD_18_1', ''), array('SD_17_1', ''), array('SD_16_1', ''));
-		array_push($dentiSingoli, array('SD_15_1', ''), array('SD_14_1', ''), array('SD_13_1', ''));
-		array_push($dentiSingoli, array('SD_12_1', ''), array('SD_11_1', ''));
-
-		array_push($dentiSingoli, array('SD_18_2', ''), array('SD_17_2', ''), array('SD_16_2', ''));
-		array_push($dentiSingoli, array('SD_15_2', ''), array('SD_14_2', ''), array('SD_13_2', ''));
-		array_push($dentiSingoli, array('SD_12_2', ''), array('SD_11_2', ''));
-
-		array_push($dentiSingoli, array('SD_18_3', ''), array('SD_17_3', ''), array('SD_16_3', ''));
-		array_push($dentiSingoli, array('SD_15_3', ''), array('SD_14_3', ''), array('SD_13_3', ''));
-		array_push($dentiSingoli, array('SD_12_3', ''), array('SD_11_3', ''));
-
-		array_push($dentiSingoli, array('SD_18_4', ''), array('SD_17_4', ''), array('SD_16_4', ''));
-		array_push($dentiSingoli, array('SD_15_4', ''), array('SD_14_4', ''), array('SD_13_4', ''));
-		array_push($dentiSingoli, array('SD_12_4', ''), array('SD_11_4', ''));
-
-		array_push($dentiSingoli, array('SD_18_5', ''), array('SD_17_5', ''), array('SD_16_5', ''));
-		array_push($dentiSingoli, array('SD_15_5', ''), array('SD_14_5', ''), array('SD_13_5', ''));
-		array_push($dentiSingoli, array('SD_12_5', ''), array('SD_11_5', ''));
-
-		// arcata superiore sinistra (SS) -------------------------------------------------------------------------------------------------------
-		
-		array_push($dentiSingoli, array('SS_21_1', ''), array('SS_22_1', ''), array('SS_23_1', ''));
-		array_push($dentiSingoli, array('SS_24_1', ''), array('SS_25_1', ''), array('SS_26_1', ''));
-		array_push($dentiSingoli, array('SS_27_1', ''), array('SS_28_1', ''));
-		
-		array_push($dentiSingoli, array('SS_21_2', ''), array('SS_22_2', ''), array('SS_23_2', ''));
-		array_push($dentiSingoli, array('SS_24_2', ''), array('SS_25_2', ''), array('SS_26_2', ''));
-		array_push($dentiSingoli, array('SS_27_2', ''), array('SS_28_2', ''));
-		
-		array_push($dentiSingoli, array('SS_21_3', ''), array('SS_22_3', ''), array('SS_23_3', ''));
-		array_push($dentiSingoli, array('SS_24_3', ''), array('SS_25_3', ''), array('SS_26_3', ''));
-		array_push($dentiSingoli, array('SS_27_3', ''), array('SS_28_3', ''));
-		
-		array_push($dentiSingoli, array('SS_21_4', ''), array('SS_22_4', ''), array('SS_23_4', ''));
-		array_push($dentiSingoli, array('SS_24_4', ''), array('SS_25_4', ''), array('SS_26_4', ''));
-		array_push($dentiSingoli, array('SS_27_4', ''), array('SS_28_4', ''));
-		
-		array_push($dentiSingoli, array('SS_21_5', ''), array('SS_22_5', ''), array('SS_23_5', ''));
-		array_push($dentiSingoli, array('SS_24_5', ''), array('SS_25_5', ''), array('SS_26_5', ''));
-		array_push($dentiSingoli, array('SS_27_5', ''), array('SS_28_5', ''));
-
-		// arcata inferiore destra (ID) -------------------------------------------------------------------------------------------------------
-		
-		array_push($dentiSingoli, array('ID_48_1', ''), array('ID_47_1', ''), array('ID_46_1', ''));
-		array_push($dentiSingoli, array('ID_45_1', ''), array('ID_44_1', ''), array('ID_43_1', ''));
-		array_push($dentiSingoli, array('ID_42_1', ''), array('ID_41_1', ''));
-		
-		array_push($dentiSingoli, array('ID_48_2', ''), array('ID_47_2', ''), array('ID_46_2', ''));
-		array_push($dentiSingoli, array('ID_45_2', ''), array('ID_44_2', ''), array('ID_43_2', ''));
-		array_push($dentiSingoli, array('ID_42_2', ''), array('ID_41_2', ''));
-		
-		array_push($dentiSingoli, array('ID_48_3', ''), array('ID_47_3', ''), array('ID_46_3', ''));
-		array_push($dentiSingoli, array('ID_45_3', ''), array('ID_44_3', ''), array('ID_43_3', ''));
-		array_push($dentiSingoli, array('ID_42_3', ''), array('ID_41_3', ''));
-		
-		array_push($dentiSingoli, array('ID_48_4', ''), array('ID_47_4', ''), array('ID_46_4', ''));
-		array_push($dentiSingoli, array('ID_45_4', ''), array('ID_44_4', ''), array('ID_43_4', ''));
-		array_push($dentiSingoli, array('ID_42_4', ''), array('ID_41_4', ''));
-		
-		array_push($dentiSingoli, array('ID_48_5', ''), array('ID_47_5', ''), array('ID_46_5', ''));
-		array_push($dentiSingoli, array('ID_45_5', ''), array('ID_44_5', ''), array('ID_43_5', ''));
-		array_push($dentiSingoli, array('ID_42_5', ''), array('ID_41_5', ''));
-
-		// arcata inferiore sinistra (IS) -------------------------------------------------------------------------------------------------------
-		
-		array_push($dentiSingoli, array('IS_31_1', ''), array('IS_32_1', ''), array('IS_33_1', ''));
-		array_push($dentiSingoli, array('IS_34_1', ''), array('IS_35_1', ''), array('IS_36_1', ''));
-		array_push($dentiSingoli, array('IS_37_1', ''), array('IS_38_1', ''));
-		
-		array_push($dentiSingoli, array('IS_31_2', ''), array('IS_32_2', ''), array('IS_33_2', ''));
-		array_push($dentiSingoli, array('IS_34_2', ''), array('IS_35_2', ''), array('IS_36_2', ''));
-		array_push($dentiSingoli, array('IS_37_2', ''), array('IS_38_2', ''));
-		
-		array_push($dentiSingoli, array('IS_31_3', ''), array('IS_32_3', ''), array('IS_33_3', ''));
-		array_push($dentiSingoli, array('IS_34_3', ''), array('IS_35_3', ''), array('IS_36_3', ''));
-		array_push($dentiSingoli, array('IS_37_3', ''), array('IS_38_3', ''));
-		
-		array_push($dentiSingoli, array('IS_31_4', ''), array('IS_32_4', ''), array('IS_33_4', ''));
-		array_push($dentiSingoli, array('IS_34_4', ''), array('IS_35_4', ''), array('IS_36_4', ''));
-		array_push($dentiSingoli, array('IS_37_4', ''), array('IS_38_4', ''));
-		
-		array_push($dentiSingoli, array('IS_31_5', ''), array('IS_32_5', ''), array('IS_33_5', ''));
-		array_push($dentiSingoli, array('IS_34_5', ''), array('IS_35_5', ''), array('IS_36_5', ''));
-		array_push($dentiSingoli, array('IS_37_5', ''), array('IS_38_5', ''));
-
-		$this->setDentiSingoli($dentiSingoli);
-	}
 
 	public function controlliLogici() {
 		
@@ -188,6 +94,39 @@ class visita extends visitaPazienteAbstract {
 		return $esito;
 	}
 	
+	public function impostaVoci() {
+
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		$db = new database();
+		$replace = array(
+			'%idpaziente%' => $this->getIdPaziente(),
+			'%idvisita%' => $this->getIdVisita()
+		);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryVociVisitaDentiSingoliPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->getData($sql);
+		
+		$vociInserite = pg_fetch_all($result);
+	
+		$impostazioniVoci = "";
+
+		//  jquery ->  $('#SD_18_1').val("fgg")
+
+		foreach ($vociInserite as $voce) {
+			$impostazioniVoci .= "$('#" . trim($voce['nomecampoform']) . "').val('" . trim($voce['codicevocelistino']) . "'); ";
+		}
+
+		$this->setImpostazioniVoci($impostazioniVoci);
+		error_log("Voci inserite caricate in pagina");
+		error_log("Listino: " . $this->getIdListino());
+	}
+	
 	public function displayPagina() {
 
 		require_once 'database.class.php';
@@ -206,7 +145,7 @@ class visita extends visitaPazienteAbstract {
 
 		//-------------------------------------------------------------
 
-		$vociListino = "";			// per la form dei singoli
+		$vociListino = "";
 		$vociListinoEsteso = "";	// per la tab di aiuto consultazione voci disponibili
 		
 		$replace = array('%idlistino%' => $this->getIdListino());
@@ -224,16 +163,23 @@ class visita extends visitaPazienteAbstract {
 
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
+			'%visita%' => $this->getVisitaLabel(),
 			'%cognome%' => $this->getCognome(),
 			'%nome%' => $this->getNome(),
 			'%datanascita%' => $this->getDataNascita(),
 			'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
+			'%azioneGruppi%' => $this->getAzioneGruppi(),
+			'%azioneCure%' => $this->getAzioneCure(),
 			'%confermaTip%' => $this->getConfermaTip(),
+			'%gruppiTip%' => $this->getGruppiTip(),
+			'%cureTip%' => $this->getCureTip(),
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),
 			'%idPaziente%' => $this->getIdPaziente(),
 			'%idListino%' => $this->getIdListino(),
+			'%idvisita%' => $this->getIdVisita(),
 			'%vociListino%' => $vociListino,
-			'%vociListinoEsteso%' => $vociListinoEsteso
+			'%vociListinoEsteso%' => $vociListinoEsteso,
+			'%impostazioniVoci%' => $this->getImpostazioniVoci()
 		);
 
 		// prepara form denti singoli -----------------------------
