@@ -22,7 +22,7 @@ class visitaGruppi extends visitaPazienteAbstract {
 		require_once 'database.class.php';
 		require_once 'utility.class.php';
 
-		$visita = $this->getVisita();
+		$visitaGruppi = $this->getVisita();
 
 		$utility = new utility();
 		$array = $utility->getConfig();
@@ -45,6 +45,7 @@ class visitaGruppi extends visitaPazienteAbstract {
 
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
+			'%visita%' => $this->getVisitaLabel(),
 			'%cognome%' => $this->getCognome(),
 			'%nome%' => $this->getNome(),
 			'%datanascita%' => $this->getDataNascita(),
@@ -52,47 +53,42 @@ class visitaGruppi extends visitaPazienteAbstract {
 			'%azioneGruppi%' => $this->getAzioneGruppi(),
 			'%azioneCure%' => $this->getAzioneCure(),
 			'%confermaTip%' => $this->getConfermaTip(),
-			'%gruppiTip%' => $this->getGruppiTip(),
+			'%singoliTip%' => $this->getSingoliTip(),
 			'%cureTip%' => $this->getCureTip(),
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),
 			'%idPaziente%' => $this->getIdPaziente(),
 			'%idListino%' => $this->getIdListino(),
+			'%idVisita%' => $this->getIdVisita(),
 			'%vociListinoEsteso%' => $this->preparaListinoEsteso($rows),
 			'%vociListinoGruppo_1%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_1()),
 			'%vociListinoGruppo_2%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_2()),
 			'%vociListinoGruppo_3%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_3()),
 			'%vociListinoGruppo_4%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_4())
 		);
-		
-		$replaceArray = array($this->preparaCheckbox($this->prelevaVociGruppi(), $replace));
 
-		var_dump($replaceArray);
-
-		$utility = new utility();
+		$replaceArray = array();
+		$replaceArray = $this->preparaCheckbox($this->prelevaVociGruppi($db, $visitaGruppi), $replace);
 
 		$template = $utility->tailFile($utility->getTemplate($form), $replaceArray);
 		echo $utility->tailTemplate($template);
 	}	
 
-	public function prelevaVociGruppi() {
+	public function prelevaVociGruppi($db, $visitaGruppi) {
 
 		require_once 'database.class.php';
 		require_once 'utility.class.php';
 		
-		// Template --------------------------------------------------------------
-
-		$visita = $this->getVisita();
-
 		$utility = new utility();
 		$array = $utility->getConfig();
 
 		$form = self::$root . $array['template'] . self::$pagina;
 
-		$db = new database();
-
 		// preleva tutte le voci inserite in gruppi per la visita in modifica
 		
-		$replace = array('%idlistino%' => $this->getIdListino());
+		$replace = array(
+			'%idpaziente%' => $this->getIdPaziente(),
+			'%idvisita%' => $this->getIdVisita()
+		);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociVisitaGruppiPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
@@ -129,9 +125,8 @@ class visitaGruppi extends visitaPazienteAbstract {
 	private function preparaCheckbox($dentiGruppo, $replaceArray) {
 
 		foreach ($dentiGruppo as $dente) {
-			$chiave = '%' . $dente[0] . '_checked%';
-			if ($dente[1] == 'on') $valore = 'checked';
-			else $valore = '';
+			$chiave = '%' . trim($dente['nomecampoform']) . '_checked%';
+			$valore = 'checked';
 			$replaceArray[$chiave] = $valore;		
 		}		
 		return $replaceArray;

@@ -5,5 +5,5 @@ select
 from paziente.vocevisita as vocevisita
 	
 where vocevisita.idvisita = %idvisita%
-  and vocevisita.nomeform = 'singoli'
+  and vocevisita.nomeform = '%nomeform%'
   and vocevisita.nomecampoform = '%idnomecampo%'
