@@ -27,6 +27,8 @@ class modificaVisita extends visitaPazienteAbstract {
 		require_once 'visita.template.php';
 		require_once 'utility.class.php';
 
+		error_log("<<<<<<< Start >>>>>>> " . $_SERVER['PHP_SELF']);
+
 		// Template
 		$utility = new utility();
 		$array = $utility->getConfig();
@@ -39,6 +41,7 @@ class modificaVisita extends visitaPazienteAbstract {
 		$visita = new visita();		
 		$visita->setIdPaziente($this->getIdPaziente());
 		$visita->setIdListino($this->getIdListino());
+		$visita->setIdVisita($this->getIdVisita());		
 		$visita->setCognomeRicerca($this->getCognomeRicerca());
 					
 		$visita->setAzioneDentiSingoli(self::$azioneDentiSingoli);
@@ -46,8 +49,8 @@ class modificaVisita extends visitaPazienteAbstract {
 		$visita->setAzioneCure(self::$azioneCure);
 		
 		$visita->setConfermaTip("%ml.confermaModificaVisita%");		
-		$visita->setGruppiTip("%ml.gruppiVisita%");		
-		$visita->setCureTip("%ml.cureVisita%");		
+		$visita->setGruppiTip("%ml.modificaGruppi%");		
+		$visita->setCureTip("%ml.modificaCure%");		
 				
 		$visita->setTitoloPagina("%ml.modificaVisitaDentiSingoli%");
 		$visita->setVisitaLabel("- %ml.visita% : ");
@@ -67,6 +70,8 @@ class modificaVisita extends visitaPazienteAbstract {
 		require_once 'visita.template.php';
 		require_once 'utility.class.php';
 
+		error_log("<<<<<<< Go >>>>>>> " . $_SERVER['PHP_SELF']);
+
 		// Template
 		$utility = new utility();
 		$array = $utility->getConfig();
@@ -77,14 +82,25 @@ class modificaVisita extends visitaPazienteAbstract {
 		$this->setMessaggioInfo(self::$root . $array['messaggioInfo']);
 
 		$visita = new visita();
+		$visita->setIdPaziente($this->getIdPaziente());
+		$visita->setIdListino($this->getIdListino());
+		$visita->setIdVisita($this->getIdVisita());		
+		$visita->setCognomeRicerca($this->getCognomeRicerca());
 
 		$visita->setDentiSingoli($this->prelevaCampiFormSingoli());
-		$visita->setAzioneDentiSingoli(self::$azione);
-		$visita->setConfermaTip("%ml.confermaCreazioneVisita%");		
+					
+		$visita->setAzioneDentiSingoli(self::$azioneDentiSingoli);
+		$visita->setAzioneGruppi(self::$azioneGruppi);
+		$visita->setAzioneCure(self::$azioneCure);
+		
+		$visita->setConfermaTip("%ml.confermaModificaVisita%");		
+		$visita->setGruppiTip("%ml.modificaGruppi%");		
+		$visita->setCureTip("%ml.modificaCure%");		
 
-		$visita->setIdListino($this->getIdListino());	
 		$visita->setTitoloPagina("%ml.modificaVisitaDentiSingoli%");
 		$visita->setVisitaLabel("- %ml.visita% : ");
+		$visita->setVisita($visita);		
+		
 		$visita->setDentiSingoli($this->prelevaCampiFormSingoli());
 		
 		include($this->getTestata());
@@ -123,14 +139,14 @@ class modificaVisita extends visitaPazienteAbstract {
 		$db->beginTransaction();
 
 		$dentiSingoli = $visita->getDentiSingoli();
-		$idVisitaUsato = $this->getIdVisita(); 
+		$idVisitaUsato = $visita->getIdVisita(); 
 		$visita->setIdVisita($idVisitaUsato);
 		$visita->setIdPaziente($this->getIdPaziente());
 
 		foreach($dentiSingoli as $row) {
 
 			// cerco il nomecampo sulla tabella vocevisita			
-			$idVoce = $this->leggiVoceVisita($db, $this->getIdVisita(), trim($row[0]));
+			$idVoce = $this->leggiVoceVisita($db, $idVisitaUsato, trim($row[0]), self::$singoliForm);
 			
 			// se il nomecampo esiste in tabella "vocevisita" e la voce in pagina è != ""						
 			if ($idVoce != "" and $row[1] != "") {

@@ -5,9 +5,9 @@ require_once 'visitaPaziente.abstract.class.php';
 class creaVisitaCure extends visitaPazienteAbstract {
 
 	public static $cureForm = "cure";
+	public static $azioneCure = "../paziente/creaVisitaCureFacade.class.php?modo=go";
 	public static $azioneDentiSingoli = "../paziente/creaVisitaFacade.class.php?modo=start";
 	public static $azioneGruppi = "../paziente/creaVisitaGruppiFacade.class.php?modo=start";
-	public static $azioneCure = "../paziente/creaVisitaCureFacade.class.php?modo=go";
 
 	function __construct() {
 		
@@ -49,10 +49,7 @@ class creaVisitaCure extends visitaPazienteAbstract {
 		
 		$visitaCure->setConfermaTip("%ml.confermaCreazioneVisita%");		
 		$visitaCure->setGruppiTip("%ml.creaGruppi%");		
-		$visitaCure->setCureTip("%ml.creaCure%");		
-				
-		$visitaCure->setAzione(self::$azione);
-		$visitaCure->setConfermaTip("%ml.confermaCreazioneVisita%");		
+		$visitaCure->setSingoliTip("%ml.creaSingoli%");		
 				
 		$visitaCure->setTitoloPagina("%ml.creaNuovaVisitaCure%");
 		$visitaCure->setVisitaCure($visitaCure);		
@@ -85,8 +82,14 @@ class creaVisitaCure extends visitaPazienteAbstract {
 		$visitaCure->setTitoloPagina('%ml.creaNuovaVisita%');
 
 		$visitaCure->setCureGeneriche($this->prelevaCampiForm());
-		$visitaCure->setAzione(self::$azione);
+
+		$visitaCure->setAzioneDentiSingoli(self::$azioneDentiSingoli);
+		$visitaCure->setAzioneGruppi(self::$azioneGruppi);
+		$visitaCure->setAzioneCure(self::$azioneCure);
+		
 		$visitaCure->setConfermaTip("%ml.confermaCreazioneVisita%");		
+		$visitaCure->setGruppiTip("%ml.creaGruppi%");		
+		$visitaCure->setSingoliTip("%ml.creaSingoli%");		
 		
 		include($this->getTestata());
 

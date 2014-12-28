@@ -24,9 +24,11 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 
 	public function start() {
 
-		require_once 'visitaGruppi.template.php';
+		require_once 'modificaVisitaGruppi.template.php';
 		require_once 'utility.class.php';
 
+		error_log("<<<<<<< Start >>>>>>> " . $_SERVER['PHP_SELF']);
+		
 		// Template
 		$utility = new utility();
 		$array = $utility->getConfig();
@@ -39,6 +41,7 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 		$visitaGruppi = new visitaGruppi();		
 		$visitaGruppi->setIdPaziente($this->getIdPaziente());
 		$visitaGruppi->setIdListino($this->getIdListino());
+		$visitaGruppi->setIdVisita($this->getIdVisita());
 		$visitaGruppi->setCognomeRicerca($this->getCognomeRicerca());
 					
 		$visitaGruppi->setAzioneDentiSingoli(self::$azioneDentiSingoli);
@@ -46,10 +49,10 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 		$visitaGruppi->setAzioneCure(self::$azioneCure);
 		
 		$visitaGruppi->setConfermaTip("%ml.confermaModificaVisita%");		
-		$visitaGruppi->setGruppiTip("%ml.gruppiVisita%");		
-		$visitaGruppi->setCureTip("%ml.cureVisita%");		
+		$visitaGruppi->setSingoliTip("%ml.modificaSingoli%");		
+		$visitaGruppi->setCureTip("%ml.modificaCure%");		
 				
-		$visitaGruppi->setTitoloPagina("%ml.modificaVisitaDentiSingoli%");
+		$visitaGruppi->setTitoloPagina("%ml.modificaVisitaGruppi%");
 		$visitaGruppi->setVisitaLabel("- %ml.visita% : ");
 		$visitaGruppi->setVisita($visitaGruppi);		
 
@@ -61,10 +64,12 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 	}
 		
 	public function go() {
-/*		
+		
 		require_once 'ricercaVisita.class.php';
-		require_once 'visita.template.php';
+		require_once 'visitaGruppi.template.php';
 		require_once 'utility.class.php';
+
+		error_log("<<<<<<< Go >>>>>>> " . $_SERVER['PHP_SELF']);
 
 		// Template
 		$utility = new utility();
@@ -75,98 +80,111 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 		$this->setMessaggioErrore(self::$root . $array['messaggioErrore']);
 		$this->setMessaggioInfo(self::$root . $array['messaggioInfo']);
 
-		$visita = new visita();
-
-		$visita->setDentiSingoli($this->prelevaCampiFormSingoli());
-		$visita->setAzioneDentiSingoli(self::$azione);
-		$visita->setConfermaTip("%ml.confermaCreazioneVisita%");		
-
-		$visita->setIdListino($this->getIdListino());	
-		$visita->setTitoloPagina("%ml.modificaVisitaDentiSingoli%");
-		$visita->setVisitaLabel("- %ml.visita% : ");
-		$visita->setDentiSingoli($this->prelevaCampiFormSingoli());
+		$visitaGruppi = new visitaGruppi();
+		
+		$visitaGruppi->setIdListino($this->getIdListino());	
+		$visitaGruppi->setTitoloPagina('%ml.creaNuovaVisita%');
+		
+		$visitaGruppi->setVoceGruppo_1($_POST['voceGruppo_1']);
+		$visitaGruppi->setDentiGruppo_1($this->prelevaCampiFormGruppo_1());
+		
+		$visitaGruppi->setVoceGruppo_2($_POST['voceGruppo_2']);
+		$visitaGruppi->setDentiGruppo_2($this->prelevaCampiFormGruppo_2());
+		
+		$visitaGruppi->setVoceGruppo_3($_POST['voceGruppo_3']);
+		$visitaGruppi->setDentiGruppo_3($this->prelevaCampiFormGruppo_3());
+		
+		$visitaGruppi->setVoceGruppo_4($_POST['voceGruppo_4']);
+		$visitaGruppi->setDentiGruppo_4($this->prelevaCampiFormGruppo_4());
+	
+		$visitaGruppi->setAzioneDentiSingoli(self::$azioneDentiSingoli);
+		$visitaGruppi->setAzioneGruppi(self::$azioneGruppi);
+		$visitaGruppi->setAzioneCure(self::$azioneCure);
+		
+		$visitaGruppi->setConfermaTip("%ml.confermaCreazioneVisita%");		
+		$visitaGruppi->setGruppiTip("%ml.creaGruppi%");		
+		$visitaGruppi->setCureTip("%ml.creaCure%");		
+		
+		$visitaGruppi->setTitoloPagina("%ml.modificaVisitaGruppi%");
+		$visitaGruppi->setVisitaLabel("- %ml.visita% : ");
+		$visitaGruppi->setVisita($visitaGruppi);		
 		
 		include($this->getTestata());
 
-		if ($visita->controlliLogici()) {
-			
-			if ($this->modificaSingoli($visita)) {
+		if ($this->modificaGruppi($visitaGruppi)) {
 
-				$visita->displayPagina();
-				$replace = array('%messaggio%' => '%ml.modificaVisitaOk%');				
-				$template = $utility->tailFile($utility->getTemplate($this->getMessaggioInfo()), $replace);			
-				echo $utility->tailTemplate($template);
-			}
-			else {
-				$visita->displayPagina();
-				$replace = array('%messaggio%' => '%ml.modificaVisitaKo%');				
-				$template = $utility->tailFile($utility->getTemplate($this->getMessaggioErrore()), $replace);			
-				echo $utility->tailTemplate($template);
-			}
+			$visitaGruppi->displayPagina();
+			$replace = array('%messaggio%' => '%ml.modificaVisitaOk%');				
+			$template = $utility->tailFile($utility->getTemplate($this->getMessaggioInfo()), $replace);			
+			echo $utility->tailTemplate($template);
 		}
 		else {
-			$visita->displayPagina();
+			$visitaGruppi->displayPagina();
 			$replace = array('%messaggio%' => '%ml.modificaVisitaKo%');				
 			$template = $utility->tailFile($utility->getTemplate($this->getMessaggioErrore()), $replace);			
 			echo $utility->tailTemplate($template);
-		} 
+		}
 
 		include($this->getPiede());		
-*/ 
+ 
 	}
 
-	private function modificaSingoli($visita) {
+	private function modificaGruppi($visitaGruppi) {
 	
 		require_once 'database.class.php';
 
 		$db = new database();
 		$db->beginTransaction();
 
-		$dentiSingoli = $visita->getDentiSingoli();
-		$idVisitaUsato = $this->getIdVisita(); 
-		$visita->setIdVisita($idVisitaUsato);
-		$visita->setIdPaziente($this->getIdPaziente());
+		$visitaGruppi->setIdPaziente($this->getIdPaziente());
 
-		foreach($dentiSingoli as $row) {
+		if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_1(), $visitaGruppi->getDentiGruppo_1(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
+			if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_2(), $visitaGruppi->getDentiGruppo_2(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
+				if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_3(), $visitaGruppi->getDentiGruppo_3(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
+					if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_4(), $visitaGruppi->getDentiGruppo_4(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
+						$db->commitTransaction();
+						return TRUE;
+					}
+				}	
+			}
+		}
+		return FALSE;
+	}
+	
+	public function modificaVociGruppo($db, $voceGruppo, $dentiGruppo, $idVisitaUsato, $nomeForm) {
+	
+		foreach($dentiGruppo as $row) {
 
 			// cerco il nomecampo sulla tabella vocevisita			
-			$idVoce = $this->leggiVoceVisita($db, $this->getIdVisita(), trim($row[0]));
-			
-			// se il nomecampo esiste in tabella "vocevisita" e la voce in pagina è != ""						
-			if ($idVoce != "" and $row[1] != "") {
-				if (!$this->aggiornaVoceVisita($db, $idVoce, $row[1])) {
+			$idVoce = $this->leggiVoceVisita($db, $idVisitaUsato, trim($row[0]), $nomeForm);
+
+			// se il nomecampo esiste in tabella "vocevisita" e il campo è ON in pagina
+			if ($idVoce != "" and $row[1] == "on") {
+				if (!$this->aggiornaVoceVisita($db, $idVoce, $voceGruppo)) {
 					error_log("Fallito aggiornamento idvoce : " . $idVoce);
 					$db->rollbackTransaction();
 					return FALSE;
 				}
 			}
-			// se il nomecampo esiste e la voce in pagina è == "" cancello la voce
-			elseif ($idVoce != "" and $row[1] == "") {
+			// se il nomecampo esiste in tabella "vocevisita" e il campo non è ON in pagina
+			elseif ($idVoce != "" and $row[1] != "on") {
 				if (!$this->cancellaVoceVisita($db, $idVoce)) {
 					error_log("Fallita cancellazione idvoce : " . $idVoce);
 					$db->rollbackTransaction();
 					return FALSE;
 				}
 			}
-			// se il nomecampo non esiste e la voce in pagina è != ""
-			elseif ($idVoce == "" and $row[1] != "") {
-
-				if (!$this->creaVoceVisita($db, $idVisitaUsato, self::$singoliForm, $row[0], $row[1])) {
+			// se il nomecampo non esiste in tabella "vocevisita" e il campo è ON in pagina
+			elseif ($idVoce == "" and $row[1] == "on") {
+				if (!$this->creaVoceVisita($db, $idVisitaUsato, self::$gruppiForm, $row[0], $voceGruppo)) {
 					error_log("Fallita creazione voce per la visita : " . $idVisitaUsato);
 					$db->rollbackTransaction();
 					return FALSE;
 				}
 			}
 		}
-		// aggiorno la datamodifica della "visita"
-		if (!$this->aggiornaVisita($db, $idVisitaUsato)) {
-			error_log("Fallito aggiornamento visita : " . $idVisitaUsato);
-			$db->rollbackTransaction();
-			return FALSE;
-		}
-		
-		$db->commitTransaction();
-		return TRUE;				
-	}
+		return TRUE;	
+	}	
 }
+
 ?>

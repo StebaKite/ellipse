@@ -5,8 +5,8 @@ require_once 'visitaPaziente.abstract.class.php';
 class creaVisitaGruppi extends visitaPazienteAbstract {
 
 	public static $gruppiForm = "gruppi";
-	public static $azioneDentiSingoli = "../paziente/creaVisitaFacade.class.php?modo=start";
 	public static $azioneGruppi = "../paziente/creaVisitaGruppiFacade.class.php?modo=go";
+	public static $azioneDentiSingoli = "../paziente/creaVisitaFacade.class.php?modo=start";
 	public static $azioneCure = "../paziente/creaVisitaCureFacade.class.php?modo=start";
 
 	function __construct() {
@@ -43,12 +43,12 @@ class creaVisitaGruppi extends visitaPazienteAbstract {
 		$visitaGruppi->setIdListino($this->getIdListino());
 		$visitaGruppi->setTitoloPagina('%ml.creaNuovaVisita%');
 
-		$visitaGruppi->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$visitaGruppi->setAzioneGruppi(self::$azioneGruppi);
+		$visitaGruppi->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$visitaGruppi->setAzioneCure(self::$azioneCure);
 		
 		$visitaGruppi->setConfermaTip("%ml.confermaCreazioneVisita%");		
-		$visitaGruppi->setGruppiTip("%ml.creaGruppi%");		
+		$visitaGruppi->setSingoliTip("%ml.creaSingoli%");		
 		$visitaGruppi->setCureTip("%ml.creaCure%");		
 				
 		$visitaGruppi->setTitoloPagina("%ml.creaNuovaVisitaDentiGruppi%");
@@ -56,7 +56,7 @@ class creaVisitaGruppi extends visitaPazienteAbstract {
 
 		// Compone la pagina
 		include($testata);
-		$visitaGruppi->inizializzaPagina();
+		$visitaGruppi->inizializzaGruppiPagina();
 		$visitaGruppi->displayPagina();
 		include($piede);		
 	}
@@ -92,9 +92,14 @@ class creaVisitaGruppi extends visitaPazienteAbstract {
 		
 		$visitaGruppi->setVoceGruppo_4($_POST['voceGruppo_4']);
 		$visitaGruppi->setDentiGruppo_4($this->prelevaCampiFormGruppo_4());
-
-		$visitaGruppi->setAzione($this->getAzione());
+	
+		$visitaGruppi->setAzioneDentiSingoli(self::$azioneDentiSingoli);
+		$visitaGruppi->setAzioneGruppi(self::$azioneGruppi);
+		$visitaGruppi->setAzioneCure(self::$azioneCure);
+		
 		$visitaGruppi->setConfermaTip("%ml.confermaCreazioneVisita%");		
+		$visitaGruppi->setGruppiTip("%ml.creaGruppi%");		
+		$visitaGruppi->setCureTip("%ml.creaCure%");		
 		
 		include($this->getTestata());
 			
@@ -124,32 +129,41 @@ class creaVisitaGruppi extends visitaPazienteAbstract {
 		$db = new database();
 		$db->beginTransaction();
 
+		$visitaGruppi->setIdPaziente($this->getIdPaziente());
+
 		/*
 		 * Una riga in "visita" e tutte le voci in tabella "voceVisita"
 		 */ 
 
 		if ($this->creaVisita($db)) {
 
-			$dentiGruppo_1 = $visitaGruppi->getDentiGruppo_1();
-			$idVisitaUsato = $db->getLastIdUsed(); 
-			$visitaGruppi->setIdVisita($idVisitaUsato);
-			$this->setIdVisita($idVisitaUsato);
-			$visitaGruppi->setIdPaziente($this->getIdPaziente());
-				
-			foreach($dentiGruppo_1 as $row) {
-
-				if ($row[1] != "") {
-					if (!$this->creaVoceVisita($db, $idVisitaUsato, $this->getGruppiForm(), trim($row[0]), $visitaGruppi->getVoceGruppo_1())) {
-						$db->rollbackTransaction();
-						error_log("Errore inserimento voce, eseguito Rollback");
-						return FALSE;	
-					}
-				}			
+			if ($this->inserisciVociGruppo($db, $visitaGruppi->getVoceGruppo_1(), $visitaGruppi->getDentiGruppo_1(), $db->getLastIdUsed())) {
+				if ($this->inserisciVociGruppo($db, $visitaGruppi->getVoceGruppo_2(), $visitaGruppi->getDentiGruppo_2(), $db->getLastIdUsed())) {
+					if ($this->inserisciVociGruppo($db, $visitaGruppi->getVoceGruppo_3(), $visitaGruppi->getDentiGruppo_3(), $db->getLastIdUsed())) {
+						if ($this->inserisciVociGruppo($db, $visitaGruppi->getVoceGruppo_4(), $visitaGruppi->getDentiGruppo_4(), $db->getLastIdUsed())) {
+							$db->commitTransaction();
+							return TRUE;				
+						}
+					}	
+				}
 			}
-			$db->commitTransaction();
-			return TRUE;				
 		}		
 		return FALSE;
+	}
+	
+	public function inserisciVociGruppo($db, $voceGruppo, $dentiGruppo, $idVisitaUsato) {
+	
+		foreach($dentiGruppo as $row) {
+
+			if ($row[1] != "") {
+				if (!$this->creaVoceVisita($db, $idVisitaUsato, $this->getGruppiForm(), trim($row[0]), $voceGruppo)) {
+					$db->rollbackTransaction();
+					error_log("Errore inserimento voce, eseguito Rollback");
+					return FALSE;	
+				}
+			}			
+		}
+		return TRUE;	
 	}
 }
 

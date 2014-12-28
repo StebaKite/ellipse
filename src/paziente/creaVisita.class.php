@@ -83,6 +83,7 @@ class creaVisita extends visitaPazienteAbstract {
 		$visita = new visita();
 
 		$visita->setDentiSingoli($this->prelevaCampiFormSingoli());
+		
 		$visita->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$visita->setAzioneGruppi(self::$azioneGruppi);
 		$visita->setAzioneCure(self::$azioneCure);

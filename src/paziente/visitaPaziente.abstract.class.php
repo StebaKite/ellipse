@@ -14,6 +14,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public static $idVisita;
 	
 	public static $confermaTip;
+	public static $singoliTip;
 	public static $gruppiTip;
 	public static $cureTip;
 
@@ -91,6 +92,9 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	
 	public function setConfermaTip($tip) {
 		self::$confermaTip = $tip;
+	}
+	public function setSingoliTip($tip) {
+		self::$singoliTip = $tip;
 	}
 	public function setGruppiTip($tip) {
 		self::$gruppiTip = $tip;
@@ -189,6 +193,9 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public function getGruppiTip() {
 		return self::$gruppiTip;
 	}
+	public function getSingoliTip() {
+		return self::$singoliTip;
+	}
 	public function getCureTip() {
 		return self::$cureTip;
 	}
@@ -248,7 +255,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public function controlliLogici() { }
 	
 	
-	public function leggiVoceVisita($db, $idvisita, $nomeCampo) {
+	public function leggiVoceVisita($db, $idvisita, $nomeCampo, $nomeForm) {
 
 		require_once 'database.class.php';
 		require_once 'utility.class.php';
@@ -258,6 +265,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 
 		$replace = array(
 			'%idvisita%' => $idvisita,
+			'%nomeform%' => $nomeForm,
 			'%idnomecampo%' => $nomeCampo
 		);
 		
@@ -324,8 +332,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 		$result = $db->execSql($sql);
 
 		return $result;	
-	} 	
-	
+	}
 		
 	public function aggiornaVoceVisita($db, $idvocevisita, $codiceVoceListino) {
 		
@@ -643,7 +650,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 		$this->setDentiGruppo_4($dentiGruppo_4);		
 	}
 	
-	private function prelevaCampiFormGruppo_1() {
+	public function prelevaCampiFormGruppo_1() {
 		
 		$dentiGruppo_1 = array();
 		
@@ -670,7 +677,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 		return $dentiGruppo_1;
 	}
 	
-	private function prelevaCampiFormGruppo_2() {
+	public function prelevaCampiFormGruppo_2() {
 		
 		$dentiGruppo_2 = array();
 		
@@ -697,7 +704,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 		return $dentiGruppo_2;
 	}
 	
-	private function prelevaCampiFormGruppo_3() {
+	public function prelevaCampiFormGruppo_3() {
 		
 		$dentiGruppo_3 = array();
 		
@@ -724,7 +731,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 		return $dentiGruppo_3;
 	}
 	
-	private function prelevaCampiFormGruppo_4() {
+	public function prelevaCampiFormGruppo_4() {
 		
 		$dentiGruppo_4 = array();
 		
