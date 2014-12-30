@@ -1,6 +1,6 @@
-update paziente.vocevisita
+UPDATE paziente.vocevisita
 	
-	set codicevocelistino = '%codicevocelistino%',
+	SET codicevocelistino = '%codicevocelistino%',
 		datamodifica = current_date
 		
-where idvocevisita = %idvocevisita%
+WHERE idvocevisita = %idvocevisita%

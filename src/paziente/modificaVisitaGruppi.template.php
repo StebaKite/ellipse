@@ -22,7 +22,9 @@ class visitaGruppi extends visitaPazienteAbstract {
 		require_once 'database.class.php';
 		require_once 'utility.class.php';
 
-		$visitaGruppi = $this->getVisita();
+		error_log("<<<<<<< Display >>>>>>> " . $_SERVER['PHP_SELF']);
+
+		$visitaGruppi = $this->getVisitaGruppi();
 
 		$utility = new utility();
 		$array = $utility->getConfig();

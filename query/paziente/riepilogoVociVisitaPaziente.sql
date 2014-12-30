@@ -1,22 +1,26 @@
-select
-	voce.codicevocelistino,
-	voce.nomecampoform,
-	voce.nomeform,
-	vocelistino.descrizionevoce
+SELECT
 
-from paziente.visita as visita
+	vocevisita.codicevocelistino,
+	vocevisita.nomecampoform,
+	vocevisita.nomeform,
+	voce.descrizione as descrizionevoce
 
-	inner join paziente.paziente as paziente
-		on paziente.idpaziente = visita.idpaziente
+FROM paziente.visita as visita
+
+	INNER JOIN paziente.paziente as paziente
+		ON paziente.idpaziente = visita.idpaziente
 	
-	left outer join paziente.vocevisita as voce
-		on voce.idvisita = visita.idvisita
+	LEFT OUTER JOIN paziente.vocevisita as vocevisita
+		ON vocevisita.idvisita = visita.idvisita
 	
-	inner join paziente.vocelistino as vocelistino
-		on  vocelistino.idlistino = paziente.idlistino
-		and vocelistino.codicevocelistino = voce.codicevocelistino
+	INNER JOIN paziente.vocelistino as vocelistino
+		ON  vocelistino.idlistino = paziente.idlistino
+		
+	INNER JOIN paziente.voce as voce
+		ON  voce.idvoce = vocelistino.idvocelistino
+		AND voce.codice = vocevisita.codicevocelistino
 	
-where paziente.idpaziente = %idpaziente%
-  and visita.idvisita = %idvisita%
+WHERE paziente.idpaziente = %idpaziente%
+  AND visita.idvisita = %idvisita%
   
-order by voce.nomeform, voce.nomecampoform  
+ORDER BY vocevisita.nomeform, vocevisita.nomecampoform  

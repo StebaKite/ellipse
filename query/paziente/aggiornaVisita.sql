@@ -1,5 +1,5 @@
-update paziente.visita
+UPDATE paziente.visita
 	
-	set datamodifica = current_date
+	SET datamodifica = current_date
 		
-where idvisita = %idvisita%
+WHERE idvisita = %idvisita%

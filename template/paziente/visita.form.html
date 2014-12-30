@@ -16,6 +16,46 @@
 	<div id="main">
 
 		<h2>%titoloPagina%</h2>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="%azioneGruppi%" >
+						<button class="button" title="%gruppiTip%">%ml.gruppi%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="idVisita" value="%idVisita%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="%azioneCure%" >
+						<button class="button" title="%cureTip%">%ml.cure%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="idVisita" value="%idVisita%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../paziente/ricercaVisitaFacade.class.php?modo=start" >
+						<button class="button" title="%ml.funzPrec%">%ml.indietro%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+			</tr>
+		</table>
+		
 		<div class="tabs">
 			<ul>
 				<li><a href="#tabs-1">%cognome% %nome% %datanascita% %visita% %idVisita%</a></li>
@@ -320,7 +360,7 @@
 						</tfoot>
 					</table>
 					</td>
-					<td width="100%" align="center"><img src="../../images/numerazione_denti_3.jpg" width="70%"></img></td>	
+					<td width="100%" align="center"><img src="../../images/numerazione_denti_3.jpg" width="60%"></img></td>	
 					</tr></table>
 				</form>
 				
@@ -347,44 +387,5 @@
 				
 			</div>			
 		</div>
-		<table>
-			<tr>
-				<td>
-					<form class="tooltip" method="post" action="%azioneGruppi%" >
-						<button class="button" title="%gruppiTip%">%ml.gruppi%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="idVisita" value="%idVisita%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
-					</form>		
-				</td>
-				<td>
-					<form class="tooltip" method="post" action="%azioneCure%" >
-						<button class="button" title="%cureTip%">%ml.cure%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="idVisita" value="%idVisita%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
-					</form>		
-				</td>
-				<td>
-					<form class="tooltip" method="post" action="../paziente/ricercaVisitaFacade.class.php?modo=start" >
-						<button class="button" title="%ml.funzPrec%">%ml.indietro%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
-					</form>		
-				</td>
-			</tr>
-		</table>
 	</div>
 </div>

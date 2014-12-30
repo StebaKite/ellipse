@@ -52,7 +52,7 @@ Class database {
 
 	public function getData($sql) {
 
-		error_log("Eseguo la query : " . $sql);
+		error_log("ESEGUO LA QUERY : " . $sql);
 		$dblink = $this->getLink();
 		$result = pg_query($dblink, $sql);
 		pg_close($dblink); 
@@ -93,7 +93,7 @@ Class database {
 	public function execSql($sql) {
 
 		if ($this->getDbLink() == null) {
-			error_log("Connessione DB mancante");
+			error_log("CONNESSIONE AL DATABASE NON STABILITA");
 			return FALSE;
 		}
 		else {
@@ -101,7 +101,7 @@ Class database {
 			// Esegue la query e se sulla INSERT e' impostata la clausola RETURNING, salva l'ID usato
 			// Salva il numero di righe risultato della query
 			
-			error_log("Eseguo la query : " . $sql);
+			error_log("ESEGUO LA QUERY : " . $sql);
 			$result = pg_query($this->getDbLink(), $sql);
 			
 			$row = pg_fetch_row($result);			
@@ -110,6 +110,14 @@ Class database {
 			$this->setNumrows(pg_num_rows($result));	
 			return $result;	
 		}
+	}
+	
+	public function closeDbLink() {
+
+		if (pg_close($this->getDbLink()))
+			error_log("CONNESSIONE AL DATABASE CHIUSA CON SUCCESSO");
+		else
+			error_log("Errore durante la chiusura della connessione al DB");
 	}
 }
 

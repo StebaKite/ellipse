@@ -9,6 +9,8 @@ abstract class pazienteAbstract {
 	public static $messaggioErrore;
 	public static $azione;
 	public static $testoAzione;
+
+	public static $queryAggiornaPaziente = "/paziente/aggiornaPaziente.sql";
 	
 	function __construct() {
 		
@@ -64,6 +66,24 @@ abstract class pazienteAbstract {
 	public function start() { }
 			
 	public function go() { }
+	
+	public function aggiornaPaziente($db, $idPaziente) {
+		
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+			'%idpaziente%' => $idPaziente
+		);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+
+		return $result;	
+	}
+
+
 	
 }
 

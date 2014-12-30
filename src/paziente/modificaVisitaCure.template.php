@@ -4,7 +4,17 @@ require_once 'visitaPaziente.abstract.class.php';
 
 class visitaCure extends visitaPazienteAbstract {
 	
+	private static $cureForm = "cure";
 	private static $pagina = "/paziente/visita.cure.form.html";
+	private static $voceCura;
+
+	public function setVoceCura($voceCura) {
+		self::$voceCura = $voceCura;
+	}
+
+	public function getVoceCura() {
+		return self::$voceCura;
+	}
 	
 	//-----------------------------------------------------------------------------
 
@@ -15,30 +25,24 @@ class visitaCure extends visitaPazienteAbstract {
 		set_include_path($pathToInclude);		
 	}
 
-	// template ------------------------------------------------
-
+	// template ------------------------------------------------------------------
+	
 	public function displayPagina() {
 
 		require_once 'database.class.php';
 		require_once 'utility.class.php';
 
 		error_log("<<<<<<< Display >>>>>>> " . $_SERVER['PHP_SELF']);
-		
-		// Template --------------------------------------------------------------
 
-		$visita = $this->getVisitaCure();
+		$visitaGruppi = $this->getVisitaGruppi();
 
 		$utility = new utility();
 		$array = $utility->getConfig();
 
 		$form = self::$root . $array['template'] . self::$pagina;
-		
-		$this->setTestata(self::$root . $array['testataPagina']);
-		$this->setPiede(self::$root . $array['piedePagina']);
-		$this->setMessaggioErrore(self::$root . $array['messaggioErrore']);
-		$this->setMessaggioInfo(self::$root . $array['messaggioInfo']);
 
 		$db = new database();
+		$db->beginTransaction();
 
 		//-------------------------------------------------------------
 
@@ -48,7 +52,7 @@ class visitaCure extends visitaPazienteAbstract {
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociGenericheListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
-		$result = $db->getData($sql);
+		$result = $db->execSql($sql);
 		
 		$rows = pg_fetch_all($result);
 
@@ -67,14 +71,19 @@ class visitaCure extends visitaPazienteAbstract {
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),
 			'%idPaziente%' => $this->getIdPaziente(),
 			'%idListino%' => $this->getIdListino(),
-			'%idvisita%' => $this->getIdVisita()
+			'%idVisita%' => $this->getIdVisita()
 		);
-
-		if ($rows) {			
+		
+		if ($rows) {
 			$replace['%vociListinoEsteso%'] = $this->preparaListinoEsteso($rows);
-			foreach($this->getCureGeneriche() as $row) {
-				$replace['%' . $row['0'] . '%'] = $this->preparaComboGruppo($rows, $row['1']);
+
+			foreach($this->getCureGeneriche() as $comboCure) {
+
+				$this->setVoceCura($this->leggiVoceCuraVisita($db, $this->getIdVisita(), $comboCure[0], self::$cureForm));
+				$replace['%' . $comboCure[0] . '%'] = $this->preparaComboGruppo($rows, $this->getVoceCura());
+				
 			}
+			$db->commitTransaction();
 		}
 		else {
 			$replaceMsg = array('%messaggio%' => '%ml.noVociGen%');				
@@ -84,16 +93,20 @@ class visitaCure extends visitaPazienteAbstract {
 
 		$template = $utility->tailFile($utility->getTemplate($form), $replace);
 		echo $utility->tailTemplate($template);
-	}	
+	}
+
 	
-	private function preparaComboGruppo($rows, $voceGruppo) {
-		
+	private function preparaComboGruppo($rows, $voceCura) {
+
 		foreach ($rows as $cod) {
-			 
-			if (trim($cod['codicevocelistino']) === trim($voceGruppo))
-				$vociCombo .= "<option value='" . $cod['codicevocelistino'] . "' selected >" . $cod['descrizionevoce'] . "</option>";
+			
+			if (trim($cod['codicevocelistino']) == trim($voceCura)) {
+				$vociCombo .= "<option selected='selected' value='" . trim($cod['codicevocelistino']) . "'>" . trim($cod['descrizionevoce']) . "</option>";
+				$voceCura = "";
+				$this->setVoceCura($voceCura);
+			}
 			else
-				$vociCombo .= "<option value='" . $cod['codicevocelistino'] . "' >" . $cod['descrizionevoce'] . "</option>";
+				$vociCombo .= "<option value='" . trim($cod['codicevocelistino']) . "' >" . trim($cod['descrizionevoce']) . "</option>";
 		}
 		return $vociCombo;
 	}
@@ -106,4 +119,5 @@ class visitaCure extends visitaPazienteAbstract {
 		return $vociListino;
 	}
 }
+
 ?>

@@ -14,6 +14,16 @@ class modificaVisita extends visitaPazienteAbstract {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
 		$pathToInclude = self::$root . "/ellipse/src/paziente:" . self::$root . "/ellipse/src/utility";  
 		set_include_path($pathToInclude);		
+
+		require_once 'utility.class.php';
+
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		self::$testata = self::$root . $array['testataPagina'];
+		self::$piede = self::$root . $array['piedePagina'];
+		self::$messaggioErrore = self::$root . $array['messaggioErrore'];
+		self::$messaggioInfo = self::$root . $array['messaggioInfo'];				
 	}
 
 	public function getSingoliForm() {
@@ -31,12 +41,6 @@ class modificaVisita extends visitaPazienteAbstract {
 
 		// Template
 		$utility = new utility();
-		$array = $utility->getConfig();
-
-		$testata = self::$root . $array['testataPagina'];
-		$piede = self::$root . $array['piedePagina'];
-		$messaggioErrore = self::$root . $array['messaggioErrore'];
-		$messaggioInfo = self::$root . $array['messaggioInfo'];
 
 		$visita = new visita();		
 		$visita->setIdPaziente($this->getIdPaziente());
@@ -57,11 +61,11 @@ class modificaVisita extends visitaPazienteAbstract {
 		$visita->setVisita($visita);		
 
 		// Compone la pagina
-		include($testata);
+		include(self::$testata);
 		$visita->inizializzaPagina();
 		$visita->impostaVoci();
 		$visita->displayPagina();
-		include($piede);		
+		include(self::$piede);		
 	}
 		
 	public function go() {
@@ -72,15 +76,7 @@ class modificaVisita extends visitaPazienteAbstract {
 
 		error_log("<<<<<<< Go >>>>>>> " . $_SERVER['PHP_SELF']);
 
-		// Template
 		$utility = new utility();
-		$array = $utility->getConfig();
-
-		$this->setTestata(self::$root . $array['testataPagina']);
-		$this->setPiede(self::$root . $array['piedePagina']);
-		$this->setMessaggioErrore(self::$root . $array['messaggioErrore']);
-		$this->setMessaggioInfo(self::$root . $array['messaggioInfo']);
-
 		$visita = new visita();
 		$visita->setIdPaziente($this->getIdPaziente());
 		$visita->setIdListino($this->getIdListino());
@@ -103,7 +99,7 @@ class modificaVisita extends visitaPazienteAbstract {
 		
 		$visita->setDentiSingoli($this->prelevaCampiFormSingoli());
 		
-		include($this->getTestata());
+		include(self::$testata);
 
 		if ($visita->controlliLogici()) {
 			
@@ -111,24 +107,24 @@ class modificaVisita extends visitaPazienteAbstract {
 
 				$visita->displayPagina();
 				$replace = array('%messaggio%' => '%ml.modificaVisitaOk%');				
-				$template = $utility->tailFile($utility->getTemplate($this->getMessaggioInfo()), $replace);			
+				$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);			
 				echo $utility->tailTemplate($template);
 			}
 			else {
 				$visita->displayPagina();
 				$replace = array('%messaggio%' => '%ml.modificaVisitaKo%');				
-				$template = $utility->tailFile($utility->getTemplate($this->getMessaggioErrore()), $replace);			
+				$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);			
 				echo $utility->tailTemplate($template);
 			}
 		}
 		else {
 			$visita->displayPagina();
 			$replace = array('%messaggio%' => '%ml.modificaVisitaKo%');				
-			$template = $utility->tailFile($utility->getTemplate($this->getMessaggioErrore()), $replace);			
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);			
 			echo $utility->tailTemplate($template);
 		} 
 
-		include($this->getPiede());		
+		include(self::$piede);		
 	}
 
 	private function modificaSingoli($visita) {
@@ -177,6 +173,13 @@ class modificaVisita extends visitaPazienteAbstract {
 		// aggiorno la datamodifica della "visita"
 		if (!$this->aggiornaVisita($db, $idVisitaUsato)) {
 			error_log("Fallito aggiornamento visita : " . $idVisitaUsato);
+			$db->rollbackTransaction();
+			return FALSE;
+		}
+
+		// aggiorno la datamodifica del "paziente"
+		if (!$this->aggiornaPaziente($db, $this->getIdPaziente())) {
+			error_log("Fallito aggiornamento paziente : " . $this->getIdPaziente());
 			$db->rollbackTransaction();
 			return FALSE;
 		}

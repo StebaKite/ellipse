@@ -1,2 +1,2 @@
-delete from paziente.vocevisita
-where idvocevisita = %idvocevisita%
+DELETE FROM paziente.vocevisita
+WHERE idvocevisita = %idvocevisita%

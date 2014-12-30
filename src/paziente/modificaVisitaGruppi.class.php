@@ -14,10 +14,16 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
 		$pathToInclude = self::$root . "/ellipse/src/paziente:" . self::$root . "/ellipse/src/utility";  
 		set_include_path($pathToInclude);		
-	}
+		
+		require_once 'utility.class.php';
 
-	public function getGruppiForm() {
-		return self::$gruppiForm;
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		self::$testata = self::$root . $array['testataPagina'];
+		self::$piede = self::$root . $array['piedePagina'];
+		self::$messaggioErrore = self::$root . $array['messaggioErrore'];
+		self::$messaggioInfo = self::$root . $array['messaggioInfo'];				
 	}
 
 	// ------------------------------------------------
@@ -31,12 +37,6 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 		
 		// Template
 		$utility = new utility();
-		$array = $utility->getConfig();
-
-		$testata = self::$root . $array['testataPagina'];
-		$piede = self::$root . $array['piedePagina'];
-		$messaggioErrore = self::$root . $array['messaggioErrore'];
-		$messaggioInfo = self::$root . $array['messaggioInfo'];
 
 		$visitaGruppi = new visitaGruppi();		
 		$visitaGruppi->setIdPaziente($this->getIdPaziente());
@@ -54,32 +54,23 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 				
 		$visitaGruppi->setTitoloPagina("%ml.modificaVisitaGruppi%");
 		$visitaGruppi->setVisitaLabel("- %ml.visita% : ");
-		$visitaGruppi->setVisita($visitaGruppi);		
+		$visitaGruppi->setVisitaGruppi($visitaGruppi);		
 
 		// Compone la pagina
-		include($testata);
+		include(self::$testata);
 		$visitaGruppi->inizializzaGruppiPagina();
 		$visitaGruppi->displayPagina();
-		include($piede);		
+		include(self::$piede);		
 	}
 		
 	public function go() {
 		
-		require_once 'ricercaVisita.class.php';
-		require_once 'visitaGruppi.template.php';
+		require_once 'modificaVisitaGruppi.template.php';
 		require_once 'utility.class.php';
 
 		error_log("<<<<<<< Go >>>>>>> " . $_SERVER['PHP_SELF']);
 
-		// Template
 		$utility = new utility();
-		$array = $utility->getConfig();
-
-		$this->setTestata(self::$root . $array['testataPagina']);
-		$this->setPiede(self::$root . $array['piedePagina']);
-		$this->setMessaggioErrore(self::$root . $array['messaggioErrore']);
-		$this->setMessaggioInfo(self::$root . $array['messaggioInfo']);
-
 		$visitaGruppi = new visitaGruppi();
 		
 		$visitaGruppi->setIdListino($this->getIdListino());	
@@ -107,25 +98,25 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 		
 		$visitaGruppi->setTitoloPagina("%ml.modificaVisitaGruppi%");
 		$visitaGruppi->setVisitaLabel("- %ml.visita% : ");
-		$visitaGruppi->setVisita($visitaGruppi);		
+		$visitaGruppi->setVisitaGruppi($visitaGruppi);		
 		
-		include($this->getTestata());
+		include(self::$testata);
 
 		if ($this->modificaGruppi($visitaGruppi)) {
 
 			$visitaGruppi->displayPagina();
 			$replace = array('%messaggio%' => '%ml.modificaVisitaOk%');				
-			$template = $utility->tailFile($utility->getTemplate($this->getMessaggioInfo()), $replace);			
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);			
 			echo $utility->tailTemplate($template);
 		}
 		else {
 			$visitaGruppi->displayPagina();
 			$replace = array('%messaggio%' => '%ml.modificaVisitaKo%');				
-			$template = $utility->tailFile($utility->getTemplate($this->getMessaggioErrore()), $replace);			
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);			
 			echo $utility->tailTemplate($template);
 		}
 
-		include($this->getPiede());		
+		include(self::$piede);		
  
 	}
 
@@ -142,6 +133,21 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 			if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_2(), $visitaGruppi->getDentiGruppo_2(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
 				if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_3(), $visitaGruppi->getDentiGruppo_3(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
 					if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_4(), $visitaGruppi->getDentiGruppo_4(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
+
+						// aggiorno la datamodifica della "visita" prima di consolidare gli aggiornamenti
+						if (!$this->aggiornaVisita($db, $visitaGruppi->getIdVisita())) {
+							error_log("Fallito aggiornamento visita : " . $idVisitaUsato);
+							$db->rollbackTransaction();
+							return FALSE;
+						}
+
+						// aggiorno la datamodifica del "paziente"
+						if (!$this->aggiornaPaziente($db, $visitaGruppi->getIdPaziente())) {
+							error_log("Fallito aggiornamento paziente : " . $visitaGruppi->getIdPaziente());
+							$db->rollbackTransaction();
+							return FALSE;
+						}			
+						
 						$db->commitTransaction();
 						return TRUE;
 					}

@@ -7,6 +7,11 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public static $azioneDentiSingoli;
 	public static $azioneGruppi;
 	public static $azioneCure;
+
+	public static $testata;
+	public static $piede;
+	public static $messaggioErrore;
+	public static $messaggioInfo;
 	
 	public static $cognomeRicerca;
 	public static $idPaziente;
@@ -28,6 +33,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public static $stato;
 
 	public static $visita;
+	public static $visitaGruppi;
 	public static $visitaCure;
 	public static $esitoControlliLogici;
 	public static $cureGeneriche;
@@ -53,8 +59,10 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	
 	public static $queryVociVisitaDentiSingoliPaziente = "/paziente/ricercaVociVisitaDentiSingoliPaziente.sql";
 	public static $queryVoceVisitaPaziente = "/paziente/ricercaVoceVisitaPaziente.sql";
+	public static $queryVoceCuraVisitaPaziente = "/paziente/ricercaVoceCuraVisitaPaziente.sql";
 	
 	public static $queryVociVisitaGruppiPaziente = "/paziente/ricercaVociVisitaGruppiPaziente.sql";
+	public static $queryVociVisitaCurePaziente = "/paziente/ricercaVociVisitaCurePaziente.sql";
 
 	// ------------------------------------------------
 
@@ -85,6 +93,9 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	}
 	public function setVisitaCure($visitaCure) {
 		self::$visitaCure = $visitaCure;
+	}
+	public function setVisitaGruppi($visitaGruppi) {
+		self::$visitaGruppi = $visitaGruppi;
 	}
 	public function setEsitoControlloLogici($esito) {
 		self::$esitoControlliLogici = $esito;
@@ -183,6 +194,9 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public function getVisitaCure() {
 		return self::$visitaCure;
 	}
+	public function getVisitaGruppi() {
+		return self::$visitaGruppi;
+	}
 	public function getEsitoControlliLogici() {
 		return self::$esitoControlliLogici;
 	}
@@ -253,8 +267,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	// ------------------------------------------------
 
 	public function controlliLogici() { }
-	
-	
+		
 	public function leggiVoceVisita($db, $idvisita, $nomeCampo, $nomeForm) {
 
 		require_once 'database.class.php';
@@ -281,6 +294,36 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 		else {
 			foreach ($vociInserite as $voce) {
 				return $voce['idvocevisita'];
+			}		
+		}
+	}	
+		
+	public function leggiVoceCuraVisita($db, $idvisita, $nomeCampo, $nomeForm) {
+
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		$replace = array(
+			'%idvisita%' => $idvisita,
+			'%nomeform%' => $nomeForm,
+			'%idnomecampo%' => $nomeCampo
+		);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryVoceVisitaPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		$vociInserite = pg_fetch_all($result);
+
+		if (!$vociInserite) {
+			return "";
+		}
+		else {
+			foreach ($vociInserite as $voce) {
+				return $voce['codicevocelistino'];
 			}		
 		}
 	}	
@@ -649,6 +692,40 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 
 		$this->setDentiGruppo_4($dentiGruppo_4);		
 	}
+	
+	public function inizializzaCurePagina() {
+
+		$vociGeneriche = array();
+		
+		// primo gruppo --------------------------------------------------------------------------------------------------------------
+		
+		array_push($vociGeneriche, array('voceGenerica_1', ''));
+		array_push($vociGeneriche, array('voceGenerica_2', ''));
+		array_push($vociGeneriche, array('voceGenerica_3', ''));
+		array_push($vociGeneriche, array('voceGenerica_4', ''));
+		array_push($vociGeneriche, array('voceGenerica_5', ''));
+		array_push($vociGeneriche, array('voceGenerica_6', ''));
+		
+		$this->setCureGeneriche($vociGeneriche);		
+	}
+
+	public function prelevaCampiFormCure() {
+		
+		$vociGeneriche = array();
+		
+		// primo gruppo --------------------------------------------------------------------------------------------------------------
+		
+		array_push($vociGeneriche, array('voceGenerica_1', $_POST['voceGenerica_1']));
+		array_push($vociGeneriche, array('voceGenerica_2', $_POST['voceGenerica_2']));
+		array_push($vociGeneriche, array('voceGenerica_3', $_POST['voceGenerica_3']));
+		array_push($vociGeneriche, array('voceGenerica_4', $_POST['voceGenerica_4']));
+		array_push($vociGeneriche, array('voceGenerica_5', $_POST['voceGenerica_5']));
+		array_push($vociGeneriche, array('voceGenerica_6', $_POST['voceGenerica_6']));
+
+		// restituisce l'array
+		
+		return $vociGeneriche;
+	}	
 	
 	public function prelevaCampiFormGruppo_1() {
 		

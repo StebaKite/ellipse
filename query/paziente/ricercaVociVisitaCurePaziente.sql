@@ -6,7 +6,7 @@ SELECT
 FROM paziente.visita as visita
 
 	INNER JOIN paziente.paziente as paziente
-		on paziente.idpaziente = visita.idpaziente
+		ON paziente.idpaziente = visita.idpaziente
 	
 	LEFT OUTER JOIN paziente.vocevisita as vocevisita
 		on vocevisita.idvisita = visita.idvisita
@@ -20,4 +20,5 @@ FROM paziente.visita as visita
 	
 WHERE paziente.idpaziente = %idpaziente%
   AND visita.idvisita = %idvisita%
-  AND vocevisita.nomeform = 'singoli'
+  AND vocevisita.nomeform = 'cure'
+
