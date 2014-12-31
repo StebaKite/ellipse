@@ -37,35 +37,86 @@ class dettaglioVisita extends visitaPazienteAbstract {
 		$riepilogoVociVisita->setCognomeRicerca($this->getCognomeRicerca());
 					
 		$riepilogoVociVisita->setAzione(self::$azione);
-		$riepilogoVociVisita->setConfermaTip("%ml.confermaPreventivaVisita%");		
-				
+		$riepilogoVociVisita->setConfermaTip("%ml.confermaPreventivaVisita%");						
 		$riepilogoVociVisita->setTitoloPagina("%ml.dettaglioVisita%");
-		$riepilogoVociVisita->setDettaglioVisita($riepilogoVociVisita);		
+		
+//		$riepilogoVociVisita->setDettaglioVisita($riepilogoVociVisita);		
 
 		$db = new database();
 
-		//-------------------------------------------------------------
+		//-- Prelevo i tipi voci caricati -----------------------------------------------------------
 		
 		$replace = array(
 			'%idpaziente%' => $this->getIdPaziente(),
 			'%idvisita%' => $this->getIdVisita()
 		);
 		
-		$sqlTemplate = self::$root . $array['query'] . self::$queryRiepilogoVociVisitaPaziente;
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRiepilogoTipiVociVisitaPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->getData($sql);
-		
-		$riepilogoVociVisita->setVociVisita(pg_fetch_all($result));
+
+		$tipiVoci = pg_fetch_all($result);
+
+		if ($tipiVoci) {
+			foreach ($tipiVoci as $row) {
+				if (trim($row['tipovoce']) == 'singoli') $this->prelevaVociDentiSingoli($db, $utility, $array, $riepilogoVociVisita); 
+				if (trim($row['tipovoce']) == 'gruppi') $this->prelevaVociGruppi($db, $utility, $array, $riepilogoVociVisita); 
+				if (trim($row['tipovoce']) == 'cure') $this->prelevaVociCure($db, $utility, $array, $riepilogoVociVisita); 
+			}
+		}
 
 		// Compone la pagina
 		include($testata);
 		$riepilogoVociVisita->displayPagina();
 		include($piede);		
 	}
+
+	public function prelevaVociDentiSingoli($db, $utility, $array, $riepilogoVociVisita) {
+	
+		$replace = array(
+			'%idpaziente%' => $this->getIdPaziente(),
+			'%idvisita%' => $this->getIdVisita(),
+			'%nomeform%' => 'singoli'
+		);
+
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRiepilogoVociVisitaPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->getData($sql);
+		
+		$riepilogoVociVisita->setVociVisitaDentiSingoli(pg_fetch_all($result));
+	}
+
+	public function prelevaVociGruppi($db, $utility, $array, $riepilogoVociVisita) {
+	
+		$replace = array(
+			'%idpaziente%' => $this->getIdPaziente(),
+			'%idvisita%' => $this->getIdVisita(),
+			'%nomeform%' => 'gruppi'
+		);
+
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRiepilogoVociVisitaPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->getData($sql);
+		
+		$riepilogoVociVisita->setVociVisitaGruppi(pg_fetch_all($result));	
+	}
+
+	public function prelevaVociCure($db, $utility, $array, $riepilogoVociVisita) {
+	
+		$replace = array(
+			'%idpaziente%' => $this->getIdPaziente(),
+			'%idvisita%' => $this->getIdVisita(),
+			'%nomeform%' => 'cure'
+		);
+
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRiepilogoVociVisitaPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->getData($sql);
+		
+		$riepilogoVociVisita->setVociVisitaCure(pg_fetch_all($result));	
+	}
 		
 	public function go() {
-
-
 	}
 }
 

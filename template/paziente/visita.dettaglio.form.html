@@ -2,39 +2,8 @@
 	
 <div id="body">
 	<div id="main">
-		<form method="post" action="%azione%" >
-			<h2>%titoloPagina%</h2>
-			<table class="ricerca">
-				<tbody>
-					<tr>
-						<td>%ml.paziente% :</td> <td><strong>%cognome% %nome%</strong></td>
-						<td>%ml.dataNasc% :</td> <td><strong>%datanascita%</strong></td>
-					</tr>
-					<tr>
-						<td>%ml.idvisita% :</td> <td><strong>%idvisita%</strong></td>
-						<td>%ml.datainserimento% :</td> <td><strong>%datainserimento%</strong></td>
-					</tr>
-					<tr>
-						<td>%ml.statovisita% :</td> <td><strong>%stato%</strong></td>						
-					</tr>
-				</tbody>
-			</table>
-			<br/>
-			<table class="result">
-				<thead>
-					<tr>
-						<th width="50">%ml.tipo%</th>
-						<th width="80">%ml.dente%</th>
-						<th width="50">%ml.codice%</th>
-						<th width="700">%ml.descrizioneLavoro%</th>
-					</tr>
-				</thead>
-				<tbody>
-					%riepilogoVociVisita%
-				</tbody>
-			</table>	
-		</form>
-		<br/>
+		
+		<h2>%titoloPagina%</h2>
 		<table>
 			<tr>
 				<td>
@@ -55,6 +24,19 @@
 				</td>
 			</tr>
 		</table>			
+		
+		<div class="tabs">
+			<ul>
+				%riepilogoDentiSingoliTab%
+				%riepilogoGruppiTab%
+				%riepilogoCureTab%
+			</ul>
+			
+			%riepilogoDentiSingoliDiv%
+			%riepilogoGruppiDiv%
+			%riepilogoCureDiv%
+			
+		</div>
 	</div>
 </div>
 <br/>
