@@ -39,6 +39,7 @@ modificaCure = Modifica voci generiche per la visita
 ;
 ; Funzioni -----------------------------
 ;
+totaliProgressivi = Totali Progressivi
 creaNuovoPaziente = Crea Nuovo Paziente
 ricercaPaziente = Ricerca Paziente
 modificaPaziente = Modifica Paziente
@@ -81,6 +82,8 @@ modificaVisitaKo = Errore modifica visita iniziale
 ;
 ; Campi form ---------------------------
 ;
+oggetto = Entit&agrave;
+totale = Totale
 cognome = Cognome
 nome = Nome
 indirizzo = Indirizzo

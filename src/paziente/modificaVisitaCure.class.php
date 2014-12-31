@@ -55,35 +55,24 @@ class modificaVisitaCure extends visitaPazienteAbstract {
 		$visitaCure = new visitaCure();
 		$visitaCure->setVisitaCure($this->preparaPagina($visitaCure));		
 		$visitaCure->setCureGeneriche($this->prelevaCampiFormCure());
-		
-		$voceSelezionata = FALSE;
-		foreach ($visitaCure->getCureGeneriche() as $row) {
-			if ($row['1'] != "") {
-				$voceSelezionata = TRUE;
-				break;
-			}
-		}
 
 		include(self::$testata);
 		
 		$utility = new utility();
-
-		if ($voceSelezionata) {
 			
-			if ($this->modificaCure($visitaCure)) {
+		if ($this->modificaCure($visitaCure)) {
 
-				$visitaCure->displayPagina();
-				$replace = array('%messaggio%' => '%ml.modificaVisitaOk%');				
-				$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);			
-				echo $utility->tailTemplate($template);
-			}
-			else {
-				$visitaCure->displayPagina();
-				$replace = array('%messaggio%' => '%ml.modificaVisitaKo%');				
-				$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);			
-				echo $utility->tailTemplate($template);
-			}
-		}		
+			$visitaCure->displayPagina();
+			$replace = array('%messaggio%' => '%ml.modificaVisitaOk%');				
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);			
+			echo $utility->tailTemplate($template);
+		}
+		else {
+			$visitaCure->displayPagina();
+			$replace = array('%messaggio%' => '%ml.modificaVisitaKo%');				
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);			
+			echo $utility->tailTemplate($template);
+		}
 		include(self::$piede);		
 	}
 
