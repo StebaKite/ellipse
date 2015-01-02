@@ -73,7 +73,7 @@ class modificaPaziente extends gestionePazienteAbstract {
 			$paziente->setMedico(trim($row["idmedico"]));
 			$paziente->setLaboratorio(trim($row["idlaboratorio"]));
 
-			$paziente->setAzione($this->getAzione() . "&idPaziente=" . $this->getIdPaziente() . "&cognRic=" . $this->getCognomeRicerca());
+			$paziente->setAzione(self::$azione . "&idPaziente=" . $this->getIdPaziente() . "&cognRic=" . $this->getCognomeRicerca());
 			$paziente->setCognomeRicerca($this->getCognomeRicerca());
 			$paziente->setTitoloPagina("%ml.modificaPaziente%");
 			$paziente->setPaziente($paziente);		

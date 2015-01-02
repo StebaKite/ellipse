@@ -8,15 +8,55 @@
 	<div id="main">
 
 		<h2>%titoloPagina%</h2>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="%azioneDentiSingoli%" >
+						<button class="button" title="%singoliTip%" %azione% >%ml.dentiSingoli%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="idVisita" value="%idVisita%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="%azioneCure%" >
+						<button class="button" title="%cureTip%" %azione% >%ml.cure%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="idVisita" value="%idVisita%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../paziente/ricercaVisitaFacade.class.php?modo=start" >
+						<button class="button" title="%ml.funzPrec%" %azione% >%ml.indietro%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+			</tr>
+		</table>
+				
 		<div class="tabs">
 			<ul>
-				<li><a href="#tabs-1">%cognome% %nome% %datanascita%</a></li>
+				<li><a href="#tabs-1">%cognome% %nome% %datanascita% %visita% %idVisita%</a></li>
 				<li><a href="#tabs-2">%ml.vociListinoPaziente%</a></li>
 			</ul>
 			
 			<div id="tabs-1">
 
-				<form method="post" id="gruppi" action="%azione%" >
+				<form method="post" id="gruppi" action="%azioneGruppi%" >
 					<table class="datiCreate">
 						<tbody>
 							<tr>
@@ -57,14 +97,14 @@
 												<table class="result-alt">
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="SS_21_1" id="SS_21_1"></td>
-															<td><input type="checkbox" name="SS_22_1" id="SS_22_1"></td>
-															<td><input type="checkbox" name="SS_23_1" id="SS_23_1"></td>
-															<td><input type="checkbox" name="SS_24_1" id="SS_24_1"></td>
-															<td><input type="checkbox" name="SS_25_1" id="SS_25_1"></td>
-															<td><input type="checkbox" name="SS_26_1" id="SS_26_1"></td>
-															<td><input type="checkbox" name="SS_27_1" id="SS_27_1"></td>
-															<td><input type="checkbox" name="SS_28_1" id="SS_28_1"></td>
+															<td><input type="checkbox" name="SS_21_1" id="SS_21_1" %SS_21_1_checked% ></td>
+															<td><input type="checkbox" name="SS_22_1" id="SS_22_1" %SS_22_1_checked% ></td>
+															<td><input type="checkbox" name="SS_23_1" id="SS_23_1" %SS_23_1_checked% ></td>
+															<td><input type="checkbox" name="SS_24_1" id="SS_24_1" %SS_24_1_checked% ></td>
+															<td><input type="checkbox" name="SS_25_1" id="SS_25_1" %SS_25_1_checked% ></td>
+															<td><input type="checkbox" name="SS_26_1" id="SS_26_1" %SS_26_1_checked% ></td>
+															<td><input type="checkbox" name="SS_27_1" id="SS_27_1" %SS_27_1_checked% ></td>
+															<td><input type="checkbox" name="SS_28_1" id="SS_28_1" %SS_28_1_checked% ></td>
 														</tr>
 													</tbody>
 													<tfoot>
@@ -99,14 +139,14 @@
 													</thead>
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="ID_48_1" id="ID_48_1"></td>
-															<td><input type="checkbox" name="ID_47_1" id="ID_47_1"></td>
-															<td><input type="checkbox" name="ID_46_1" id="ID_46_1"></td>
-															<td><input type="checkbox" name="ID_45_1" id="ID_45_1"></td>
-															<td><input type="checkbox" name="ID_44_1" id="ID_44_1"></td>
-															<td><input type="checkbox" name="ID_43_1" id="ID_43_1"></td>
-															<td><input type="checkbox" name="ID_42_1" id="ID_42_1"></td>
-															<td><input type="checkbox" name="ID_41_1" id="ID_41_1"></td>
+															<td><input type="checkbox" name="ID_48_1" id="ID_48_1" %ID_48_1_checked% ></td>
+															<td><input type="checkbox" name="ID_47_1" id="ID_47_1" %ID_47_1_checked% ></td>
+															<td><input type="checkbox" name="ID_46_1" id="ID_46_1" %ID_46_1_checked% ></td>
+															<td><input type="checkbox" name="ID_45_1" id="ID_45_1" %ID_45_1_checked% ></td>
+															<td><input type="checkbox" name="ID_44_1" id="ID_44_1" %ID_44_1_checked% ></td>
+															<td><input type="checkbox" name="ID_43_1" id="ID_43_1" %ID_43_1_checked% ></td>
+															<td><input type="checkbox" name="ID_42_1" id="ID_42_1" %ID_42_1_checked% ></td>
+															<td><input type="checkbox" name="ID_41_1" id="ID_41_1" %ID_41_1_checked% ></td>
 														</tr>
 													</tbody>
 												</table>	
@@ -127,14 +167,14 @@
 													</thead>
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="IS_31_1" id="IS_31_1"></td>
-															<td><input type="checkbox" name="IS_32_1" id="IS_32_1"></td>
-															<td><input type="checkbox" name="IS_33_1" id="IS_33_1"></td>
-															<td><input type="checkbox" name="IS_34_1" id="IS_34_1"></td>
-															<td><input type="checkbox" name="IS_35_1" id="IS_35_1"></td>
-															<td><input type="checkbox" name="IS_36_1" id="IS_36_1"></td>
-															<td><input type="checkbox" name="IS_37_1" id="IS_37_1"></td>
-															<td><input type="checkbox" name="IS_38_1" id="IS_38_1"></td>
+															<td><input type="checkbox" name="IS_31_1" id="IS_31_1" %IS_31_1_checked% ></td>
+															<td><input type="checkbox" name="IS_32_1" id="IS_32_1" %IS_32_1_checked% ></td>
+															<td><input type="checkbox" name="IS_33_1" id="IS_33_1" %IS_33_1_checked% ></td>
+															<td><input type="checkbox" name="IS_34_1" id="IS_34_1" %IS_34_1_checked% ></td>
+															<td><input type="checkbox" name="IS_35_1" id="IS_35_1" %IS_35_1_checked% ></td>
+															<td><input type="checkbox" name="IS_36_1" id="IS_36_1" %IS_36_1_checked% ></td>
+															<td><input type="checkbox" name="IS_37_1" id="IS_37_1" %IS_37_1_checked% ></td>
+															<td><input type="checkbox" name="IS_38_1" id="IS_38_1" %IS_38_1_checked% ></td>
 														</tr>
 													</tbody>
 												</table>	
@@ -143,7 +183,7 @@
 									</table>
 								</td>
 								<td style="padding-left: 40px;">
-									<select class="selectmenu"> %vociListinoGruppo_2% </select>
+									<select class="selectmenu" id="voceGruppo_2" name="voceGruppo_2"> %vociListinoGruppo_2% </select>
 
 									<table class="result-alt">
 										<tr>
@@ -151,14 +191,14 @@
 												<table class="result-alt">
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="SD_18_2" id="SD_18_2"></td>
-															<td><input type="checkbox" name="SD_17_2" id="SD_17_2"></td>
-															<td><input type="checkbox" name="SD_16_2" id="SD_16_2"></td>
-															<td><input type="checkbox" name="SD_15_2" id="SD_15_2"></td>
-															<td><input type="checkbox" name="SD_14_2" id="SD_14_2"></td>
-															<td><input type="checkbox" name="SD_13_2" id="SD_13_2"></td>
-															<td><input type="checkbox" name="SD_12_2" id="SD_12_2"></td>
-															<td><input type="checkbox" name="SD_11_2" id="SD_11_2"></td>
+															<td><input type="checkbox" name="SD_18_2" id="SD_18_2" %SD_18_2_checked% ></td>
+															<td><input type="checkbox" name="SD_17_2" id="SD_17_2" %SD_17_2_checked% ></td>
+															<td><input type="checkbox" name="SD_16_2" id="SD_16_2" %SD_16_2_checked% ></td>
+															<td><input type="checkbox" name="SD_15_2" id="SD_15_2" %SD_15_2_checked% ></td>
+															<td><input type="checkbox" name="SD_14_2" id="SD_14_2" %SD_14_2_checked% ></td>
+															<td><input type="checkbox" name="SD_13_2" id="SD_13_2" %SD_13_2_checked% ></td>
+															<td><input type="checkbox" name="SD_12_2" id="SD_12_2" %SD_12_2_checked% ></td>
+															<td><input type="checkbox" name="SD_11_2" id="SD_11_2" %SD_11_2_checked% ></td>
 														</tr>
 													</tbody>
 													<tfoot>
@@ -179,14 +219,14 @@
 												<table class="result-alt">
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="SS_21_2" id="SS_21_2"></td>
-															<td><input type="checkbox" name="SS_22_2" id="SS_22_2"></td>
-															<td><input type="checkbox" name="SS_23_2" id="SS_23_2"></td>
-															<td><input type="checkbox" name="SS_24_2" id="SS_24_2"></td>
-															<td><input type="checkbox" name="SS_25_2" id="SS_25_2"></td>
-															<td><input type="checkbox" name="SS_26_2" id="SS_26_2"></td>
-															<td><input type="checkbox" name="SS_27_2" id="SS_27_2"></td>
-															<td><input type="checkbox" name="SS_28_2" id="SS_28_2"></td>
+															<td><input type="checkbox" name="SS_21_2" id="SS_21_2" %SS_21_2_checked% ></td>
+															<td><input type="checkbox" name="SS_22_2" id="SS_22_2" %SS_22_2_checked% ></td>
+															<td><input type="checkbox" name="SS_23_2" id="SS_23_2" %SS_23_2_checked% ></td>
+															<td><input type="checkbox" name="SS_24_2" id="SS_24_2" %SS_24_2_checked% ></td>
+															<td><input type="checkbox" name="SS_25_2" id="SS_25_2" %SS_25_2_checked% ></td>
+															<td><input type="checkbox" name="SS_26_2" id="SS_26_2" %SS_26_2_checked% ></td>
+															<td><input type="checkbox" name="SS_27_2" id="SS_27_2" %SS_27_2_checked% ></td>
+															<td><input type="checkbox" name="SS_28_2" id="SS_28_2" %SS_28_2_checked% ></td>
 														</tr>
 													</tbody>
 													<tfoot>
@@ -221,14 +261,14 @@
 													</thead>
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="ID_48_2" id="ID_48_2"></td>
-															<td><input type="checkbox" name="ID_47_2" id="ID_47_2"></td>
-															<td><input type="checkbox" name="ID_46_2" id="ID_46_2"></td>
-															<td><input type="checkbox" name="ID_45_2" id="ID_45_2"></td>
-															<td><input type="checkbox" name="ID_44_2" id="ID_44_2"></td>
-															<td><input type="checkbox" name="ID_43_2" id="ID_43_2"></td>
-															<td><input type="checkbox" name="ID_42_2" id="ID_42_2"></td>
-															<td><input type="checkbox" name="ID_41_2" id="ID_41_2"></td>
+															<td><input type="checkbox" name="ID_48_2" id="ID_48_2" %ID_48_2_checked% ></td>
+															<td><input type="checkbox" name="ID_47_2" id="ID_47_2" %ID_47_2_checked% ></td>
+															<td><input type="checkbox" name="ID_46_2" id="ID_46_2" %ID_46_2_checked% ></td>
+															<td><input type="checkbox" name="ID_45_2" id="ID_45_2" %ID_45_2_checked% ></td>
+															<td><input type="checkbox" name="ID_44_2" id="ID_44_2" %ID_44_2_checked% ></td>
+															<td><input type="checkbox" name="ID_43_2" id="ID_43_2" %ID_43_2_checked% ></td>
+															<td><input type="checkbox" name="ID_42_2" id="ID_42_2" %ID_42_2_checked% ></td>
+															<td><input type="checkbox" name="ID_41_2" id="ID_41_2" %ID_41_2_checked% ></td>
 														</tr>
 													</tbody>
 												</table>	
@@ -249,14 +289,14 @@
 													</thead>
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="IS_31_2" id="IS_31_2"></td>
-															<td><input type="checkbox" name="IS_32_2" id="IS_32_2"></td>
-															<td><input type="checkbox" name="IS_33_2" id="IS_33_2"></td>
-															<td><input type="checkbox" name="IS_34_2" id="IS_34_2"></td>
-															<td><input type="checkbox" name="IS_35_2" id="IS_35_2"></td>
-															<td><input type="checkbox" name="IS_36_2" id="IS_36_2"></td>
-															<td><input type="checkbox" name="IS_37_2" id="IS_37_2"></td>
-															<td><input type="checkbox" name="IS_38_2" id="IS_38_2"></td>
+															<td><input type="checkbox" name="IS_31_2" id="IS_31_2" %IS_31_2_checked% ></td>
+															<td><input type="checkbox" name="IS_32_2" id="IS_32_2" %IS_32_2_checked% ></td>
+															<td><input type="checkbox" name="IS_33_2" id="IS_33_2" %IS_33_2_checked% ></td>
+															<td><input type="checkbox" name="IS_34_2" id="IS_34_2" %IS_34_2_checked% ></td>
+															<td><input type="checkbox" name="IS_35_2" id="IS_35_2" %IS_35_2_checked% ></td>
+															<td><input type="checkbox" name="IS_36_2" id="IS_36_2" %IS_36_2_checked% ></td>
+															<td><input type="checkbox" name="IS_37_2" id="IS_37_2" %IS_37_2_checked% ></td>
+															<td><input type="checkbox" name="IS_38_2" id="IS_38_2" %IS_38_2_checked% ></td>
 														</tr>
 													</tbody>
 												</table>	
@@ -267,7 +307,7 @@
 							</tr>
 							<tr>
 								<td style="padding-top: 5px;">
-									<select class="selectmenu"> %vociListinoGruppo_3% </select>
+									<select class="selectmenu" id="voceGruppo_3" name="voceGruppo_3"> %vociListinoGruppo_3% </select>
 
 									<table class="result-alt">
 										<tr>
@@ -275,14 +315,14 @@
 												<table class="result-alt">
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="SD_18_3" id="SD_18_3"></td>
-															<td><input type="checkbox" name="SD_17_3" id="SD_17_3"></td>
-															<td><input type="checkbox" name="SD_16_3" id="SD_16_3"></td>
-															<td><input type="checkbox" name="SD_15_3" id="SD_15_3"></td>
-															<td><input type="checkbox" name="SD_14_3" id="SD_14_3"></td>
-															<td><input type="checkbox" name="SD_13_3" id="SD_13_3"></td>
-															<td><input type="checkbox" name="SD_12_3" id="SD_12_3"></td>
-															<td><input type="checkbox" name="SD_11_3" id="SD_11_3"></td>
+															<td><input type="checkbox" name="SD_18_3" id="SD_18_3" %SD_18_3_checked% ></td>
+															<td><input type="checkbox" name="SD_17_3" id="SD_17_3" %SD_17_3_checked% ></td>
+															<td><input type="checkbox" name="SD_16_3" id="SD_16_3" %SD_16_3_checked% ></td>
+															<td><input type="checkbox" name="SD_15_3" id="SD_15_3" %SD_15_3_checked% ></td>
+															<td><input type="checkbox" name="SD_14_3" id="SD_14_3" %SD_14_3_checked% ></td>
+															<td><input type="checkbox" name="SD_13_3" id="SD_13_3" %SD_13_3_checked% ></td>
+															<td><input type="checkbox" name="SD_12_3" id="SD_12_3" %SD_12_3_checked% ></td>
+															<td><input type="checkbox" name="SD_11_3" id="SD_11_3" %SD_11_3_checked% ></td>
 														</tr>
 													</tbody>
 													<tfoot>
@@ -303,14 +343,14 @@
 												<table class="result-alt">
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="SS_21_3" id="SS_21_3"></td>
-															<td><input type="checkbox" name="SS_22_3" id="SS_22_3"></td>
-															<td><input type="checkbox" name="SS_23_3" id="SS_23_3"></td>
-															<td><input type="checkbox" name="SS_24_3" id="SS_24_3"></td>
-															<td><input type="checkbox" name="SS_25_3" id="SS_25_3"></td>
-															<td><input type="checkbox" name="SS_26_3" id="SS_26_3"></td>
-															<td><input type="checkbox" name="SS_27_3" id="SS_27_3"></td>
-															<td><input type="checkbox" name="SS_28_3" id="SS_28_3"></td>
+															<td><input type="checkbox" name="SS_21_3" id="SS_21_3" %SS_21_3_checked% ></td>
+															<td><input type="checkbox" name="SS_22_3" id="SS_22_3" %SS_22_3_checked% ></td>
+															<td><input type="checkbox" name="SS_23_3" id="SS_23_3" %SS_23_3_checked% ></td>
+															<td><input type="checkbox" name="SS_24_3" id="SS_24_3" %SS_24_3_checked% ></td>
+															<td><input type="checkbox" name="SS_25_3" id="SS_25_3" %SS_25_3_checked% ></td>
+															<td><input type="checkbox" name="SS_26_3" id="SS_26_3" %SS_26_3_checked% ></td>
+															<td><input type="checkbox" name="SS_27_3" id="SS_27_3" %SS_27_3_checked% ></td>
+															<td><input type="checkbox" name="SS_28_3" id="SS_28_3" %SS_28_3_checked% ></td>
 														</tr>
 													</tbody>
 													<tfoot>
@@ -345,14 +385,14 @@
 													</thead>
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="ID_48_3" id="ID_48_3"></td>
-															<td><input type="checkbox" name="ID_47_3" id="ID_47_3"></td>
-															<td><input type="checkbox" name="ID_46_3" id="ID_46_3"></td>
-															<td><input type="checkbox" name="ID_45_3" id="ID_45_3"></td>
-															<td><input type="checkbox" name="ID_44_3" id="ID_44_3"></td>
-															<td><input type="checkbox" name="ID_43_3" id="ID_43_3"></td>
-															<td><input type="checkbox" name="ID_42_3" id="ID_42_3"></td>
-															<td><input type="checkbox" name="ID_41_3" id="ID_41_3"></td>
+															<td><input type="checkbox" name="ID_48_3" id="ID_48_3" %ID_48_3_checked% ></td>
+															<td><input type="checkbox" name="ID_47_3" id="ID_47_3" %ID_47_3_checked% ></td>
+															<td><input type="checkbox" name="ID_46_3" id="ID_46_3" %ID_46_3_checked% ></td>
+															<td><input type="checkbox" name="ID_45_3" id="ID_45_3" %ID_45_3_checked% ></td>
+															<td><input type="checkbox" name="ID_44_3" id="ID_44_3" %ID_44_3_checked% ></td>
+															<td><input type="checkbox" name="ID_43_3" id="ID_43_3" %ID_43_3_checked% ></td>
+															<td><input type="checkbox" name="ID_42_3" id="ID_42_3" %ID_42_3_checked% ></td>
+															<td><input type="checkbox" name="ID_41_3" id="ID_41_3" %ID_41_3_checked% ></td>
 														</tr>
 													</tbody>
 												</table>	
@@ -373,14 +413,14 @@
 													</thead>
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="IS_31_3" id="IS_31_3"></td>
-															<td><input type="checkbox" name="IS_32_3" id="IS_32_3"></td>
-															<td><input type="checkbox" name="IS_33_3" id="IS_33_3"></td>
-															<td><input type="checkbox" name="IS_34_3" id="IS_34_3"></td>
-															<td><input type="checkbox" name="IS_35_3" id="IS_35_3"></td>
-															<td><input type="checkbox" name="IS_36_3" id="IS_36_3"></td>
-															<td><input type="checkbox" name="IS_37_3" id="IS_37_3"></td>
-															<td><input type="checkbox" name="IS_38_3" id="IS_38_3"></td>
+															<td><input type="checkbox" name="IS_31_3" id="IS_31_3" %IS_31_3_checked% ></td>
+															<td><input type="checkbox" name="IS_32_3" id="IS_32_3" %IS_32_3_checked% ></td>
+															<td><input type="checkbox" name="IS_33_3" id="IS_33_3" %IS_33_3_checked% ></td>
+															<td><input type="checkbox" name="IS_34_3" id="IS_34_3" %IS_34_3_checked% ></td>
+															<td><input type="checkbox" name="IS_35_3" id="IS_35_3" %IS_35_3_checked% ></td>
+															<td><input type="checkbox" name="IS_36_3" id="IS_36_3" %IS_36_3_checked% ></td>
+															<td><input type="checkbox" name="IS_37_3" id="IS_37_3" %IS_37_3_checked% ></td>
+															<td><input type="checkbox" name="IS_38_3" id="IS_38_3" %IS_38_3_checked% ></td>
 														</tr>
 													</tbody>
 												</table>	
@@ -389,7 +429,7 @@
 									</table>
 								</td>
 								<td style="padding-left: 40px; padding-top: 5px;">
-									<select class="selectmenu"> %vociListinoGruppo_4% </select>
+									<select class="selectmenu" id="voceGruppo_4" name="voceGruppo_4"> %vociListinoGruppo_4% </select>
 
 									<table class="result-alt">
 										<tr>
@@ -397,14 +437,14 @@
 												<table class="result-alt">
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="SD_18_4" id="SD_18_4"></td>
-															<td><input type="checkbox" name="SD_17_4" id="SD_17_4"></td>
-															<td><input type="checkbox" name="SD_16_4" id="SD_16_4"></td>
-															<td><input type="checkbox" name="SD_15_4" id="SD_15_4"></td>
-															<td><input type="checkbox" name="SD_14_4" id="SD_14_4"></td>
-															<td><input type="checkbox" name="SD_13_4" id="SD_13_4"></td>
-															<td><input type="checkbox" name="SD_12_4" id="SD_12_4"></td>
-															<td><input type="checkbox" name="SD_11_4" id="SD_11_4"></td>
+															<td><input type="checkbox" name="SD_18_4" id="SD_18_4" %SD_18_4_checked% ></td>
+															<td><input type="checkbox" name="SD_17_4" id="SD_17_4" %SD_17_4_checked% ></td>
+															<td><input type="checkbox" name="SD_16_4" id="SD_16_4" %SD_16_4_checked% ></td>
+															<td><input type="checkbox" name="SD_15_4" id="SD_15_4" %SD_15_4_checked% ></td>
+															<td><input type="checkbox" name="SD_14_4" id="SD_14_4" %SD_14_4_checked% ></td>
+															<td><input type="checkbox" name="SD_13_4" id="SD_13_4" %SD_13_4_checked% ></td>
+															<td><input type="checkbox" name="SD_12_4" id="SD_12_4" %SD_12_4_checked% ></td>
+															<td><input type="checkbox" name="SD_11_4" id="SD_11_4" %SD_11_4_checked% ></td>
 														</tr>
 													</tbody>
 													<tfoot>
@@ -425,14 +465,14 @@
 												<table class="result-alt">
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="SS_21_4" id="SS_21_4"></td>
-															<td><input type="checkbox" name="SS_22_4" id="SS_22_4"></td>
-															<td><input type="checkbox" name="SS_23_4" id="SS_23_4"></td>
-															<td><input type="checkbox" name="SS_24_4" id="SS_24_4"></td>
-															<td><input type="checkbox" name="SS_25_4" id="SS_25_4"></td>
-															<td><input type="checkbox" name="SS_26_4" id="SS_26_4"></td>
-															<td><input type="checkbox" name="SS_27_4" id="SS_27_4"></td>
-															<td><input type="checkbox" name="SS_28_4" id="SS_28_4"></td>
+															<td><input type="checkbox" name="SS_21_4" id="SS_21_4" %SS_21_4_checked% ></td>
+															<td><input type="checkbox" name="SS_22_4" id="SS_22_4" %SS_22_4_checked% ></td>
+															<td><input type="checkbox" name="SS_23_4" id="SS_23_4" %SS_23_4_checked% ></td>
+															<td><input type="checkbox" name="SS_24_4" id="SS_24_4" %SS_24_4_checked% ></td>
+															<td><input type="checkbox" name="SS_25_4" id="SS_25_4" %SS_25_4_checked% ></td>
+															<td><input type="checkbox" name="SS_26_4" id="SS_26_4" %SS_26_4_checked% ></td>
+															<td><input type="checkbox" name="SS_27_4" id="SS_27_4" %SS_27_4_checked% ></td>
+															<td><input type="checkbox" name="SS_28_4" id="SS_28_4" %SS_28_4_checked% ></td>
 														</tr>
 													</tbody>
 													<tfoot>
@@ -467,14 +507,14 @@
 													</thead>
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="ID_48_4" id="ID_48_4"></td>
-															<td><input type="checkbox" name="ID_47_4" id="ID_47_4"></td>
-															<td><input type="checkbox" name="ID_46_4" id="ID_46_4"></td>
-															<td><input type="checkbox" name="ID_45_4" id="ID_45_4"></td>
-															<td><input type="checkbox" name="ID_44_4" id="ID_44_4"></td>
-															<td><input type="checkbox" name="ID_43_4" id="ID_43_4"></td>
-															<td><input type="checkbox" name="ID_42_4" id="ID_42_4"></td>
-															<td><input type="checkbox" name="ID_41_4" id="ID_41_4"></td>
+															<td><input type="checkbox" name="ID_48_4" id="ID_48_4" %ID_48_4_checked% ></td>
+															<td><input type="checkbox" name="ID_47_4" id="ID_47_4" %ID_47_4_checked% ></td>
+															<td><input type="checkbox" name="ID_46_4" id="ID_46_4" %ID_46_4_checked% ></td>
+															<td><input type="checkbox" name="ID_45_4" id="ID_45_4" %ID_45_4_checked% ></td>
+															<td><input type="checkbox" name="ID_44_4" id="ID_44_4" %ID_44_4_checked% ></td>
+															<td><input type="checkbox" name="ID_43_4" id="ID_43_4" %ID_43_4_checked% ></td>
+															<td><input type="checkbox" name="ID_42_4" id="ID_42_4" %ID_42_4_checked% ></td>
+															<td><input type="checkbox" name="ID_41_4" id="ID_41_4" %ID_41_4_checked% ></td>
 														</tr>
 													</tbody>
 												</table>	
@@ -495,14 +535,14 @@
 													</thead>
 													<tbody>
 														<tr>
-															<td><input type="checkbox" name="IS_31_4" id="IS_31_4"></td>
-															<td><input type="checkbox" name="IS_32_4" id="IS_32_4"></td>
-															<td><input type="checkbox" name="IS_33_4" id="IS_33_4"></td>
-															<td><input type="checkbox" name="IS_34_4" id="IS_34_4"></td>
-															<td><input type="checkbox" name="IS_35_4" id="IS_35_4"></td>
-															<td><input type="checkbox" name="IS_36_4" id="IS_36_4"></td>
-															<td><input type="checkbox" name="IS_37_4" id="IS_37_4"></td>
-															<td><input type="checkbox" name="IS_38_4" id="IS_38_4"></td>
+															<td><input type="checkbox" name="IS_31_4" id="IS_31_4" %IS_31_4_checked% ></td>
+															<td><input type="checkbox" name="IS_32_4" id="IS_32_4" %IS_32_4_checked% ></td>
+															<td><input type="checkbox" name="IS_33_4" id="IS_33_4" %IS_33_4_checked% ></td>
+															<td><input type="checkbox" name="IS_34_4" id="IS_34_4" %IS_34_4_checked% ></td>
+															<td><input type="checkbox" name="IS_35_4" id="IS_35_4" %IS_35_4_checked% ></td>
+															<td><input type="checkbox" name="IS_36_4" id="IS_36_4" %IS_36_4_checked% ></td>
+															<td><input type="checkbox" name="IS_37_4" id="IS_37_4" %IS_37_4_checked% ></td>
+															<td><input type="checkbox" name="IS_38_4" id="IS_38_4" %IS_38_4_checked% ></td>
 														</tr>
 													</tbody>
 												</table>	
@@ -517,6 +557,7 @@
 								<td colspan="2" align="right" class="tooltip"><button class="button" title="%confermaTip%" >%ml.conferma%</button></td>
 								<input type="hidden" name="idPaziente" value="%idPaziente%"/>
 								<input type="hidden" name="idListino" value="%idListino%"/>
+								<input type="hidden" name="idVisita" value="%idVisita%"/>
 								<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
 								<input type="hidden" name="cognome" value="%cognome%"/>
 								<input type="hidden" name="nome" value="%nome%"/>
@@ -549,43 +590,6 @@
 								
 			</div>
 		</div>
-		<table>
-			<tr>
-				<td>
-					<form class="tooltip" method="post" action="../paziente/creaVisitaFacade.class.php?modo=start" >
-						<button class="button" title="%ml.creaSingoli%" %azione% >%ml.dentiSingoli%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
-					</form>		
-				</td>
-				<td>
-					<form class="tooltip" method="post" action="../paziente/creaVisitaCureFacade.class.php?modo=start" >
-						<button class="button" title="%ml.creaCure%" %azione% >%ml.cure%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
-					</form>		
-				</td>
-				<td>
-					<form class="tooltip" method="post" action="../paziente/ricercaVisitaFacade.class.php?modo=start" >
-						<button class="button" title="%ml.funzPrec%" %azione% >%ml.indietro%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
-					</form>		
-				</td>
-			</tr>
-		</table>
 					
 	</div>
 </div>

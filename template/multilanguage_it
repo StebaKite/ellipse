@@ -25,14 +25,22 @@ confermaCreazionePaziente = Crea il nuovo paziente
 confermaCancellazionePaziente = Cancella il paziente
 rinfrescaDettaglioPaziente = Rilegge i dati del paziente
 confermaCreazioneVisita = Crea la nuova visita
+confermaModificaVisita = Modifica la visita
+confermaCancellazioneVisita = Cancella la visita
 funzPrec = Torna alla funzione precedente
+preventivaVisita = Crea un preventivo sulla base delle voci inserite nella visita
+;
 creaSingoli = Crea interventi su denti singoli
 creaGruppi = Crea interventi su gruppi di denti
 creaCure = Crea cure generiche su tutti i denti
-preventivaVisita = Crea un preventivo sulla base delle voci inserite nella visita
+;
+modificaSingoli = Modifica voci su denti singoli
+modificaGruppi = Modifica voci per gruppi di denti
+modificaCure = Modifica voci generiche per la visita
 ;
 ; Funzioni -----------------------------
 ;
+totaliProgressivi = Totali Progressivi
 creaNuovoPaziente = Crea Nuovo Paziente
 ricercaPaziente = Ricerca Paziente
 modificaPaziente = Modifica Paziente
@@ -43,6 +51,10 @@ creaNuovaVisitaDentiGruppi = Crea Visita Iniziale - Gruppi di Denti
 creaNuovaVisitaCure = Crea Visita Iniziale - Cure Generiche
 ricercaVisita = Ricerca Visita Iniziale
 dettaglioVisita = Dettaglio Visita Iniziale
+modificaVisitaDentiSingoli = Modifica Visita Iniziale - Denti Singoli
+modificaVisitaGruppi = Modifica Visita Iniziale - Gruppi di Denti
+modificaVisitaCure = Modifica Visita Iniziale - Cure Generiche
+cancellaVisita = Cancella Visita Iniziale
 ;
 ; Messaggi -----------------------------
 ;
@@ -67,9 +79,15 @@ canPazienteKo = Errore cancellazione paziente
 creaVisitaOk = Visita iniziale creata con successo
 creaVisitaKo = Errore creazione visita iniziale
 noVociGen = Voci cure generiche mancanti
+modificaVisitaOk = Visita iniziale modificata con successo
+modificaVisitaKo = Errore modifica visita iniziale
+canVisitaOk = Visita iniziale cancellata con successo
+canVisitaKo = Errore cancellazione visita iniziale
 ;
 ; Campi form ---------------------------
 ;
+oggetto = Entit&agrave;
+totale = Totale
 cognome = Cognome
 nome = Nome
 indirizzo = Indirizzo

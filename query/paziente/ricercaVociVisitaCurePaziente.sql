@@ -1,9 +1,7 @@
 SELECT
 
-	vocevisita.codicevocelistino,
 	vocevisita.nomecampoform,
-	vocevisita.nomeform,
-	voce.descrizione as descrizionevoce
+	vocevisita.codicevocelistino
 
 FROM paziente.visita as visita
 
@@ -11,7 +9,7 @@ FROM paziente.visita as visita
 		ON paziente.idpaziente = visita.idpaziente
 	
 	LEFT OUTER JOIN paziente.vocevisita as vocevisita
-		ON vocevisita.idvisita = visita.idvisita
+		on vocevisita.idvisita = visita.idvisita
 	
 	INNER JOIN paziente.vocelistino as vocelistino
 		ON  vocelistino.idlistino = paziente.idlistino
@@ -22,6 +20,5 @@ FROM paziente.visita as visita
 	
 WHERE paziente.idpaziente = %idpaziente%
   AND visita.idvisita = %idvisita%
-  AND vocevisita.nomeform = '%nomeform%'
-  
-ORDER BY vocevisita.nomeform, vocevisita.nomecampoform  
+  AND vocevisita.nomeform = 'cure'
+

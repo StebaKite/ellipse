@@ -1,7 +1,11 @@
-select
-	codicevocelistino,
-	descrizionevoce
+SELECT
+	voce.codice as codicevocelistino,
+	voce.descrizione as descrizionevoce
 	
-from paziente.vocelistino
-where idlistino = %idlistino%
-and tipoVoce = 'STD'
+FROM paziente.vocelistino as vocelistino
+
+	INNER JOIN paziente.voce as voce
+	ON  voce.idvoce = vocelistino.idvocelistino
+	AND voce.tipo = 'STD'
+
+WHERE vocelistino.idlistino = %idlistino%

@@ -24,4 +24,4 @@ WHERE paziente.idpaziente = %idpaziente%
   AND visita.idvisita = %idvisita%
   AND vocevisita.nomeform = '%nomeform%'
   
-ORDER BY vocevisita.nomeform, vocevisita.nomecampoform  
+ORDER BY vocevisita.codicevocelistino, vocevisita.nomecampoform

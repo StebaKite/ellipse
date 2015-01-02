@@ -5,13 +5,25 @@ require_once 'visitaPaziente.abstract.class.php';
 class creaVisitaCure extends visitaPazienteAbstract {
 
 	public static $cureForm = "cure";
-	public static $azione = "../paziente/creaVisitaCureFacade.class.php?modo=go";
+	public static $azioneCure = "../paziente/creaVisitaCureFacade.class.php?modo=go";
+	public static $azioneDentiSingoli = "../paziente/creaVisitaFacade.class.php?modo=start";
+	public static $azioneGruppi = "../paziente/creaVisitaGruppiFacade.class.php?modo=start";
 
 	function __construct() {
 		
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
 		$pathToInclude = self::$root . "/ellipse/src/paziente:" . self::$root . "/ellipse/src/utility";  
 		set_include_path($pathToInclude);		
+
+		require_once 'utility.class.php';
+
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		self::$testata = self::$root . $array['testataPagina'];
+		self::$piede = self::$root . $array['piedePagina'];
+		self::$messaggioErrore = self::$root . $array['messaggioErrore'];
+		self::$messaggioInfo = self::$root . $array['messaggioInfo'];						
 	}
 
 	// -------------------------------------------------
@@ -27,31 +39,16 @@ class creaVisitaCure extends visitaPazienteAbstract {
 		require_once 'visitaCure.template.php';
 		require_once 'utility.class.php';
 
-		// Template
-		$utility = new utility();
-		$array = $utility->getConfig();
+		error_log("<<<<<<< Start >>>>>>> " . $_SERVER['PHP_SELF']);
 
-		$testata = self::$root . $array['testataPagina'];
-		$piede = self::$root . $array['piedePagina'];
-		$messaggioErrore = self::$root . $array['messaggioErrore'];
-		$messaggioInfo = self::$root . $array['messaggioInfo'];
-
-		$visitaCure = new visitaCure();		
-		$visitaCure->setIdPaziente($this->getIdPaziente());
-		$visitaCure->setIdListino($this->getIdListino());
-		$visitaCure->setTitoloPagina('%ml.creaNuovaVisita%');
-				
-		$visitaCure->setAzione(self::$azione);
-		$visitaCure->setConfermaTip("%ml.confermaCreazioneVisita%");		
-				
-		$visitaCure->setTitoloPagina("%ml.creaNuovaVisitaCure%");
-		$visitaCure->setVisitaCure($visitaCure);		
+		$visitaCure = new visitaCure();
+		$visitaCure->setVisitaCure($this->preparaPagina($visitaCure));		
 
 		// Compone la pagina
-		include($testata);
-		$visitaCure->inizializzaPagina();
+		include(self::$testata);
+		$visitaCure->inizializzaCurePagina();
 		$visitaCure->displayPagina();
-		include($piede);		
+		include(self::$piede);		
 	}
 		
 	public function go() {
@@ -60,25 +57,15 @@ class creaVisitaCure extends visitaPazienteAbstract {
 		require_once 'visitaCure.template.php';
 		require_once 'utility.class.php';
 
-		// Template
-		$utility = new utility();
-		$array = $utility->getConfig();
-
-		$this->setTestata(self::$root . $array['testataPagina']);
-		$this->setPiede(self::$root . $array['piedePagina']);
-		$this->setMessaggioErrore(self::$root . $array['messaggioErrore']);
-		$this->setMessaggioInfo(self::$root . $array['messaggioInfo']);
+		error_log("<<<<<<< Go >>>>>>> " . $_SERVER['PHP_SELF']);
 
 		$visitaCure = new visitaCure();
-
-		$visitaCure->setIdListino($this->getIdListino());	
-		$visitaCure->setTitoloPagina('%ml.creaNuovaVisita%');
-
-		$visitaCure->setCureGeneriche($this->prelevaCampiForm());
-		$visitaCure->setAzione(self::$azione);
-		$visitaCure->setConfermaTip("%ml.confermaCreazioneVisita%");		
+		$visitaCure->setVisitaCure($this->preparaPagina($visitaCure));		
+		$visitaCure->setCureGeneriche($this->prelevaCampiFormCure());
 		
-		include($this->getTestata());
+		include(self::$testata);
+
+		$utility = new utility();
 
 		$voceSelezionata = FALSE;
 		foreach ($visitaCure->getCureGeneriche() as $row) {
@@ -102,7 +89,7 @@ class creaVisitaCure extends visitaPazienteAbstract {
 			else {
 				$visitaGruppi->displayPagina();
 				$replace = array('%messaggio%' => '%ml.creaVisitaKo%');				
-				$template = $utility->tailFile($utility->getTemplate($this->getMessaggioErrore()), $replace);			
+				$template = $utility->tailFile($utility->getTemplate(self::messaggioErrore), $replace);			
 				echo $utility->tailTemplate($template);
 			}
 		}
@@ -114,7 +101,7 @@ class creaVisitaCure extends visitaPazienteAbstract {
 			$ricercaVisita->start();
 		}
 
-		include($this->getPiede());		
+		include(self::$piede);		
 	}
 				
 	private function inserisciCure($visitaCure) {
@@ -152,22 +139,24 @@ class creaVisitaCure extends visitaPazienteAbstract {
 		return FALSE;
 	}
 
-	private function prelevaCampiForm() {
-		
-		$vociGeneriche = array();
-		
-		// primo gruppo --------------------------------------------------------------------------------------------------------------
-		
-		array_push($vociGeneriche, array('voceGenerica_1', $_POST['voceGenerica_1']));
-		array_push($vociGeneriche, array('voceGenerica_2', $_POST['voceGenerica_2']));
-		array_push($vociGeneriche, array('voceGenerica_3', $_POST['voceGenerica_3']));
-		array_push($vociGeneriche, array('voceGenerica_4', $_POST['voceGenerica_4']));
-		array_push($vociGeneriche, array('voceGenerica_5', $_POST['voceGenerica_5']));
-		array_push($vociGeneriche, array('voceGenerica_6', $_POST['voceGenerica_6']));
+	public function preparaPagina($visitaCure) {
 
-		// restituisce l'array
+		$visitaCure->setIdPaziente($this->getIdPaziente());
+		$visitaCure->setIdListino($this->getIdListino());
+		$visitaCure->setIdVisita($this->getIdVisita());
+
+		$visitaCure->setAzioneDentiSingoli(self::$azioneDentiSingoli);
+		$visitaCure->setAzioneGruppi(self::$azioneGruppi);
+		$visitaCure->setAzioneCure(self::$azioneCure);
 		
-		return $vociGeneriche;
+		$visitaCure->setConfermaTip('%ml.confermaCreazioneVisita%');		
+		$visitaCure->setGruppiTip('%ml.creaGruppi%');		
+		$visitaCure->setSingoliTip('%ml.creaSingoli%');		
+				
+		$visitaCure->setTitoloPagina('%ml.creaNuovaVisitaCure%');
+		$visitaCure->setVisitaCure($visitaCure);		
+
+		return $visitaCure;
 	}	
 }
 

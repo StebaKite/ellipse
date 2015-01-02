@@ -5,8 +5,18 @@ require_once 'visitaPaziente.abstract.class.php';
 class riepilogoVociVisita extends visitaPazienteAbstract {
 
 	private static $pagina = "/paziente/visita.dettaglio.form.html";
-	private static $vociVisita;	
-	private static $dettaglioVisita;
+	private static $paginaSingoli = "/paziente/visita.dettagliosingoli.form.html";
+	private static $paginaGruppi = "/paziente/visita.dettagliogruppi.form.html";
+	private static $paginaCure = "/paziente/visita.dettagliocure.form.html";
+	public static $vociVisitaDentiSingoli;	
+	public static $vociVisitaGruppi;	
+	public static $vociVisitaCureTab;	
+	public static $vociVisitaCure;	
+	public static $dettaglioVisita;
+
+	public static $azione;
+	public static $azioneTip;
+	public static $labelBottone;
 	
 	//-----------------------------------------------------------------------------
 
@@ -19,20 +29,50 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 
 	// Setters --------------------------------------------------------------------
 
-	public function setVociVisita($vociVisita) {
-		self::$vociVisita = $vociVisita;
+	public function setVociVisitaDentiSingoli($vociVisitaDentiSingoli) {
+		self::$vociVisitaDentiSingoli = $vociVisitaDentiSingoli;
+	}
+	public function setVociVisitaGruppi($vociVisitaGruppi) {
+		self::$vociVisitaGruppi = $vociVisitaGruppi;
+	}
+	public function setVociVisitaCure($vociVisitaCure) {
+		self::$vociVisitaCure = $vociVisitaCure;
 	}
 	public function setDettaglioVisita($dettaglioVisita) {
 		self::$dettaglioVisita = $dettaglioVisita;
 	}
+	public function setAzione($azione) {
+		self::$azione = $azione;
+	}
+	public function setAzioneTip($azioneTip) {
+		self::$azione = $azioneTip;
+	}
+	public function setLabelBottone($labelBottone) {
+		self::$labelBottone = $labelBottone;
+	}
 	
 	// Getters --------------------------------------------------------------------
 
-	public function getVociVisita() {
-		return self::$vociVisita;
+	public function getVociVisitaDentiSingoli() {
+		return self::$vociVisitaDentiSingoli;
+	}
+	public function getVociVisitaGruppi() {
+		return self::$vociVisitaGruppi;
+	}
+	public function getVociVisitaCure() {
+		return self::$vociVisitaCure;
 	}
 	public function getDettaglioVisita() {
 		return self::$dettaglioVisita;
+	}
+	public function getAzione() {
+		return self::$azione;
+	}
+	public function getAzioneTip() {
+		return self::$azioneTip;
+	}
+	public function getLabelBottone() {
+		return self::$labelBottone;
 	}
 	
 	// ----------------------------------------------------------------------------
@@ -44,41 +84,104 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 		
 		// Template --------------------------------------------------------------
 
-		$dettaglioVisita = $this->getDettaglioVisita();
-
 		$utility = new utility();
 		$array = $utility->getConfig();
 
 		$form = self::$root . $array['template'] . self::$pagina;
-
-		$rowcounter = 0;
-		$riepilogoVociVisita = "";
-		
-		foreach ($this->getVociVisita() as $row) {
-
-			if ($rowcounter % 2 == 0) $class = "class='on'";
-			else $class = "class=''";
-
-			$riepilogoVociVisita .= "<tr " . $class . "><td>" . $row['codicevocelistino'] . "</td><td>" . $row['nomecampoform'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
-			++$rowcounter;			
-		}	
+		$formSingoli = self::$root . $array['template'] . self::$paginaSingoli;
+		$formGruppi = self::$root . $array['template'] . self::$paginaGruppi;
+		$formCure = self::$root . $array['template'] . self::$paginaCure;
 
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
 			'%azione%' => $this->getAzione(),
-			'%confermaTip%' => $this->getConfermaTip(),
+			'%azioneTip%' => $this->getConfermaTip(),
+			'%labelBottone%' => $this->getLabelBottone(),
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),
 			'%cognome%' => $this->getCognome(),
 			'%nome%' => $this->getNome(),
 			'%datanascita%' => $this->getDataNascita(),
-			'%idvisita%' => $this->getIdVisita(),
+			'%idVisita%' => $this->getIdVisita(),
 			'%datainserimento%' => $this->getDataInserimento(),
 			'%stato%' => $this->getStato(),
 			'%idPaziente%' => $this->getIdPaziente(),
-			'%idListino%' => $this->getIdListino(),
-			'%riepilogoVociVisita%' => $riepilogoVociVisita
+			'%idListino%' => $this->getIdListino()
 		);
 
+		// Preparo la tab per le voci riferite ai denti singoli -----------------------------------------------------
+		
+		if ($this->getVociVisitaDentiSingoli()) {	
+
+			$riepilogoVociVisitaDentiSingoli = "";
+			$replace['%riepilogoDentiSingoliTab%'] = "<li><a href='#tabs-1'>%ml.dentiSingoli%</a></li>"; 
+			
+			foreach ($this->getVociVisitaDentiSingoli() as $row) {
+				$riepilogoVociVisitaDentiSingoli .= "<tr><td>" . $row['nomecampoform'] . "</td><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
+			}
+			
+			$replace['%riepilogoDentiSingoli%'] = $riepilogoVociVisitaDentiSingoli;			
+			$template = $utility->tailFile($utility->getTemplate($formSingoli), $replace);
+			$replace['%riepilogoDentiSingoliDiv%'] = $template;
+	
+		}
+		else {
+			$replace['%riepilogoDentiSingoliTab%'] = ""; 
+			$replace['%riepilogoDentiSingoliDiv%'] = ""; 
+			$replace['%riepilogoDentiSingoli%'] = "";
+		}
+
+		// Preparo la tab per le voci riferite ai gruppi di denti --------------------------------------------------
+		
+		if ($this->getVociVisitaGruppi()) {	
+
+			$riepilogoVociVisitaGruppi = "";
+			$replace['%riepilogoGruppiTab%'] = "<li><a href='#tabs-2'>%ml.gruppi%</a></li>"; 
+
+			$voceListinoBreak = "";
+			
+			foreach ($this->getVociVisitaGruppi() as $row) {
+
+				if (trim($row['codicevocelistino']) != trim($voceListinoBreak)) {
+					$riepilogoVociVisitaGruppi .= "<tr><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td><td>" . $row['nomecampoform'] . "</td></tr>";
+					$voceListinoBreak = $row['codicevocelistino'];
+				}
+				else {
+					$riepilogoVociVisitaGruppi .= "<tr><td></td><td></td><td>" . $row['nomecampoform'] . "</td></tr>";
+				}
+			}
+			
+			$replace['%riepilogoGruppi%'] = $riepilogoVociVisitaGruppi;			
+			$template = $utility->tailFile($utility->getTemplate($formGruppi), $replace);
+			$replace['%riepilogoGruppiDiv%'] = $template;
+		}
+		else {
+			$replace['%riepilogoGruppiTab%'] = "";
+			$replace['%riepilogoGruppiDiv%'] = "";
+			$replace['%riepilogoGruppi%'] = "";
+		}
+
+		// Preparo la tab per le voci riferite alle cure generiche  --------------------------------------------------
+		
+		if ($this->getVociVisitaCure()) {	
+
+			$riepilogoVociVisitaCure = "";
+			$replace['%riepilogoCureTab%'] = "<li><a href='#tabs-3'>%ml.cure%</a></li>"; 
+			
+			foreach ($this->getVociVisitaCure() as $row) {
+				$riepilogoVociVisitaCure .= "<tr><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
+			}
+			
+			$replace['%riepilogoCure%'] = $riepilogoVociVisitaCure;
+			$template = $utility->tailFile($utility->getTemplate($formCure), $replace);
+			$replace['%riepilogoCureDiv%'] = $template;
+		}
+		else {
+			$replace['%riepilogoCureTab%'] = "";
+			$replace['%riepilogoCureDiv%'] = "";
+			$replace['%riepilogoCure%'] = "";
+		}
+		
+		// display della pagina completata ------------------------------------------------------------------------
 		$template = $utility->tailFile($utility->getTemplate($form), $replace);
 		echo $utility->tailTemplate($template);
 	}
