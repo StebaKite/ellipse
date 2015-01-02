@@ -217,6 +217,16 @@ class ricercaVisitaTemplate {
 					}
 				}
 
+				// BOTTONE CANCELLA -----------------------------------------------
+				// nasconde il bottone cancella paziente se ha figli legati
+				// solo nel caso di paziente provvisorio compare il bottone anche se ha figli  (delete cascade su db)
+
+				$bottoneCancella = "<a class='tooltip' href='cancellaVisitaFacade.class.php?modo=start&idPaziente=%idpaziente%&idListino=%idlistino%&idVisita=%idvisita%&datainserimento=%datainserimento%&stato=%stato%&cognRic=%cognomeRicerca%&cognome=%cognome%&nome=%nome%&datanascita=%datanascita%'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
+
+				if ($row['stato'] == "Preventivata") {
+					$bottoneCancella = "";
+				}
+
 				++$rowcounter;			
 
 				$replace = array(
@@ -229,6 +239,7 @@ class ricercaVisitaTemplate {
 					'%datanascita%' => $this->getDataNascita(),
 					'%cognomeRicerca%' => $this->getCognomeRicerca(),
 					'%datainserimento%' => stripslashes($row['datainserimento']),
+					'%bottoneCancella%' => $bottoneCancella,
 					'%stato%' => stripslashes($row['stato'])
 				);
 

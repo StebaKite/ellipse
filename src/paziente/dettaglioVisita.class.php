@@ -94,7 +94,7 @@ class dettaglioVisita extends visitaPazienteAbstract {
 			'%nomeform%' => 'gruppi'
 		);
 
-		$sqlTemplate = self::$root . $array['query'] . self::$queryRiepilogoVociVisitaPaziente;
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRiepilogoVociVisitaGruppiPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->getData($sql);
 		

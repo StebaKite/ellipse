@@ -62,8 +62,6 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 		
 		// Template --------------------------------------------------------------
 
-//		$dettaglioVisita = $this->getDettaglioVisita();
-
 		$utility = new utility();
 		$array = $utility->getConfig();
 
@@ -71,8 +69,6 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 		$formSingoli = self::$root . $array['template'] . self::$paginaSingoli;
 		$formGruppi = self::$root . $array['template'] . self::$paginaGruppi;
 		$formCure = self::$root . $array['template'] . self::$paginaCure;
-
-		$rowcounter = 0;
 
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
@@ -97,12 +93,7 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 			$replace['%riepilogoDentiSingoliTab%'] = "<li><a href='#tabs-1'>%ml.dentiSingoli%</a></li>"; 
 			
 			foreach ($this->getVociVisitaDentiSingoli() as $row) {
-
-				if ($rowcounter % 2 == 0) $class = "class='on'";
-				else $class = "class=''";
-
-				$riepilogoVociVisitaDentiSingoli .= "<tr " . $class . "><td>" . $row['nomeform'] . "</td><td>" . $row['nomecampoform'] . "</td><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
-				++$rowcounter;			
+				$riepilogoVociVisitaDentiSingoli .= "<tr><td>" . $row['nomecampoform'] . "</td><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
 			}
 			
 			$replace['%riepilogoDentiSingoli%'] = $riepilogoVociVisitaDentiSingoli;			
@@ -122,14 +113,18 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 
 			$riepilogoVociVisitaGruppi = "";
 			$replace['%riepilogoGruppiTab%'] = "<li><a href='#tabs-2'>%ml.gruppi%</a></li>"; 
+
+			$voceListinoBreak = "";
 			
 			foreach ($this->getVociVisitaGruppi() as $row) {
 
-				if ($rowcounter % 2 == 0) $class = "class='on'";
-				else $class = "class=''";
-
-				$riepilogoVociVisitaGruppi .= "<tr " . $class . "><td>" . $row['nomeform'] . "</td><td>" . $row['nomecampoform'] . "</td><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
-				++$rowcounter;			
+				if (trim($row['codicevocelistino']) != trim($voceListinoBreak)) {
+					$riepilogoVociVisitaGruppi .= "<tr><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td><td>" . $row['nomecampoform'] . "</td></tr>";
+					$voceListinoBreak = $row['codicevocelistino'];
+				}
+				else {
+					$riepilogoVociVisitaGruppi .= "<tr><td></td><td></td><td>" . $row['nomecampoform'] . "</td></tr>";
+				}
 			}
 			
 			$replace['%riepilogoGruppi%'] = $riepilogoVociVisitaGruppi;			
@@ -142,7 +137,7 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 			$replace['%riepilogoGruppi%'] = "";
 		}
 
-		// Preparo la tab per le voci riferite ai gruppi di denti --------------------------------------------------
+		// Preparo la tab per le voci riferite alle cure generiche  --------------------------------------------------
 		
 		if ($this->getVociVisitaCure()) {	
 
@@ -150,12 +145,7 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 			$replace['%riepilogoCureTab%'] = "<li><a href='#tabs-3'>%ml.cure%</a></li>"; 
 			
 			foreach ($this->getVociVisitaCure() as $row) {
-
-				if ($rowcounter % 2 == 0) $class = "class='on'";
-				else $class = "class=''";
-
-				$riepilogoVociVisitaCure .= "<tr " . $class . "><td>" . $row['nomeform'] . "</td><td>" . $row['nomecampoform'] . "</td><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
-				++$rowcounter;			
+				$riepilogoVociVisitaCure .= "<tr><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
 			}
 			
 			$replace['%riepilogoCure%'] = $riepilogoVociVisitaCure;

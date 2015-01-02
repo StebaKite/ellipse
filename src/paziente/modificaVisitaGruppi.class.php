@@ -129,7 +129,7 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 
 		$visitaGruppi->setIdPaziente($this->getIdPaziente());
 
-		if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_1(), $visitaGruppi->getDentiGruppo_1(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
+		if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_1(), $visitaGruppi->getDentiGruppo_1(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {		
 			if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_2(), $visitaGruppi->getDentiGruppo_2(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
 				if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_3(), $visitaGruppi->getDentiGruppo_3(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
 					if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_4(), $visitaGruppi->getDentiGruppo_4(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
@@ -158,7 +158,7 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 	}
 	
 	public function modificaVociGruppo($db, $voceGruppo, $dentiGruppo, $idVisitaUsato, $nomeForm) {
-	
+
 		foreach($dentiGruppo as $row) {
 
 			// cerco il nomecampo sulla tabella vocevisita			
@@ -189,7 +189,7 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 				}
 			}
 		}
-		return TRUE;	
+		return TRUE;
 	}	
 }
 
