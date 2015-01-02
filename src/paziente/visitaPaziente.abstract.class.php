@@ -51,6 +51,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public static $queryAggiornaVisita = "/paziente/aggiornaVisita.sql";
 	public static $queryCreaVoceVisita = "/paziente/creaVoceVisita.sql";
 	public static $queryAggiornaVoceVisita = "/paziente/aggiornaVoceVisita.sql";
+	public static $queryCancellaVisita = "/paziente/cancellaVisita.sql";
 	public static $queryCancellaVoceVisita = "/paziente/cancellaVoceVisita.sql";
 
 	public static $queryVociListinoPaziente = "/paziente/ricercaVociListinoPaziente.sql";

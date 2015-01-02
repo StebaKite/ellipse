@@ -13,6 +13,10 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 	public static $vociVisitaCureTab;	
 	public static $vociVisitaCure;	
 	public static $dettaglioVisita;
+
+	public static $azione;
+	public static $azioneTip;
+	public static $labelBottone;
 	
 	//-----------------------------------------------------------------------------
 
@@ -37,6 +41,15 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 	public function setDettaglioVisita($dettaglioVisita) {
 		self::$dettaglioVisita = $dettaglioVisita;
 	}
+	public function setAzione($azione) {
+		self::$azione = $azione;
+	}
+	public function setAzioneTip($azioneTip) {
+		self::$azione = $azioneTip;
+	}
+	public function setLabelBottone($labelBottone) {
+		self::$labelBottone = $labelBottone;
+	}
 	
 	// Getters --------------------------------------------------------------------
 
@@ -51,6 +64,15 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 	}
 	public function getDettaglioVisita() {
 		return self::$dettaglioVisita;
+	}
+	public function getAzione() {
+		return self::$azione;
+	}
+	public function getAzioneTip() {
+		return self::$azioneTip;
+	}
+	public function getLabelBottone() {
+		return self::$labelBottone;
 	}
 	
 	// ----------------------------------------------------------------------------
@@ -73,12 +95,13 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
 			'%azione%' => $this->getAzione(),
-			'%confermaTip%' => $this->getConfermaTip(),
+			'%azioneTip%' => $this->getConfermaTip(),
+			'%labelBottone%' => $this->getLabelBottone(),
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),
 			'%cognome%' => $this->getCognome(),
 			'%nome%' => $this->getNome(),
 			'%datanascita%' => $this->getDataNascita(),
-			'%idvisita%' => $this->getIdVisita(),
+			'%idVisita%' => $this->getIdVisita(),
 			'%datainserimento%' => $this->getDataInserimento(),
 			'%stato%' => $this->getStato(),
 			'%idPaziente%' => $this->getIdPaziente(),

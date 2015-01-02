@@ -67,7 +67,7 @@ class visitaCure extends visitaPazienteAbstract {
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),
 			'%idPaziente%' => $this->getIdPaziente(),
 			'%idListino%' => $this->getIdListino(),
-			'%idvisita%' => $this->getIdVisita()
+			'%idVisita%' => $this->getIdVisita()
 		);
 
 		if ($rows) {			

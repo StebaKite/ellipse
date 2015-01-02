@@ -2,15 +2,26 @@
 
 require_once 'visitaPaziente.abstract.class.php';
 
-class dettaglioVisita extends visitaPazienteAbstract {
-
-	public static $azione = "../paziente/preventivaVisitaFacade.class.php?modo=go";
+class cancellaVisita extends visitaPazienteAbstract {
+	
+	public static $queryCancellaVisita = "/paziente/cancellaVisita.sql";	
+	public static $azione = "../paziente/cancellaVisitaFacade.class.php?modo=go";
 
 	function __construct() {
 		
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
 		$pathToInclude = self::$root . "/ellipse/src/paziente:" . self::$root . "/ellipse/src/utility";  
 		set_include_path($pathToInclude);		
+
+		require_once 'utility.class.php';
+
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		self::$testata = self::$root . $array['testataPagina'];
+		self::$piede = self::$root . $array['piedePagina'];
+		self::$messaggioErrore = self::$root . $array['messaggioErrore'];
+		self::$messaggioInfo = self::$root . $array['messaggioInfo'];				
 	}
 
 	// ------------------------------------------------
@@ -25,23 +36,63 @@ class dettaglioVisita extends visitaPazienteAbstract {
 
 		// Template
 		$utility = new utility();
+		$db = new database();
 		$array = $utility->getConfig();
 
-		$testata = self::$root . $array['testataPagina'];
-		$piede = self::$root . $array['piedePagina'];
-		$messaggioErrore = self::$root . $array['messaggioErrore'];
-		$messaggioInfo = self::$root . $array['messaggioInfo'];
+		$riepilogoVociVisita = new riepilogoVociVisita();
+		$this->preparaPagina($db, $utility, $array, $riepilogoVociVisita);
 
-		$riepilogoVociVisita = new riepilogoVociVisita();		
+		// Compone la pagina
+		include(self::$testata);
+		$riepilogoVociVisita->displayPagina();
+		include(self::$piede);		
+	}
+		
+	public function go() {
+
+		require_once 'dettaglioVisita.template.php';
+		require_once 'ricercaVisita.class.php';
+		require_once 'utility.class.php';
+		require_once 'database.class.php';
+
+		error_log("<<<<<<< Go >>>>>>> " . $_SERVER['PHP_SELF']);
+
+		// Template
+		$utility = new utility();
+		$db = new database();
+		$array = $utility->getConfig();
+
+		$riepilogoVociVisita = new riepilogoVociVisita();
+		$visita = $this->preparaPagina($db, $utility, $array, $riepilogoVociVisita);
+
+		if ($this->cancella($this->getIdPaziente(), $this->getIdVisita())) {
+			$ricercaVisita = new ricercaVisita();
+			$ricercaVisita->setMessaggio('%ml.canVisitaOk%');
+			$ricercaVisita->setIdPaziente($this->getIdPaziente());
+			$ricercaVisita->setCognomeRicerca($this->getCognomeRicerca());
+			$ricercaVisita->start();
+		}
+		else {
+			include(self::$testata);			
+			$riepilogoVociVisita->displayPagina();
+			$replace = array('%messaggio%' => '%ml.canVisitaKo%');				
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);			
+			echo $utility->tailTemplate($template);
+			include(self::$piede);		
+		}
+	}
+
+	public function preparaPagina($db, $utility, $array, $riepilogoVociVisita) {
+
 		$riepilogoVociVisita->setIdPaziente($this->getIdPaziente());
 		$riepilogoVociVisita->setIdListino($this->getIdListino());
 		$riepilogoVociVisita->setTitoloPagina('%ml.creaNuovaVisita%');
 		$riepilogoVociVisita->setCognomeRicerca($this->getCognomeRicerca());
 					
 		$riepilogoVociVisita->setAzione(self::$azione);
-		$riepilogoVociVisita->setLabelBottone("%ml.preventiva%");
-		$riepilogoVociVisita->setConfermaTip("%ml.preventivaVisita%");						
-		$riepilogoVociVisita->setTitoloPagina("%ml.dettaglioVisita%");
+		$riepilogoVociVisita->setLabelBottone("%ml.conferma%");
+		$riepilogoVociVisita->setConfermaTip("%ml.confermaCancellazioneVisita%");						
+		$riepilogoVociVisita->setTitoloPagina("%ml.cancellaVisita%");
 
 		$db = new database();
 
@@ -65,12 +116,40 @@ class dettaglioVisita extends visitaPazienteAbstract {
 				if (trim($row['tipovoce']) == 'cure') $this->prelevaVociCure($db, $utility, $array, $riepilogoVociVisita); 
 			}
 		}
-
-		// Compone la pagina
-		include($testata);
-		$riepilogoVociVisita->displayPagina();
-		include($piede);		
+		return $riepilogoVociVisita;
 	}
+
+	public function cancella($idPaziente, $idVisita) {
+
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+
+		// Template
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		// carica e ritaglia il comando sql da lanciare
+		$replace = array(
+			'%idpaziente%' => $idPaziente,
+			'%idvisita%' => $idVisita
+		);
+
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaVisita;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+
+		$esito = TRUE;
+
+		$db = new database();						
+		$result = $db->getData($sql);
+		error_log($sql);
+			
+		if (!$result) {
+			$esito = FALSE;
+		}
+		return $esito;
+	}
+
+
 
 	public function prelevaVociDentiSingoli($db, $utility, $array, $riepilogoVociVisita) {
 	
@@ -116,9 +195,15 @@ class dettaglioVisita extends visitaPazienteAbstract {
 		
 		$riepilogoVociVisita->setVociVisitaCure(pg_fetch_all($result));	
 	}
-		
-	public function go() {
-	}
+
+
+
+
+
+
+
+
+
 }
 
 ?>
