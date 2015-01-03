@@ -157,8 +157,8 @@ class visita extends visitaPazienteAbstract {
 		$rows = pg_fetch_all($result);
 		
 		foreach ($rows as $cod) {
-			$vociListino .= '"' . $cod['codicevocelistino'] . '",';			
-			$vociListinoEsteso .= "<tr><td>" . $cod['codicevocelistino'] . "</td><td>" . $cod['descrizionevoce'] . "</td></tr>";
+			$vociListino .= '"' . $cod['codicevocelistino'] . '",';
+			$vociListinoEsteso .= "<tr><td><input type='checkbox' value='" . $cod['codicevocelistino'] . "' onchange='addEle(this)'/></td><td>" . $cod['codicevocelistino'] . "</td><td>" . $cod['descrizionevoce'] . "</td></tr>";
 		}	
 
 		$replace = array(

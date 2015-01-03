@@ -133,7 +133,9 @@
 	.result tfoot, .result_alt tfoot, .ricerca tfoot, .dettaglio tfoot, .datiCreate tfoot {
 		text-align: right;
 	}
-
+	.datiCreate tbody {
+		valign: top;
+	}
 	.result th, .dettaglio th {
 		font-weight: bolder;
 		background-color: #666666;
@@ -196,3 +198,26 @@
 		font-weight: bolder;
 		text-decoration: none;
 	}	
+
+	.buttonDente {
+		position: relative;
+		line-height: normal;
+		margin: 0px;
+		padding: 0px;
+		width: 25px;
+		height: 20px;
+		text-align: center;
+		font-size: 8px;
+		color: #3399FF;
+		cursor: pointer;
+		vertical-align: middle;
+		text-align: center;
+		overflow: visible; /* removes extra width in IE */
+
+	}
+	.buttonDente:hover {
+		font-weight: bolder;
+		text-decoration: none;
+	}
+}
+
