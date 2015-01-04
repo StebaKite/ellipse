@@ -105,6 +105,17 @@
 	a:active {
 		text-decoration: underline;
 	}
+	div.scroll-listino {
+		width: 295px;
+		height: 300px;
+		background-color: #f6f6f6;
+		overflow: auto;
+	}
+	div.scroll-voci {
+		width: 670px;
+		height: 350px;
+		overflow: auto;
+	}
 	.result-alt {
 		border: 7px solid #f6f6f6;
 		background-color: #f6f6f6;

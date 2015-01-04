@@ -58,6 +58,18 @@
 
 				<form method="post" id="gruppi" action="%azioneGruppi%" >
 					<table class="datiCreate">
+						<thead>
+							<tr>
+								<td colspan="2" align="left" class="tooltip"><button class="button" title="%confermaTip%" >%ml.conferma%</button></td>
+								<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+								<input type="hidden" name="idListino" value="%idListino%"/>
+								<input type="hidden" name="idVisita" value="%idVisita%"/>
+								<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+								<input type="hidden" name="cognome" value="%cognome%"/>
+								<input type="hidden" name="nome" value="%nome%"/>
+								<input type="hidden" name="datanascita" value="%datanascita%"/>
+							</tr>
+						</thead>
 						<tbody>
 							<tr>
 								<td>
@@ -552,18 +564,6 @@
 								</td>
 							</tr>
 						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="2" align="right" class="tooltip"><button class="button" title="%confermaTip%" >%ml.conferma%</button></td>
-								<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-								<input type="hidden" name="idListino" value="%idListino%"/>
-								<input type="hidden" name="idVisita" value="%idVisita%"/>
-								<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-								<input type="hidden" name="cognome" value="%cognome%"/>
-								<input type="hidden" name="nome" value="%nome%"/>
-								<input type="hidden" name="datanascita" value="%datanascita%"/>
-							</tr>
-						</tfoot>							
 					</table>
 				</form>
 				

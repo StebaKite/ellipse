@@ -414,7 +414,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	}
 
 	public function inizializzaPagina() {
-
+/*
 		$dentiSingoli = array();
 
 		// arcata superiore destra (SD) ---------------------------------------------------------------------------------------------------------
@@ -506,12 +506,23 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 		array_push($dentiSingoli, array('IS_37_5', ''), array('IS_38_5', ''));
 
 		$this->setDentiSingoli($dentiSingoli);
+*/
 	}
 	
 	public function prelevaCampiFormSingoli() {
 		
 		$dentiSingoli = array();
 
+		// Prelevo il campo hidden che contiene tutte le voci applicate ------------------------------------------------------------------------
+
+		$campimpostati = $_POST['campiValorizzati'];
+		$campi = explode(',',$campimpostati);
+
+		for ($i = 0; $i < count($campi); $i++) {
+			array_push($dentiSingoli, array(trim($campi[$i]), $_POST[trim($campi[$i])]));
+		}
+
+/*
 		// arcata superiore destra (SD) ---------------------------------------------------------------------------------------------------------
 		
 		array_push($dentiSingoli, array('SD_18_1', $_POST['SD_18_1']), array('SD_17_1', $_POST['SD_17_1']), array('SD_16_1', $_POST['SD_16_1']));
@@ -599,7 +610,7 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 		array_push($dentiSingoli, array('IS_31_5', $_POST['IS_31_5']), array('IS_32_5', $_POST['IS_32_5']), array('IS_33_5', $_POST['IS_33_5']));
 		array_push($dentiSingoli, array('IS_34_5', $_POST['IS_34_5']), array('IS_35_5', $_POST['IS_35_5']), array('IS_36_5', $_POST['IS_36_5']));
 		array_push($dentiSingoli, array('IS_37_5', $_POST['IS_37_5']), array('IS_38_5', $_POST['IS_38_5']));
-
+*/
 		// restituisce l'array
 		
 		return $dentiSingoli;
