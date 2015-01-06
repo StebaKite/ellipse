@@ -98,6 +98,8 @@ $( "#dialog-link, #icons li" ).hover(
 	}
 );
 
+var vociListino = ["  "];	
+
 $( ".autocomplete" ).autocomplete({
 	source: vociListino
 });

@@ -116,7 +116,8 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 			$replace['%riepilogoDentiSingoliTab%'] = "<li><a href='#tabs-1'>%ml.dentiSingoli%</a></li>"; 
 			
 			foreach ($this->getVociVisitaDentiSingoli() as $row) {
-				$riepilogoVociVisitaDentiSingoli .= "<tr><td>" . $row['nomecampoform'] . "</td><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
+				$dente = split("_", $row['nomecampoform']);
+				$riepilogoVociVisitaDentiSingoli .= "<tr><td>" . $dente[1] . "</td><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
 			}
 			
 			$replace['%riepilogoDentiSingoli%'] = $riepilogoVociVisitaDentiSingoli;			
@@ -141,12 +142,14 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 			
 			foreach ($this->getVociVisitaGruppi() as $row) {
 
+				$dente = split("_", $row['nomecampoform']);
+
 				if (trim($row['codicevocelistino']) != trim($voceListinoBreak)) {
-					$riepilogoVociVisitaGruppi .= "<tr><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td><td>" . $row['nomecampoform'] . "</td></tr>";
+					$riepilogoVociVisitaGruppi .= "<tr><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td><td>" . $dente[1] . "</td></tr>";
 					$voceListinoBreak = $row['codicevocelistino'];
 				}
 				else {
-					$riepilogoVociVisitaGruppi .= "<tr><td></td><td></td><td>" . $row['nomecampoform'] . "</td></tr>";
+					$riepilogoVociVisitaGruppi .= "<tr><td></td><td></td><td>" . $dente[1] . "</td></tr>";
 				}
 			}
 			
