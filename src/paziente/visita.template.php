@@ -116,11 +116,39 @@ class visita extends visitaPazienteAbstract {
 	
 		$impostazioniVoci = "";
 
-		//  jquery ->  $('#SD_18_1').val("fgg")
+
+		//  document.getElementById(cella).innerHTML = inp;
+		//  str2 = "<input style='border-color: #ffffff; color: #";
+		//  str2 = str2.concat(color, "; text-align: center;' type='text' maxlength='3' size='2' name='");
+
+		//	str3 = "<input type='hidden' name='campiValorizzati' id='campiValorizzati' value='";
+		//	var inpHidden = str3.concat(campiImpostati,"'/>");
+		//	document.getElementById("campimpostati").innerHTML = inpHidden;
+
+
+		$dentiDecidui = array("51","52","53","54","55","61","62","63","64","65","71","72","73","74","75","81","82","83","84","85");
+		$campiImpostati = "";
 
 		foreach ($vociInserite as $voce) {
-			$impostazioniVoci .= "$('#" . trim($voce['nomecampoform']) . "').val('" . trim($voce['codicevocelistino']) . "'); ";
+
+			$name = trim($voce['nomecampoform']);
+			$value = trim($voce['codicevocelistino']);
+			$campiImpostati .= $name . ",";
+	
+			$dente = split("_", $name);
+
+			if (in_array($dente[1], $dentiDecidui)) 
+				$color = "f6a828";
+			else
+				$color = "3399ff";
+
+			$taginput = "<input style='border-color: #ffffff; color: #" . $color . "; text-align: center;' type='text' maxlength='3' size='2' name='" . $name . "' value='" . $value . "'/>";
+			$impostazioniVoci .= '$("#' . $name . '").html("' . $taginput . '"); ';
 		}
+
+		$inpHidden = "<input type='hidden' name='campiValorizzati' size='150' id='campiValorizzati' value='" . $campiImpostati . "'/>";	
+		$impostazioniVoci .= '$("#campimpostati").html("' . $inpHidden . '");';
+
 
 		$this->setImpostazioniVoci($impostazioniVoci);
 		error_log("Voci inserite caricate in pagina");
@@ -155,10 +183,22 @@ class visita extends visitaPazienteAbstract {
 		$result = $db->getData($sql);
 		
 		$rows = pg_fetch_all($result);
+
+		$x = 0;
 		
 		foreach ($rows as $cod) {
-			$vociListino .= '"' . $cod['codicevocelistino'] . '",';			
-			$vociListinoEsteso .= "<tr><td>" . $cod['codicevocelistino'] . "</td><td>" . $cod['descrizionevoce'] . "</td></tr>";
+			$vociListino .= '"' . $cod['codicevocelistino'] . '",';
+
+			if ($x == 0) {
+				$vociListinoEsteso .= "<tr>";
+			}
+			$vociListinoEsteso .= "<td><input type='checkbox' value='" . $cod['codicevocelistino'] . "' onchange='addEle(this)'/></td><td width='30' class='tooltip' title='" . $cod['descrizionevoce'] . "'>" . $cod['codicevocelistino'] . "</td>";
+			$x++;
+			
+			if ($x == 5) {
+				$vociListinoEsteso .= "</tr>";
+				$x = 0;
+			}
 		}	
 
 		$replace = array(

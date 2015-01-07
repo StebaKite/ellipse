@@ -60,7 +60,7 @@ class creaVisita extends visitaPazienteAbstract {
 
 		// Compone la pagina
 		include($testata);
-		$visita->inizializzaPagina();
+//		$visita->inizializzaPagina();
 		$visita->displayPagina();
 		include($piede);		
 	}
@@ -81,8 +81,6 @@ class creaVisita extends visitaPazienteAbstract {
 		$this->setMessaggioInfo(self::$root . $array['messaggioInfo']);
 
 		$visita = new visita();
-
-		$visita->setDentiSingoli($this->prelevaCampiFormSingoli());
 		
 		$visita->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$visita->setAzioneGruppi(self::$azioneGruppi);

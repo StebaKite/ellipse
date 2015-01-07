@@ -62,7 +62,7 @@ class modificaVisita extends visitaPazienteAbstract {
 
 		// Compone la pagina
 		include(self::$testata);
-		$visita->inizializzaPagina();
+//		$visita->inizializzaPagina();
 		$visita->impostaVoci();
 		$visita->displayPagina();
 		include(self::$piede);		
@@ -96,8 +96,9 @@ class modificaVisita extends visitaPazienteAbstract {
 		$visita->setTitoloPagina("%ml.modificaVisitaDentiSingoli%");
 		$visita->setVisitaLabel("- %ml.visita% : ");
 		$visita->setVisita($visita);		
-		
-		$visita->setDentiSingoli($this->prelevaCampiFormSingoli());
+
+		// carica in pagina le voci inserite sul DB
+		$visita->impostaVoci();
 		
 		include(self::$testata);
 
@@ -105,12 +106,16 @@ class modificaVisita extends visitaPazienteAbstract {
 			
 			if ($this->modificaSingoli($visita)) {
 
+				// ricarica in pagina le voci inserite sul DB
+				$visita->impostaVoci();
 				$visita->displayPagina();
 				$replace = array('%messaggio%' => '%ml.modificaVisitaOk%');				
 				$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);			
 				echo $utility->tailTemplate($template);
 			}
 			else {
+				// ricarica in pagina le voci inserite sul DB
+				$visita->impostaVoci();
 				$visita->displayPagina();
 				$replace = array('%messaggio%' => '%ml.modificaVisitaKo%');				
 				$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);			
@@ -118,6 +123,8 @@ class modificaVisita extends visitaPazienteAbstract {
 			}
 		}
 		else {
+			// ricarica in pagina le voci inserite sul DB
+			$visita->impostaVoci();
 			$visita->displayPagina();
 			$replace = array('%messaggio%' => '%ml.modificaVisitaKo%');				
 			$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);			
