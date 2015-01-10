@@ -116,6 +116,12 @@
 		height: 420px;
 		overflow: auto;
 	}
+	div.scroll {
+		width: 1000px;
+		height: 420px;
+		overflow: auto;	
+		border: 7px solid #ececec
+	}
 	.result-alt {
 		border: 7px solid #f6f6f6;
 		background-color: #f6f6f6;
