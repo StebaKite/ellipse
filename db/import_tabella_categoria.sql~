@@ -1,0 +1,15 @@
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'END','ENDODONZIA',current_date ,null);
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'CHI','CHIRURGIA',current_date ,null);
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'CON','CONSERVATIVA',current_date ,null);
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'ORT','ORTODONZIA',current_date ,null);
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'PRF','PROTESI FISSA',current_date ,null);
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'PRM','PROTESI MOBILE',current_date ,null);
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'PAR','PARADONTOLOGIA',current_date ,null);
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'IMP','IMPLANTOLOGIA',current_date ,null);
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'GNA','GNATOLOGIA',current_date ,null);
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'PED','PEDODONZIA',current_date ,null);
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'IGI','IGIENE ORALE',current_date ,null);
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'RAD','RADIOLOGIA',current_date ,null);
+insert into paziente.categoria values(nextval('paziente.categoria_idcategoria_seq'),'OGD','ORTOGNADODONZIA',current_date ,null);
+insert into paziente.categoria values(15,'RIP','RIPARAZIONI',current_date ,null);
+insert into paziente.categoria values(16,'VIS','VISITA',current_date ,null);
