@@ -16,6 +16,7 @@ gruppi = Gruppi di Denti
 cure = Cure Generiche
 preventiva = Preventiva
 info = Informazioni funzionalit&agrave;
+importa = Importa
 ;
 ; Tips ---------------------------------
 ;
@@ -39,6 +40,8 @@ modificaSingoli = Modifica voci su denti singoli
 modificaGruppi = Modifica voci per gruppi di denti
 modificaCure = Modifica voci generiche per la visita
 ;
+importaTip = Importa i dati configurati
+;
 ; Funzioni -----------------------------
 ;
 totaliProgressivi = Totali Progressivi
@@ -56,6 +59,7 @@ modificaVisitaDentiSingoli = Modifica Visita Iniziale - Denti Singoli
 modificaVisitaGruppi = Modifica Visita Iniziale - Gruppi di Denti
 modificaVisitaCure = Modifica Visita Iniziale - Cure Generiche
 cancellaVisita = Cancella Visita Iniziale
+importaDati = Importazione Dati
 ;
 ; Messaggi -----------------------------
 ;
@@ -84,6 +88,9 @@ modificaVisitaOk = Visita iniziale modificata con successo
 modificaVisitaKo = Errore modifica visita iniziale
 canVisitaOk = Visita iniziale cancellata con successo
 canVisitaKo = Errore cancellazione visita iniziale
+importaDatiOk = Dati importati con successo
+importaDatiKo = Errore durante l'importazione dei dati
+configurazioniKo = Errore durante la lettura delle configurazioni
 ;
 ; Campi form ---------------------------
 ;
