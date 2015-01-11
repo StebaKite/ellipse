@@ -5,7 +5,6 @@ require_once 'strumenti.abstract.class.php';
 class importaDati extends strumentiAbstract {
 
 	public static $azione = "../strumenti/importaDatiFacade.class.php?modo=go";	
-	private static $queryConfigurazioni = "/strumenti/ricercaConfigurazioni.sql";
 
 	function __construct() {
 
@@ -72,11 +71,23 @@ class importaDati extends strumentiAbstract {
 			array_push($mess, "Configurazioni caricate, inizio a importare ..." . "<br>");
 			$esito = TRUE;
 			
-			foreach($rows as $row) {				
-				if (!$this->importa($db, $utility, $importaTemplate, $mess, $row)) {
-					$esito = FALSE;			
+			$this->setMessaggi($mess);
+			
+			foreach($rows as $row) {
+				if ($row['stato'] == '00') {
+					if (!$this->importa($db, $utility, $importaTemplate, $row)) {
+						$esito = FALSE;
+					}
 				}
+				else {
+					array_push($mess, "Configurazione '" . $row['progressivo'] . "' classe '" . $row['classe'] . "' gi&agrave; elaborata, salto e proseguo ..." . "<br>");						
+				}				
 			}
+			
+			array_push($mess, "Fine importazione dati!" . "<br>");						
+			$this->setMessaggi($mess);
+				
+			$importaTemplate->setMessaggi($this->getMessaggi());
 			
 			if ($esito) {					
 				$importaTemplate->displayPagina();
@@ -96,8 +107,7 @@ class importaDati extends strumentiAbstract {
 			$replace = array('%messaggio%' => '%ml.configurazioniKo%');
 			$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);
 			echo $utility->tailTemplate($template);
-						}
-		
+		}		
 		include(self::$piede);
 	}
 	
@@ -112,25 +122,24 @@ class importaDati extends strumentiAbstract {
 		return $result;
 	}
 
-	public function importa($db, $utility, $importaTemplate, $mess, $row) {
+	public function importa($db, $utility, $importaTemplate, $row) {
+
+		$mess = $this->getMessaggi();
 		
 		array_push($mess, "Instanzio la classe '" . $row['classe'] . "' per importare il file '" . self::$root . $row['filepath'] . "'<br>");
-				
+		$this->setMessaggi($mess);
+		
 		$className = trim($row['classe']);
 		require_once $className . '.class.php';
 		
-		$instance = new $className();
-		$mess = $instance->start($db, $utility, $mess, $row);		
-		
-		
-		
-		
-		
-		
-		
-		
-		$importaTemplate->setMessaggi($mess);		
-		
+		if (class_exists($className)) {
+			$instance = new $className();
+			$instance->start($db, $utility, $row);				
+		}
+		else {
+			array_push($mess, "La classe '" . $row['classe'] . "' non esiste, salto il passo e proseguo" . "'<br>");				
+			$this->setMessaggi($mess);		
+		}
 		return TRUE;
 	}
 	
