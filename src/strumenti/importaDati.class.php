@@ -84,7 +84,8 @@ class importaDati extends strumentiAbstract {
 				}				
 			}
 			
-			array_push($mess, "Fine importazione dati!" . "<br>");						
+			$mess = $this->getMessaggi();
+			array_push($mess, "Fine importazione dati!" . "<br>");									
 			$this->setMessaggi($mess);
 				
 			$importaTemplate->setMessaggi($this->getMessaggi());

@@ -124,7 +124,7 @@ abstract class strumentiAbstract {
 		
 		array_push($mess, "Carico il file ..." . "<br>");
 		$file = self::$root . $row['filepath'];
-		
+
 		if (file_exists($file)) {
 			$temp = file($file);
 		}
