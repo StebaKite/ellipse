@@ -120,6 +120,7 @@ abstract class strumentiAbstract {
 	
 	public function caricaFileDati($row) {
 
+		$temp = "";
 		$mess = $this->getMessaggi();
 		
 		array_push($mess, "Carico il file ..." . "<br>");
@@ -129,7 +130,7 @@ abstract class strumentiAbstract {
 			$temp = file($file);
 		}
 		else {
-			array_push($mess, "Attenzione! Il file " . $file . " non esiste, salto questa importazione e proseguo" . "<br>");
+			array_push($mess, "Attenzione! Il file " . $file . " non esiste, salto all'importazione successiva..." . "<br>");
 		}
 
 		$this->setMessaggi($mess);

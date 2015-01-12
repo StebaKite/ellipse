@@ -31,8 +31,13 @@ class categoria extends strumentiAbstract {
 		 * del metodo componiInserimento()
 		 * 
 		 */
-		
-		$this->inserisciDati($db, $utility, $row, self::$queryCreaCategoria, $temp, $rows);		
+		if ($temp != "") {
+			$this->inserisciDati($db, $utility, $row, self::$queryCreaCategoria, $temp, $rows);
+			return TRUE;
+		}
+		else {
+			return FALSE;
+		}
 	}
 }
 

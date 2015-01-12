@@ -5,7 +5,8 @@ require_once 'strumenti.abstract.class.php';
 class importaDati extends strumentiAbstract {
 
 	public static $azione = "../strumenti/importaDatiFacade.class.php?modo=go";	
-
+	public static $sourceFolder = "/ellipse/src/strumenti/";
+	
 	function __construct() {
 
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
@@ -81,6 +82,7 @@ class importaDati extends strumentiAbstract {
 				}
 				else {
 					array_push($mess, "Configurazione '" . $row['progressivo'] . "' classe '" . $row['classe'] . "' gi&agrave; elaborata, salto e proseguo ..." . "<br>");						
+					$this->setMessaggi($mess);
 				}				
 			}
 			
@@ -131,17 +133,32 @@ class importaDati extends strumentiAbstract {
 		$this->setMessaggi($mess);
 		
 		$className = trim($row['classe']);
-		require_once $className . '.class.php';
+		$fileClass = self::$root . self::$sourceFolder . $className . '.class.php';
 		
-		if (class_exists($className)) {
-			$instance = new $className();
-			$instance->start($db, $utility, $row);				
+		if (file_exists($fileClass)) {
+			
+			require_once $className . '.class.php';
+			
+			if (class_exists($className)) {
+				$instance = new $className();
+				if ($instance->start($db, $utility, $row)) {
+					return TRUE;
+				}
+				else {
+					return FALSE;
+				}
+			}
+			else {
+				array_push($mess, "Il nome classe '" . $row['classe'] . "' non &egrave; definito, salto il passo e proseguo" . "'<br>");
+				$this->setMessaggi($mess);
+				return FALSE;
+			}	
 		}
 		else {
-			array_push($mess, "La classe '" . $row['classe'] . "' non esiste, salto il passo e proseguo" . "'<br>");				
-			$this->setMessaggi($mess);		
-		}
-		return TRUE;
+			array_push($mess, "Il file '" . $row['classe'] . ".class.php' non esiste, salto il passo e proseguo" . "'<br>");
+			$this->setMessaggi($mess);
+			return FALSE;
+		}	
 	}
 	
 	public function preparaPagina($importaTemplate) {
