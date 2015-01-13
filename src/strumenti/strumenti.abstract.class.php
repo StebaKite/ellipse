@@ -12,10 +12,32 @@ abstract class strumentiAbstract {
 	public static $titoloPagina;
 	public static $importaTemplate;
 	public static $messaggi;
+
+	public static $stato;
+	public static $statoDisable;
+	public static $statoDaeseguire;
+	public static $statoEseguito;
+
+	public static $progressivo;
+	public static $progressivoTip;
+	public static $progressivoStyle;
+	public static $progressivoDisable;
+
+	public static $classe;
+	public static $classeTip;
+	public static $classeStyle;
+	public static $classeDisable;
+
+	public static $filepath;
+	public static $filepathTip;
+	public static $filepathStyle;
+	public static $filepathDisable;
+	
 	
 	public static $queryConfigurazioni = "/strumenti/ricercaConfigurazioni.sql";
 	public static $queryRegoleConfigurazioni = "/strumenti/ricercaRegoleConfigurazioni.sql";
 	public static $queryAggiornaStatoConfigurazione = "/strumenti/aggiornaConfigurazione.sql";
+	public static $queryCreaConfigurazione = "/strumenti/creaConfigurazione.sql";
 	
 	function __construct() {
 
@@ -54,6 +76,61 @@ abstract class strumentiAbstract {
 		self::$messaggi = $messaggi;
 	}
 	
+	public function setStato($stato) {
+		self::$stato = $stato;
+	}
+	public function setStatoDisable($statoDisable) {
+		self::$statoDisable = $statoDisable;
+	}
+	public function setStatoDaeseguire($statoDaeseguire) {
+		self::$statoDaeseguire = $statoDaeseguire;
+	}
+	public function setStatoEseguito($statoEseguito) {
+		self::$statoEseguito = $statoEseguito;
+	}
+
+	public function setProgressivo($progressivo) {
+		self::$progressivo = $progressivo;
+	}
+	public function setProgressivoTip($progressivoTip) {
+		self::$progressivoTip = $progressivoTip;
+	}
+	public function setProgressivoStyle($progressivoStyle) {
+		self::$progressivoStyle = $progressivoStyle;
+	}
+	public function setProgressivoDisable($progressivoDisable) {
+		self::$progressivoDisable = $progressivoDisable;
+	}
+
+	public function setClasse($classe) {
+		self::$classe = $classe;
+	}
+	public function setClasseTip($classeTip) {
+		self::$classeTip = $classeTip;
+	}
+	public function setClasseStyle($classeStyle) {
+		self::$classeStyle = $classeStyle;
+	}
+	public function setClasseDisable($classeDisable) {
+		self::$classeDisable = $classeDisable;
+	}
+
+	public function setFilepath($filepath) {
+		self::$filepath = $filepath;
+	}
+	public function setFilepathTip($filepathTip) {
+		self::$filepathTip = $filepathTip;
+	}
+	public function setFilepathStyle($filepathStyle) {
+		self::$filepathStyle = $filepathStyle;
+	}
+	public function setFilepathDisable($filepathDisable) {
+		self::$filepathDisable = $filepathDisable;
+	}
+	
+	
+	
+	
 	// Getters -----------------------------------------------------------------------------
 
 	public function getTestata() {
@@ -82,6 +159,58 @@ abstract class strumentiAbstract {
 	}
 	public function getMessaggi() {
 		return self::$messaggi;
+	}
+	
+	public function getStato() {
+		return self::$stato;
+	}
+	public function getStatoDisable() {
+		return self::$statoDisable;
+	}
+	public function getStatoDaeseguire() {
+		return self::$statoDaeseguire;
+	}
+	public function getStatoEseguito() {
+		return self::$statoEseguito;
+	}
+
+	public function getProgressivo() {
+		return self::$progressivo;
+	}
+	public function getProgressivoTip() {
+		return self::$progressivoTip;
+	}
+	public function getProgressivoStyle() {
+		return self::$progressivoStyle;
+	}
+	public function getProgressivoDisable() {
+		return self::$progressivoDisable;
+	}
+
+	public function getClasse() {
+		return self::$classe;
+	}
+	public function getClasseTip() {
+		return self::$classeTip;
+	}
+	public function getClasseStyle() {
+		return self::$classeStyle;
+	}
+	public function getClasseDisable() {
+		return self::$classeDisable;
+	}
+
+	public function getFilepath() {
+		return self::$filepath;
+	}
+	public function getFilepathTip() {
+		return self::$filepathTip;
+	}
+	public function getFilepathStyle() {
+		return self::$filepathStyle;
+	}
+	public function getFilepathDisable() {
+		return self::$filepathDisable;
 	}
 	
 	// Start e Go funzione ----------------------------------------------------------------
@@ -196,6 +325,26 @@ abstract class strumentiAbstract {
 		
 		return $db->execSql($sql);
 	}
+	
+	public function creaConfigurazione($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%progressivo%' => $this->getProgressivo(),
+				'%classe%' => $this->getClasse(),
+				'%filepath%' => $this->getFilepath(),
+				'%stato%' => $this->getStato				
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaConfigurazione;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+	
 }
 
 ?>

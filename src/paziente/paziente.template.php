@@ -961,6 +961,7 @@ class paziente extends gestionePazienteAbstract {
 			else	
 				$laboratorio = $laboratorio . "<option value='$row[0]' >$row[1]";
 		}
+		
 		//-------------------------------------------------------------										
 
 		if ($this->getTipo() == "D") {

@@ -17,6 +17,8 @@ cure = Cure Generiche
 preventiva = Preventiva
 info = Informazioni funzionalit&agrave;
 importa = Importa
+daeseguire = Da eseguire
+eseguito = Eseguito
 ;
 ; Tips ---------------------------------
 ;
@@ -39,8 +41,16 @@ creaCure = Crea cure generiche su tutti i denti
 modificaSingoli = Modifica voci su denti singoli
 modificaGruppi = Modifica voci per gruppi di denti
 modificaCure = Modifica voci generiche per la visita
+modificaConfigurazione = Modifica la configurazione
+cancellaConfigurazione = Cancella la configurazione e tutte le sue regole
+regoleConfigurazione = Cerca le regole definite per questa configurazione
 ;
 importaTip = Importa i dati configurati
+nuovaConfig = Crea una nuova configurazione
+creaConfigTip = Crea una nuova configurazione
+progressivoTip = Attribuisce l'ordine di caricamento
+classeTip = La classe &egrave; l'oggetto che implementa il caricamento di una singola tabella
+filepathTip = Il file da caricare es. /ellipse/db/files/file.csv
 ;
 ; Funzioni -----------------------------
 ;
@@ -60,6 +70,8 @@ modificaVisitaGruppi = Modifica Visita Iniziale - Gruppi di Denti
 modificaVisitaCure = Modifica Visita Iniziale - Cure Generiche
 cancellaVisita = Cancella Visita Iniziale
 importaDati = Importazione Dati
+ricercaConfigurazioni = Ricerca Configurazioni
+creaConfigurazione = Crea Configurazione
 ;
 ; Messaggi -----------------------------
 ;
@@ -71,6 +83,8 @@ trovato = Trovato
 trovata = Trovata
 paziente = Paziente
 visita = Visita
+configurazione = Configurazione
+configurazioni = Configurazioni
 norisultati = La ricerca non ha prodotto risultati
 creaPazienteOk = Paziente creato con successo
 creaPazienteKo = Errore inserimento dati paziente
@@ -91,6 +105,7 @@ canVisitaKo = Errore cancellazione visita iniziale
 importaDatiOk = Dati importati con successo
 importaDatiKo = Errore durante l'importazione dei dati
 configurazioniKo = Errore durante la lettura delle configurazioni
+creaConfigurazioneOk = Configurazione creata
 ;
 ; Campi form ---------------------------
 ;
@@ -175,3 +190,9 @@ vociListinoPaziente = Voci Listino Paziente
 idvisita = ID Visita
 datainserimento = Inserita il 
 statovisita = Stato
+;
+progressivo = Progressivo
+classe = Classe
+filepath = File
+stato = Stato
+
