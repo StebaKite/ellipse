@@ -1,0 +1,37 @@
+<body>
+
+<div id="body">
+	<div id="main">
+		<h2>%ml.ricercaRegoleConfigurazioni%</h2>
+		<table class="ricerca">
+			<tbody>
+				<tr>
+					<td>%ml.progressivo% :</td>
+					<td><strong>%progressivo%</strong></td>
+					<td>%ml.classe% :</td>
+					<td><strong>%classe%</strong></td>
+				</tr>
+				<tr>
+					<td>%ml.filepath% :</td>
+					<td><strong>%filepath%</strong></td>
+					<td>%ml.stato% :</td>
+					<td><strong>%stato%</strong></td>
+				</tr>
+			</tbody>
+		</table>
+		<br/>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="../strumenti/creaRegolaConfigurazioneFacade.class.php?modo=start">
+						<button id="buttonCrea" class="button" title="%ml.nuovaRegolaConfig%" >%ml.nuovo%</button>
+					</form>
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../strumenti/ricercaConfigurazioneFacade.class.php?modo=start" >
+						<button class="button" title="Torna alla funzione precedente" %azione% >%ml.indietro%</button>
+					</form>
+				</td>
+			</tr>
+		</table>
+		

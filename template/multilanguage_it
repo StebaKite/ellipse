@@ -44,6 +44,8 @@ modificaCure = Modifica voci generiche per la visita
 modificaConfigurazione = Modifica la configurazione
 cancellaConfigurazione = Cancella la configurazione e tutte le sue regole
 regoleConfigurazione = Cerca le regole definite per questa configurazione
+modificaRegolaConfigurazione = Modifica la regola
+cancellaRegolaConfigurazione = Cancella la regola
 ;
 importaTip = Importa i dati configurati
 nuovaConfig = Crea una nuova configurazione
@@ -54,6 +56,7 @@ filepathTip = Il file da caricare es. /ellipse/db/files/file.csv
 classeEsistente = Il nome della classe deve essere dichiarato
 fileClasseEsistente = La classe deve essere contenuta in un file di progetto esistente
 fileDatiEsistente = Il file deve esistere
+nuovaRegolaConfig = Crea una nuova regola per la configurazione
 ;
 ; Funzioni -----------------------------
 ;
@@ -76,6 +79,7 @@ importaDati = Importazione Dati
 ricercaConfigurazioni = Ricerca Configurazioni
 creaConfigurazione = Crea Configurazione
 cancellaConfig = Cancella Configurazione
+ricercaRegoleConfigurazioni = Ricerca Regole Configurazione
 ;
 ; Messaggi -----------------------------
 ;
@@ -114,6 +118,8 @@ modificaConfigurazioneOk = Configurazione modificata con successo
 modificaConfigurazioneKo = Errore durante la modifica della configurazione
 cancellaConfigurazioneOk = Configurazione cancellata
 cancellaConfigurazioneKo = Errore durante la cancellazione della configurazione
+regoleconfigurazioni = Regole configurazione
+regolaconfigurazioni = Regola configurazione
 ;
 ; Campi form ---------------------------
 ;
@@ -203,4 +209,5 @@ progressivo = Progressivo
 classe = Classe
 filepath = File
 stato = Stato
-
+colonna = Colonna
+posizionevalore = Posizione Valore

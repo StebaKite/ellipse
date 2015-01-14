@@ -55,15 +55,7 @@ class ricercaConfigurazioni  extends strumentiAbstract {
 		}	
 	}
 	
-	public function go() {
-
-		error_log("<<<<<<< Go >>>>>>> " . $_SERVER['PHP_SELF']);
-		
-		
-		
-		
-		
-	}
+	public function go() {}
 	
 	private function ricerca($ricercaConfigurazioniTemplate) {
 
