@@ -164,7 +164,8 @@ class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 						if ($row['tipo'] == "P") $class = "class='provModifiedOn'";
 					}
 					else {
-						$class = "class='on'";
+						if ($row['tipo'] == "D") $class = "class='on'";
+						if ($row['tipo'] == "P") $class = "class='provModifiedOn'";
 					}
 				}
 				else {
@@ -173,7 +174,8 @@ class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 						if ($row['tipo'] == "P") $class = "class='provModifiedOff'";
 					}
 					else {
-						$class = "class=''";
+						if ($row['tipo'] == "D") $class = "class=''";
+						if ($row['tipo'] == "P") $class = "class='provModifiedOff'";
 					}
 				}
 

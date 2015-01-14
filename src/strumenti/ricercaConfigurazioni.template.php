@@ -121,13 +121,21 @@ class ricercaConfigurazioniTemplate  extends strumentiAbstract {
 
 				++$rowcounter;
 				
+				if ($row['stato'] == '01') {
+					$statoIcon = "<span class='ui-icon ui-icon-check'></span>";
+				}
+				else {
+					$statoIcon = "";
+				}
+				
+				
 				$replace = array(
 					'%class%' => $class,
 					'%idguida%' => trim(stripslashes($row['idguida'])),
 					'%progressivo%' => trim(stripslashes($row['progressivo'])),
 					'%classe%' => trim(stripslashes($row['classe'])),
 					'%filepath%' => trim(stripslashes($row['filepath'])),
-					'%stato%' => trim(stripslashes($row['stato']))
+					'%stato%' => $statoIcon
 				);
 				
 				$riga = $templateRiga;

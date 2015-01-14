@@ -51,6 +51,9 @@ creaConfigTip = Crea una nuova configurazione
 progressivoTip = Attribuisce l'ordine di caricamento
 classeTip = La classe &egrave; l'oggetto che implementa il caricamento di una singola tabella
 filepathTip = Il file da caricare es. /ellipse/db/files/file.csv
+classeEsistente = Il nome della classe deve essere dichiarato
+fileClasseEsistente = La classe deve essere contenuta in un file di progetto esistente
+fileDatiEsistente = Il file deve esistere
 ;
 ; Funzioni -----------------------------
 ;
@@ -72,6 +75,7 @@ cancellaVisita = Cancella Visita Iniziale
 importaDati = Importazione Dati
 ricercaConfigurazioni = Ricerca Configurazioni
 creaConfigurazione = Crea Configurazione
+cancellaConfig = Cancella Configurazione
 ;
 ; Messaggi -----------------------------
 ;
@@ -106,6 +110,10 @@ importaDatiOk = Dati importati con successo
 importaDatiKo = Errore durante l'importazione dei dati
 configurazioniKo = Errore durante la lettura delle configurazioni
 creaConfigurazioneOk = Configurazione creata
+modificaConfigurazioneOk = Configurazione modificata con successo
+modificaConfigurazioneKo = Errore durante la modifica della configurazione
+cancellaConfigurazioneOk = Configurazione cancellata
+cancellaConfigurazioneKo = Errore durante la cancellazione della configurazione
 ;
 ; Campi form ---------------------------
 ;

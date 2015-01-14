@@ -33,11 +33,15 @@ abstract class strumentiAbstract {
 	public static $filepathStyle;
 	public static $filepathDisable;
 	
+	public static $idguida;
 	
 	public static $queryConfigurazioni = "/strumenti/ricercaConfigurazioni.sql";
 	public static $queryRegoleConfigurazioni = "/strumenti/ricercaRegoleConfigurazioni.sql";
 	public static $queryAggiornaStatoConfigurazione = "/strumenti/aggiornaConfigurazione.sql";
+
 	public static $queryCreaConfigurazione = "/strumenti/creaConfigurazione.sql";
+	public static $queryModificaConfigurazione	= "/strumenti/modificaConfigurazione.sql";
+	public static $queryCancellaConfigurazione = "/strumenti/cancellaConfigurazione.sql";
 	
 	function __construct() {
 
@@ -127,9 +131,10 @@ abstract class strumentiAbstract {
 	public function setFilepathDisable($filepathDisable) {
 		self::$filepathDisable = $filepathDisable;
 	}
-	
-	
-	
+
+	public function setIdguida($idguida) {
+		self::$idguida = $idguida;
+	}
 	
 	// Getters -----------------------------------------------------------------------------
 
@@ -211,6 +216,10 @@ abstract class strumentiAbstract {
 	}
 	public function getFilepathDisable() {
 		return self::$filepathDisable;
+	}
+
+	public function getIdguida() {
+		return self::$idguida;
 	}
 	
 	// Start e Go funzione ----------------------------------------------------------------
@@ -335,10 +344,44 @@ abstract class strumentiAbstract {
 				'%progressivo%' => $this->getProgressivo(),
 				'%classe%' => $this->getClasse(),
 				'%filepath%' => $this->getFilepath(),
-				'%stato%' => $this->getStato				
+				'%stato%' => $this->getStato()				
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaConfigurazione;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	public function modificaConfigurazione($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idguida%' => $this->getIdguida(),
+				'%progressivo%' => $this->getProgressivo(),
+				'%classe%' => $this->getClasse(),
+				'%filepath%' => $this->getFilepath(),
+				'%stato%' => $this->getStato()
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryModificaConfigurazione;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	public function cancellaConfigurazione($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array('%idguida%' => $this->getIdguida());
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaConfigurazione;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	
