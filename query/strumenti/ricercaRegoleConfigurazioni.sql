@@ -1,8 +1,10 @@
-select
+SELECT
 
 	iddettaglioguida,
 	colonna,
 	posizionevalore
 
-from strumenti.dettaglioguida
-where idguida = %idguida%
+FROM strumenti.dettaglioguida
+WHERE idguida = %idguida%
+
+ORDER BY posizionevalore
