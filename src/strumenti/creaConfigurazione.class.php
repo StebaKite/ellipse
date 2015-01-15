@@ -65,6 +65,7 @@ class creaConfigurazione extends strumentiAbstract {
 			else {
 				include(self::$testata);
 				
+				$configurazioneTemplate->setStatoDaeseguire("checked");
 				$configurazioneTemplate->displayPagina();
 				$replace = array('%messaggio%' => '%ml.creaConfigurazioneKo%');
 				
@@ -76,6 +77,7 @@ class creaConfigurazione extends strumentiAbstract {
 		}
 		else {
 			include(self::$testata);
+			$configurazioneTemplate->setStatoDaeseguire("checked");
 			$configurazioneTemplate->displayPagina();
 			include(self::$piede);
 		}		

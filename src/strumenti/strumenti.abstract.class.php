@@ -32,6 +32,16 @@ abstract class strumentiAbstract {
 	public static $filepathTip;
 	public static $filepathStyle;
 	public static $filepathDisable;
+
+	public static $colonna;
+	public static $colonnaTip;
+	public static $colonnaStyle;
+	public static $colonnaDisable;
+
+	public static $posizioneValore;
+	public static $posizioneValoreTip;
+	public static $posizioneValoreStyle;
+	public static $posizioneValoreDisable;
 	
 	public static $idguida;
 	
@@ -42,6 +52,8 @@ abstract class strumentiAbstract {
 	public static $queryCreaConfigurazione = "/strumenti/creaConfigurazione.sql";
 	public static $queryModificaConfigurazione	= "/strumenti/modificaConfigurazione.sql";
 	public static $queryCancellaConfigurazione = "/strumenti/cancellaConfigurazione.sql";
+
+	public static $queryCreaRegolaConfigurazione = "/strumenti/creaRegolaConfigurazione.sql";
 	
 	function __construct() {
 
@@ -118,7 +130,7 @@ abstract class strumentiAbstract {
 	public function setClasseDisable($classeDisable) {
 		self::$classeDisable = $classeDisable;
 	}
-
+	
 	public function setFilepath($filepath) {
 		self::$filepath = $filepath;
 	}
@@ -132,6 +144,32 @@ abstract class strumentiAbstract {
 		self::$filepathDisable = $filepathDisable;
 	}
 
+	public function setColonna($colonna) {
+		self::$colonna = $colonna;
+	}
+	public function setColonnaTip($colonnaTip) {
+		self::$colonnaTip = $colonnaTip;
+	}
+	public function setColonnaStyle($colonnaStyle) {
+		self::$colonnaStyle = $colonnaStyle;
+	}
+	public function setColonnaDisable($colonnaDisable) {
+		self::$colonnaDisable = $colonnaDisable;
+	}
+
+	public function setPosizioneValore($posizioneValore) {
+		self::$posizioneValore = $posizioneValore;
+	}
+	public function setPosizioneValoreTip($posizioneValoreTip) {
+		self::$posizioneValoreTip = $posizioneValoreTip;
+	}
+	public function setPosizioneValoreStyle($posizioneValoreStyle) {
+		self::$posizioneValoreStyle = $posizioneValoreStyle;
+	}
+	public function setPosizioneValoreDisable($posizioneValoreDisable) {
+		self::$posizioneValoreDisable = $posizioneValoreDisable;
+	}
+	
 	public function setIdguida($idguida) {
 		self::$idguida = $idguida;
 	}
@@ -218,6 +256,32 @@ abstract class strumentiAbstract {
 		return self::$filepathDisable;
 	}
 
+	public function getColonna() {
+		return self::$colonna;
+	}
+	public function getColonnaTip() {
+		return self::$colonnaTip;
+	}
+	public function getColonnaStyle() {
+		return self::$colonnaStyle;
+	}
+	public function getColonnaDisable() {
+		return self::$colonnaDisable;
+	}
+
+	public function getPosizioneValore() {
+		return self::$posizioneValore;
+	}
+	public function getPosizioneValoreTip() {
+		return self::$posizioneValoreTip;
+	}
+	public function getPosizioneValoreStyle() {
+		return self::$posizioneValoreStyle;
+	}
+	public function getPosizioneValoreDisable() {
+		return self::$posizioneValoreDisable;
+	}
+	
 	public function getIdguida() {
 		return self::$idguida;
 	}
@@ -382,6 +446,24 @@ abstract class strumentiAbstract {
 		$replace = array('%idguida%' => $this->getIdguida());
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaConfigurazione;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	public function creaRegolaConfigurazione($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idguida%' => $this->getIdguida(),
+				'%colonna%' => $this->getColonna(),
+				'%posizionevalore%' => $this->getPosizioneValore()
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaRegolaConfigurazione;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	

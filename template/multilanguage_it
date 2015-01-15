@@ -57,6 +57,9 @@ classeEsistente = Il nome della classe deve essere dichiarato
 fileClasseEsistente = La classe deve essere contenuta in un file di progetto esistente
 fileDatiEsistente = Il file deve esistere
 nuovaRegolaConfig = Crea una nuova regola per la configurazione
+colonnaTip = La colonna della tabella da caricare
+posizioneValoreTip = La posizione del valore da caricare all'interno del file
+creaRegolaConfigTip = Crea una nuova regola
 ;
 ; Funzioni -----------------------------
 ;
@@ -80,6 +83,7 @@ ricercaConfigurazioni = Ricerca Configurazioni
 creaConfigurazione = Crea Configurazione
 cancellaConfig = Cancella Configurazione
 ricercaRegoleConfigurazioni = Ricerca Regole Configurazione
+creaRegolaConfigurazione = Crea Regola Configurazione
 ;
 ; Messaggi -----------------------------
 ;
@@ -120,6 +124,8 @@ cancellaConfigurazioneOk = Configurazione cancellata
 cancellaConfigurazioneKo = Errore durante la cancellazione della configurazione
 regoleconfigurazioni = Regole configurazione
 regolaconfigurazioni = Regola configurazione
+creaRegolaConfigurazioneOk = Regola creata
+creaRegolaConfigurazioneKo = Errore durante la creazione della regola
 ;
 ; Campi form ---------------------------
 ;

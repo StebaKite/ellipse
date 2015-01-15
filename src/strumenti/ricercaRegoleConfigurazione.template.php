@@ -70,6 +70,7 @@ class ricercaRegoleConfigurazioneTemplate  extends strumentiAbstract {
 		else $stato = "Eseguito";
 		
 		$replace = array(
+				'%idguida%' => $this->getIdguida(),
 				'%progressivo%' => $this->getProgressivo(),
 				'%classe%' => $this->getClasse(),
 				'%filepath%' => $this->getFilepath(),

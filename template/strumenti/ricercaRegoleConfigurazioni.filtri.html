@@ -8,12 +8,16 @@
 				<tr>
 					<td>%ml.progressivo% :</td>
 					<td><strong>%progressivo%</strong></td>
+				</tr>
+				<tr>
 					<td>%ml.classe% :</td>
 					<td><strong>%classe%</strong></td>
 				</tr>
 				<tr>
 					<td>%ml.filepath% :</td>
 					<td><strong>%filepath%</strong></td>
+				</tr>
+				<tr>
 					<td>%ml.stato% :</td>
 					<td><strong>%stato%</strong></td>
 				</tr>
@@ -25,11 +29,21 @@
 				<td>
 					<form class="tooltip" method="post" action="../strumenti/creaRegolaConfigurazioneFacade.class.php?modo=start">
 						<button id="buttonCrea" class="button" title="%ml.nuovaRegolaConfig%" >%ml.nuovo%</button>
+						<input type="hidden" name="idguida" value="%idguida%"/>
+						<input type="hidden" name="progressivo" value="%progressivo%"/>
+						<input type="hidden" name="classe" value="%classe%"/>
+						<input type="hidden" name="filepath" value="%filepath%"/>
+						<input type="hidden" name="stato" value="%stato%"/>						
 					</form>
 				</td>
 				<td>
 					<form class="tooltip" method="post" action="../strumenti/ricercaConfigurazioneFacade.class.php?modo=start" >
 						<button class="button" title="Torna alla funzione precedente" %azione% >%ml.indietro%</button>
+						<input type="hidden" name="idguida" value="%idguida%"/>
+						<input type="hidden" name="progressivo" value="%progressivo%"/>
+						<input type="hidden" name="classe" value="%classe%"/>
+						<input type="hidden" name="filepath" value="%filepath%"/>
+						<input type="hidden" name="stato" value="%stato%"/>						
 					</form>
 				</td>
 			</tr>
