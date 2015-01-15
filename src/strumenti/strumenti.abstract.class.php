@@ -56,6 +56,7 @@ abstract class strumentiAbstract {
 
 	public static $queryCreaRegolaConfigurazione = "/strumenti/creaRegolaConfigurazione.sql";
 	public static $queryModificaRegolaConfigurazione = "/strumenti/modificaRegolaConfigurazione.sql";
+	public static $queryCancellaRegolaConfigurazione = "/strumenti/cancellaRegolaConfigurazione.sql";
 	
 	function __construct() {
 
@@ -490,6 +491,20 @@ abstract class strumentiAbstract {
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryModificaRegolaConfigurazione;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	public function cancellaRegolaConfigurazione($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array('%iddettaglioguida%' => $this->getIddettaglioguida());
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaRegolaConfigurazione;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	

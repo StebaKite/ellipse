@@ -61,6 +61,7 @@ colonnaTip = La colonna della tabella da caricare
 posizioneValoreTip = La posizione del valore da caricare all'interno del file
 creaRegolaConfigTip = Crea una nuova regola
 modificaRegolaConfigTip = Modifica la regola della configurazione
+cancellaRegolaConfigTip = Cancella la regola di questa configurazione
 ;
 ; Funzioni -----------------------------
 ;
@@ -129,6 +130,8 @@ creaRegolaConfigurazioneOk = Regola creata
 creaRegolaConfigurazioneKo = Errore durante la creazione della regola
 modificaRegolaConfigurazioneOk = Regola modificata con successo
 modificaRegolaConfigurazioneKo = Errore durante la modifica della regola di configurazione
+cancellaRegolaConfigurazioneOk = Regola cancellata
+cancellaRegolaConfigurazioneKo = Errore durante la cancellazione della regola di configurazione
 ;
 ; Campi form ---------------------------
 ;

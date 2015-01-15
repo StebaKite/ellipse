@@ -57,6 +57,7 @@ class regolaConfigurazioneTemplate extends strumentiAbstract {
 				'%colonnaTip%' => $this->getColonnaTip(),
 				'%colonnaDisable%' => $this->getColonnaDisable(),
 				'%posizionevalore%' => $this->getPosizioneValore(),
+				'%posizionevaloreDisable%' => $this->getPosizioneValoreDisable(),
 				'%posizionevaloreTip%' => $this->getPosizioneValoreTip(),
 				'%idguida%' => $this->getIdguida(),
 				'%progressivo%' => $this->getProgressivo(),
