@@ -52,6 +52,7 @@ class regolaConfigurazioneTemplate extends strumentiAbstract {
 				'%azione%' => $this->getAzione(),
 				'%testoAzione%' => $this->getTestoAzione(),
 				'%idguida%' => $this->getIdguida(),
+				'%iddettaglioguida%' => $this->getIddettaglioguida(),
 				'%colonna%' => $this->getColonna(),
 				'%colonnaTip%' => $this->getColonnaTip(),
 				'%colonnaDisable%' => $this->getColonnaDisable(),

@@ -44,6 +44,7 @@ abstract class strumentiAbstract {
 	public static $posizioneValoreDisable;
 	
 	public static $idguida;
+	public static $iddettaglioguida;
 	
 	public static $queryConfigurazioni = "/strumenti/ricercaConfigurazioni.sql";
 	public static $queryRegoleConfigurazioni = "/strumenti/ricercaRegoleConfigurazioni.sql";
@@ -54,6 +55,7 @@ abstract class strumentiAbstract {
 	public static $queryCancellaConfigurazione = "/strumenti/cancellaConfigurazione.sql";
 
 	public static $queryCreaRegolaConfigurazione = "/strumenti/creaRegolaConfigurazione.sql";
+	public static $queryModificaRegolaConfigurazione = "/strumenti/modificaRegolaConfigurazione.sql";
 	
 	function __construct() {
 
@@ -173,6 +175,9 @@ abstract class strumentiAbstract {
 	public function setIdguida($idguida) {
 		self::$idguida = $idguida;
 	}
+	public function setIddettaglioguida($iddettaglioguida) {
+		self::$iddettaglioguida = $iddettaglioguida;
+	}
 	
 	// Getters -----------------------------------------------------------------------------
 
@@ -284,6 +289,9 @@ abstract class strumentiAbstract {
 	
 	public function getIdguida() {
 		return self::$idguida;
+	}
+	public function getIddettaglioguida() {
+		return self::$iddettaglioguida;
 	}
 	
 	// Start e Go funzione ----------------------------------------------------------------
@@ -464,6 +472,24 @@ abstract class strumentiAbstract {
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaRegolaConfigurazione;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	public function modificaRegolaConfigurazione($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%iddettaglioguida%' => $this->getIddettaglioguida(),
+				'%colonna%' => $this->getColonna(),
+				'%posizionevalore%' => $this->getPosizioneValore()
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryModificaRegolaConfigurazione;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	

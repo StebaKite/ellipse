@@ -66,8 +66,12 @@ class ricercaRegoleConfigurazioneTemplate  extends strumentiAbstract {
 		$array = $utility->getConfig();
 		$filtri = self::$root . $array['template'] . self::$filtri;
 
-		if ($this->getStato() == '00') $stato = "Da eseguire";
-		else $stato = "Eseguito";
+		if ($this->getStato() == "01" or $this->getStato() != "") {
+			$stato = "Eseguito";
+		}
+		else if ($this->getStato() == "00" or $this->getStato() == "") {
+			$stato = "Da Eseguire";
+		}
 		
 		$replace = array(
 				'%idguida%' => $this->getIdguida(),
@@ -105,7 +109,7 @@ class ricercaRegoleConfigurazioneTemplate  extends strumentiAbstract {
 			if ($numRegoleConfigurazioni > 1) {
 				$text1 = "%ml.trovate% "; $text2 = " %ml.regoleconfigurazioni%";
 			} else {
-				$text1 = "%ml.trovata% "; $text2 = " %ml.regolaconfigurazione%";
+				$text1 = "%ml.trovata% "; $text2 = " %ml.regolaconfigurazioni%";
 			}
 	
 			$text0 = $this->getMessaggio();
@@ -135,6 +139,11 @@ class ricercaRegoleConfigurazioneTemplate  extends strumentiAbstract {
 		
 				$replace = array(
 						'%class%' => $class,
+						'%idguida%' => $this->getIdguida(),
+						'%progressivo%' => $this->getProgressivo(),
+						'%classe%' => $this->getClasse(),
+						'%filepath%' => $this->getFilepath(),
+						'%stato%' => $this->getStato(),
 						'%iddettaglioguida%' => trim(stripslashes($row['iddettaglioguida'])),
 						'%colonna%' => trim(stripslashes($row['colonna'])),
 						'%posizionevalore%' => trim(stripslashes($row['posizionevalore']))

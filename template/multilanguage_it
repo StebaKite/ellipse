@@ -60,6 +60,7 @@ nuovaRegolaConfig = Crea una nuova regola per la configurazione
 colonnaTip = La colonna della tabella da caricare
 posizioneValoreTip = La posizione del valore da caricare all'interno del file
 creaRegolaConfigTip = Crea una nuova regola
+modificaRegolaConfigTip = Modifica la regola della configurazione
 ;
 ; Funzioni -----------------------------
 ;
@@ -126,6 +127,8 @@ regoleconfigurazioni = Regole configurazione
 regolaconfigurazioni = Regola configurazione
 creaRegolaConfigurazioneOk = Regola creata
 creaRegolaConfigurazioneKo = Errore durante la creazione della regola
+modificaRegolaConfigurazioneOk = Regola modificata con successo
+modificaRegolaConfigurazioneKo = Errore durante la modifica della regola di configurazione
 ;
 ; Campi form ---------------------------
 ;
