@@ -115,9 +115,16 @@ class riepilogoVociVisita extends visitaPazienteAbstract {
 			$riepilogoVociVisitaDentiSingoli = "";
 			$replace['%riepilogoDentiSingoliTab%'] = "<li><a href='#tabs-1'>%ml.dentiSingoli%</a></li>"; 
 			
+			$denteBreak = "";
 			foreach ($this->getVociVisitaDentiSingoli() as $row) {
 				$dente = split("_", $row['nomecampoform']);
-				$riepilogoVociVisitaDentiSingoli .= "<tr><td>" . $dente[1] . "</td><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
+				if ($dente[1] != $denteBreak) {
+					$riepilogoVociVisitaDentiSingoli .= "<tr><td>" . $dente[1] . "</td><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
+					$denteBreak = $dente[1];
+				}
+				else {
+					$riepilogoVociVisitaDentiSingoli .= "<tr><td></td><td>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td></tr>";
+				}
 			}
 			
 			$replace['%riepilogoDentiSingoli%'] = $riepilogoVociVisitaDentiSingoli;			

@@ -86,6 +86,39 @@ $( ".tooltip" ).tooltip();
 
 $( ".selectmenu" ).selectmenu();
 
+$( "#selectmenu1" )
+	.selectmenu()
+	.selectmenu("menuWidget")
+	.addClass("overflow");
+
+$( "#selectmenu2" )
+	.selectmenu()
+	.selectmenu("menuWidget")
+	.addClass("overflow");
+
+$( "#selectmenu3" )
+	.selectmenu()
+	.selectmenu("menuWidget")
+	.addClass("overflow");
+
+$( "#selectmenu4" )
+	.selectmenu()
+	.selectmenu("menuWidget")
+	.addClass("overflow");
+
+$( "#selectmenu5" )
+	.selectmenu()
+	.selectmenu("menuWidget")
+	.addClass("overflow");
+
+$( "#selectmenu6" )
+	.selectmenu()
+	.selectmenu("menuWidget")
+	.addClass("overflow");
+
+
+$( "#vtabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+$( "#vtabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
 
 
 // Hover states on the static widgets

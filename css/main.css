@@ -53,6 +53,17 @@
 	#menu-accordion li a:hover {
 		color: #85010f;
 	}
+	.overflow{
+		height: 200px;
+	}
+
+	.ui-tabs-vertical { width: 24em; }
+	.ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 3.5em; }
+	.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+	.ui-tabs-vertical .ui-tabs-nav li a { display: block; font-size: 10px; }
+	.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; }
+	.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: left; width: 17em; }
+	
 	* {
 		font-family: Arial, Helvetica, sans-serif;
 		font-size: 12px;
@@ -121,7 +132,7 @@
 		height: 420px;
 		overflow: auto;	
 		border: 7px solid #ececec
-	}
+	}	
 	.result-alt {
 		border: 7px solid #f6f6f6;
 		background-color: #f6f6f6;

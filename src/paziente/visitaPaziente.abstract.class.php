@@ -59,6 +59,10 @@ abstract class visitaPazienteAbstract extends pazienteAbstract {
 	public static $queryRiepilogoVociVisitaPaziente = "/paziente/riepilogoVociVisitaPaziente.sql";
 	public static $queryRiepilogoTipiVociVisitaPaziente = "/paziente/riepilogoTipiVociVisitaPaziente.sql";
 	public static $queryRiepilogoVociVisitaGruppiPaziente = "/paziente/riepilogoVociVisitaGruppiPaziente.sql";
+
+	public static $queryCategorieVociListinoPaziente = "/paziente/ricercaCategorieVociListinoPaziente.sql";
+	public static $queryVociListinoCategoriaPaziente = "/paziente/ricercaVociListinoCategoriaPaziente.sql";
+	
 	
 	public static $queryVociVisitaDentiSingoliPaziente = "/paziente/ricercaVociVisitaDentiSingoliPaziente.sql";
 	public static $queryVoceVisitaPaziente = "/paziente/ricercaVoceVisitaPaziente.sql";

@@ -170,29 +170,26 @@ class visita extends visitaPazienteAbstract {
 		$form = self::$root . $array['template'] . self::$pagina;
 
 		$db = new database();
-
+		$db->beginTransaction();
 		//-------------------------------------------------------------
 
-		$vociListino = "";
-		$vociListinoEsteso = "";	// per la tab di aiuto consultazione voci disponibili
-		
+		$vociListinoEsteso = "";		
 		$replace = array('%idlistino%' => $this->getIdListino());
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
-		$result = $db->getData($sql);
+		$result = $db->execSql($sql);
 		
 		$rows = pg_fetch_all($result);
 
 		$x = 0;
 		
 		foreach ($rows as $cod) {
-			$vociListino .= '"' . $cod['codicevocelistino'] . '",';
 
 			if ($x == 0) {
 				$vociListinoEsteso .= "<tr>";
 			}
-			$vociListinoEsteso .= "<td><input type='checkbox' value='" . $cod['codicevocelistino'] . "' onchange='addEle(this)'/></td><td width='30' class='tooltip' title='" . $cod['descrizionevoce'] . "'>" . $cod['codicevocelistino'] . "</td>";
+			$vociListinoEsteso .= "<td><input type='checkbox' value='" . trim($cod['codicevocelistino']) . "' onchange='addEle(this)'/></td><td width='30' class='tooltip' title='" . trim($cod['descrizionevoce']) . "'>" . trim($cod['codicevocelistino']) . "</td>";
 			$x++;
 			
 			if ($x == 5) {
@@ -201,6 +198,57 @@ class visita extends visitaPazienteAbstract {
 			}
 		}	
 
+		//-------------------------------------------------------------
+		
+		$tabsCategorie = "";
+		$divCategorie = "";
+		
+		$replace = array('%idlistino%' => $this->getIdListino());
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCategorieVociListinoPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		$rows = pg_fetch_all($result);
+		
+		foreach ($rows as $cat) {			
+			
+			$tabsCategorie .= "<li class='tooltip'><a title='" . trim($cat['descrizionecategoria']) . "' href='#" . trim($cat['codicecategoria']) . "'>" . trim($cat['codicecategoria']) . "</a></li>";  			
+
+			$replace = array(
+					'%codicecategoria%' => trim($cat['codicecategoria']),
+					'%idlistino%' => $this->getIdListino()					
+			);
+			
+			$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoCategoriaPaziente;
+			$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+			$resultVoci = $db->execSql($sql);
+			$rowsvoci = pg_fetch_all($resultVoci);
+
+			$x = 0;
+			$vociListinoCategoria = "";
+			
+			$divCategorie .= "<div id='" . trim($cat['codicecategoria']) . "'><table class='result-alt' id='resultTable'><tbody>";
+			
+			foreach ($rowsvoci as $voci) {
+				
+				if ($x == 0) {
+					$vociListinoCategoria .= "<tr>";
+				}
+				$vociListinoCategoria .= "<td><input type='checkbox' value='" . trim($voci['codicevocelistino']) . "' onchange='addEle(this)'/></td><td width='30' class='tooltip' title='" . trim($voci['descrizionevoce']) . "'>" . trim($voci['codicevocelistino']) . "</td>";
+				$x++;
+					
+				if ($x == 4) {
+					$vociListinoCategoria .= "</tr>";
+					$x = 0;
+				}
+				
+			}
+			
+			$divCategorie .= $vociListinoCategoria . "</tbody></table></div>";			
+		}
+		
+		$db->commitTransaction();
+		
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
 			'%visita%' => $this->getVisitaLabel(),
@@ -217,8 +265,9 @@ class visita extends visitaPazienteAbstract {
 			'%idPaziente%' => $this->getIdPaziente(),
 			'%idListino%' => $this->getIdListino(),
 			'%idVisita%' => $this->getIdVisita(),
-			'%vociListino%' => $vociListino,
 			'%vociListinoEsteso%' => $vociListinoEsteso,
+			'%tabsCategorie%' => $tabsCategorie,
+			'%divCategorie%' =>	$divCategorie,
 			'%impostazioniVoci%' => $this->getImpostazioniVoci()
 		);
 
