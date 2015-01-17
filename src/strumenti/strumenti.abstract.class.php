@@ -305,6 +305,7 @@ abstract class strumentiAbstract {
 	
 	public function displayPagina() { }
 	
+	// Metodi comuni -----------------------------------------------------------------------
 
 	public function caricaRegoleMapping($db, $utility, $row) {
 
@@ -510,7 +511,6 @@ abstract class strumentiAbstract {
 	
 		return $result;
 	}
-	
 }
 
 ?>

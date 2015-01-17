@@ -1,0 +1,34 @@
+<body>
+	
+<div id="body">
+	<div id="main">
+		<form method="post" action="%azione%" >
+			<h2>%titoloPagina%</h2>
+			<table class="datiCreate">
+				<tbody>
+					<tr>
+						<td>%ml.codicecategoria% :</td>
+						<td class="tooltip"><input type="text" name="codicecategoria" required style="%codicecategoriaStyle%" title="%codicecategoriaTip%" size="5" maxlength="3" value="%codicecategoria%" %codicecategoriaDisable% /></td>
+					</tr>
+					<tr>
+						<td>%ml.descrizionecategoria% :</td>
+						<td class="tooltip"><input type="text" name="descrizionecategoria" required style="%descrizionecategoriaStyle%" title="%descrizionecategoriaTip%" size="110" maxlength="100" value="%descrizionecategoria%" %descrizionecategoriaDisable% /></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="6" align="right" class="tooltip">
+							<button class="button" title="%testoAzione%" >%ml.conferma%</button>
+							<input type="hidden" name="idguida" value="%idguida%"/>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+			<br/>
+		</form>
+		<form class="tooltip" method="post" action="../impostazioni/ricercaCategoriaFacade.class.php?modo=start" >
+			<button class="button" title="Torna alla funzione precedente" %azione% >%ml.indietro%</button>
+		</form>
+	</div>
+</div>
+<br/>					

@@ -63,6 +63,13 @@ creaRegolaConfigTip = Crea una nuova regola
 modificaRegolaConfigTip = Modifica la regola della configurazione
 cancellaRegolaConfigTip = Cancella la regola di questa configurazione
 ;
+modificaCategoria = Modifica la categoria
+vociCategoria = Elenca le voci che appartengono alla categoria
+nuovaCategoria = Crea una nuova categoria
+codiceCategoriaTip = Un codice che identifica la categoria
+descrizioneCategoriaTip = La descrizione estesa della categoria
+creaCategoriaTip = Crea una nuova categoria
+;
 ; Funzioni -----------------------------
 ;
 totaliProgressivi = Totali Progressivi
@@ -86,6 +93,8 @@ creaConfigurazione = Crea Configurazione
 cancellaConfig = Cancella Configurazione
 ricercaRegoleConfigurazioni = Ricerca Regole Configurazione
 creaRegolaConfigurazione = Crea Regola Configurazione
+ricercaCategoria = Ricerca Categoria
+creaCategoria = Crea Categoria
 ;
 ; Messaggi -----------------------------
 ;
@@ -132,6 +141,10 @@ modificaRegolaConfigurazioneOk = Regola modificata con successo
 modificaRegolaConfigurazioneKo = Errore durante la modifica della regola di configurazione
 cancellaRegolaConfigurazioneOk = Regola cancellata
 cancellaRegolaConfigurazioneKo = Errore durante la cancellazione della regola di configurazione
+categorie = Categorie
+categoria = Categoria
+creaCategoriaOk = Categoria creata
+creaCategoriaKo = Errore durante la creazione della categoria
 ;
 ; Campi form ---------------------------
 ;
@@ -223,3 +236,6 @@ filepath = File
 stato = Stato
 colonna = Colonna
 posizionevalore = Posizione Valore
+;
+codicecategoria = Codice
+descrizionecategoria = Descrizione
