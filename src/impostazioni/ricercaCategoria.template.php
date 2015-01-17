@@ -136,7 +136,7 @@ class ricercaCategoriaTemplate  extends impostazioniAbstract {
 				// BOTTONE CANCELLA -----------------------------------------------
 				// nasconde il bottone cancella categoria se non contiene voci
 				
-				$bottoneCancella = "<a class='tooltip' href='cancellaCategoriaFacade.class.php?modo=start&idCategoria=" . stripslashes($row['idcategoria']) . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
+				$bottoneCancella = "<a class='tooltip' href='cancellaCategoriaFacade.class.php?modo=start&idcategoria=" . stripslashes($row['idcategoria']) . "&codicecategoria=" . stripslashes($row['codicecategoria']) . "&descrizionecategoria=" . stripslashes($row['descrizionecategoria']) . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
 				
 				if ($row['numvoci'] > 0)  $bottoneCancella = "";
 				

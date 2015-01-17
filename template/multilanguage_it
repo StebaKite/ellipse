@@ -69,6 +69,8 @@ nuovaCategoria = Crea una nuova categoria
 codiceCategoriaTip = Un codice che identifica la categoria
 descrizioneCategoriaTip = La descrizione estesa della categoria
 creaCategoriaTip = Crea una nuova categoria
+modificaCategoriaTip = Modifica i dati della categoria
+cancellaCategoriaTip = Cancella la categoria
 ;
 ; Funzioni -----------------------------
 ;
@@ -95,6 +97,7 @@ ricercaRegoleConfigurazioni = Ricerca Regole Configurazione
 creaRegolaConfigurazione = Crea Regola Configurazione
 ricercaCategoria = Ricerca Categoria
 creaCategoria = Crea Categoria
+cancellaCategoria = Cancella Categoria
 ;
 ; Messaggi -----------------------------
 ;
@@ -145,6 +148,10 @@ categorie = Categorie
 categoria = Categoria
 creaCategoriaOk = Categoria creata
 creaCategoriaKo = Errore durante la creazione della categoria
+modificaCategoriaOk = Categoria modifica con successo
+modificaCategoriaKo = Errore durante la modifica della categoria
+cancellaCategoriaOk = Categoria cancellata
+cancellaCategoriaKo = Errore durante la cancellazione della categoria
 ;
 ; Campi form ---------------------------
 ;

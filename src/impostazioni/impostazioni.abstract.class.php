@@ -175,12 +175,37 @@ abstract class impostazioniAbstract {
 		return $result;
 	}
 	
+	public function modificaCategoria($db) {
 	
+		$utility = new utility();
+		$array = $utility->getConfig();
 	
+		$replace = array(
+				'%idcategoria%' => $this->getIdcategoria(),
+				'%codicecategoria%' => $this->getCodiceCategoria(),
+				'%descrizionecategoria%' => $this->getDescrizioneCategoria()
+		);
 	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryModificaCategoria;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
 	
+		return $result;
+	}
 	
+	public function cancellaCategoria($db) {
 	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array('%idcategoria%' => $this->getIdcategoria());
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaCategoria;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
 	
 	
 	
