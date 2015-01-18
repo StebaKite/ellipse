@@ -65,7 +65,7 @@ creaRegolaConfigTip = Crea una nuova regola
 modificaRegolaConfigTip = Modifica la regola della configurazione
 cancellaRegolaConfigTip = Cancella la regola di questa configurazione
 ;
-modificaCategoria = Modifica la categoria
+modificaCategoria = Modifica della categoria
 vociCategoria = Elenca le voci che appartengono alla categoria
 nuovaCategoria = Crea una nuova categoria
 codiceCategoriaTip = Un codice che identifica la categoria
@@ -76,7 +76,8 @@ cancellaCategoriaTip = Cancella la categoria
 nuovaVoceTip = Crea una nuova voce nella categoria selezionata
 codiceVoceTip = Un codice che identifica la voce
 descrizioneVoceTip = La descrizione estesa della voce
-prezzoTip = Il prezzo della voce
+prezzoTip = Il prezzo della voce. Il separatore per i decimali &egrave; il punto (Es. 100.50 )
+modificaVoceTip = Modifica della voce
 ;
 ; Funzioni -----------------------------
 ;
@@ -106,6 +107,7 @@ creaCategoria = Crea Categoria
 cancellaCategoria = Cancella Categoria
 ricercaVoci = Ricerca Voci
 creaVoce = Crea Voce
+modificaVoce = Modifica Voce
 ;
 ; Messaggi -----------------------------
 ;
@@ -164,7 +166,8 @@ voce = Voce
 voci = Voci
 creaVoceOk = Voce creata
 creaVoceKo = Errore durante la creazione della voce
-
+modificaVoceOk = Voce modificata
+modificaVoceKo = Errore durante la modifica della voce
 ;
 ; Campi form ---------------------------
 ;

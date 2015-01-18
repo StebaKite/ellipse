@@ -59,6 +59,7 @@ class voceTemplate extends impostazioniAbstract {
 				'%idcategoria%' => $this->getIdcategoria(),
 				'%codicecategoria%' => $this->getCodiceCategoria(),
 				'%descrizionecategoria%' => $this->getDescrizioneCategoria(),
+				'%idvoce%' => $this->getIdvoce(),
 				'%codicevoce%' => $this->getCodiceVoce(),
 				'%codicevoceTip%' => $this->getCodiceVoceTip(),
 				'%codicevoceDisable%' => $this->getCodiceVoceDisable(),

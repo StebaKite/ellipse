@@ -153,7 +153,10 @@ class ricercaVociTemplate  extends impostazioniAbstract {
 						'%descrizionevoce%' => trim(stripslashes($row['descrizione'])),
 						'%prezzo%' => number_format(trim(stripslashes($row['prezzo'])), 2, ',', '.'),
 						'%tipovoce%' => trim(stripslashes($row['tipo'])),
-						'%bottoneCancella%' => $bottoneCancella
+						'%bottoneCancella%' => $bottoneCancella,
+						'%idcategoria%' => $this->getIdcategoria(),
+						'%codicecategoria%' => $this->getCodiceCategoria(),
+						'%descrizionecategoria%' => $this->getDescrizioneCategoria()
 				);
 	
 				++$rowcounter;

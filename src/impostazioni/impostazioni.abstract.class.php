@@ -49,6 +49,8 @@ abstract class impostazioniAbstract {
 	public static $queryCancellaCategoria = "/impostazioni/cancellaCategoria.sql";
 
 	public static $queryCreaVoce = "/impostazioni/creaVoce.sql";
+	public static $queryModificaVoce = "/impostazioni/modificaVoce.sql";
+	public static $queryLeggiVoce = "/paziente/ricercaIdVoce.sql";
 	
 	function __construct() {
 	
@@ -356,6 +358,40 @@ abstract class impostazioniAbstract {
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVoce;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	public function leggiVoce($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array('%codice%' => $this->getCodiceVoce());
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryLeggiVoce;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	public function modificaVoce($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%codice%' => $this->getCodiceVoce(),
+				'%descrizione%' => trim($this->getDescrizioneVoce()),
+				'%prezzo%' => $this->getPrezzo(),
+				'%tipo%' => $this->getTipoVoce(),
+				'%idvoce%' => $this->getIdvoce()
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryModificaVoce;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	
