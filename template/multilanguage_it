@@ -19,6 +19,8 @@ info = Informazioni funzionalit&agrave;
 importa = Importa
 daeseguire = Da eseguire
 eseguito = Eseguito
+standard = Standard
+generica = Generica
 ;
 ; Tips ---------------------------------
 ;
@@ -72,6 +74,9 @@ creaCategoriaTip = Crea una nuova categoria
 modificaCategoriaTip = Modifica i dati della categoria
 cancellaCategoriaTip = Cancella la categoria
 nuovaVoceTip = Crea una nuova voce nella categoria selezionata
+codiceVoceTip = Un codice che identifica la voce
+descrizioneVoceTip = La descrizione estesa della voce
+prezzoTip = Il prezzo della voce
 ;
 ; Funzioni -----------------------------
 ;
@@ -100,6 +105,7 @@ ricercaCategoria = Ricerca Categoria
 creaCategoria = Crea Categoria
 cancellaCategoria = Cancella Categoria
 ricercaVoci = Ricerca Voci
+creaVoce = Crea Voce
 ;
 ; Messaggi -----------------------------
 ;
@@ -156,6 +162,9 @@ cancellaCategoriaOk = Categoria cancellata
 cancellaCategoriaKo = Errore durante la cancellazione della categoria
 voce = Voce
 voci = Voci
+creaVoceOk = Voce creata
+creaVoceKo = Errore durante la creazione della voce
+
 ;
 ; Campi form ---------------------------
 ;

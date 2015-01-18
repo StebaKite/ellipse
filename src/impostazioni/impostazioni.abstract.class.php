@@ -20,6 +20,26 @@ abstract class impostazioniAbstract {
 	public static $descrizioneCategoriaTip;
 	public static $descrizioneCategoriaStyle;
 	public static $descrizioneCategoriaDisable;
+
+	public static $codiceVoce;
+	public static $codiceVoceTip;
+	public static $codiceVoceStyle;
+	public static $codiceVoceDisable;
+
+	public static $descrizioneVoce;
+	public static $descrizioneVoceTip;
+	public static $descrizioneVoceStyle;
+	public static $descrizioneVoceDisable;
+
+	public static $prezzo;
+	public static $prezzoTip;
+	public static $prezzoStyle;
+	public static $prezzoDisable;
+
+	public static $tipovoce;
+	public static $tipovoceDisable;
+	public static $tipovoceStandard;
+	public static $tipovoceGenerica;
 	
 	public static $idvoce;
 	public static $idcategoria;
@@ -27,6 +47,8 @@ abstract class impostazioniAbstract {
 	public static $queryCreaCategoria = "/impostazioni/creaCategoria.sql";
 	public static $queryModificaCategoria	= "/impostazioni/modificaCategoria.sql";
 	public static $queryCancellaCategoria = "/impostazioni/cancellaCategoria.sql";
+
+	public static $queryCreaVoce = "/impostazioni/creaVoce.sql";
 	
 	function __construct() {
 	
@@ -84,6 +106,59 @@ abstract class impostazioniAbstract {
 	}
 	public function setDescrizioneCategoriaDisable($descrizioneCategoriaDisable) {
 		self::$descrizioneCategoriaDisable = $descrizioneCategoriaDisable;
+	}
+
+
+	public function setCodiceVoce($codiceVoce) {
+		self::$codiceVoce = $codiceVoce;
+	}
+	public function setCodiceVoceTip($codiceVoceTip) {
+		self::$codiceVoceTip = $codiceVoceTip;
+	}
+	public function setCodiceVoceStyle($codiceVoceStyle) {
+		self::$codiceVoceStyle = $codiceVoceStyle;
+	}
+	public function setCodiceVoceDisable($codiceVoceDisable) {
+		self::$codiceVoceDisable = $codiceVoceDisable;
+	}
+
+	public function setDescrizioneVoce($descrizioneVoce) {
+		self::$descrizioneVoce = $descrizioneVoce;
+	}
+	public function setDescrizioneVoceTip($descrizioneVoceTip) {
+		self::$descrizioneVoceTip = $descrizioneVoceTip;
+	}
+	public function setDescrizioneVoceStyle($descrizioneVoceStyle) {
+		self::$descrizioneVoceStyle = $descrizioneVoceStyle;
+	}
+	public function setDescrizioneVoceDisable($descrizioneVoceDisable) {
+		self::$descrizioneVoceDisable = $descrizioneVoceDisable;
+	}
+
+	public function setPrezzo($prezzo) {
+		self::$prezzo = $prezzo;
+	}
+	public function setPrezzoTip($prezzoTip) {
+		self::$prezzoTip = $prezzoTip;
+	}
+	public function setPrezzoStyle($prezzoStyle) {
+		self::$prezzoStyle = $prezzoStyle;
+	}
+	public function setPrezzoDisable($prezzoDisable) {
+		self::$prezzoDisable = $prezzoDisable;
+	}
+
+	public function setTipoVoce($tipoVoce) {
+		self::$tipovoce = $tipoVoce;
+	}
+	public function setTipoVoceDisable($tipoVoceDisable) {
+		self::$tipovoceDisable = $tipoVoceDisable;
+	}
+	public function setTipoVoceStandard($tipoVoceStandard) {
+		self::$tipovoceStandard = $tipoVoceStandard;
+	}
+	public function setTipoVoceGenerica($tipoVoceGenerica) {
+		self::$tipovoceGenerica = $tipoVoceGenerica;
 	}
 	
 
@@ -143,6 +218,59 @@ abstract class impostazioniAbstract {
 	}
 	public function getDescrizioneCategoriaDisable() {
 		return self::$descrizioneCategoriaDisable;
+	}
+
+	
+	public function getCodiceVoce() {
+		return self::$codiceVoce;
+	}
+	public function getCodiceVoceTip() {
+		return self::$codiceVoceTip;
+	}
+	public function getCodiceVoceStyle() {
+		return self::$codiceVoceStyle;
+	}
+	public function getCodiceVoceDisable() {
+		return self::$codiceVoceDisable;
+	}
+
+	public function getDescrizioneVoce() {
+		return self::$descrizioneVoce;
+	}
+	public function getDescrizioneVoceTip() {
+		return self::$descrizioneVoceTip;
+	}
+	public function getDescrizioneVoceStyle() {
+		return self::$descrizioneVoceStyle;
+	}
+	public function getDescrizioneVoceDisable() {
+		return self::$descrizioneVoceDisable;
+	}
+
+	public function getPrezzo() {
+		return self::$prezzo;
+	}
+	public function getPrezzoTip() {
+		return self::$prezzoTip;
+	}
+	public function getPrezzoStyle() {
+		return self::$prezzoStyle;
+	}
+	public function getPrezzoDisable() {
+		return self::$prezzoDisable;
+	}
+
+	public function getTipoVoce() {
+		return self::$tipovoce;
+	}
+	public function getTipoVoceDisable() {
+		return self::$tipovoceDisable;
+	}
+	public function getTipoVoceStandard() {
+		return self::$tipovoceStandard;
+	}
+	public function getTipoVoceGenerica() {
+		return self::$tipovoceGenerica;
 	}
 	
 
@@ -208,6 +336,26 @@ abstract class impostazioniAbstract {
 		$replace = array('%idcategoria%' => $this->getIdcategoria());
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaCategoria;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	public function creaVoce($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%codice%' => $this->getCodiceVoce(),
+				'%descrizione%' => $this->getDescrizioneVoce(),
+				'%prezzo%' => $this->getPrezzo(),
+				'%tipo%' => $this->getTipoVoce(),
+				'%idcategoria%' => $this->getIdcategoria()
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVoce;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	

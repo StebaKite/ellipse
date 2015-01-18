@@ -151,7 +151,7 @@ class ricercaVociTemplate  extends impostazioniAbstract {
 						'%idvoce%' => trim(stripslashes($row['idvoce'])),
 						'%codicevoce%' => trim(stripslashes($row['codice'])),
 						'%descrizionevoce%' => trim(stripslashes($row['descrizione'])),
-						'%prezzo%' => trim(stripslashes($row['prezzo'])),
+						'%prezzo%' => number_format(trim(stripslashes($row['prezzo'])), 2, ',', '.'),
 						'%tipovoce%' => trim(stripslashes($row['tipo'])),
 						'%bottoneCancella%' => $bottoneCancella
 				);
