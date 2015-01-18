@@ -142,7 +142,7 @@ class ricercaVociTemplate  extends impostazioniAbstract {
 				// BOTTONE CANCELLA -----------------------------------------------
 				// nasconde il bottone cancella voce se è contenuta in qualche listino
 	
-				$bottoneCancella = "<a class='tooltip' href='cancellaVociFacade.class.php?modo=start&idvoce=" . stripslashes($row['idvoce']) . "&idcategoria=" . stripslashes($row['idcategoria']) . "&codicecategoria=" . stripslashes($row['codicecategoria']) . "&descrizionecategoria=" . stripslashes($row['descrizionecategoria']) . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
+				$bottoneCancella = "<a class='tooltip' href='cancellaVoceFacade.class.php?modo=start&idvoce=" . stripslashes($row['idvoce']) . "&codicevoce=" . stripslashes($row['codice']) . "&idcategoria=" . $this->getIdcategoria() . "&codicecategoria=" . $this->getCodiceCategoria() . "&descrizionecategoria=" . $this->getDescrizioneCategoria() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
 	
 				if ($row['numlistini'] > 0)  $bottoneCancella = "";
 	

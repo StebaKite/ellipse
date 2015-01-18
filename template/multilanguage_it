@@ -168,6 +168,8 @@ creaVoceOk = Voce creata
 creaVoceKo = Errore durante la creazione della voce
 modificaVoceOk = Voce modificata
 modificaVoceKo = Errore durante la modifica della voce
+cancellaVoceOk = Voce cancellata
+cancellaVoceKo = Errore durante la cancellazione della voce
 ;
 ; Campi form ---------------------------
 ;

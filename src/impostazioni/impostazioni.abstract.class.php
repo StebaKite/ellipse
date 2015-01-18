@@ -51,6 +51,7 @@ abstract class impostazioniAbstract {
 	public static $queryCreaVoce = "/impostazioni/creaVoce.sql";
 	public static $queryModificaVoce = "/impostazioni/modificaVoce.sql";
 	public static $queryLeggiVoce = "/paziente/ricercaIdVoce.sql";
+	public static $queryCancellaVoce = "/impostazioni/cancellaVoce.sql";
 	
 	function __construct() {
 	
@@ -397,9 +398,20 @@ abstract class impostazioniAbstract {
 	
 		return $result;
 	}
+
+	public function cancellaVoce($db) {
 	
+		$utility = new utility();
+		$array = $utility->getConfig();
 	
+		$replace = array('%idvoce%' => $this->getIdvoce());
 	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaVoce;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
 }	
 	
 ?>
