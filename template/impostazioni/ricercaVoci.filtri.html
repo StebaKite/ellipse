@@ -1,0 +1,36 @@
+<body>
+
+<div id="body">
+	<div id="main">
+		<h2>%ml.ricercaVoci%</h2>
+		<table class="ricerca">
+			<tbody>
+				<tr>
+					<td>%ml.codicecategoria% :</td>
+					<td><strong>%codicecategoria%</strong></td>
+					<td>%ml.descrizionecategoria% :</td>
+					<td><strong>%descrizionecategoria%</strong></td>
+				</tr>
+			</tbody>
+		</table>
+		<br/>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="../impostazioni/creaVoceFacade.class.php?modo=start">
+						<button id="buttonCrea" class="button" title="%ml.nuovaVoceTip%" >%ml.nuovo%</button>
+						<input type="hidden" name="idcategoria" value="%idcategoria%"/>
+						<input type="hidden" name="codicecategoria" value="%codicecategoria%"/>
+						<input type="hidden" name="descrizionecategoria" value="%descrizionecategoria%"/>
+					</form>
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../impostazioni/ricercaCategoriaFacade.class.php?modo=start" >
+						<button class="button" title="Torna alla funzione precedente">%ml.indietro%</button>
+						<input type="hidden" name="idcategoria" value="%idcategoria%"/>
+						<input type="hidden" name="codicecategoria" value="%codicecategoria%"/>
+						<input type="hidden" name="descrizionecategoria" value="%descrizionecategoria%"/>
+					</form>
+				</td>
+			</tr>
+		</table>

@@ -71,6 +71,7 @@ descrizioneCategoriaTip = La descrizione estesa della categoria
 creaCategoriaTip = Crea una nuova categoria
 modificaCategoriaTip = Modifica i dati della categoria
 cancellaCategoriaTip = Cancella la categoria
+nuovaVoceTip = Crea una nuova voce nella categoria selezionata
 ;
 ; Funzioni -----------------------------
 ;
@@ -98,6 +99,7 @@ creaRegolaConfigurazione = Crea Regola Configurazione
 ricercaCategoria = Ricerca Categoria
 creaCategoria = Crea Categoria
 cancellaCategoria = Cancella Categoria
+ricercaVoci = Ricerca Voci
 ;
 ; Messaggi -----------------------------
 ;
@@ -152,6 +154,8 @@ modificaCategoriaOk = Categoria modifica con successo
 modificaCategoriaKo = Errore durante la modifica della categoria
 cancellaCategoriaOk = Categoria cancellata
 cancellaCategoriaKo = Errore durante la cancellazione della categoria
+voce = Voce
+voci = Voci
 ;
 ; Campi form ---------------------------
 ;
@@ -246,3 +250,7 @@ posizionevalore = Posizione Valore
 ;
 codicecategoria = Codice
 descrizionecategoria = Descrizione
+codicevoce = Codice
+descrizionevoce = Descrizione
+tipovoce = Tipo Voce
+prezzo = Prezzo

@@ -21,6 +21,7 @@ abstract class impostazioniAbstract {
 	public static $descrizioneCategoriaStyle;
 	public static $descrizioneCategoriaDisable;
 	
+	public static $idvoce;
 	public static $idcategoria;
 	
 	public static $queryCreaCategoria = "/impostazioni/creaCategoria.sql";
@@ -89,6 +90,9 @@ abstract class impostazioniAbstract {
 	public function setIdcategoria($idcategoria) {
 		self::$idcategoria = $idcategoria;
 	}
+	public function setIdvoce($idvoce) {
+		self::$idvoce = $idvoce;
+	}
 	
 	// Getters -----------------------------------------------------------------------------
 	
@@ -144,6 +148,9 @@ abstract class impostazioniAbstract {
 
 	public function getIdcategoria() {
 		return self::$idcategoria;
+	}
+	public function getIdvoce() {
+		return self::$idvoce;
 	}
 	
 	// Start e Go funzione ----------------------------------------------------------------
