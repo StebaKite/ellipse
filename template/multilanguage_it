@@ -78,6 +78,10 @@ codiceVoceTip = Un codice che identifica la voce
 descrizioneVoceTip = La descrizione estesa della voce
 prezzoTip = Il prezzo della voce. Il separatore per i decimali &egrave; il punto (Es. 100.50 )
 modificaVoceTip = Modifica della voce
+cancellaVoceTip = Cancella la voce
+modificaListinoTip = Modifica il listino
+vociListinoTip = Gestisce le voci del listino
+nuovoListinoTip = Crea un nuovo listino
 ;
 ; Funzioni -----------------------------
 ;
@@ -108,6 +112,8 @@ cancellaCategoria = Cancella Categoria
 ricercaVoci = Ricerca Voci
 creaVoce = Crea Voce
 modificaVoce = Modifica Voce
+cancellaVoce = Cancella Voce
+ricercaListino = Ricerca Listino
 ;
 ; Messaggi -----------------------------
 ;
@@ -170,6 +176,9 @@ modificaVoceOk = Voce modificata
 modificaVoceKo = Errore durante la modifica della voce
 cancellaVoceOk = Voce cancellata
 cancellaVoceKo = Errore durante la cancellazione della voce
+;
+listino = Listino
+listini = Listini
 ;
 ; Campi form ---------------------------
 ;
@@ -268,3 +277,6 @@ codicevoce = Codice
 descrizionevoce = Descrizione
 tipovoce = Tipo Voce
 prezzo = Prezzo
+;
+codicelistino = Codice
+descrizionelistino = Descrizione
