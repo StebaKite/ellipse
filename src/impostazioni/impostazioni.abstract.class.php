@@ -40,9 +40,20 @@ abstract class impostazioniAbstract {
 	public static $tipovoceDisable;
 	public static $tipovoceStandard;
 	public static $tipovoceGenerica;
+
+	public static $codiceListino;
+	public static $codiceListinoTip;
+	public static $codiceListinoStyle;
+	public static $codiceListinoDisable;
+	
+	public static $descrizioneListino;
+	public static $descrizioneListinoTip;
+	public static $descrizioneListinoStyle;
+	public static $descrizioneListinoDisable;	
 	
 	public static $idvoce;
 	public static $idcategoria;
+	public static $idlistino;
 	
 	public static $queryCreaCategoria = "/impostazioni/creaCategoria.sql";
 	public static $queryModificaCategoria	= "/impostazioni/modificaCategoria.sql";
@@ -52,6 +63,8 @@ abstract class impostazioniAbstract {
 	public static $queryModificaVoce = "/impostazioni/modificaVoce.sql";
 	public static $queryLeggiVoce = "/paziente/ricercaIdVoce.sql";
 	public static $queryCancellaVoce = "/impostazioni/cancellaVoce.sql";
+
+	public static $queryCreaListino = "/impostazioni/creaListino.sql";
 	
 	function __construct() {
 	
@@ -163,6 +176,33 @@ abstract class impostazioniAbstract {
 	public function setTipoVoceGenerica($tipoVoceGenerica) {
 		self::$tipovoceGenerica = $tipoVoceGenerica;
 	}
+
+
+	public function setCodiceListino($codiceListino) {
+		self::$codiceListino = $codiceListino;
+	}
+	public function setCodiceListinoTip($codiceListinoTip) {
+		self::$codiceListinoTip = $codiceListinoTip;
+	}
+	public function setCodiceListinoStyle($codiceListinoStyle) {
+		self::$codiceListinoStyle = $codiceListinoStyle;
+	}
+	public function setCodiceListinoDisable($codiceListinoDisable) {
+		self::$codiceListinoDisable = $codiceListinoDisable;
+	}
+	
+	public function setDescrizioneListino($descrizioneListino) {
+		self::$descrizioneListino = $descrizioneListino;
+	}
+	public function setDescrizioneListinoTip($descrizioneListinoTip) {
+		self::$descrizioneListinoTip = $descrizioneListinoTip;
+	}
+	public function setDescrizioneListinoStyle($descrizioneListinoStyle) {
+		self::$descrizioneListinoStyle = $descrizioneListinoStyle;
+	}
+	public function setDescrizioneListinoDisable($descrizioneListinoDisable) {
+		self::$descrizioneListinoDisable = $descrizioneListinoDisable;
+	}
 	
 
 	public function setIdcategoria($idcategoria) {
@@ -170,6 +210,9 @@ abstract class impostazioniAbstract {
 	}
 	public function setIdvoce($idvoce) {
 		self::$idvoce = $idvoce;
+	}
+	public function setIdlistino($idlistino) {
+		self::$idlistino = $idlistino;
 	}
 	
 	// Getters -----------------------------------------------------------------------------
@@ -275,6 +318,33 @@ abstract class impostazioniAbstract {
 	public function getTipoVoceGenerica() {
 		return self::$tipovoceGenerica;
 	}
+
+
+	public function getCodiceListino() {
+		return self::$codiceListino;
+	}
+	public function getCodiceListinoTip() {
+		return self::$codiceListinoTip;
+	}
+	public function getCodiceListinoStyle() {
+		return self::$codiceListinoStyle;
+	}
+	public function getCodiceListinoDisable() {
+		return self::$codiceListinoDisable;
+	}
+	
+	public function getDescrizioneListino() {
+		return self::$descrizioneListino;
+	}
+	public function getDescrizioneListinoTip() {
+		return self::$descrizioneListinoTip;
+	}
+	public function getDescrizioneListinoStyle() {
+		return self::$descrizioneListinoStyle;
+	}
+	public function getDescrizioneListinoDisable() {
+		return self::$descrizioneListinoDisable;
+	}
 	
 
 	public function getIdcategoria() {
@@ -282,6 +352,9 @@ abstract class impostazioniAbstract {
 	}
 	public function getIdvoce() {
 		return self::$idvoce;
+	}
+	public function getIdlistino() {
+		return self::$idlistino;
 	}
 	
 	// Start e Go funzione ----------------------------------------------------------------
@@ -412,6 +485,24 @@ abstract class impostazioniAbstract {
 	
 		return $result;
 	}
+
+	public function creaListino($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%descrizionelistino%' => $this->getDescrizioneListino(),
+				'%codicelistino%' => $this->getCodiceListino()
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaListino;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+	
 }	
 	
 ?>

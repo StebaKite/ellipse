@@ -82,6 +82,8 @@ cancellaVoceTip = Cancella la voce
 modificaListinoTip = Modifica il listino
 vociListinoTip = Gestisce le voci del listino
 nuovoListinoTip = Crea un nuovo listino
+codiceListinoTip = Un codice che identifica il listino
+descrizioneListinoTip = La descrizione estesa del listino
 ;
 ; Funzioni -----------------------------
 ;
@@ -114,6 +116,7 @@ creaVoce = Crea Voce
 modificaVoce = Modifica Voce
 cancellaVoce = Cancella Voce
 ricercaListino = Ricerca Listino
+creaListino = Crea Listino
 ;
 ; Messaggi -----------------------------
 ;
@@ -179,6 +182,8 @@ cancellaVoceKo = Errore durante la cancellazione della voce
 ;
 listino = Listino
 listini = Listini
+creaListinoOk = Listino creato
+creaListinoKo = Errore durante la creazione del listino
 ;
 ; Campi form ---------------------------
 ;
