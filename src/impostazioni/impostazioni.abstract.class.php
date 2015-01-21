@@ -54,6 +54,7 @@ abstract class impostazioniAbstract {
 	public static $idvoce;
 	public static $idcategoria;
 	public static $idlistino;
+	public static $idvocelistino;
 	
 	public static $queryCreaCategoria = "/impostazioni/creaCategoria.sql";
 	public static $queryModificaCategoria	= "/impostazioni/modificaCategoria.sql";
@@ -65,6 +66,8 @@ abstract class impostazioniAbstract {
 	public static $queryCancellaVoce = "/impostazioni/cancellaVoce.sql";
 
 	public static $queryCreaListino = "/impostazioni/creaListino.sql";
+	public static $queryModificaListino = "/impostazioni/modificaListino.sql";
+	public static $queryCancellaListino = "/impostazioni/cancellaListino.sql";
 	
 	function __construct() {
 	
@@ -214,6 +217,9 @@ abstract class impostazioniAbstract {
 	public function setIdlistino($idlistino) {
 		self::$idlistino = $idlistino;
 	}
+	public function setIdvocelistino($idvocelistino) {
+		self::$idvocelistino = $idvocelistino;
+	}
 	
 	// Getters -----------------------------------------------------------------------------
 	
@@ -356,6 +362,9 @@ abstract class impostazioniAbstract {
 	public function getIdlistino() {
 		return self::$idlistino;
 	}
+	public function getIdvocelistino() {
+		return self::$idvocelistino;
+	}
 	
 	// Start e Go funzione ----------------------------------------------------------------
 	
@@ -375,8 +384,8 @@ abstract class impostazioniAbstract {
 		$array = $utility->getConfig();
 	
 		$replace = array(
-				'%codicecategoria%' => $this->getCodiceCategoria(),
-				'%descrizionecategoria%' => $this->getDescrizioneCategoria()
+				'%codicecategoria%' => str_replace("'","''",$this->getCodiceCategoria()),
+				'%descrizionecategoria%' => str_replace("'","''",$this->getDescrizioneCategoria())
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaCategoria;
@@ -393,8 +402,8 @@ abstract class impostazioniAbstract {
 	
 		$replace = array(
 				'%idcategoria%' => $this->getIdcategoria(),
-				'%codicecategoria%' => $this->getCodiceCategoria(),
-				'%descrizionecategoria%' => $this->getDescrizioneCategoria()
+				'%codicecategoria%' => str_replace("'","''",$this->getCodiceCategoria()),
+				'%descrizionecategoria%' => str_replace("'","''",$this->getDescrizioneCategoria())
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryModificaCategoria;
@@ -424,10 +433,10 @@ abstract class impostazioniAbstract {
 		$array = $utility->getConfig();
 	
 		$replace = array(
-				'%codice%' => $this->getCodiceVoce(),
-				'%descrizione%' => $this->getDescrizioneVoce(),
+				'%codice%' => str_replace("'","''",$this->getCodiceVoce()),
+				'%descrizione%' => str_replace("'","''",$this->getDescrizioneVoce()),
 				'%prezzo%' => $this->getPrezzo(),
-				'%tipo%' => $this->getTipoVoce(),
+				'%tipo%' => str_replace("'","''",$this->getTipoVoce()),
 				'%idcategoria%' => $this->getIdcategoria()
 		);
 	
@@ -458,10 +467,10 @@ abstract class impostazioniAbstract {
 		$array = $utility->getConfig();
 	
 		$replace = array(
-				'%codice%' => $this->getCodiceVoce(),
-				'%descrizione%' => trim($this->getDescrizioneVoce()),
+				'%codice%' => str_replace("'","''",$this->getCodiceVoce()),
+				'%descrizione%' => str_replace("'","''",trim($this->getDescrizioneVoce())),
 				'%prezzo%' => $this->getPrezzo(),
-				'%tipo%' => $this->getTipoVoce(),
+				'%tipo%' => str_replace("'","''",$this->getTipoVoce()),
 				'%idvoce%' => $this->getIdvoce()
 		);
 	
@@ -492,11 +501,43 @@ abstract class impostazioniAbstract {
 		$array = $utility->getConfig();
 	
 		$replace = array(
-				'%descrizionelistino%' => $this->getDescrizioneListino(),
-				'%codicelistino%' => $this->getCodiceListino()
+				'%descrizionelistino%' => str_replace("'","''",$this->getDescrizioneListino()),
+				'%codicelistino%' => str_replace("'","''",$this->getCodiceListino())
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaListino;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	public function modificaListino($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idlistino%' => $this->getIdlistino(),
+				'%codicelistino%' => str_replace("'","''",$this->getCodiceListino()),
+				'%descrizionelistino%' => str_replace("'","''",$this->getDescrizioneListino())
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryModificaListino;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	public function cancellaListino($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array('%idlistino%' => $this->getIdlistino());
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaListino;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	

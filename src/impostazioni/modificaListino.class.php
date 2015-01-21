@@ -2,9 +2,9 @@
 
 require_once 'impostazioni.abstract.class.php';
 
-class modificaCategoria extends impostazioniAbstract {
+class modificaListino extends impostazioniAbstract {
 
-	public static $azioneModificaCategoria = "../impostazioni/modificaCategoriaFacade.class.php?modo=go";
+	public static $azioneModificaListino = "../impostazioni/modificaListinoFacade.class.php?modo=go";
 
 	function __construct() {
 
@@ -24,20 +24,20 @@ class modificaCategoria extends impostazioniAbstract {
 	}
 
 	// ------------------------------------------------
-
+	
 	public function start() {
-
+	
 		error_log("<<<<<<< Start >>>>>>> " . $_SERVER['PHP_SELF']);
-
-		require_once 'categoria.template.php';
+	
+		require_once 'listino.template.php';
 		require_once 'utility.class.php';
-		
-		$categoriaTemplate = new categoriaTemplate();
-		$this->preparaPagina($categoriaTemplate);
-		
+	
+		$listinoTemplate = new listinoTemplate();
+		$this->preparaPagina($listinoTemplate);
+	
 		// Compone la pagina
 		include(self::$testata);
-		$categoriaTemplate->displayPagina();
+		$listinoTemplate->displayPagina();
 		include(self::$piede);
 	}
 
@@ -45,20 +45,20 @@ class modificaCategoria extends impostazioniAbstract {
 	
 		error_log("<<<<<<< Go >>>>>>> " . $_SERVER['PHP_SELF']);
 	
-		require_once 'categoria.template.php';
+		require_once 'listino.template.php';
 		require_once 'utility.class.php';
 	
-		$categoriaTemplate = new categoriaTemplate();
-		$this->preparaPagina($categoriaTemplate);
+		$listinoTemplate = new listinoTemplate();
+		$this->preparaPagina($listinoTemplate);
 	
-		if ($categoriaTemplate->controlliLogici()) {
+		if ($listinoTemplate->controlliLogici()) {
 			$utility = new utility();
 	
 			if ($this->modifica()) {
 				include(self::$testata);
 	
-				$categoriaTemplate->displayPagina();
-				$replace = array('%messaggio%' => '%ml.modificaCategoriaOk%');
+				$listinoTemplate->displayPagina();
+				$replace = array('%messaggio%' => '%ml.modificaListinoOk%');
 				$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);
 				echo $utility->tailTemplate($template);
 	
@@ -67,8 +67,8 @@ class modificaCategoria extends impostazioniAbstract {
 			else {
 				include(self::$testata);
 	
-				$categoriaTemplate->displayPagina();
-				$replace = array('%messaggio%' => '%ml.modificaCategoriaKo%');
+				$listinoTemplate->displayPagina();
+				$replace = array('%messaggio%' => '%ml.modificaListinoKo%');
 				$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);
 				echo $utility->tailTemplate($template);
 	
@@ -77,18 +77,18 @@ class modificaCategoria extends impostazioniAbstract {
 		}
 		else {
 			include(self::$testata);
-			$categoriaTemplate->displayPagina();
+			$listinoTemplate->displayPagina();
 			include(self::$piede);
 		}
 	}
-
-	public function preparaPagina($categoriaTemplate) {
 	
-		$categoriaTemplate->setAzione(self::$azioneModificaCategoria);
-		$categoriaTemplate->setTestoAzione("%ml.modificaCategoriaTip%");
-		$categoriaTemplate->setTitoloPagina("%ml.modificaCategoria%");
-		$categoriaTemplate->setCodiceCategoriaTip("%ml.codiceCategoriaTip%");
-		$categoriaTemplate->setDescrizioneCategoriaTip("%ml.descrizioneCategoriaTip%");
+	public function preparaPagina($listinoTemplate) {
+	
+		$listinoTemplate->setAzione(self::$azioneModificaListino);
+		$listinoTemplate->setTestoAzione("%ml.modificaListinoTip%");
+		$listinoTemplate->setTitoloPagina("%ml.modificaListino%");
+		$listinoTemplate->setCodiceListinoTip("%ml.codiceListinoTip%");
+		$listinoTemplate->setDescrizioneListinoTip("%ml.descrizioneListinoTip%");
 	}
 	
 	private function modifica() {
@@ -98,12 +98,12 @@ class modificaCategoria extends impostazioniAbstract {
 		$db = new database();
 		$db->beginTransaction();
 	
-		if ($this->modificaCategoria($db)) {
+		if ($this->modificaListino($db)) {
 			$db->commitTransaction();
 			return TRUE;
 		}
 		return FALSE;
-	}	
+	}
 }
 		
 ?>

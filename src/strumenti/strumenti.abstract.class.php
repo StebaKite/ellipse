@@ -416,8 +416,8 @@ abstract class strumentiAbstract {
 	
 		$replace = array(
 				'%progressivo%' => $this->getProgressivo(),
-				'%classe%' => $this->getClasse(),
-				'%filepath%' => $this->getFilepath(),
+				'%classe%' => str_replace("'","''",$this->getClasse()),
+				'%filepath%' => str_replace("'","''",$this->getFilepath()),
 				'%stato%' => $this->getStato()				
 		);
 	
@@ -436,8 +436,8 @@ abstract class strumentiAbstract {
 		$replace = array(
 				'%idguida%' => $this->getIdguida(),
 				'%progressivo%' => $this->getProgressivo(),
-				'%classe%' => $this->getClasse(),
-				'%filepath%' => $this->getFilepath(),
+				'%classe%' => str_replace("'","''",$this->getClasse()),
+				'%filepath%' => str_replace("'","''",$this->getFilepath()),
 				'%stato%' => $this->getStato()
 		);
 	
@@ -469,7 +469,7 @@ abstract class strumentiAbstract {
 	
 		$replace = array(
 				'%idguida%' => $this->getIdguida(),
-				'%colonna%' => $this->getColonna(),
+				'%colonna%' => str_replace("'","''",$this->getColonna()),
 				'%posizionevalore%' => $this->getPosizioneValore()
 		);
 	
@@ -487,7 +487,7 @@ abstract class strumentiAbstract {
 	
 		$replace = array(
 				'%iddettaglioguida%' => $this->getIddettaglioguida(),
-				'%colonna%' => $this->getColonna(),
+				'%colonna%' => str_replace("'","''",$this->getColonna()),
 				'%posizionevalore%' => $this->getPosizioneValore()
 		);
 	

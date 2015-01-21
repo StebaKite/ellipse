@@ -81,10 +81,7 @@ abstract class pazienteAbstract {
 		$result = $db->execSql($sql);
 
 		return $result;	
-	}
-
-
-	
+	}	
 }
 
 ?>

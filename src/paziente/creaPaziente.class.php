@@ -124,22 +124,22 @@ class creaPaziente extends gestionePazienteAbstract {
 
 		$db = new database();
 
-		$cognome = addslashes(ucwords(trim($paziente->getCognome())));
-		$nome = addslashes(ucwords(trim($paziente->getNome())));
-		$indirizzo = addslashes(ucwords(trim($paziente->getIndirizzo()))); 
-		$citta = addslashes(ucwords(trim($paziente->getCitta())));
-		$cap = trim($paziente->getCap());
-		$provincia = addslashes(ucwords(trim($paziente->getProvincia())));
+		$cognome = addslashes(ucwords(str_replace("'","''",trim($paziente->getCognome()))));
+		$nome = addslashes(ucwords(str_replace("'","''",trim($paziente->getNome()))));
+		$indirizzo = addslashes(ucwords(str_replace("'","''",trim($paziente->getIndirizzo())))); 
+		$citta = addslashes(ucwords(str_replace("'","''",trim($paziente->getCitta()))));
+		$cap = str_replace("'","''",trim($paziente->getCap()));
+		$provincia = addslashes(ucwords(str_replace("'","''",trim($paziente->getProvincia()))));
 		$eta = trim($paziente->getEta());
-		$sesso = trim($paziente->getSesso());
-		$tipo = trim($paziente->getTipo());
-		$luogoNascita = addslashes(ucwords(trim($paziente->getLuogoNascita())));
+		$sesso = str_replace("'","''",trim($paziente->getSesso()));
+		$tipo = str_replace("'","''",trim($paziente->getTipo()));
+		$luogoNascita = addslashes(ucwords(str_replace("'","''",trim($paziente->getLuogoNascita()))));
 		$dataNascita = trim($paziente->getDataNascita());
-		$codiceFiscale = strtoupper(trim($paziente->getCodiceFiscale()));
-		$partitaIva = trim($paziente->getPartitaIva());
-		$telefonoFisso = trim($paziente->getTelefonoFisso());
-		$telefonoPortatile = trim($paziente->getTelefonoPortatile());
-		$email = addslashes(trim($paziente->getEmail()));
+		$codiceFiscale = strtoupper(str_replace("'","''",trim($paziente->getCodiceFiscale())));
+		$partitaIva = str_replace("'","''",trim($paziente->getPartitaIva()));
+		$telefonoFisso = str_replace("'","''",trim($paziente->getTelefonoFisso()));
+		$telefonoPortatile = str_replace("'","''",trim($paziente->getTelefonoPortatile()));
+		$email = addslashes(str_replace("'","''",trim($paziente->getEmail())));
 		$medico = trim($paziente->getMedico());
 		$laboratorio = trim($paziente->getLaboratorio());
 		$listino = trim($paziente->getListino());

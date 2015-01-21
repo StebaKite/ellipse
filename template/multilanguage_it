@@ -84,6 +84,9 @@ vociListinoTip = Gestisce le voci del listino
 nuovoListinoTip = Crea un nuovo listino
 codiceListinoTip = Un codice che identifica il listino
 descrizioneListinoTip = La descrizione estesa del listino
+cancellaListinoTip = Cancella il listino con tutte le voci che contiene
+includiVoceTip = Include la voce nel listino
+escludiVoceTip = Esclude la voce dal listino
 ;
 ; Funzioni -----------------------------
 ;
@@ -117,6 +120,9 @@ modificaVoce = Modifica Voce
 cancellaVoce = Cancella Voce
 ricercaListino = Ricerca Listino
 creaListino = Crea Listino
+modificaListino = Modifica Listino
+cancellaListino = Cancella Listino
+ricercaVociListino = Voci Listino
 ;
 ; Messaggi -----------------------------
 ;
@@ -184,6 +190,10 @@ listino = Listino
 listini = Listini
 creaListinoOk = Listino creato
 creaListinoKo = Errore durante la creazione del listino
+modificaListinoOk = Listino modificato con successo
+modificaListinoKo = Errore durante la modifica del listino
+cancellaListinoOk = Listino cancellato
+cancellaListinoKo = Errore durante la cancellazione del listino
 ;
 ; Campi form ---------------------------
 ;
@@ -285,3 +295,6 @@ prezzo = Prezzo
 ;
 codicelistino = Codice
 descrizionelistino = Descrizione
+;
+vociIncluse = Voci Incluse
+vociDisponibili = Voci Disponibili
