@@ -12,4 +12,4 @@ FROM paziente.vocelistino as vocelistino
 	ON  categoria.idcategoria = voce.idcategoria
 
 WHERE vocelistino.idlistino = %idlistino%
-AND   categoria.codicecategoria = '%codicecategoria%'   
+AND   categoria.codicecategoria = '%codicecategoria%'

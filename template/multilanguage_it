@@ -190,6 +190,7 @@ cancellaVoceKo = Errore durante la cancellazione della voce
 ;
 listino = Listino
 listini = Listini
+listinoVuoto = Il listino non contiene voci
 creaListinoOk = Listino creato
 creaListinoKo = Errore durante la creazione del listino
 modificaListinoOk = Listino modificato con successo

@@ -95,46 +95,49 @@ class ricercaVociListinoTemplate  extends impostazioniAbstract {
 		// Gestione del messaggio -------------------
 	
 		$numVociListino = $this->getNumeroVociListinoTrovate();
-	
-		if ($numVociListino > 0) {
-	
-			if ($numVociListino > 1) {
-				$text1 = "%ml.trovate% "; $text2 = " %ml.voci%";
-			} else {
-				$text1 = "%ml.trovata% "; $text2 = " %ml.voce%";
-			}
-	
-			$text0 = $this->getMessaggio();
-			if ($text0 != "") {$text0 = $text0 . " - ";};
-	
-			$replace = array('%messaggio%' => $text0 . $text1 . $numVociListino . $text2);
-			$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);
-	
-			echo $utility->tailTemplate($template);
 
-			// Prepara la tabella dei risultati della ricerca
-
-			$vociListinoTrovate = $this->getVociListinoTrovate();
-			$vociDisponibiliTrovate = $this->getVociDisponibiliTrovate();
-
-			$replace = array(
-					'%idlistino%' => $this->getIdlistino(),
-					'%idvocelistino%' => $this->getIdvocelistino(),
-					'%codicelistino%' => $this->getCodiceListino(),
-					'%descrizionelistino%' => $this->getDescrizioneListino(),
-					'%elencoVociListino%' => $this->preparaTabellaVociIncluse($vociListinoTrovate),
-					'%elencoVociDisponibili%' => $this->preparaTabellaVociDisponibili($vociDisponibiliTrovate)
-			);
-				
-			$utility = new utility();
-			
-			$template = $utility->tailFile($utility->getTemplate($risultati), $replace);
-			echo $utility->tailTemplate($template);
-			
+		if ($numVociListino == 0) {
+			$text1 = "%ml.listinoVuoto%"; $text2 = ""; $numVociListino = "";
 		}
 		else {
-			$elencoVociListino = "<h3>Listino privo di voci</h3>";
+			if ($numVociListino > 1) {
+				$text1 = "%ml.trovate% "; $text2 = " %ml.voci%";
+			}
+			else {
+				$text1 = "%ml.trovata% "; $text2 = " %ml.voce%";
+			}
 		}
+
+		$text0 = $this->getMessaggio();
+		if ($text0 != "") {$text0 = $text0 . " - ";};
+
+		$replace = array('%messaggio%' => $text0 . $text1 . $numVociListino . $text2);
+
+		if ($numVociListino == "")
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);
+		else 
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);
+
+		echo $utility->tailTemplate($template);
+
+		// Prepara la tabella dei risultati della ricerca
+
+		$vociListinoTrovate = $this->getVociListinoTrovate();
+		$vociDisponibiliTrovate = $this->getVociDisponibiliTrovate();
+
+		$replace = array(
+				'%idlistino%' => $this->getIdlistino(),
+				'%idvocelistino%' => $this->getIdvocelistino(),
+				'%codicelistino%' => $this->getCodiceListino(),
+				'%descrizionelistino%' => $this->getDescrizioneListino(),
+				'%elencoVociListino%' => $this->preparaTabellaVociIncluse($vociListinoTrovate),
+				'%elencoVociDisponibili%' => $this->preparaTabellaVociDisponibili($vociDisponibiliTrovate)
+		);
+			
+		$utility = new utility();
+		
+		$template = $utility->tailFile($utility->getTemplate($risultati), $replace);
+		echo $utility->tailTemplate($template);			
 	}	
 	
 	public function preparaTabellaVociIncluse($vociListinoTrovate) {

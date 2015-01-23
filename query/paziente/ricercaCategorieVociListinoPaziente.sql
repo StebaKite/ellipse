@@ -12,3 +12,5 @@ FROM paziente.vocelistino as vocelistino
 	ON  categoria.idcategoria = voce.idcategoria
 
 WHERE vocelistino.idlistino = %idlistino%
+
+ORDER BY categoria.codicecategoria
