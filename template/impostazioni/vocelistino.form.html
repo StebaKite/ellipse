@@ -1,0 +1,46 @@
+<body>
+	
+<div id="body">
+	<div id="main">
+		<form method="post" action="%azione%" >
+			<h2>%titoloPagina%</h2>
+			<table class="datiCreate">
+				<tbody>
+					<tr>
+						<td>%ml.codicevoce% :</td>
+						<td class="tooltip"><input type="text" name="codicevoce" required style="%codicevoceStyle%" title="%codicevoceTip%" size="5" maxlength="3" value="%codicevoce%" %codicevoceDisable% /></td>
+					</tr>
+					<tr>
+						<td>%ml.descrizionevoce% :</td>
+						<td class="tooltip"><input type="text" name="descrizionevoce" required style="%descrizionevoceStyle%" title="%descrizionevoceTip%" size="110" maxlength="100" value="%descrizionevoce%" %descrizionevoceDisable% /></td>
+					</tr>
+					<tr>
+						<td>%ml.prezzo% :</td>
+						<td class="tooltip"><input type="text" name="prezzo" required style="%prezzoStyle%" title="%prezzoTip%" size="15" maxlength="10" value="%prezzo%" %prezzoDisable% /></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="6" align="right" class="tooltip">
+							<button class="button" title="%testoAzione%" >%ml.conferma%</button>
+							<input type="hidden" name="idvocelistino" value="%idvocelistino%"/>
+							<input type="hidden" name="idlistino" value="%idlistino%"/>
+							<input type="hidden" name="codicelistino" value="%codicelistino%"/>
+							<input type="hidden" name="descrizionelistino" value="%descrizionelistino%"/>
+							<input type="hidden" name="codicevoce" value="%codicevoce%"/>
+							<input type="hidden" name="descrizionevoce" value="%descrizionevoce%"/>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+			<br/>
+		</form>
+		<form class="tooltip" method="post" action="../impostazioni/ricercaVociListinoFacade.class.php?modo=start" >
+			<button class="button" title="Torna alla funzione precedente" %azione% >%ml.indietro%</button>
+			<input type="hidden" name="idlistino" value="%idlistino%"/>
+			<input type="hidden" name="codicelistino" value="%codicelistino%"/>
+			<input type="hidden" name="descrizionelistino" value="%descrizionelistino%"/>
+		</form>
+	</div>
+</div>
+<br/>					

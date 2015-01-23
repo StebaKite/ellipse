@@ -172,8 +172,10 @@ class ricercaVociListinoTemplate  extends impostazioniAbstract {
 				
 			if ($row['qtaapplicazioni'] > 0)  $bottoneEscludi = "";
 		
+			// Riga tabella ----------------------------------------------------
+			
 			$elencoVociListino .= "<tr " . $class . "><td align='center'>" . $row['codicevoce'] . "</td><td align='left'>" . $row['descrizionevoce'] . "</td><td align='right'>" . $row['prezzo'] . "</td><td align='right'>" . $row['qtaapplicazioni'] . "</td>";
-			$elencoVociListino .= "<td id='icons'><a class='tooltip' href='modificaVoceListinoFacade.class.php?modo=start&idlistino=" . $this->getIdlistino() . "&idvocelistino=" . $row['idvocelistino'] . "&codicevoce=" . $row['codicevoce'] . "&descrizionevoce=" . $this->getDescrizioneVoce() . "&codicelistino=" . $this->getCodiceListino() . "&descrizionelistino=" . $this->getDescrizioneListino() . "'><li class='ui-state-default ui-corner-all' title='%ml.modificaVoceTip%'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
+			$elencoVociListino .= "<td id='icons'><a class='tooltip' href='modificaVoceListinoFacade.class.php?modo=start&idlistino=" . $this->getIdlistino() . "&idvocelistino=" . $row['idvocelistino'] . "&codicevoce=" . $row['codicevoce'] . "&descrizionevoce=" . $row['descrizionevoce'] . "&codicelistino=" . $this->getCodiceListino() . "&descrizionelistino=" . $this->getDescrizioneListino() . "&prezzo=" . $row['prezzo'] ."'><li class='ui-state-default ui-corner-all' title='%ml.modificaVoceTip%'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
 			$elencoVociListino .= "<td id='icons'>" . $bottoneEscludi . "</td></tr>";
 		
 			++$rowcounter;

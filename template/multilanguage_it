@@ -87,6 +87,7 @@ descrizioneListinoTip = La descrizione estesa del listino
 cancellaListinoTip = Cancella il listino con tutte le voci che contiene
 includiVoceTip = Include la voce nel listino
 escludiVoceTip = Esclude la voce dal listino
+modificaVoceListinoTip = Modifica la voce inclusa nel listino
 ;
 ; Funzioni -----------------------------
 ;
@@ -123,6 +124,7 @@ creaListino = Crea Listino
 modificaListino = Modifica Listino
 cancellaListino = Cancella Listino
 ricercaVociListino = Voci Listino
+modificaVoceListino = Modifica Voce Listino
 ;
 ; Messaggi -----------------------------
 ;
@@ -199,6 +201,8 @@ includiVoceOk = Voce inclusa nel listino
 includiVoceKo = Errore in inclusione voce
 escludiVoceOk = Voce esclusa dal listino
 escludiVoceKo = Errore in esclusione voce
+modificaVoceListinoOk = Voce listino modificata con successo
+modificaVoceListinoKo = Errore durante la modifica della voce listino
 ;
 ; Campi form ---------------------------
 ;
