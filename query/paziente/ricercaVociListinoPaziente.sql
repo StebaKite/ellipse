@@ -9,3 +9,4 @@ FROM paziente.vocelistino as vocelistino
 	AND voce.tipo = 'STD'
 
 WHERE vocelistino.idlistino = %idlistino%
+ORDER BY voce.codice

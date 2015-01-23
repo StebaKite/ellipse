@@ -5,8 +5,8 @@ require_once 'strumenti.abstract.class.php';
 class voce extends strumentiAbstract {
 
 	public static $queryRegoleConfigurazioni = "/strumenti/ricercaRegoleConfigurazioni.sql";
-	public static $queryCreaVoce = "/paziente/creaVoce.sql";
-	public static $queryLeggiCategoria = "/paziente/ricercaIdCategoria.sql";
+	public static $queryCreaVoce = "/impostazioni/creaVoce.sql";
+	public static $queryLeggiCategoria = "/impostazioni/ricercaIdCategoria.sql";
 	
 	function __construct() {
 

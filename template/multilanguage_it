@@ -195,6 +195,11 @@ modificaListinoKo = Errore durante la modifica del listino
 cancellaListinoOk = Listino cancellato
 cancellaListinoKo = Errore durante la cancellazione del listino
 ;
+includiVoceOk = Voce inclusa nel listino
+includiVoceKo = Errore in inclusione voce
+escludiVoceOk = Voce esclusa dal listino
+escludiVoceKo = Errore in esclusione voce
+;
 ; Campi form ---------------------------
 ;
 oggetto = Entit&agrave;
@@ -298,3 +303,4 @@ descrizionelistino = Descrizione
 ;
 vociIncluse = Voci Incluse
 vociDisponibili = Voci Disponibili
+quantita = Usata

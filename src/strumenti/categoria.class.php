@@ -5,7 +5,7 @@ require_once 'strumenti.abstract.class.php';
 class categoria extends strumentiAbstract {
 	
 	public static $queryRegoleConfigurazioni = "/strumenti/ricercaRegoleConfigurazioni.sql";
-	public static $queryCreaCategoria = "/paziente/creaCategoria.sql";
+	public static $queryCreaCategoria = "/impostazioni/creaCategoria.sql";
 	
 	function __construct() {
 	

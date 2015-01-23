@@ -68,6 +68,9 @@ abstract class impostazioniAbstract {
 	public static $queryCreaListino = "/impostazioni/creaListino.sql";
 	public static $queryModificaListino = "/impostazioni/modificaListino.sql";
 	public static $queryCancellaListino = "/impostazioni/cancellaListino.sql";
+
+	public static $queryCreaVoceListino = "/impostazioni/creaVoceListino.sql";
+	public static $queryCancellaVoceListino = "/impostazioni/cancellaVoceListino.sql";
 	
 	function __construct() {
 	
@@ -538,6 +541,41 @@ abstract class impostazioniAbstract {
 		$replace = array('%idlistino%' => $this->getIdlistino());
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaListino;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	public function creaVoceListino($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idvocelistino%' => $this->getIdvoce(),
+				'%idlistino%' => $this->getIdlistino(),
+				'%prezzo%' => $this->getPrezzo()
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVoceListino;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	public function cancellaVoceListino($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idvocelistino%' => $this->getIdvoce(),
+				'%idlistino%' => $this->getIdlistino()
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaVoceListino;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	

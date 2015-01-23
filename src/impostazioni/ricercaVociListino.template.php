@@ -165,16 +165,16 @@ class ricercaVociListinoTemplate  extends impostazioniAbstract {
 				}
 			}
 				
-			// BOTTONE CANCELLA -----------------------------------------------
-			// nasconde il bottone cancella voce se è contenuta in qualche listino
+			// BOTTONE ESCLUDI -----------------------------------------------
+			// nasconde il bottone escludi voce se lo stato della voce è == '01' (voce utilizzata)
 				
-			$bottoneCancella = "<a class='tooltip' href='escludiVoceListinoFacade.class.php?modo=start&idlistino=" . $this->getIdlistino() . "&idvocelistino=" . stripslashes($row['idvocelistino']) . "&codicelistino=" . $this->getCodiceListino() . "&descrizionelistino=" . $this->getDescrizioneListino() . "'><li class='ui-state-default ui-corner-all' title='%ml.escludiVoceTip%'><span class='ui-icon ui-icon-minus'></span></li></a>";
+			$bottoneEscludi = "<a class='tooltip' href='escludiVoceListinoFacade.class.php?modo=start&idlistino=" . $this->getIdlistino() . "&idvoce=" . stripslashes($row['idvocelistino']) . "&codicelistino=" . $this->getCodiceListino() . "&descrizionelistino=" . $this->getDescrizioneListino() . "'><li class='ui-state-default ui-corner-all' title='%ml.escludiVoceTip%'><span class='ui-icon ui-icon-minus'></span></li></a>";
 				
-			if ($row['numpazienti'] > 0)  $bottoneCancella = "";
+			if ($row['qtaapplicazioni'] > 0)  $bottoneEscludi = "";
 		
-			$elencoVociListino .= "<tr " . $class . "><td align='center'>" . $row['codicevoce'] . "</td><td align='left'>" . $row['descrizionevoce'] . "</td><td align='right'>" . $row['prezzo'] . "</td>";
-			$elencoVociListino .= "<td id='icons'><a class='tooltip' href='modificaVoceListinoFacade.class.php?modo=start&idlistino=" . $this->getIdlistino() . "&idvocelistino=" . $row['idvocelistino'] . "&codicevoce=" . $row['codicevoce'] . "&descrizionevoce=" . $this->getDescrizioneVoce() . "'><li class='ui-state-default ui-corner-all' title='%ml.modificaVoceTip%'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
-			$elencoVociListino .= "<td id='icons'>" . $bottoneCancella . "</td></tr>";
+			$elencoVociListino .= "<tr " . $class . "><td align='center'>" . $row['codicevoce'] . "</td><td align='left'>" . $row['descrizionevoce'] . "</td><td align='right'>" . $row['prezzo'] . "</td><td align='right'>" . $row['qtaapplicazioni'] . "</td>";
+			$elencoVociListino .= "<td id='icons'><a class='tooltip' href='modificaVoceListinoFacade.class.php?modo=start&idlistino=" . $this->getIdlistino() . "&idvocelistino=" . $row['idvocelistino'] . "&codicevoce=" . $row['codicevoce'] . "&descrizionevoce=" . $this->getDescrizioneVoce() . "&codicelistino=" . $this->getCodiceListino() . "&descrizionelistino=" . $this->getDescrizioneListino() . "'><li class='ui-state-default ui-corner-all' title='%ml.modificaVoceTip%'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
+			$elencoVociListino .= "<td id='icons'>" . $bottoneEscludi . "</td></tr>";
 		
 			++$rowcounter;
 		}
@@ -193,7 +193,7 @@ class ricercaVociListinoTemplate  extends impostazioniAbstract {
 			if ($rowcounter % 2 == 0) $class = "class='on'";
 			else $class = "class=''";
 		
-			$elencoVociDisponibili .= "<tr " . $class . "><td id='icons'><a class='tooltip' href='includiVoceListinoFacade.class.php?modo=start&idlistino=" . $this->getIdlistino() . "&idvoce=" . $row['idvoce'] . "&codicevoce=" . $row['codice'] . "&descrizionevoce=" . $row['descrizione'] . "'><li class='ui-state-default ui-corner-all' title='%ml.includiVoceTip%'><span class='ui-icon ui-icon-plus'></span></li></a></td>";
+			$elencoVociDisponibili .= "<tr " . $class . "><td id='icons'><a class='tooltip' href='includiVoceListinoFacade.class.php?modo=start&idlistino=" . $this->getIdlistino() . "&idvoce=" . $row['idvoce'] . "&prezzo=" . $row['prezzo'] . "&codicelistino=" . $this->getCodiceListino() . "&descrizionelistino=" . $this->getDescrizioneListino() . "'><li class='ui-state-default ui-corner-all' title='%ml.includiVoceTip%'><span class='ui-icon ui-icon-plus'></span></li></a></td>";
 			$elencoVociDisponibili .= "<td align='center'>" . $row['codice'] . "</td><td align='left'>" . $row['descrizione'] . "</td><td align='right'>" . $row['prezzo'] . "</td>";
 			$elencoVociDisponibili .= "</tr>";
 		

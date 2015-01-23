@@ -5,7 +5,7 @@ require_once 'strumenti.abstract.class.php';
 class listino extends strumentiAbstract {
 
 	public static $queryRegoleConfigurazioni = "/strumenti/ricercaRegoleConfigurazioni.sql";
-	public static $queryCreaListino = "/paziente/creaListino.sql";
+	public static $queryCreaListino = "/impostazioni/creaListino.sql";
 
 	function __construct() {
 
