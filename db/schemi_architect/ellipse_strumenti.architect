@@ -4,7 +4,16 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Logical" value="PlayPen Database" />
+   <property key="Logical" value="ellipse.test" />
+   <property key="Connection Type" value="PostgreSQL" />
+   <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/ellipse.test" />
+   <property key="UID" value="root" />
+   <property key="PWD" value="pippolo" />
+   <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.login" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.password" value="" />
   </data-source>
  </project-data-sources>
  <source-databases>
@@ -51,10 +60,7 @@
     <column id="COL12" populated="true" UUID="36dab8ee-8ea9-491f-a215-73cb89b226ea" autoIncrement="false" autoIncrementSequenceName="dettaglioguida_colonna_seq" defaultValue="" name="colonna" nullable="0" physicalName="colonna" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
      <remarks></remarks>
     </column>
-    <column id="COL13" populated="true" UUID="59eac14a-55ea-4a99-82f1-eb479eb1057c" autoIncrement="false" autoIncrementSequenceName="dettaglioguida_iniziovalore_seq" defaultValue="" name="iniziovalore" nullable="0" physicalName="iniziovalore" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
-     <remarks></remarks>
-    </column>
-    <column id="COL14" populated="true" UUID="751d8956-5b93-43cf-a273-739e242d9eb2" autoIncrement="false" autoIncrementSequenceName="dettaglioguida_finevalore_seq" defaultValue="" name="finevalore" nullable="0" physicalName="finevalore" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+    <column id="COL13" populated="true" UUID="59eac14a-55ea-4a99-82f1-eb479eb1057c" autoIncrement="false" autoIncrementSequenceName="dettaglioguida_posizionevalore_seq" defaultValue="" name="posizionevalore" nullable="0" physicalName="posizionevalore" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
      <remarks></remarks>
     </column>
     </folder>
@@ -63,24 +69,24 @@
     <folder id="FOLTAB92" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB94" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX15" populated="true" UUID="b290ba2f-a158-49b0-b684-591111007e40" clustered="false" name="dettaglioguida_pk" physicalName="dettaglioguida_pk" primaryKeyIndex="true" unique="false" >
-     <index-column id="IDC16" populated="true" UUID="ce2f5f10-034b-4711-a112-e27e427c67da" ascendingOrDescending="UNSPECIFIED" column-ref="COL10" name="iddettaglioguida" physicalName="iddettaglioguida" />
+    <index id="IDX14" populated="true" UUID="b290ba2f-a158-49b0-b684-591111007e40" clustered="false" name="dettaglioguida_pk" physicalName="dettaglioguida_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC15" populated="true" UUID="ce2f5f10-034b-4711-a112-e27e427c67da" ascendingOrDescending="UNSPECIFIED" column-ref="COL10" name="iddettaglioguida" physicalName="iddettaglioguida" />
     </index>
    </folder>
   </table>
   <relationships>
-   <relationship id="REL17" populated="true" UUID="0ae5d402-81fa-4f44-b71c-f8752619f866" deferrability="7" deleteRule="0" fk-table-ref="TAB9" fkCardinality="7" identifying="false" name="guida_dettaglioguida_fk" physicalName="guida_dettaglioguida_fk" pk-table-ref="TAB1" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP18" populated="true" UUID="92421e13-da64-4174-8fca-78189efe6259" fk-column-ref="COL11" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL2" />
+   <relationship id="REL16" populated="true" UUID="0ae5d402-81fa-4f44-b71c-f8752619f866" deferrability="7" deleteRule="0" fk-table-ref="TAB9" fkCardinality="7" identifying="false" name="guida_dettaglioguida_fk" physicalName="guida_dettaglioguida_fk" pk-table-ref="TAB1" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP17" populated="true" UUID="92421e13-da64-4174-8fca-78189efe6259" fk-column-ref="COL11" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL2" />
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="strumenti"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="strumenti"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="0.9999999999999999" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
-  <table-pane table-ref="TAB1" x="101" y="166" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB9" x="368" y="156" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-link relationship-ref="REL17" pkConnection="0.4715447154471545" fkConnection="0.5652173913043478" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-pane table-ref="TAB1" x="109" y="141" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB9" x="372" y="140" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-link relationship-ref="REL16" pkConnection="0.4715447154471545" fkConnection="0.5652173913043478" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
  </play-pen>
  <critic-manager>
   <critic-grouping platformType="Generic" enabled="true">
