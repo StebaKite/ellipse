@@ -1,0 +1,2 @@
+INSERT INTO paziente.medico
+VALUES (nextval('paziente.medico_idmedico_seq'), '%cognome%', '%nome%', '%indirizzo%', '%citta%', '%provincia%', '%cap%', '%telefonofisso%', '%telefonoportatile%', '%partitaiva%', '%codicefiscale%', '%codiceiscrizionealbo%', '%email%', '%nota%', current_date, null) RETURNING idmedico
