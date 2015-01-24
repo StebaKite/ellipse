@@ -55,14 +55,6 @@ abstract class gestionePazienteAbstract extends pazienteAbstract {
 	public function getTitoloPagina() {
 		return self::$titoloPagina;
 	}
-
-
-
-
-
-
-
-
 }
 
 ?>

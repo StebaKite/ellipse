@@ -13,10 +13,7 @@ abstract class pazienteAbstract {
 	public static $queryAggiornaPaziente = "/paziente/aggiornaPaziente.sql";
 	
 	function __construct() {
-		
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
-		$pathToInclude = self::$root . "/ellipse/src/paziente:" . self::$root . "/ellipse/src/impostazioni:" . self::$root . "/ellipse/src/utility";  
-		set_include_path($pathToInclude);		
 	}
 
 	// Setters -----------------------------------------------------------------------------

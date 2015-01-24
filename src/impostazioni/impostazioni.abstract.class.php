@@ -73,11 +73,8 @@ abstract class impostazioniAbstract {
 	public static $queryCancellaVoceListino = "/impostazioni/cancellaVoceListino.sql";
 	public static $queryModificaVoceListino = "/impostazioni/modificaVoceListino.sql";
 	
-	function __construct() {
-	
+	function __construct() {	
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
-		$pathToInclude = self::$root . "/ellipse/src/impostazioni:" . self::$root . "/ellipse/src/utility";
-		set_include_path($pathToInclude);
 	}
 
 	// Setters -----------------------------------------------------------------------------

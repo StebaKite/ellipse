@@ -10,8 +10,6 @@ class importaDati extends strumentiAbstract {
 	function __construct() {
 
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
-		$pathToInclude = self::$root . "/ellipse/src/strumenti:" . self::$root . "/ellipse/src/utility";
-		set_include_path($pathToInclude);
 		
 		require_once 'utility.class.php';
 		

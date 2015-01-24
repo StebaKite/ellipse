@@ -10,10 +10,7 @@ class vocelistino extends strumentiAbstract {
 	public static $queryLeggiListino = "/impostazioni/ricercaIdListino.sql";
 	
 	function __construct() {
-
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
-		$pathToInclude = self::$root . "/ellipse/src/strumenti:" . self::$root . "/ellipse/src/utility";
-		set_include_path($pathToInclude);
 	}
 
 	public function start($db, $utility, $row) {
