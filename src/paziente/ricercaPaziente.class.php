@@ -1,31 +1,13 @@
 <?php
 
-class ricercaPaziente {
+require_once 'gestionePaziente.abstract.class.php';
 
-	private static $root;
+class ricercaPaziente extends gestionePazienteAbstract {
 
-	private static $messaggio;
-	private static $cognomeRicerca;
 	private static $queryRicercaPaziente = "/paziente/ricercaPaziente.sql";
 
 	function __construct() {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
-	}
-
-	// Setters ---------------------------------
-	public function setMessaggio($messaggio) {
-		self::$messaggio = $messaggio;
-	}
-	public function setCognomeRicerca($cognomeRicerca) {
-		self::$cognomeRicerca = $cognomeRicerca;
-	}
-	
-	// Getters --------------------------------
-	public function getMessaggio() {
-		return self::$messaggio;
-	}
-	public function getCognomeRicerca() {
-		return self::$cognomeRicerca;
 	}
 
 	public function start() {

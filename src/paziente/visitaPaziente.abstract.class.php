@@ -1,8 +1,8 @@
 <?php
 
-require_once 'paziente.abstract.class.php';
+require_once 'ellipse.abstract.class.php';
 
-abstract class visitaPazienteAbstract extends pazienteAbstract {
+abstract class visitaPazienteAbstract extends ellipseAbstract {
 
 	public static $azioneDentiSingoli;
 	public static $azioneGruppi;

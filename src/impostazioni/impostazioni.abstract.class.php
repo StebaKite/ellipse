@@ -1,15 +1,8 @@
 <?php
 
-abstract class impostazioniAbstract {
+require_once 'ellipse.abstract.class.php';
 
-	public static $root;
-	public static $testata;
-	public static $piede;
-	public static $messaggioInfo;
-	public static $messaggioErrore;
-	public static $azione;
-	public static $testoAzione;
-	public static $titoloPagina;
+abstract class impostazioniAbstract extends ellipseAbstract {
 
 	public static $codiceCategoria;
 	public static $codiceCategoriaTip;
@@ -78,29 +71,6 @@ abstract class impostazioniAbstract {
 	}
 
 	// Setters -----------------------------------------------------------------------------
-	
-	public function setTestata($testata) {
-		self::$testata = $testata;
-	}
-	public function setPiede($piede) {
-		self::$piede = $piede;
-	}
-	public function setMessaggioInfo($messaggioInfo) {
-		self::$messaggioInfo = $messaggioInfo;
-	}
-	public function setMessaggioErrore($messaggioErrore) {
-		self::$messaggioErrore = $messaggioErrore;
-	}
-	public function setAzione($azione) {
-		self::$azione = $azione;
-	}
-	public function setTestoAzione($testoAzione) {
-		self::$testoAzione = $testoAzione;
-	}
-	public function setTitoloPagina($titoloPagina) {
-		self::$titoloPagina = $titoloPagina;
-	}
-
 
 	public function setCodiceCategoria($codiceCategoria) {
 		self::$codiceCategoria = $codiceCategoria;
@@ -223,29 +193,6 @@ abstract class impostazioniAbstract {
 	}
 	
 	// Getters -----------------------------------------------------------------------------
-	
-	public function getTestata() {
-		return self::$testata;
-	}
-	public function getPiede() {
-		return self::$piede;
-	}
-	public function getMessaggioInfo() {
-		return self::$messaggioInfo;
-	}
-	public function getMessaggioErrore() {
-		return self::$messaggioErrore;
-	}
-	public function getAzione() {
-		return self::$azione;
-	}
-	public function getTestoAzione() {
-		return self::$testoAzione;
-	}
-	public function getTitoloPagina() {
-		return self::$titoloPagina;
-	}
-
 
 	public function getCodiceCategoria() {
 		return self::$codiceCategoria;

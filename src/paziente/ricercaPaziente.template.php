@@ -19,7 +19,6 @@ class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 
 	private static $numeroPazientiTrovati;
 	private static $pazientiTrovati;
-	private static $messaggio;
 
 	//-----------------------------------------------------------------------------
 
@@ -47,9 +46,6 @@ class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 	public function setPazientiTrovati($pazientiTrovati) {
 		self::$pazientiTrovati = $pazientiTrovati;
 	}
-	public function setMessaggio($messaggio) {
-		self::$messaggio = $messaggio;
-	}
 		
 	// Getters --------------------------------
 
@@ -70,9 +66,6 @@ class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 	}
 	public function getPazientiTrovati() {
 		return self::$pazientiTrovati;
-	}
-	public function getMessaggio() {
-		return self::$messaggio;
 	}
 	
 	// template ------------------------------------------------
@@ -198,6 +191,18 @@ class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 					$bottoneVisite = "<a class='tooltip' href='creaVisitaFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&cognRic=" . $this->getCognome() . "&cognome=" . stripslashes($row['cognome']) . "&nome=" . stripslashes($row['nome']) . "&datanascita=" . stripslashes($row['datanascita']) . "'><li class='ui-state-default ui-corner-all' title='Crea una nuova visita'><span class='ui-icon ui-icon-person'></span></li></a>";
 				}
 
+				// BOTTONE PREVENTIVI -----------------------------------------------
+				// Se il paziente non ha preventivi il bottone fa atterrare sulla pagina di creazione nuovo preventivo
+				// altrimenti atterra sull'elenco dei preventivi
+				
+				$bottonePreventivi = "<a class='tooltip' href='ricercaPreventivoFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&cognRic=" . $this->getCognome() . "&cognome=" . stripslashes($row['cognome']) . "&nome=" . stripslashes($row['nome']) . "&datanascita=" . stripslashes($row['datanascita']) . "'><li class='ui-state-default ui-corner-all' title='Ricerca preventivo'><span class='ui-icon ui-icon-note'></span></li></a>";
+				
+				if ($row['numpreventivi'] == 0) {
+					$bottonePreventivi = "<a class='tooltip' href='creaPreventivoFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&cognRic=" . $this->getCognome() . "&cognome=" . stripslashes($row['cognome']) . "&nome=" . stripslashes($row['nome']) . "&datanascita=" . stripslashes($row['datanascita']) . "'><li class='ui-state-default ui-corner-all' title='Crea una nuovo preventivo'><span class='ui-icon ui-icon-note'></span></li></a>";
+				}
+
+				//  qui gli altri bottoni condizionati
+				
 				++$rowcounter;			
 
 				$replace = array(
@@ -211,7 +216,8 @@ class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 					'%numpreventivi%' => stripslashes($row['numpreventivi']),
 					'%numcartellecliniche%' => stripslashes($row['numcartellecliniche']),
 					'%bottoneCancella%' => $bottoneCancella,
-					'%bottoneVisite%' => $bottoneVisite
+					'%bottoneVisite%' => $bottoneVisite,
+					'%bottonePreventivi%' => $bottonePreventivi
 				);
 
 				$riga = $templateRiga;

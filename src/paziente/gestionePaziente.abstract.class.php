@@ -1,13 +1,13 @@
 <?php
 
-require_once 'paziente.abstract.class.php';
+require_once 'ellipse.abstract.class.php';
 
-abstract class gestionePazienteAbstract extends pazienteAbstract {
+abstract class gestionePazienteAbstract extends ellipseAbstract {
 
+	public static $messaggio;
 	public static $cognomeRicerca;
 	public static $idPaziente;
 	public static $confermaTip;
-	public static $titoloPagina;
 
 	public static $paziente;
 	public static $esitoControlliLogici;
@@ -31,8 +31,8 @@ abstract class gestionePazienteAbstract extends pazienteAbstract {
 	public function setConfermaTip($tip) {
 		self::$confermaTip = $tip;
 	}
-	public function setTitoloPagina($titoloPagina) {
-		self::$titoloPagina = $titoloPagina;
+	public function setMessaggio($messaggio) {
+		self::$messaggio = $messaggio;
 	}
 	
 	// ------------------------------------------------
@@ -52,9 +52,9 @@ abstract class gestionePazienteAbstract extends pazienteAbstract {
 	public function getConfermaTip() {
 		return self::$confermaTip;
 	}
-	public function getTitoloPagina() {
-		return self::$titoloPagina;
-	}
+	public function getMessaggio() {
+		return self::$messaggio;
+	}	
 }
 
 ?>

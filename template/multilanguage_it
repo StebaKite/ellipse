@@ -276,6 +276,7 @@ numCartelleCliniche = Cart.
 dataNasc = Data Nascita
 azioni = Azioni
 attivita = Attivit&agrave; Relazionate
+attivitaPaziente = Attivit&agrave; Paziente
 ;
 riepilogoVisita = Riepilogo lavori da effettuare
 dentiSingoli = Denti Singoli

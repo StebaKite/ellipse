@@ -1,6 +1,6 @@
 <?php
 
-abstract class pazienteAbstract {
+abstract class ellipseAbstract {
 
 	public static $root;
 	public static $testata;
@@ -9,7 +9,8 @@ abstract class pazienteAbstract {
 	public static $messaggioErrore;
 	public static $azione;
 	public static $testoAzione;
-
+	public static $titoloPagina;
+	
 	public static $queryAggiornaPaziente = "/paziente/aggiornaPaziente.sql";
 	
 	function __construct() {
@@ -36,6 +37,9 @@ abstract class pazienteAbstract {
 	public function setTestoAzione($testoAzione) {
 		self::$testoAzione = $testoAzione;
 	}	
+	public function setTitoloPagina($titoloPagina) {
+		self::$titoloPagina = $titoloPagina;
+	}
 
 	// Getters -----------------------------------------------------------------------------
 
@@ -57,7 +61,10 @@ abstract class pazienteAbstract {
 	public function getTestoAzione() {
 		return self::$testoAzione;
 	}
-
+	public function getTitoloPagina() {
+		return self::$titoloPagina;
+	}
+	
 	// Start e Go funzione ----------------------------------------------------------------
 
 	public function start() { }
