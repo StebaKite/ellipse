@@ -62,7 +62,7 @@ abstract class impostazioniAbstract {
 
 	public static $queryCreaVoce = "/impostazioni/creaVoce.sql";
 	public static $queryModificaVoce = "/impostazioni/modificaVoce.sql";
-	public static $queryLeggiVoce = "/paziente/ricercaIdVoce.sql";
+	public static $queryLeggiVoce = "/impostazioni/ricercaIdVoce.sql";
 	public static $queryCancellaVoce = "/impostazioni/cancellaVoce.sql";
 
 	public static $queryCreaListino = "/impostazioni/creaListino.sql";

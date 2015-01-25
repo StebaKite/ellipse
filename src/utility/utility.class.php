@@ -25,11 +25,8 @@ class utility {
 	}
 
 	// Costruttore --------------------
-	function __construct() {
-		
+	function __construct() {		
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
-		$pathToInclude = self::$root . "/ellipse/src/paziente:" . self::$root . "/ellipse/src/utility";  
-		set_include_path($pathToInclude);		
 	}
 
 	public function tailFile($template, $replacement) {
