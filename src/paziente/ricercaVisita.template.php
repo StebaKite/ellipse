@@ -1,29 +1,18 @@
 <?php
 
-class ricercaVisitaTemplate {
+require_once 'visitaPaziente.abstract.class.php';
+
+class ricercaVisitaTemplate  extends visitaPazienteAbstract {
 	
-	private static $root;
 	private static $filtri = "/paziente/ricercaVisita.filtri.html";
 	private static $risultatiTesta = "/paziente/ricercaVisita.risultati.testata.html";
 	private static $risultatiCorpo = "/paziente/ricercaVisita.risultati.corpo.html";
 	private static $risultatiPiede = "/paziente/ricercaVisita.risultati.piede.html";
-	private static $messaggioInfo = "/messaggioInfo.html";
-	private static $messaggioErrore = "/messaggioErrore.html";
-
-	private static $cognomeRicerca;
-	
-	private static $azione;
-	private static $testoAzione;
-	private static $cognome;
-	private static $nome;
-	private static $dataNascita;
 
 	private static $numeroVisiteTrovate;
 	private static $visiteTrovate;
 	private static $visite;
 	private static $messaggio;
-	private static $idPaziente;
-	private static $idListino;
 
 	//-----------------------------------------------------------------------------
 
@@ -32,22 +21,7 @@ class ricercaVisitaTemplate {
 	}
 		
 	// Setters ---------------------------------
-	
-	public function setCognomeRicerca($cognomeRicerca) {
-		self::$cognomeRicerca = $cognomeRicerca;
-	}
-	public function setIdPaziente($idPaziente) {
-		self::$idPaziente = $idPaziente;
-	}
-	public function setIdListino($idListino) {
-		self::$idListino = $idListino;
-	}
-	public function setAzione($azione) {
-		self::$azione = $azione;
-	}
-	public function setTestoAzione($testoAzione) {
-		self::$testoAzione = $testoAzione;
-	}	
+
 	public function setNumeroVisiteTrovate($numEle) {
 		self::$numeroVisiteTrovate = $numEle;
 	}
@@ -57,36 +31,12 @@ class ricercaVisitaTemplate {
 	public function setMessaggio($messaggio) {
 		self::$messaggio = $messaggio;
 	}
-	public function setCognome($cognome) {
-		self::$cognome = $cognome;
-	}
-	public function setNome($nome) {
-		self::$nome = $nome;
-	}
-	public function setDataNascita($dataNascita) {
-		self::$dataNascita = $dataNascita;
-	}
 	public function setVisite($visite) {
 		self::$visite = $visite;
 	}
 		
 	// Getters --------------------------------
 	
-	public function getCognomeRicerca() {
-		return self::$cognomeRicerca;
-	}
-	public function getIdPaziente() {
-		return self::$idPaziente;
-	}
-	public function getIdListino() {
-		return self::$idListino;
-	}
-	public function getAzione() {
-		return self::$azione;
-	}
-	public function getTestoAzione() {
-		return self::$testoAzione;
-	}
 	public function getNumeroVisiteTrovate() {
 		return self::$numeroVisiteTrovate;
 	}
@@ -95,15 +45,6 @@ class ricercaVisitaTemplate {
 	}
 	public function getMessaggio() {
 		return self::$messaggio;
-	}
-	public function getCognome() {
-		return self::$cognome;
-	}
-	public function getNome() {
-		return self::$nome;
-	}
-	public function getDataNascita() {
-		return self::$dataNascita;
 	}
 	public function getVisite() {
 		return self::$visite;
@@ -120,6 +61,9 @@ class ricercaVisitaTemplate {
 
 		// Template ----------------------------------
 		
+		// SB - Sta roba va sistemata un attimo... (il foreach non serve per far vedere i dati del paziente nei filtri)
+		//      meglio passarli nella GET
+	
 		$utility = new utility();
 		$array = $utility->getConfig();
 
@@ -143,9 +87,6 @@ class ricercaVisitaTemplate {
 				'%datanascita%' => $row['datanascita']
 			);
 		}
-		
-		$utility = new utility();
-
 		echo $utility->tailFile($utility->getTemplate($filtri), $replace);
 	}	
 

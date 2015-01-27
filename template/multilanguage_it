@@ -88,6 +88,9 @@ cancellaListinoTip = Cancella il listino con tutte le voci che contiene
 includiVoceTip = Include la voce nel listino
 escludiVoceTip = Esclude la voce dal listino
 modificaVoceListinoTip = Modifica la voce inclusa nel listino
+confermaCreazionePreventivo = Crea un nuovo preventivo
+;
+nuovoPreventivoTip = Crea un nuovo preventivo
 ;
 ; Funzioni -----------------------------
 ;
@@ -125,6 +128,11 @@ modificaListino = Modifica Listino
 cancellaListino = Cancella Listino
 ricercaVociListino = Voci Listino
 modificaVoceListino = Modifica Voce Listino
+ricercaPreventivo = Ricerca Preventivo
+creaNuovoPreventivoDentiSingoli = Crea Preventivo - Denti Singoli
+creaNuovoPreventivoDentiGruppi = Crea Preventivo - Gruppi di Denti
+creaNuovoPreventivoCure = Crea Preventivo - Cure Generiche
+
 ;
 ; Messaggi -----------------------------
 ;
@@ -204,6 +212,9 @@ escludiVoceOk = Voce esclusa dal listino
 escludiVoceKo = Errore in esclusione voce
 modificaVoceListinoOk = Voce listino modificata con successo
 modificaVoceListinoKo = Errore durante la modifica della voce listino
+;
+creaPreventivoOk = Preventivo creato
+creaPreventivoKo = Errore durante la creazione del preventivo 
 ;
 ; Campi form ---------------------------
 ;
@@ -310,3 +321,14 @@ descrizionelistino = Descrizione
 vociIncluse = Voci Incluse
 vociDisponibili = Voci Disponibili
 quantita = Usata
+;
+idpreventivo = ID Preventivo
+idsottopreventivo = Split
+statopreventivo = Stato Preventivo
+proposto = Proposto
+accettato = Accettato
+parzialmenteaccettato = Parz.Accettato
+preventivoPrincipale = Principale
+preventivoSecondario = Secondario
+dataInserimentoPreventivo = Creazione
+dataModificaPreventivo = Modifica

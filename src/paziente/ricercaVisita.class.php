@@ -54,13 +54,6 @@ class ricercaVisita  extends visitaPazienteAbstract {
 	
 	public function go() {
 	}
-		
-	private function controlli() {
-	
-		$esito = True;
-		
-		return $esito; 	
-	}
 	
 	private function ricerca($ricercaVisitaTemplate) {
 

@@ -4,6 +4,8 @@ require_once 'ellipse.abstract.class.php';
 
 abstract class impostazioniAbstract extends ellipseAbstract {
 
+	// Campi -------------------------------------------------------
+	
 	public static $codiceCategoria;
 	public static $codiceCategoriaTip;
 	public static $codiceCategoriaStyle;
@@ -49,6 +51,8 @@ abstract class impostazioniAbstract extends ellipseAbstract {
 	public static $idlistino;
 	public static $idvocelistino;
 	
+	// Query -----------------------------------------------------------------------------
+	
 	public static $queryCreaCategoria = "/impostazioni/creaCategoria.sql";
 	public static $queryModificaCategoria	= "/impostazioni/modificaCategoria.sql";
 	public static $queryCancellaCategoria = "/impostazioni/cancellaCategoria.sql";
@@ -65,6 +69,8 @@ abstract class impostazioniAbstract extends ellipseAbstract {
 	public static $queryCreaVoceListino = "/impostazioni/creaVoceListino.sql";
 	public static $queryCancellaVoceListino = "/impostazioni/cancellaVoceListino.sql";
 	public static $queryModificaVoceListino = "/impostazioni/modificaVoceListino.sql";
+	
+	// Costruttore -----------------------------------------------------------------------------
 	
 	function __construct() {	
 		self::$root = $_SERVER['DOCUMENT_ROOT'];

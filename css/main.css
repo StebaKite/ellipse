@@ -287,5 +287,36 @@
 		font-weight: bolder;
 		text-decoration: none;
 	}
-}
+	table.expandible {
+		border-collapse:collapse; 
+		border: 7px solid #ececec;
+	}
+	table.expandible td {
+		text-align: center;
+		border: 2px solid #ececec;
+	}
+	table.expandible tr.parent {
+		font-weight: bolder;
+		color: #3399FF;
+		background-color: #ececec;
+	}
+	table.expandible tr.parentAccettato {
+		font-weight: bolder;
+		color: green;
+		background-color: #ececec;
+	}
+	table.expandible #childAccettato {
+		color: green;
+	}
+	table.expandible #child {
+		color: grey;
+	}
+	table.expandible th {
+		font-weight: bolder;
+		background-color: #666666;
+		color: white;
+		border: 2px solid white;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
 

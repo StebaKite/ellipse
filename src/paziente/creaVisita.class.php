@@ -57,7 +57,6 @@ class creaVisita extends visitaPazienteAbstract {
 
 		// Compone la pagina
 		include($testata);
-//		$visita->inizializzaPagina();
 		$visita->displayPagina();
 		include($piede);		
 	}

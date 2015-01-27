@@ -137,3 +137,13 @@ $( ".autocomplete" ).autocomplete({
 	source: vociListino
 });
 
+
+$(function() {
+	$('tr.parent') 
+		.css("cursor","pointer") 
+		.attr("title","Click per espandere/collassare") 
+		.click(function(){
+			$(this).siblings('.child-'+this.id).toggle();
+		});
+	$('tr[@class^=child-]').hide().children('td');
+});

@@ -1,0 +1,1583 @@
+<body onload="impostaValori()">
+
+<script>
+	// questa function imposta le voci nella griglia per la modifica
+	function impostaValori() {
+		%impostazioniVoci%		
+	}
+
+	var voci = [];
+	var campiImpostati = [];
+
+	function addEle(obj) {
+		if(obj.checked) {
+			voci.push(obj.value);
+		}
+		else {
+			voci.pop();
+		}
+	}
+
+	function mod_dente(value, color, maxvoci) {
+
+		var str1 = "#";
+		var str2 = "<input style='border-color: #ffffff; color: #";
+		var str2 = str2.concat(color, "; text-align: center;' type='text' maxlength='3' size='2' name='");
+		var str3 = "<input type='hidden' name='campiValorizzati' id='campiValorizzati' value='";
+
+		for(i = 0; i < maxvoci; i++) {
+
+			var cella = str1.concat(value,"_",i);
+			var cella = $(cella).val();
+
+			if (cella == "") {
+				break;
+			}			
+		}
+
+		for	(index = i; index < voci.length; index++) {
+			if (voci[index] != "") {
+			   var cella = str1.concat(value,"_",index);
+			   var val = voci[index];
+			   var inp = str2.concat(cella,"'"," value='",val,"'/>");
+			   
+			   $(cella).html(inp);
+//			   document.getElementById(cella).innerHTML = inp;
+			   campiImpostati.push(cella);
+			}
+		} 
+	    var inpHidden = str3.concat(campiImpostati,"'/>");
+		$("#campimpostati").html(inpHidden);
+	}
+	
+	function dente(value, color, maxvoci) {
+
+		var str1 = "";
+		var str2 = "<input style='border-color: #ffffff; color: #";
+		var str4 = str2.concat(color, "; text-align: center;' type='text' maxlength='3' size='2' name='");
+		var str3 = "<input type='hidden' size='150' name='campiValorizzati' id='campiValorizzati' value='";
+
+		for(index = 0; index < maxvoci; index++) {
+			var cella = str1.concat(value,"_",index);
+ 		    $("#".cella).html("");
+		}
+
+		for	(index = 0; index < voci.length; index++) {
+			if (voci[index] != "") {
+			   var cella = str1.concat(value,"_",index);
+			   var val = voci[index];
+			   var inp = str4.concat(cella,"'"," value='",val,"'/>");
+			   document.getElementById(cella).innerHTML = inp;
+			   campiImpostati.push(cella);
+			}
+		} 
+	    var inpHidden = str3.concat(campiImpostati,"'/>");
+		$("#campimpostati").html(inpHidden);
+	}
+	
+</script>
+
+	
+<div id="body">	
+	<div id="main">
+
+		<h2>%titoloPagina%</h2>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="%azioneGruppi%" >
+						<button class="button" title="%gruppiTip%">%ml.gruppi%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="%azioneCure%" >
+						<button class="button" title="%cureTip%">%ml.cure%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../paziente/ricercaPreventivoFacade.class.php?modo=start" >
+						<button class="button" title="%ml.funzPrec%">%ml.indietro%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+			</tr>
+		</table>
+		
+		<div class="tabs">
+			<ul>
+				<li><a href="#tabs-1">%cognome% %nome% %datanascita% %preventivo% %idPreventivo%</a></li>
+				<li><a href="#tabs-2">%ml.info%</a></li>
+			</ul>
+			<div id="tabs-1">
+
+				<form method="post" action="%azioneDentiSingoli%" >
+					<table>
+						<tbody>
+							<tr>
+								<td valign="top">						
+									<div class="scroll-voci">
+										<table class="datiCreate">
+											<tbody>
+												<tr>
+													<td valign="bottom">
+														<table class="result-alt">
+															<tbody>
+																<tr>
+																	<td id="SD_18_19"></td>
+																	<td id="SD_17_19"></td>
+																	<td id="SD_16_19"></td>
+																	<td id="SD_15_19"></td>
+																	<td id="SD_14_19"></td>
+																	<td id="SD_13_19"></td>
+																	<td id="SD_12_19"></td>
+																	<td id="SD_11_19"></td>
+																</tr>														
+																<tr>
+																	<td id="SD_18_18"></td>
+																	<td id="SD_17_18"></td>
+																	<td id="SD_16_18"></td>
+																	<td id="SD_15_18"></td>
+																	<td id="SD_14_18"></td>
+																	<td id="SD_13_18"></td>
+																	<td id="SD_12_18"></td>
+																	<td id="SD_11_18"></td>
+																</tr>														
+																<tr>
+																	<td id="SD_18_17"></td>
+																	<td id="SD_17_17"></td>
+																	<td id="SD_16_17"></td>
+																	<td id="SD_15_17"></td>
+																	<td id="SD_14_17"></td>
+																	<td id="SD_13_17"></td>
+																	<td id="SD_12_17"></td>
+																	<td id="SD_11_17"></td>
+																</tr>														
+																<tr>
+																	<td id="SD_18_16"></td>
+																	<td id="SD_17_16"></td>
+																	<td id="SD_16_16"></td>
+																	<td id="SD_15_16"></td>
+																	<td id="SD_14_16"></td>
+																	<td id="SD_13_16"></td>
+																	<td id="SD_12_16"></td>
+																	<td id="SD_11_16"></td>
+																</tr>														
+																<tr>
+																	<td id="SD_18_15"></td>
+																	<td id="SD_17_15"></td>
+																	<td id="SD_16_15"></td>
+																	<td id="SD_15_15"></td>
+																	<td id="SD_14_15"></td>
+																	<td id="SD_13_15"></td>
+																	<td id="SD_12_15"></td>
+																	<td id="SD_11_15"></td>
+																</tr>														
+																<tr>
+																	<td id="SD_18_14"></td>
+																	<td id="SD_17_14"></td>
+																	<td id="SD_16_14"></td>
+																	<td id="SD_15_14"></td>
+																	<td id="SD_14_14"></td>
+																	<td id="SD_13_14"></td>
+																	<td id="SD_12_14"></td>
+																	<td id="SD_11_14"></td>
+																</tr>														
+																<tr>
+																	<td id="SD_18_13"></td>
+																	<td id="SD_17_13"></td>
+																	<td id="SD_16_13"></td>
+																	<td id="SD_15_13"></td>
+																	<td id="SD_14_13"></td>
+																	<td id="SD_13_13"></td>
+																	<td id="SD_12_13"></td>
+																	<td id="SD_11_13"></td>
+																</tr>														
+																<tr>
+																	<td id="SD_18_12"></td>
+																	<td id="SD_17_12"></td>
+																	<td id="SD_16_12"></td>
+																	<td id="SD_15_12"></td>
+																	<td id="SD_14_12"></td>
+																	<td id="SD_13_12"></td>
+																	<td id="SD_12_12"></td>
+																	<td id="SD_11_12"></td>
+																</tr>														
+																<tr>
+																	<td id="SD_18_11"></td>
+																	<td id="SD_17_11"></td>
+																	<td id="SD_16_11"></td>
+																	<td id="SD_15_11"></td>
+																	<td id="SD_14_11"></td>
+																	<td id="SD_13_11"></td>
+																	<td id="SD_12_11"></td>
+																	<td id="SD_11_11"></td>
+																</tr>														
+																<tr>
+																	<td id="SD_18_10"></td>
+																	<td id="SD_17_10"></td>
+																	<td id="SD_16_10"></td>
+																	<td id="SD_15_10"></td>
+																	<td id="SD_14_10"></td>
+																	<td id="SD_13_10"></td>
+																	<td id="SD_12_10"></td>
+																	<td id="SD_11_10"></td>
+																</tr>														
+																<tr>
+																	<td id="SD_18_9"></td>
+																	<td id="SD_17_9"></td>
+																	<td id="SD_16_9"></td>
+																	<td id="SD_15_9"></td>
+																	<td id="SD_14_9"></td>
+																	<td id="SD_13_9"></td>
+																	<td id="SD_12_9"></td>
+																	<td id="SD_11_9"></td>
+																</tr>														
+																<tr>
+																	<td id="SD_18_8"></td>
+																	<td id="SD_17_8"></td>
+																	<td id="SD_16_8"></td>
+																	<td id="SD_15_8"></td>
+																	<td id="SD_14_8"></td>
+																	<td id="SD_13_8"></td>
+																	<td id="SD_12_8"></td>
+																	<td id="SD_11_8"></td>
+																</tr>
+																<tr>
+																	<td id="SD_18_7"></td>
+																	<td id="SD_17_7"></td>
+																	<td id="SD_16_7"></td>
+																	<td id="SD_15_7"></td>
+																	<td id="SD_14_7"></td>
+																	<td id="SD_13_7"></td>
+																	<td id="SD_12_7"></td>
+																	<td id="SD_11_7"></td>
+																</tr>
+																<tr>
+																	<td id="SD_18_6"></td>
+																	<td id="SD_17_6"></td>
+																	<td id="SD_16_6"></td>
+																	<td id="SD_15_6"></td>
+																	<td id="SD_14_6"></td>
+																	<td id="SD_13_6"></td>
+																	<td id="SD_12_6"></td>
+																	<td id="SD_11_6"></td>
+																</tr>
+																<tr>
+																	<td id="SD_18_5"></td>
+																	<td id="SD_17_5"></td>
+																	<td id="SD_16_5"></td>
+																	<td id="SD_15_5"></td>
+																	<td id="SD_14_5"></td>
+																	<td id="SD_13_5"></td>
+																	<td id="SD_12_5"></td>
+																	<td id="SD_11_5"></td>
+																</tr>
+																<tr>
+																	<td id="SD_18_4"></td>
+																	<td id="SD_17_4"></td>
+																	<td id="SD_16_4"></td>
+																	<td id="SD_15_4"></td>
+																	<td id="SD_14_4"></td>
+																	<td id="SD_13_4"></td>
+																	<td id="SD_12_4"></td>
+																	<td id="SD_11_4"></td>
+																</tr>
+																<tr>
+																	<td id="SD_18_3"></td>
+																	<td id="SD_17_3"></td>
+																	<td id="SD_16_3"></td>
+																	<td id="SD_15_3"></td>
+																	<td id="SD_14_3"></td>
+																	<td id="SD_13_3"></td>
+																	<td id="SD_12_3"></td>
+																	<td id="SD_11_3"></td>
+																</tr>
+																<tr>
+																	<td id="SD_18_2"></td>
+																	<td id="SD_17_2"></td>
+																	<td id="SD_16_2"></td>
+																	<td id="SD_15_2"></td>
+																	<td id="SD_14_2"></td>
+																	<td id="SD_13_2"></td>
+																	<td id="SD_12_2"></td>
+																	<td id="SD_11_2"></td>
+																</tr>
+																<tr>
+																	<td id="SD_18_1"></td>
+																	<td id="SD_17_1"></td>
+																	<td id="SD_16_1"></td>
+																	<td id="SD_15_1"></td>
+																	<td id="SD_14_1"></td>
+																	<td id="SD_13_1"></td>
+																	<td id="SD_12_1"></td>
+																	<td id="SD_11_1"></td>
+																</tr>
+																<tr>
+																	<td id="SD_18_0"></td>
+																	<td id="SD_17_0"></td>
+																	<td id="SD_16_0"></td>
+																	<td id="SD_15_0"></td>
+																	<td id="SD_14_0"></td>
+																	<td id="SD_13_0"></td>
+																	<td id="SD_12_0"></td>
+																	<td id="SD_11_0"></td>
+																</tr>
+															</tbody>
+															<tfoot>
+																<tr>
+																	<th><button type="button" class="buttonDente" onclick="dente('SD_18','3399ff',20)">18</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SD_17','3399ff',20)">17</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SD_16','3399ff',20)">16</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SD_15','3399ff',20)">15</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SD_14','3399ff',20)">14</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SD_13','3399ff',20)">13</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SD_12','3399ff',20)">12</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SD_11','3399ff',20)">11</button></th>
+																</tr>
+															</tfoot>
+														</table>	
+													</td>
+													<td valign="bottom">
+														<table class="result-alt">
+															<tbody>
+																<tr>
+																	<td id="SS_21_19"></td>
+																	<td id="SS_22_19"></td>
+																	<td id="SS_23_19"></td>
+																	<td id="SS_24_19"></td>
+																	<td id="SS_25_19"></td>
+																	<td id="SS_26_19"></td>
+																	<td id="SS_27_19"></td>
+																	<td id="SS_28_19"></td>
+																</tr>														
+																<tr>
+																	<td id="SS_21_18"></td>
+																	<td id="SS_22_18"></td>
+																	<td id="SS_23_18"></td>
+																	<td id="SS_24_18"></td>
+																	<td id="SS_25_18"></td>
+																	<td id="SS_26_18"></td>
+																	<td id="SS_27_18"></td>
+																	<td id="SS_28_18"></td>
+																</tr>														
+																<tr>
+																	<td id="SS_21_17"></td>
+																	<td id="SS_22_17"></td>
+																	<td id="SS_23_17"></td>
+																	<td id="SS_24_17"></td>
+																	<td id="SS_25_17"></td>
+																	<td id="SS_26_17"></td>
+																	<td id="SS_27_17"></td>
+																	<td id="SS_28_17"></td>
+																</tr>														
+																<tr>
+																	<td id="SS_21_16"></td>
+																	<td id="SS_22_16"></td>
+																	<td id="SS_23_16"></td>
+																	<td id="SS_24_16"></td>
+																	<td id="SS_25_16"></td>
+																	<td id="SS_26_16"></td>
+																	<td id="SS_27_16"></td>
+																	<td id="SS_28_16"></td>
+																</tr>														
+																<tr>
+																	<td id="SS_21_15"></td>
+																	<td id="SS_22_15"></td>
+																	<td id="SS_23_15"></td>
+																	<td id="SS_24_15"></td>
+																	<td id="SS_25_15"></td>
+																	<td id="SS_26_15"></td>
+																	<td id="SS_27_15"></td>
+																	<td id="SS_28_15"></td>
+																</tr>														
+																<tr>
+																	<td id="SS_21_14"></td>
+																	<td id="SS_22_14"></td>
+																	<td id="SS_23_14"></td>
+																	<td id="SS_24_14"></td>
+																	<td id="SS_25_14"></td>
+																	<td id="SS_26_14"></td>
+																	<td id="SS_27_14"></td>
+																	<td id="SS_28_14"></td>
+																</tr>														
+																<tr>
+																	<td id="SS_21_13"></td>
+																	<td id="SS_22_13"></td>
+																	<td id="SS_23_13"></td>
+																	<td id="SS_24_13"></td>
+																	<td id="SS_25_13"></td>
+																	<td id="SS_26_13"></td>
+																	<td id="SS_27_13"></td>
+																	<td id="SS_28_13"></td>
+																</tr>														
+																<tr>
+																	<td id="SS_21_12"></td>
+																	<td id="SS_22_12"></td>
+																	<td id="SS_23_12"></td>
+																	<td id="SS_24_12"></td>
+																	<td id="SS_25_12"></td>
+																	<td id="SS_26_12"></td>
+																	<td id="SS_27_12"></td>
+																	<td id="SS_28_12"></td>
+																</tr>														
+																<tr>
+																	<td id="SS_21_11"></td>
+																	<td id="SS_22_11"></td>
+																	<td id="SS_23_11"></td>
+																	<td id="SS_24_11"></td>
+																	<td id="SS_25_11"></td>
+																	<td id="SS_26_11"></td>
+																	<td id="SS_27_11"></td>
+																	<td id="SS_28_11"></td>
+																</tr>														
+																<tr>
+																	<td id="SS_21_10"></td>
+																	<td id="SS_22_10"></td>
+																	<td id="SS_23_10"></td>
+																	<td id="SS_24_10"></td>
+																	<td id="SS_25_10"></td>
+																	<td id="SS_26_10"></td>
+																	<td id="SS_27_10"></td>
+																	<td id="SS_28_10"></td>
+																</tr>														
+																<tr>
+																	<td id="SS_21_9"></td>
+																	<td id="SS_22_9"></td>
+																	<td id="SS_23_9"></td>
+																	<td id="SS_24_9"></td>
+																	<td id="SS_25_9"></td>
+																	<td id="SS_26_9"></td>
+																	<td id="SS_27_9"></td>
+																	<td id="SS_28_9"></td>
+																</tr>														
+																<tr>
+																	<td id="SS_21_8"></td>
+																	<td id="SS_22_8"></td>
+																	<td id="SS_23_8"></td>
+																	<td id="SS_24_8"></td>
+																	<td id="SS_25_8"></td>
+																	<td id="SS_26_8"></td>
+																	<td id="SS_27_8"></td>
+																	<td id="SS_28_8"></td>
+																</tr>
+																<tr>
+																	<td id="SS_21_7"></td>
+																	<td id="SS_22_7"></td>
+																	<td id="SS_23_7"></td>
+																	<td id="SS_24_7"></td>
+																	<td id="SS_25_7"></td>
+																	<td id="SS_26_7"></td>
+																	<td id="SS_27_7"></td>
+																	<td id="SS_28_7"></td>
+																</tr>
+																<tr>
+																	<td id="SS_21_6"></td>
+																	<td id="SS_22_6"></td>
+																	<td id="SS_23_6"></td>
+																	<td id="SS_24_6"></td>
+																	<td id="SS_25_6"></td>
+																	<td id="SS_26_6"></td>
+																	<td id="SS_27_6"></td>
+																	<td id="SS_28_6"></td>
+																</tr>
+																<tr>
+																	<td id="SS_21_5"></td>
+																	<td id="SS_22_5"></td>
+																	<td id="SS_23_5"></td>
+																	<td id="SS_24_5"></td>
+																	<td id="SS_25_5"></td>
+																	<td id="SS_26_5"></td>
+																	<td id="SS_27_5"></td>
+																	<td id="SS_28_5"></td>
+																</tr>
+																<tr>
+																	<td id="SS_21_4"></td>
+																	<td id="SS_22_4"></td>
+																	<td id="SS_23_4"></td>
+																	<td id="SS_24_4"></td>
+																	<td id="SS_25_4"></td>
+																	<td id="SS_26_4"></td>
+																	<td id="SS_27_4"></td>
+																	<td id="SS_28_4"></td>
+																</tr>
+																<tr>
+																	<td id="SS_21_3"></td>
+																	<td id="SS_22_3"></td>
+																	<td id="SS_23_3"></td>
+																	<td id="SS_24_3"></td>
+																	<td id="SS_25_3"></td>
+																	<td id="SS_26_3"></td>
+																	<td id="SS_27_3"></td>
+																	<td id="SS_28_3"></td>
+																</tr>
+																<tr>
+																	<td id="SS_21_2"></td>
+																	<td id="SS_22_2"></td>
+																	<td id="SS_23_2"></td>
+																	<td id="SS_24_2"></td>
+																	<td id="SS_25_2"></td>
+																	<td id="SS_26_2"></td>
+																	<td id="SS_27_2"></td>
+																	<td id="SS_28_2"></td>
+																</tr>
+																<tr>
+																	<td id="SS_21_1"></td>
+																	<td id="SS_22_1"></td>
+																	<td id="SS_23_1"></td>
+																	<td id="SS_24_1"></td>
+																	<td id="SS_25_1"></td>
+																	<td id="SS_26_1"></td>
+																	<td id="SS_27_1"></td>
+																	<td id="SS_28_1"></td>
+																</tr>
+																<tr>
+																	<td id="SS_21_0"></td>
+																	<td id="SS_22_0"></td>
+																	<td id="SS_23_0"></td>
+																	<td id="SS_24_0"></td>
+																	<td id="SS_25_0"></td>
+																	<td id="SS_26_0"></td>
+																	<td id="SS_27_0"></td>
+																	<td id="SS_28_0"></td>
+																</tr>
+															</tbody>
+															<tfoot>
+																<tr>
+																	<th><button type="button" class="buttonDente" onclick="dente('SS_21','3399ff',20)">21</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SS_22','3399ff',20)">22</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SS_23','3399ff',20)">23</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SS_24','3399ff',20)">24</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SS_25','3399ff',20)">25</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SS_26','3399ff',20)">26</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SS_27','3399ff',20)">27</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('SS_28','3399ff',20)">28</button></th>
+																</tr>
+															</tfoot>
+														</table>	
+													</td>
+												</tr>
+												<tr>
+													<td valign="top">
+														<table class="result-alt">
+															<thead>
+																<tr>
+																	<th class="vuoto"><button type="button" class="buttonDenteDeciduoVuoto"></button></th>
+																	<th class="vuoto"><button type="button" class="buttonDenteDeciduoVuoto"></button></th>
+																	<th class="vuoto"><button type="button" class="buttonDenteDeciduoVuoto"></button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('SD_55','f6a828',10)">55</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('SD_54','f6a828',10)">54</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('SD_53','f6a828',10)">53</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('SD_52','f6a828',10)">52</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('SD_51','f6a828',10)">51</button></th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="SD_55_0"></td>
+																	<td id="SD_54_0"></td>
+																	<td id="SD_53_0"></td>
+																	<td id="SD_52_0"></td>
+																	<td id="SD_51_0"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="SD_55_1"></td>
+																	<td id="SD_54_1"></td>
+																	<td id="SD_53_1"></td>
+																	<td id="SD_52_1"></td>
+																	<td id="SD_51_1"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="SD_55_2"></td>
+																	<td id="SD_54_2"></td>
+																	<td id="SD_53_2"></td>
+																	<td id="SD_52_2"></td>
+																	<td id="SD_51_2"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="SD_55_3"></td>
+																	<td id="SD_54_3"></td>
+																	<td id="SD_53_3"></td>
+																	<td id="SD_52_3"></td>
+																	<td id="SD_51_3"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="SD_55_4"></td>
+																	<td id="SD_54_4"></td>
+																	<td id="SD_53_4"></td>
+																	<td id="SD_52_4"></td>
+																	<td id="SD_51_4"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="SD_55_5"></td>
+																	<td id="SD_54_5"></td>
+																	<td id="SD_53_5"></td>
+																	<td id="SD_52_5"></td>
+																	<td id="SD_51_5"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="SD_55_6"></td>
+																	<td id="SD_54_6"></td>
+																	<td id="SD_53_6"></td>
+																	<td id="SD_52_6"></td>
+																	<td id="SD_51_6"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="SD_55_7"></td>
+																	<td id="SD_54_7"></td>
+																	<td id="SD_53_7"></td>
+																	<td id="SD_52_7"></td>
+																	<td id="SD_51_7"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="SD_55_8"></td>
+																	<td id="SD_54_8"></td>
+																	<td id="SD_53_8"></td>
+																	<td id="SD_52_8"></td>
+																	<td id="SD_51_8"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="SD_55_9"></td>
+																	<td id="SD_54_9"></td>
+																	<td id="SD_53_9"></td>
+																	<td id="SD_52_9"></td>
+																	<td id="SD_51_9"></td>
+																</tr>														
+															</tbody>
+														</table>	
+													</td>
+													<td valign="top">
+														<table class="result-alt">
+															<thead>
+																<tr>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('SS_61','f6a828',10)">61</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('SS_62','f6a828',10)">62</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('SS_63','f6a828',10)">63</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('SS_64','f6a828',10)">64</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('SS_65','f6a828',10)">65</button></th>
+																	<th class="vuoto"><button type="button" class="buttonDenteDeciduoVuoto"></button></th>
+																	<th class="vuoto"><button type="button" class="buttonDenteDeciduoVuoto"></button></th>
+																	<th class="vuoto"><button type="button" class="buttonDenteDeciduoVuoto"></button></th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td id="SS_61_0"></td>
+																	<td id="SS_62_0"></td>
+																	<td id="SS_63_0"></td>
+																	<td id="SS_64_0"></td>
+																	<td id="SS_65_0"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="SS_61_1"></td>
+																	<td id="SS_62_1"></td>
+																	<td id="SS_63_1"></td>
+																	<td id="SS_64_1"></td>
+																	<td id="SS_65_1"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="SS_61_2"></td>
+																	<td id="SS_62_2"></td>
+																	<td id="SS_63_2"></td>
+																	<td id="SS_64_2"></td>
+																	<td id="SS_65_2"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="SS_61_3"></td>
+																	<td id="SS_62_3"></td>
+																	<td id="SS_63_3"></td>
+																	<td id="SS_64_3"></td>
+																	<td id="SS_65_3"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="SS_61_4"></td>
+																	<td id="SS_62_4"></td>
+																	<td id="SS_63_4"></td>
+																	<td id="SS_64_4"></td>
+																	<td id="SS_65_4"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="SS_61_5"></td>
+																	<td id="SS_62_5"></td>
+																	<td id="SS_63_5"></td>
+																	<td id="SS_64_5"></td>
+																	<td id="SS_65_5"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="SS_61_6"></td>
+																	<td id="SS_62_6"></td>
+																	<td id="SS_63_6"></td>
+																	<td id="SS_64_6"></td>
+																	<td id="SS_65_6"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="SS_61_7"></td>
+																	<td id="SS_62_7"></td>
+																	<td id="SS_63_7"></td>
+																	<td id="SS_64_7"></td>
+																	<td id="SS_65_7"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="SS_61_8"></td>
+																	<td id="SS_62_8"></td>
+																	<td id="SS_63_8"></td>
+																	<td id="SS_64_8"></td>
+																	<td id="SS_65_8"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="SS_61_9"></td>
+																	<td id="SS_62_9"></td>
+																	<td id="SS_63_9"></td>
+																	<td id="SS_64_9"></td>
+																	<td id="SS_65_9"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>														
+															</tbody>
+														</table>	
+													</td>
+												</tr>
+												<tr>
+													<td valign="top">
+														<table class="result-alt">
+															<tfoot>
+																<tr>
+																	<th class="vuoto"><button type="button" class="buttonDenteDeciduoVuoto"></button></th>
+																	<th class="vuoto"><button type="button" class="buttonDenteDeciduoVuoto"></button></th>
+																	<th class="vuoto"><button type="button" class="buttonDenteDeciduoVuoto"></button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('ID_85','f6a828',10)">85</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('ID_84','f6a828',10)">84</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('ID_83','f6a828',10)">83</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('ID_82','f6a828',10)">82</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('ID_81','f6a828',10)">81</button></th>
+																</tr>
+															</tfoot>
+															<tbody>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="ID_85_9"></td>
+																	<td id="ID_84_9"></td>
+																	<td id="ID_83_9"></td>
+																	<td id="ID_82_9"></td>
+																	<td id="ID_81_9"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="ID_85_8"></td>
+																	<td id="ID_84_8"></td>
+																	<td id="ID_83_8"></td>
+																	<td id="ID_82_8"></td>
+																	<td id="ID_81_8"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="ID_85_7"></td>
+																	<td id="ID_84_7"></td>
+																	<td id="ID_83_7"></td>
+																	<td id="ID_82_7"></td>
+																	<td id="ID_81_7"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="ID_85_6"></td>
+																	<td id="ID_84_6"></td>
+																	<td id="ID_83_6"></td>
+																	<td id="ID_82_6"></td>
+																	<td id="ID_81_6"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="ID_85_5"></td>
+																	<td id="ID_84_5"></td>
+																	<td id="ID_83_5"></td>
+																	<td id="ID_82_5"></td>
+																	<td id="ID_81_5"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="ID_85_4"></td>
+																	<td id="ID_84_4"></td>
+																	<td id="ID_83_4"></td>
+																	<td id="ID_82_4"></td>
+																	<td id="ID_81_4"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="ID_85_3"></td>
+																	<td id="ID_84_3"></td>
+																	<td id="ID_83_3"></td>
+																	<td id="ID_82_3"></td>
+																	<td id="ID_81_3"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="ID_85_2"></td>
+																	<td id="ID_84_2"></td>
+																	<td id="ID_83_2"></td>
+																	<td id="ID_82_2"></td>
+																	<td id="ID_81_2"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="ID_85_1"></td>
+																	<td id="ID_84_1"></td>
+																	<td id="ID_83_1"></td>
+																	<td id="ID_82_1"></td>
+																	<td id="ID_81_1"></td>
+																</tr>
+																<tr>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td id="ID_85_0"></td>
+																	<td id="ID_84_0"></td>
+																	<td id="ID_83_0"></td>
+																	<td id="ID_82_0"></td>
+																	<td id="ID_81_0"></td>
+																</tr>
+															</tbody>
+														</table>	
+													</td>
+													<td valign="top">
+														<table class="result-alt">
+															<tfoot>
+																<tr>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('IS_71','f6a828',10)">71</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('IS_72','f6a828',10)">72</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('IS_73','f6a828',10)">73</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('IS_74','f6a828',10)">74</button></th>
+																	<th><button type="button" class="buttonDenteDeciduo" onclick="dente('IS_75','f6a828',10)">75</button></th>
+																	<th class="vuoto"><button type="button" class="buttonDenteDeciduoVuoto"></button></th>
+																	<th class="vuoto"><button type="button" class="buttonDenteDeciduoVuoto"></button></th>
+																	<th class="vuoto"><button type="button" class="buttonDenteDeciduoVuoto"></button></th>
+																</tr>
+															</tfoot>
+															<tbody>
+																<tr>
+																	<td id="IS_71_9"></td>
+																	<td id="IS_72_9"></td>
+																	<td id="IS_73_9"></td>
+																	<td id="IS_74_9"></td>
+																	<td id="IS_75_9"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="IS_71_8"></td>
+																	<td id="IS_72_8"></td>
+																	<td id="IS_73_8"></td>
+																	<td id="IS_74_8"></td>
+																	<td id="IS_75_8"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="IS_71_7"></td>
+																	<td id="IS_72_7"></td>
+																	<td id="IS_73_7"></td>
+																	<td id="IS_74_7"></td>
+																	<td id="IS_75_7"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="IS_71_6"></td>
+																	<td id="IS_72_6"></td>
+																	<td id="IS_73_6"></td>
+																	<td id="IS_74_6"></td>
+																	<td id="IS_75_6"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="IS_71_5"></td>
+																	<td id="IS_72_5"></td>
+																	<td id="IS_73_5"></td>
+																	<td id="IS_74_5"></td>
+																	<td id="IS_75_5"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="IS_71_4"></td>
+																	<td id="IS_72_4"></td>
+																	<td id="IS_73_4"></td>
+																	<td id="IS_74_4"></td>
+																	<td id="IS_75_4"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="IS_71_3"></td>
+																	<td id="IS_72_3"></td>
+																	<td id="IS_73_3"></td>
+																	<td id="IS_74_3"></td>
+																	<td id="IS_75_3"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="IS_71_2"></td>
+																	<td id="IS_72_2"></td>
+																	<td id="IS_73_2"></td>
+																	<td id="IS_74_2"></td>
+																	<td id="IS_75_2"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																<tr>
+																	<td id="IS_71_1"></td>
+																	<td id="IS_72_1"></td>
+																	<td id="IS_73_1"></td>
+																	<td id="IS_74_1"></td>
+																	<td id="IS_75_1"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td id="IS_71_0"></td>
+																	<td id="IS_72_0"></td>
+																	<td id="IS_73_0"></td>
+																	<td id="IS_74_0"></td>
+																	<td id="IS_75_0"></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																</tr>
+															</tbody>
+														</table>	
+													</td>
+
+
+
+
+
+												</tr>
+												<tr style="border-collapse: collapse;">
+													<td valign="top">
+														<table class="result-alt">
+															<thead>
+																<tr>
+																	<th><button type="button" class="buttonDente" onclick="dente('ID_48','3399ff',20)">48</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('ID_47','3399ff',20)">47</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('ID_46','3399ff',20)">46</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('ID_45','3399ff',20)">45</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('ID_44','3399ff',20)">44</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('ID_43','3399ff',20)">43</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('ID_42','3399ff',20)">42</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('ID_41','3399ff',20)">41</button></th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td id="ID_48_0"></td>
+																	<td id="ID_47_0"></td>
+																	<td id="ID_46_0"></td>
+																	<td id="ID_45_0"></td>
+																	<td id="ID_44_0"></td>
+																	<td id="ID_43_0"></td>
+																	<td id="ID_42_0"></td>
+																	<td id="ID_41_0"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_1"></td>
+																	<td id="ID_47_1"></td>
+																	<td id="ID_46_1"></td>
+																	<td id="ID_45_1"></td>
+																	<td id="ID_44_1"></td>
+																	<td id="ID_43_1"></td>
+																	<td id="ID_42_1"></td>
+																	<td id="ID_41_1"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_2"></td>
+																	<td id="ID_47_2"></td>
+																	<td id="ID_46_2"></td>
+																	<td id="ID_45_2"></td>
+																	<td id="ID_44_2"></td>
+																	<td id="ID_43_2"></td>
+																	<td id="ID_42_2"></td>
+																	<td id="ID_41_2"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_3"></td>
+																	<td id="ID_47_3"></td>
+																	<td id="ID_46_3"></td>
+																	<td id="ID_45_3"></td>
+																	<td id="ID_44_3"></td>
+																	<td id="ID_43_3"></td>
+																	<td id="ID_42_3"></td>
+																	<td id="ID_41_3"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_4"></td>
+																	<td id="ID_47_4"></td>
+																	<td id="ID_46_4"></td>
+																	<td id="ID_45_4"></td>
+																	<td id="ID_44_4"></td>
+																	<td id="ID_43_4"></td>
+																	<td id="ID_42_4"></td>
+																	<td id="ID_41_4"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_5"></td>
+																	<td id="ID_47_5"></td>
+																	<td id="ID_46_5"></td>
+																	<td id="ID_45_5"></td>
+																	<td id="ID_44_5"></td>
+																	<td id="ID_43_5"></td>
+																	<td id="ID_42_5"></td>
+																	<td id="ID_41_5"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_6"></td>
+																	<td id="ID_47_6"></td>
+																	<td id="ID_46_6"></td>
+																	<td id="ID_45_6"></td>
+																	<td id="ID_44_6"></td>
+																	<td id="ID_43_6"></td>
+																	<td id="ID_42_6"></td>
+																	<td id="ID_41_6"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_7"></td>
+																	<td id="ID_47_7"></td>
+																	<td id="ID_46_7"></td>
+																	<td id="ID_45_7"></td>
+																	<td id="ID_44_7"></td>
+																	<td id="ID_43_7"></td>
+																	<td id="ID_42_7"></td>
+																	<td id="ID_41_7"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_8"></td>
+																	<td id="ID_47_8"></td>
+																	<td id="ID_46_8"></td>
+																	<td id="ID_45_8"></td>
+																	<td id="ID_44_8"></td>
+																	<td id="ID_43_8"></td>
+																	<td id="ID_42_8"></td>
+																	<td id="ID_41_8"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_9"></td>
+																	<td id="ID_47_9"></td>
+																	<td id="ID_46_9"></td>
+																	<td id="ID_45_9"></td>
+																	<td id="ID_44_9"></td>
+																	<td id="ID_43_9"></td>
+																	<td id="ID_42_9"></td>
+																	<td id="ID_41_9"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_10"></td>
+																	<td id="ID_47_10"></td>
+																	<td id="ID_46_10"></td>
+																	<td id="ID_45_10"></td>
+																	<td id="ID_44_10"></td>
+																	<td id="ID_43_10"></td>
+																	<td id="ID_42_10"></td>
+																	<td id="ID_41_10"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_11"></td>
+																	<td id="ID_47_11"></td>
+																	<td id="ID_46_11"></td>
+																	<td id="ID_45_11"></td>
+																	<td id="ID_44_11"></td>
+																	<td id="ID_43_11"></td>
+																	<td id="ID_42_11"></td>
+																	<td id="ID_41_11"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_12"></td>
+																	<td id="ID_47_12"></td>
+																	<td id="ID_46_12"></td>
+																	<td id="ID_45_12"></td>
+																	<td id="ID_44_12"></td>
+																	<td id="ID_43_12"></td>
+																	<td id="ID_42_12"></td>
+																	<td id="ID_41_12"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_13"></td>
+																	<td id="ID_47_13"></td>
+																	<td id="ID_46_13"></td>
+																	<td id="ID_45_13"></td>
+																	<td id="ID_44_13"></td>
+																	<td id="ID_43_13"></td>
+																	<td id="ID_42_13"></td>
+																	<td id="ID_41_13"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_14"></td>
+																	<td id="ID_47_14"></td>
+																	<td id="ID_46_14"></td>
+																	<td id="ID_45_14"></td>
+																	<td id="ID_44_14"></td>
+																	<td id="ID_43_14"></td>
+																	<td id="ID_42_14"></td>
+																	<td id="ID_41_14"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_15"></td>
+																	<td id="ID_47_15"></td>
+																	<td id="ID_46_15"></td>
+																	<td id="ID_45_15"></td>
+																	<td id="ID_44_15"></td>
+																	<td id="ID_43_15"></td>
+																	<td id="ID_42_15"></td>
+																	<td id="ID_41_15"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_16"></td>
+																	<td id="ID_47_16"></td>
+																	<td id="ID_46_16"></td>
+																	<td id="ID_45_16"></td>
+																	<td id="ID_44_16"></td>
+																	<td id="ID_43_16"></td>
+																	<td id="ID_42_16"></td>
+																	<td id="ID_41_16"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_17"></td>
+																	<td id="ID_47_17"></td>
+																	<td id="ID_46_17"></td>
+																	<td id="ID_45_17"></td>
+																	<td id="ID_44_17"></td>
+																	<td id="ID_43_17"></td>
+																	<td id="ID_42_17"></td>
+																	<td id="ID_41_17"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_18"></td>
+																	<td id="ID_47_18"></td>
+																	<td id="ID_46_18"></td>
+																	<td id="ID_45_18"></td>
+																	<td id="ID_44_18"></td>
+																	<td id="ID_43_18"></td>
+																	<td id="ID_42_18"></td>
+																	<td id="ID_41_18"></td>
+																</tr>
+																<tr>
+																	<td id="ID_48_19"></td>
+																	<td id="ID_47_19"></td>
+																	<td id="ID_46_19"></td>
+																	<td id="ID_45_19"></td>
+																	<td id="ID_44_19"></td>
+																	<td id="ID_43_19"></td>
+																	<td id="ID_42_19"></td>
+																	<td id="ID_41_19"></td>
+																</tr>
+															</tbody>
+														</table>	
+													</td>
+													<td valign="top">
+														<table class="result-alt">
+															<thead>
+																<tr>
+																	<th><button type="button" class="buttonDente" onclick="dente('IS_31','3399ff')">31</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('IS_32','3399ff')">32</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('IS_33','3399ff')">33</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('IS_34','3399ff')">34</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('IS_35','3399ff')">35</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('IS_36','3399ff')">36</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('IS_37','3399ff')">37</button></th>
+																	<th><button type="button" class="buttonDente" onclick="dente('IS_38','3399ff')">38</button></th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td id="IS_31_0"></td>
+																	<td id="IS_32_0"></td>
+																	<td id="IS_33_0"></td>
+																	<td id="IS_34_0"></td>
+																	<td id="IS_35_0"></td>
+																	<td id="IS_36_0"></td>
+																	<td id="IS_37_0"></td>
+																	<td id="IS_38_0"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_1"></td>
+																	<td id="IS_32_1"></td>
+																	<td id="IS_33_1"></td>
+																	<td id="IS_34_1"></td>
+																	<td id="IS_35_1"></td>
+																	<td id="IS_36_1"></td>
+																	<td id="IS_37_1"></td>
+																	<td id="IS_38_1"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_2"></td>
+																	<td id="IS_32_2"></td>
+																	<td id="IS_33_2"></td>
+																	<td id="IS_34_2"></td>
+																	<td id="IS_35_2"></td>
+																	<td id="IS_36_2"></td>
+																	<td id="IS_37_2"></td>
+																	<td id="IS_38_2"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_3"></td>
+																	<td id="IS_32_3"></td>
+																	<td id="IS_33_3"></td>
+																	<td id="IS_34_3"></td>
+																	<td id="IS_35_3"></td>
+																	<td id="IS_36_3"></td>
+																	<td id="IS_37_3"></td>
+																	<td id="IS_38_3"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_4"></td>
+																	<td id="IS_32_4"></td>
+																	<td id="IS_33_4"></td>
+																	<td id="IS_34_4"></td>
+																	<td id="IS_35_4"></td>
+																	<td id="IS_36_4"></td>
+																	<td id="IS_37_4"></td>
+																	<td id="IS_38_4"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_5"></td>
+																	<td id="IS_32_5"></td>
+																	<td id="IS_33_5"></td>
+																	<td id="IS_34_5"></td>
+																	<td id="IS_35_5"></td>
+																	<td id="IS_36_5"></td>
+																	<td id="IS_37_5"></td>
+																	<td id="IS_38_5"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_6"></td>
+																	<td id="IS_32_6"></td>
+																	<td id="IS_33_6"></td>
+																	<td id="IS_34_6"></td>
+																	<td id="IS_35_6"></td>
+																	<td id="IS_36_6"></td>
+																	<td id="IS_37_6"></td>
+																	<td id="IS_38_6"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_7"></td>
+																	<td id="IS_32_7"></td>
+																	<td id="IS_33_7"></td>
+																	<td id="IS_34_7"></td>
+																	<td id="IS_35_7"></td>
+																	<td id="IS_36_7"></td>
+																	<td id="IS_37_7"></td>
+																	<td id="IS_38_7"></td>
+																<tr>
+																	<td id="IS_31_8"></td>
+																	<td id="IS_32_8"></td>
+																	<td id="IS_33_8"></td>
+																	<td id="IS_34_8"></td>
+																	<td id="IS_35_8"></td>
+																	<td id="IS_36_8"></td>
+																	<td id="IS_37_8"></td>
+																	<td id="IS_38_8"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_9"></td>
+																	<td id="IS_32_9"></td>
+																	<td id="IS_33_9"></td>
+																	<td id="IS_34_9"></td>
+																	<td id="IS_35_9"></td>
+																	<td id="IS_36_9"></td>
+																	<td id="IS_37_9"></td>
+																	<td id="IS_38_9"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_10"></td>
+																	<td id="IS_32_10"></td>
+																	<td id="IS_33_10"></td>
+																	<td id="IS_34_10"></td>
+																	<td id="IS_35_10"></td>
+																	<td id="IS_36_10"></td>
+																	<td id="IS_37_10"></td>
+																	<td id="IS_38_10"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_11"></td>
+																	<td id="IS_32_11"></td>
+																	<td id="IS_33_11"></td>
+																	<td id="IS_34_11"></td>
+																	<td id="IS_35_11"></td>
+																	<td id="IS_36_11"></td>
+																	<td id="IS_37_11"></td>
+																	<td id="IS_38_11"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_12"></td>
+																	<td id="IS_32_12"></td>
+																	<td id="IS_33_12"></td>
+																	<td id="IS_34_12"></td>
+																	<td id="IS_35_12"></td>
+																	<td id="IS_36_12"></td>
+																	<td id="IS_37_12"></td>
+																	<td id="IS_38_12"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_13"></td>
+																	<td id="IS_32_13"></td>
+																	<td id="IS_33_13"></td>
+																	<td id="IS_34_13"></td>
+																	<td id="IS_35_13"></td>
+																	<td id="IS_36_13"></td>
+																	<td id="IS_37_13"></td>
+																	<td id="IS_38_13"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_14"></td>
+																	<td id="IS_32_14"></td>
+																	<td id="IS_33_14"></td>
+																	<td id="IS_34_14"></td>
+																	<td id="IS_35_14"></td>
+																	<td id="IS_36_14"></td>
+																	<td id="IS_37_14"></td>
+																	<td id="IS_38_14"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_15"></td>
+																	<td id="IS_32_15"></td>
+																	<td id="IS_33_15"></td>
+																	<td id="IS_34_15"></td>
+																	<td id="IS_35_15"></td>
+																	<td id="IS_36_15"></td>
+																	<td id="IS_37_15"></td>
+																	<td id="IS_38_15"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_16"></td>
+																	<td id="IS_32_16"></td>
+																	<td id="IS_33_16"></td>
+																	<td id="IS_34_16"></td>
+																	<td id="IS_35_16"></td>
+																	<td id="IS_36_16"></td>
+																	<td id="IS_37_16"></td>
+																	<td id="IS_38_16"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_17"></td>
+																	<td id="IS_32_17"></td>
+																	<td id="IS_33_17"></td>
+																	<td id="IS_34_17"></td>
+																	<td id="IS_35_17"></td>
+																	<td id="IS_36_17"></td>
+																	<td id="IS_37_17"></td>
+																	<td id="IS_38_17"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_18"></td>
+																	<td id="IS_32_18"></td>
+																	<td id="IS_33_18"></td>
+																	<td id="IS_34_18"></td>
+																	<td id="IS_35_18"></td>
+																	<td id="IS_36_18"></td>
+																	<td id="IS_37_18"></td>
+																	<td id="IS_38_18"></td>
+																</tr>
+																<tr>
+																	<td id="IS_31_19"></td>
+																	<td id="IS_32_19"></td>
+																	<td id="IS_33_19"></td>
+																	<td id="IS_34_19"></td>
+																	<td id="IS_35_19"></td>
+																	<td id="IS_36_19"></td>
+																	<td id="IS_37_19"></td>
+																	<td id="IS_38_19"></td>
+																</tr>
+															</tbody>
+														</table>	
+													</td>
+												</tr>
+											</tbody>				
+										</table>
+									</div>
+								</td>
+								<td valign="top">
+
+									<table>
+										<tr>
+											<td>
+												<div class="tabs">
+													<ul>
+														<li><a href="#tabs-alfa">Alfabetico</a></li>
+														<li><a href="#tabs-cate">Categorie</a></li>
+													</ul>
+													<div id="tabs-alfa">
+														<div class="scroll-listino">
+															<table class="result-alt" id="resultTable">
+																<tbody>%vociListinoEsteso%</tbody>
+															</table>
+														</div>
+													</div>
+													<div id="tabs-cate">
+														<div class="scroll-listino">
+															<div id="vtabs">
+																<ul>
+																	%tabsCategorie%
+																</ul>
+																%divCategorie%
+															</div>
+														</div>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr height="50">
+											<td align="center" class="tooltip">
+												<button class="button" title="%confermaTip%" >%ml.conferma%</button>
+												<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+												<input type="hidden" name="idListino" value="%idListino%"/>
+												<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+												<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+												<input type="hidden" name="cognome" value="%cognome%"/>
+												<input type="hidden" name="nome" value="%nome%"/>
+												<input type="hidden" name="datanascita" value="%datanascita%"/>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<p id="campimpostati"></p>
+				</form>
+				
+			</div>
+			
+			<div id="tabs-2">
+
+				<table>
+					<tr valign="top">
+						<td>
+							<p>Questa funzionalit&agrave; permette di attribuite voci di intervento sui singoli denti.</p>
+							<p>Le voci che hai a disposizione sono quelle del listino assegnato al paziente visualizzato nella tabella a fianco.</p>
+							<h2>Come si fa</h2>
+							<ul>
+								<li>Seleziona una o pi&ugrave; voci di intervento nella tabella delle voci di listino</li>
+								<li>Fai click sul bottone corrispondente al dente interessato per applicare lo voci di intervento selezionate</li>
+								<li>Puoi applicare i medesimi interventi su un altro dente facendo click sul suo bottone</li>
+								<li>Conferma tutti gli aggiornamenti col bottone "Conferma"</li>
+							</ul>				
+							<h2>Gestione selezione delle voci</h2>
+							<ul>
+								<li>Ogni voce selezionata viene accodata alla precedente rispettando l'ordine temporale di selezione</li>
+								<li>La deselezione delle voci deve partire dall'ultima inserita procedendo a ritroso</li>
+								<li>Se applichi un insieme di voci modificato su un dente che ha già interventi, il nuovo insieme di voci sostituisce il precedente</li>
+								<li>Se deselezioni tutte le voci e fai click su un dente con interventi, tutte gli interventi di quel dente verranno eliminati</li>
+							</ul>
+						</td>
+						<td>
+							<img src="../../images/numerazione_denti_3.jpg" width="100%"></img>
+						</td>
+					</tr>
+				</table>
+
+				
+			</div>			
+		</div>
+	</div>
+</div>
