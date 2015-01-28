@@ -1,11 +1,31 @@
-DROP TABLE paziente.notavocepreventivo;
+SELECT 
+  'S' as tipopreventivo,
+  sottopreventivo.idpreventivo,
+  sottopreventivo.idsottopreventivo,
+  to_char(sottopreventivo.datainserimento, 'DD/MM/YYYY') as datainserimento,
+  to_char(sottopreventivo.datamodifica, 'DD/MM/YYYY') as datamodifica,
+  sottopreventivo.stato,
+  coalesce(totalipreventivipaziente.totalepreventivo, 0) as totalepreventivo
 
-CREATE TABLE paziente.notavocepreventivo (
-	idnotavocepreventivo serial NOT NULL DEFAULT nextval('paziente.notavocepreventivo_idnotavocepreventivo_seq'::regclass),
-	idvocepreventivo int4 NOT NULL,
-	nota varchar NOT NULL,
-	CONSTRAINT notavocepreventivo_pk PRIMARY KEY (idnotavocepreventivo),
-	CONSTRAINT vocepreventivo_notavocepreventivo_fk FOREIGN KEY (idvocepreventivo) REFERENCES paziente.vocepreventivo(idvocepreventivo) ON DELETE CASCADE
-);
+FROM paziente.preventivo as preventivo
 
-CREATE INDEX notavocepreventivo_pk ON paziente.notavocepreventivo (idnotavocepreventivo);
+	INNER JOIN paziente.sottopreventivo as sottopreventivo 
+		ON sottopreventivo.idpreventivo = preventivo.idpreventivo
+
+	LEFT OUTER JOIN
+	
+		(
+		SELECT sottopreventivo.idpreventivo, SUM(vocesottopreventivo.prezzo) AS totalesottopreventivo
+		   FROM paziente.preventivo AS preventivo
+				INNER JOIN paziente.sottopreventivo as sottopreventivo 
+					ON sottopreventivo.idpreventivo = preventivo.idpreventivo
+		   		INNER JOIN paziente.vocesottopreventivo AS vocesottopreventivo
+			   		ON vocesottopreventivo.idsottopreventivo = sottopreventivo.idsottopreventivo
+		  WHERE preventivo.idpaziente = 4
+		  GROUP BY sottopreventivo.idpreventivo
+		) AS totalisottopreventivipaziente
+		
+		ON totalisottopreventivipaziente.idpreventivo = preventivo.idpreventivo
+
+
+WHERE preventivo.idpaziente = 4

@@ -147,7 +147,8 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 						'%datamodifica%' => stripslashes($row['datamodifica']),
 						'%bottoneCancella%' => $bottoneCancella,
 						'%bottoneSplit%' => $bottoneSplit,
-						'%stato%' => $stato
+						'%stato%' => $stato,
+						'%totalepreventivo%' => number_format(trim(stripslashes($row['totalepreventivo'])), 2, ',', '.'),
 				);
 		
 				$riga = $templateRiga;				
