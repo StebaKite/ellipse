@@ -51,7 +51,6 @@ abstract class visitaPazienteAbstract extends ellipseAbstract {
 	public static $queryAggiornaVisita = "/paziente/aggiornaVisita.sql";
 	public static $queryCreaVoceVisita = "/paziente/creaVoceVisita.sql";
 	public static $queryAggiornaVoceVisita = "/paziente/aggiornaVoceVisita.sql";
-	public static $queryCancellaVisita = "/paziente/cancellaVisita.sql";
 	public static $queryCancellaVoceVisita = "/paziente/cancellaVoceVisita.sql";
 	public static $queryIdVoceVisitaPaziente = "/paziente/ricercaIdVoceVisitaPaziente.sql";
 

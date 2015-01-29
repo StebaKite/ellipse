@@ -39,22 +39,14 @@ class creaPreventivo extends preventivoAbstract {
 	public function start() {
 
 		require_once 'preventivo.template.php';
-		require_once 'utility.class.php';
-		
-		// Template
-		$utility = new utility();
-		$array = $utility->getConfig();
-		
-		$testata = self::$root . $array['testataPagina'];
-		$piede = self::$root . $array['piedePagina'];
 		
 		$preventivoTemplate = new preventivoTemplate();
 		$this->preparaPagina($preventivoTemplate);
 		
 		// Compone la pagina
-		include($testata);
+		include(self::$testata);
 		$preventivoTemplate->displayPagina();
-		include($piede);
+		include(self::$piede);
 	}
 
 	public function go() {
@@ -65,16 +57,12 @@ class creaPreventivo extends preventivoAbstract {
 		
 		// Template
 		$utility = new utility();
-		$array = $utility->getConfig();
-		
-		$this->setTestata(self::$root . $array['testataPagina']);
-		$this->setPiede(self::$root . $array['piedePagina']);
 		
 		$preventivoTemplate = new preventivoTemplate();
 		$this->preparaPagina($preventivoTemplate);
 		$this->setDentiSingoli($this->prelevaCampiFormSingoli());
 		
-		include($this->getTestata());
+		include(self::$testata);
 		
 		if ($preventivoTemplate->controlliLogici()) {
 				
@@ -101,7 +89,7 @@ class creaPreventivo extends preventivoAbstract {
 			echo $utility->tailTemplate($template);
 		}
 		
-		include($this->getPiede());
+		include(self::$piede);
 	}
 
 	private function inserisciSingoli($preventivoTemplate) {

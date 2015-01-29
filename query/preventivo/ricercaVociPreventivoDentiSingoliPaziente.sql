@@ -1,7 +1,7 @@
 SELECT
 
-	vocevisita.nomecampoform,
-	vocevisita.codicevocelistino
+	vocepreventivo.nomecampoform,
+	vocepreventivo.codicevocelistino
 
 FROM paziente.preventivo as preventivo
 
@@ -16,8 +16,9 @@ FROM paziente.preventivo as preventivo
 		
 	INNER JOIN paziente.voce as voce
 		ON  voce.idvoce = vocelistino.idvocelistino
-		AND voce.codice = vocevisita.codicevocelistino
+		AND voce.codice = vocepreventivo.codicevocelistino
 	
 WHERE paziente.idpaziente = %idpaziente%
   AND preventivo.idpreventivo = %idpreventivo%
   AND vocepreventivo.nomeform = 'singoli'
+  

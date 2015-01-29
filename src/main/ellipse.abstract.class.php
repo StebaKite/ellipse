@@ -10,6 +10,8 @@ abstract class ellipseAbstract {
 	public static $azione;
 	public static $testoAzione;
 	public static $titoloPagina;
+
+	public static $dentiDecidui = array("51","52","53","54","55","61","62","63","64","65","71","72","73","74","75","81","82","83","84","85");	
 	
 	public static $queryAggiornaPaziente = "/paziente/aggiornaPaziente.sql";
 	

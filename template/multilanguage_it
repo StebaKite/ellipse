@@ -88,8 +88,9 @@ cancellaListinoTip = Cancella il listino con tutte le voci che contiene
 includiVoceTip = Include la voce nel listino
 escludiVoceTip = Esclude la voce dal listino
 modificaVoceListinoTip = Modifica la voce inclusa nel listino
-confermaCreazionePreventivo = Crea un nuovo preventivo
 ;
+confermaCreazionePreventivo = Crea un nuovo preventivo
+confermaModificaPreventivo = Modifica il preventivo
 nuovoPreventivoTip = Crea un nuovo preventivo
 ;
 ; Funzioni -----------------------------
@@ -100,6 +101,7 @@ ricercaPaziente = Ricerca Paziente
 modificaPaziente = Modifica Paziente
 modificaConfig = Configurazioni di Sistema
 cancellaPaziente = Cancella Paziente
+dettaglioPaziente = Dettaglio Paziente
 creaNuovaVisitaDentiSingoli = Crea Visita Iniziale - Denti Singoli
 creaNuovaVisitaDentiGruppi = Crea Visita Iniziale - Gruppi di Denti
 creaNuovaVisitaCure = Crea Visita Iniziale - Cure Generiche
@@ -132,7 +134,7 @@ ricercaPreventivo = Ricerca Preventivo
 creaNuovoPreventivoDentiSingoli = Crea Preventivo - Denti Singoli
 creaNuovoPreventivoDentiGruppi = Crea Preventivo - Gruppi di Denti
 creaNuovoPreventivoCure = Crea Preventivo - Cure Generiche
-
+modificaPreventivoDentiSingoli = Modifica Preventivo - Denti Singoli
 ;
 ; Messaggi -----------------------------
 ;
@@ -215,6 +217,10 @@ modificaVoceListinoKo = Errore durante la modifica della voce listino
 ;
 creaPreventivoOk = Preventivo creato
 creaPreventivoKo = Errore durante la creazione del preventivo 
+preventivo = Preventivo
+preventivi = Preventivi
+modificaPreventivoOk = Preventivo modificato
+modificaPreventivoKo = Errore durante la modifica del preventivo
 ;
 ; Campi form ---------------------------
 ;

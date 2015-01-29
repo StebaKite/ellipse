@@ -14,9 +14,13 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $idPaziente;
 	public static $idListino;
 	public static $idPreventivo;
+	public static $idPreventivoPrincipale;
+	public static $idSottoPreventivo;
 	public static $cognome;
 	public static $nome;
+	public static $dataInserimento;
 	public static $dataNascita;
+	public static $stato;
 	
 	public static $azioneDentiSingoli;
 	public static $azioneGruppi;
@@ -37,15 +41,28 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	// Query -----------------------------------------------------------------------------
 	
 	public static $queryVociListinoPaziente = "/preventivo/ricercaVociListinoPaziente.sql";
-	public static $queryVociPreventivoDentiSingoliPaziente = "/preventivo/ricercaVociPreventivoDentiSingoliPaziente.sql";
 
 	public static $queryCategorieVociListinoPaziente = "/preventivo/ricercaCategorieVociListinoPaziente.sql";
 	public static $queryVociListinoCategoriaPaziente = "/preventivo/ricercaVociListinoCategoriaPaziente.sql";
-	public static $queryCreaPreventivo = "/preventivo/creaPreventivo.sql";
-	public static $queryCreaVocePreventivo = "/preventivo/creaVocePreventivo.sql";
 	public static $queryAggiornaUsoVoceListino = "/preventivo/aggiornaUsoVoceListino.sql";	
 	public static $queryLeggiPrezzoVoceListino = "/preventivo/leggiPrezzoVoceListino.sql";
+	public static $queryCreaPreventivo = "/preventivo/creaPreventivo.sql";
+
+	public static $queryCreaVocePreventivo = "/preventivo/creaVocePreventivo.sql";
+	public static $queryAggiornaPreventivo = "/preventivo/aggiornaPreventivo.sql";
+	public static $queryAggiornaVocePreventivo = "/preventivo/aggiornaVocePreventivo.sql";
+	public static $queryCancellaVocePreventivo = "/preventivo/cancellaVocePreventivo.sql";
+	public static $queryVocePreventivoPaziente = "/preventivo/ricercaVocePreventivoPaziente.sql";	
+	public static $queryIdVocePreventivoPaziente = "/preventivo/ricercaIdVocePreventivoPaziente.sql";	
+	public static $queryVociPreventivoDentiSingoliPaziente = "/preventivo/ricercaVociPreventivoDentiSingoliPaziente.sql";
 	
+	public static $queryCreaVoceSottoPreventivo = "/preventivo/creaVoceSottoPreventivo.sql";
+	public static $queryAggiornaSottoPreventivo = "/preventivo/aggiornaSottoPreventivo.sql";
+	public static $queryAggiornaVoceSottoPreventivo = "/preventivo/aggiornaVoceSottoPreventivo.sql";
+	public static $queryCancellaVoceSottoPreventivo = "/preventivo/cancellaVoceSottoPreventivo.sql";
+	public static $queryVoceSottoPreventivoPaziente = "/preventivo/ricercaVoceSottoPreventivoPaziente.sql";
+	public static $queryIdVoceSottoPreventivoPaziente = "/preventivo/ricercaIdVoceSottoPreventivoPaziente.sql";
+	public static $queryVociSottoPreventivoDentiSingoliPaziente = "/preventivo/ricercaVociSottoPreventivoDentiSingoliPaziente.sql";
 	
 	// Costruttore -----------------------------------------------------------------------------
 	
@@ -103,6 +120,12 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function setIdPreventivo($idPreventivo) {
 		self::$idPreventivo = $idPreventivo;
 	}
+	public function setIdPreventivoPrincipale($idPreventivoPrincipale) {
+		self::$idPreventivoPrincipale = $idPreventivoPrincipale;
+	}
+	public function setIdSottoPreventivo($idSottoPreventivo) {
+		self::$idSottoPreventivo = $idSottoPreventivo;
+	}
 	public function setCognomeRicerca($cognomeRicerca) {
 		self::$cognomeRicerca = $cognomeRicerca;
 	}
@@ -114,6 +137,12 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	}
 	public function setDataNascita($dataNascita) {
 		self::$dataNascita = $dataNascita;
+	}
+	public function setDataInserimento($dataInserimento) {
+		self::$dataInserimento = $dataInserimento;
+	}
+	public function setStato($stato) {
+		self::$stato = $stato;
 	}
 	public function setDentiSingoli($dentiSingoli) {
 		self::$dentiSingoli = $dentiSingoli;
@@ -181,6 +210,12 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function getIdPreventivo() {
 		return self::$idPreventivo;
 	}
+	public function getIdPreventivoPrincipale() {
+		return self::$idPreventivoPrincipale;
+	}
+	public function getIdSottoPreventivo() {
+		return self::$idSottoPreventivo;
+	}
 	public function getCognomeRicerca() {
 		return self::$cognomeRicerca;
 	}
@@ -192,6 +227,12 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	}
 	public function getDataNascita() {
 		return self::$dataNascita;
+	}
+	public function getDataInserimento() {
+		return self::$dataInserimento;
+	}
+	public function getStato() {
+		return self::$stato;
 	}
 	public function getDentiSingoli() {
 		return self::$dentiSingoli;
@@ -221,7 +262,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 
 	public function setPathToInclude() {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
-		$pathToInclude = self::$root . "/ellipse/src/paziente:" . self::$root . "/ellipse/src/strumenti:" . self::$root . "/ellipse/src/utility";
+		$pathToInclude = self::$root . "/ellipse/src/paziente:" . self::$root . "/ellipse/src/preventivo:" . self::$root . "/ellipse/src/strumenti:" . self::$root . "/ellipse/src/utility";
 		set_include_path($pathToInclude);
 	}
 	
@@ -511,7 +552,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$array = $utility->getConfig();
 			
 		$replace = array(
-				'%nomeForm%' => trim($nomeForm),
+				'%nomeform%' => trim($nomeForm),
 				'%nomecampoform%' => trim($nomeCampoForm),
 				'%codicevocelistino%' => trim($codiceVoceListino),
 				'%idpreventivo%' => $idPreventivoUsato,
@@ -519,6 +560,42 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVocePreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		/**
+		 * Se la creazione della voce è andata bene incremento il contatore di uso della voce sul listino
+		*/
+	
+		if ($result) {
+			$this->aggiornaUsoVoceListino($db, $this->getIdlistino(), trim($codiceVoceListino), '+');
+		}
+		return $result;
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idPreventivoUsato
+	 * @param unknown $nomeForm
+	 * @param unknown $nomeCampoForm
+	 * @param unknown $codiceVoceListino
+	 * @return unknown
+	 */
+	public function creaVoceSottoPreventivo($db, $idPreventivoUsato, $nomeForm, $nomeCampoForm, $codiceVoceListino) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+				'%nomeform%' => trim($nomeForm),
+				'%nomecampoform%' => trim($nomeCampoForm),
+				'%codicevocelistino%' => trim($codiceVoceListino),
+				'%idpreventivo%' => $idPreventivoUsato,
+				'%prezzo%' => $this->prelevaPrezzoVoceListino($db, $this->getIdlistino(), $codiceVoceListino)
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVoceSottoPreventivo;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	
@@ -576,6 +653,38 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	/**
 	 * 
 	 * @param unknown $db
+	 * @param unknown $idvocevisita
+	 * @return il codice voce listino
+	 */
+	public function leggiIdVocePreventivo($db, $idvocepreventivo) {
+	
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array('%idvocepreventivo%' => $idvocepreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryIdVocePreventivoPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		$voceVisita = pg_fetch_all($result);
+	
+		if (!$voceVisita) {
+			return "";
+		}
+		else {
+			foreach ($voceVisita as $row) {
+				return $row['codicevocelistino'];
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
 	 * @param unknown $idListino
 	 * @param unknown $codiceVoceListino
 	 * @param unknown $operatore
@@ -607,6 +716,229 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		return $result;
 	}
 
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idpreventivo
+	 * @param unknown $nomeCampo
+	 * @param unknown $nomeForm
+	 * @return l'ID della voce inserita nel preventivo
+	 */
+	public function leggiVocePreventivo($db, $idpreventivo, $nomeCampo, $nomeForm) {
+	
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idpreventivo%' => $idpreventivo,
+				'%nomeform%' => $nomeForm,
+				'%idnomecampo%' => $nomeCampo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryVocePreventivoPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		$vociInserite = pg_fetch_all($result);
+	
+		if (!$vociInserite) {
+			return "";
+		}
+		else {
+			foreach ($vociInserite as $voce) {
+				return $voce['idvocepreventivo'];
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idpreventivo
+	 * @param unknown $nomeCampo
+	 * @param unknown $nomeForm
+	 * @return string|unknown
+	 */
+	public function leggiVoceSottoPreventivo($db, $idsottopreventivo, $nomeCampo, $nomeForm) {
+	
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idsottopreventivo%' => $idsottopreventivo,
+				'%nomeform%' => $nomeForm,
+				'%idnomecampo%' => $nomeCampo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryVoceSottoPreventivoPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		$vociInserite = pg_fetch_all($result);
+	
+		if (!$vociInserite) {
+			return "";
+		}
+		else {
+			foreach ($vociInserite as $voce) {
+				return $voce['idvocesottopreventivo'];
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idvocepreventivo
+	 * @param unknown $codiceVoceListino
+	 * @return L'esito dell'aggiornamento della voce
+	 */
+	public function aggiornaVocePreventivo($db, $idvocepreventivo, $codiceVoceListino) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+				'%codicevocelistino%' => trim($codiceVoceListino),
+				'%idvocepreventivo%' => $idvocepreventivo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaVocePreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idvocepreventivo
+	 * @param unknown $codiceVoceListino
+	 * @return unknown
+	 */
+	public function aggiornaVoceSottoPreventivo($db, $idvocesottopreventivo, $codiceVoceListino) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+				'%codicevocelistino%' => trim($codiceVoceListino),
+				'%idvocesottopreventivo%' => $idvocesottopreventivo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaVoceSottoPreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idVocePreventivo
+	 * @return L'esito della cancellazione
+	 */
+	public function cancellaVocePreventivo($db, $idVocePreventivo) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+	
+		$codiceVoceListino = $this->leggiIdVocePreventivo($db, $idVocePreventivo);
+	
+		$replace = array('%idvocepreventivo%' => $idVocePreventivo );
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaVocePreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		/**
+		 * Se la cancellazione della voce è andata bene decremento il contatore di uso della voce sul listino
+		*/
+	
+		if ($result) {
+			$this->aggiornaUsoVoceListino($db, $this->getIdlistino(), trim($codiceVoceListino), '-');
+		}
+		return $result;
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idVocePreventivo
+	 * @return unknown
+	 */
+	public function cancellaVoceSottoPreventivo($db, $idVoceSottoPreventivo) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+	
+		$codiceVoceListino = $this->leggiIdVoceSottoPreventivo($db, $idVoceSottoPreventivo);
+	
+		$replace = array('%idvocesottopreventivo%' => $idVoceSottoPreventivo );
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaVoceSottoPreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		/**
+		 * Se la cancellazione della voce è andata bene decremento il contatore di uso della voce sul listino
+		*/
+	
+		if ($result) {
+			$this->aggiornaUsoVoceListino($db, $this->getIdlistino(), trim($codiceVoceListino), '-');
+		}
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idPreventivo
+	 * @return L'esito dell'aggiornamento
+	 */
+	public function aggiornaPreventivo($db, $idPreventivo) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array('%idpreventivo%' => $idPreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaPreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idPreventivo
+	 * @return unknown
+	 */
+	public function aggiornaSottoPreventivo($db, $idSottoPreventivo) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array('%idsottopreventivo%' => $idSottoPreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaSottoPreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
 }
 
 ?>

@@ -10,7 +10,16 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 	private static $risultatiPiede = "/preventivo/ricercaPreventivo.risultati.piede.html";
 
 	function __construct() {
+		
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
+
+		require_once 'utility.class.php';
+		
+		$utility = new utility();
+		$array = $utility->getConfig();
+		
+		self::$messaggioErrore = self::$root . $array['messaggioErrore'];
+		self::$messaggioInfo = self::$root . $array['messaggioInfo'];
 	}
 
 	// template ------------------------------------------------
@@ -53,8 +62,6 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 		$risultatiTesta = self::$root . $array['template'] . self::$risultatiTesta;
 		$risultatiCorpo = self::$root . $array['template'] . self::$risultatiCorpo;
 		$risultatiPiede = self::$root . $array['template'] . self::$risultatiPiede;
-		$messaggioInfo = self::$root . $array['template'] . self::$messaggioInfo;
-		$messaggioErrore = self::$root . $array['template'] . self::$messaggioErrore;
 		
 		// Gestione del messaggio -------------------
 		
@@ -70,8 +77,8 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 			$text0 = $this->getMessaggio();
 			if ($text0 != "") {$text0 = $text0 . " - ";};
 		
-			$replace = array('%messaggio%' => $text0 . $text1 . $numVisite . $text2);
-			$template = $utility->tailFile($utility->getTemplate($messaggioInfo), $replace);
+			$replace = array('%messaggio%' => $text0 . $text1 . $numPreventivi . $text2);
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);
 				
 			echo $utility->tailTemplate($template);
 		
@@ -103,6 +110,7 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 					
 					$idpreventivo = "";
 					$idsottopreventivo = trim($row['idsottopreventivo']);
+					$idpreventivoprincipale = trim($row['idpreventivo']);
 				}
 		
 				// BOTTONE CANCELLA -----------------------------------------------
@@ -136,6 +144,7 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 						'%class%' => $class,
 						'%id%' => $id,
 						'%idpreventivo%' => $idpreventivo,
+						'%idpreventivoprincipale%' => $idpreventivoprincipale,
 						'%idsottopreventivo%' => $idsottopreventivo,
 						'%idpaziente%' => $this->getIdpaziente(),
 						'%idlistino%' => $this->getIdlistino(),

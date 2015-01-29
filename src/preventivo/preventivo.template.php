@@ -6,7 +6,6 @@ class preventivoTemplate extends preventivoAbstract {
 
 	private static $pagina = "/preventivo/preventivo.form.html";
 
-
 	//-----------------------------------------------------------------------------
 
 	function __construct() {
@@ -70,6 +69,16 @@ class preventivoTemplate extends preventivoAbstract {
 	}
 
 	public function impostaVoci() {
+			
+		if ($this->getIdPreventivo() != "") {
+			$this->impostaVociPreventivoPrincipale();
+		}
+		elseif ($this->getIdSottoPreventivo() != "") {
+			$this->impostaVociPreventivoSecondario();			
+		}
+	}
+	
+	public function impostaVociPreventivoPrincipale() {
 	
 		require_once 'database.class.php';
 		require_once 'utility.class.php';
@@ -80,7 +89,7 @@ class preventivoTemplate extends preventivoAbstract {
 		$db = new database();
 		$replace = array(
 				'%idpaziente%' => $this->getIdPaziente(),
-				'%idvisita%' => $this->getIdVisita()
+				'%idpreventivo%' => $this->getIdPreventivo()
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociPreventivoDentiSingoliPaziente;
@@ -89,9 +98,57 @@ class preventivoTemplate extends preventivoAbstract {
 	
 		$vociInserite = pg_fetch_all($result);
 	
-		$impostazioniVoci = "";
+		$impostazioniVoci = "";	
+		$campiImpostati = "";
 	
-		$dentiDecidui = array("51","52","53","54","55","61","62","63","64","65","71","72","73","74","75","81","82","83","84","85");
+		foreach ($vociInserite as $voce) {
+	
+			$name = trim($voce['nomecampoform']);
+			$value = trim($voce['codicevocelistino']);
+			$campiImpostati .= $name . ",";
+	
+			$dente = split("_", $name);
+	
+			if (in_array($dente[1], self::$dentiDecidui))
+				$color = "f6a828";
+			else
+				$color = "3399ff";
+	
+			$taginput = "<input style='border-color: #ffffff; color: #" . $color . "; text-align: center;' type='text' maxlength='3' size='2' name='" . $name . "' value='" . $value . "'/>";
+			$impostazioniVoci .= '$("#' . $name . '").html("' . $taginput . '"); ';
+		}
+	
+		$inpHidden = "<input type='hidden' name='campiValorizzati' size='150' id='campiValorizzati' value='" . $campiImpostati . "'/>";
+		$impostazioniVoci .= '$("#campimpostati").html("' . $inpHidden . '");';
+	
+	
+		$this->setImpostazioniVoci($impostazioniVoci);
+		error_log("Voci inserite caricate in pagina");
+		error_log("Listino: " . $this->getIdListino());
+	}
+
+	public function impostaVociPreventivoSecondario() {
+	
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$db = new database();
+		$replace = array(
+				'%idpaziente%' => $this->getIdPaziente(),
+				'%idpreventivo%' => $this->getIdPreventivoPrincipale(),
+				'%idsottopreventivo%' => $this->getIdSottoPreventivo()
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryVociSottoPreventivoDentiSingoliPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->getData($sql);
+	
+		$vociInserite = pg_fetch_all($result);
+	
+		$impostazioniVoci = "";
 		$campiImpostati = "";
 	
 		foreach ($vociInserite as $voce) {
@@ -119,7 +176,7 @@ class preventivoTemplate extends preventivoAbstract {
 		error_log("Voci inserite caricate in pagina");
 		error_log("Listino: " . $this->getIdListino());
 	}
-
+	
 	public function displayPagina() {
 	
 		require_once 'database.class.php';
@@ -228,6 +285,8 @@ class preventivoTemplate extends preventivoAbstract {
 				'%idPaziente%' => $this->getIdPaziente(),
 				'%idListino%' => $this->getIdListino(),
 				'%idPreventivo%' => $this->getIdPreventivo(),
+				'%idPreventivoPrincipale%' => $this->getIdPreventivoPrincipale(),
+				'%idSottoPreventivo%' => $this->getIdSottoPreventivo(),
 				'%vociListinoEsteso%' => $vociListinoEsteso,
 				'%tabsCategorie%' => $tabsCategorie,
 				'%divCategorie%' =>	$divCategorie,
