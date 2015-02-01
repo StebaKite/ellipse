@@ -1,6 +1,6 @@
 SELECT DISTINCT
 
-	substring(vocesottopreventivo.nomecampoform, 0, position(';' in vocesottopreventivo.nomecampoform)) as nomecomboform,
+	substring(vocesottopreventivo.nomecampoform, position(';' in vocesottopreventivo.nomecampoform) + 1) as nomecomboform,
 	vocesottopreventivo.codicevocelistino
 
 FROM paziente.preventivo as preventivo
