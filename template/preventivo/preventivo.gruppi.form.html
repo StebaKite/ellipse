@@ -1,0 +1,613 @@
+<body>
+
+<script>
+	var vociListino = [%vociListino%];	
+</script>
+	
+<div id="body">	
+	<div id="main">
+
+		<h2>%titoloPagina%</h2>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="%azioneDentiSingoli%" >
+						<button class="button" title="%singoliTip%" %azione% >%ml.dentiSingoli%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+						<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
+						<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="%azioneCure%" >
+						<button class="button" title="%cureTip%" %azione% >%ml.cure%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+						<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
+						<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../paziente/ricercaPreventivoFacade.class.php?modo=start" >
+						<button class="button" title="%ml.funzPrec%">%ml.indietro%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+			</tr>
+		</table>
+				
+		<div class="tabs">
+			<ul>
+				<li><a href="#tabs-1">%cognome% %nome% %datanascita% %preventivo% %idPreventivo%%idSottoPreventivo%</a></li>
+				<li><a href="#tabs-2">%ml.vociListinoPaziente%</a></li>
+			</ul>
+			
+			<div id="tabs-1">
+
+				<form method="post" id="gruppi" action="%azioneGruppi%" >
+					<table class="datiCreate">
+						<thead>
+							<tr>
+								<td colspan="2" align="left" class="tooltip"><button class="button" title="%confermaTip%" >%ml.conferma%</button></td>
+								<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+								<input type="hidden" name="idListino" value="%idListino%"/>
+								<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+								<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
+								<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
+								<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+								<input type="hidden" name="cognome" value="%cognome%"/>
+								<input type="hidden" name="nome" value="%nome%"/>
+								<input type="hidden" name="datanascita" value="%datanascita%"/>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<select id="selectmenu1" id="voceGruppo_1" name="voceGruppo_1">
+										<option value=""></option>
+										%vociListinoGruppo_1%
+									</select>
+
+									<table class="result-alt">
+										<tr>
+											<td>
+												<table class="result-alt">
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="SD_18_1" id="SD_18_1" %SD_18_1_checked% ></td>
+															<td><input type="checkbox" name="SD_17_1" id="SD_17_1" %SD_17_1_checked% ></td>
+															<td><input type="checkbox" name="SD_16_1" id="SD_16_1" %SD_16_1_checked% ></td>
+															<td><input type="checkbox" name="SD_15_1" id="SD_15_1" %SD_15_1_checked% ></td>
+															<td><input type="checkbox" name="SD_14_1" id="SD_14_1" %SD_14_1_checked% ></td>
+															<td><input type="checkbox" name="SD_13_1" id="SD_13_1" %SD_13_1_checked% ></td>
+															<td><input type="checkbox" name="SD_12_1" id="SD_12_1" %SD_12_1_checked% ></td>
+															<td><input type="checkbox" name="SD_11_1" id="SD_11_1" %SD_11_1_checked% ></td>
+														</tr>
+													</tbody>
+													<tfoot>
+														<tr>
+															<th>18</th>
+															<th>17</th>
+															<th>16</th>
+															<th>15</th>
+															<th>14</th>
+															<th>13</th>
+															<th>12</th>
+															<th>11</th>
+														</tr>
+													</tfoot>
+												</table>	
+											</td>
+											<td>
+												<table class="result-alt">
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="SS_21_1" id="SS_21_1" %SS_21_1_checked% ></td>
+															<td><input type="checkbox" name="SS_22_1" id="SS_22_1" %SS_22_1_checked% ></td>
+															<td><input type="checkbox" name="SS_23_1" id="SS_23_1" %SS_23_1_checked% ></td>
+															<td><input type="checkbox" name="SS_24_1" id="SS_24_1" %SS_24_1_checked% ></td>
+															<td><input type="checkbox" name="SS_25_1" id="SS_25_1" %SS_25_1_checked% ></td>
+															<td><input type="checkbox" name="SS_26_1" id="SS_26_1" %SS_26_1_checked% ></td>
+															<td><input type="checkbox" name="SS_27_1" id="SS_27_1" %SS_27_1_checked% ></td>
+															<td><input type="checkbox" name="SS_28_1" id="SS_28_1" %SS_28_1_checked% ></td>
+														</tr>
+													</tbody>
+													<tfoot>
+														<tr>
+															<th>21</th>
+															<th>22</th>
+															<th>23</th>
+															<th>24</th>
+															<th>25</th>
+															<th>26</th>
+															<th>27</th>
+															<th>28</th>
+														</tr>
+													</tfoot>
+												</table>	
+											</td>
+										</tr>
+										<tr style="border-collapse: collapse;">
+											<td>
+												<table class="result-alt">
+													<thead>
+														<tr>
+															<th>48</th>
+															<th>47</th>
+															<th>46</th>
+															<th>45</th>
+															<th>44</th>
+															<th>43</th>
+															<th>42</th>
+															<th>41</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="ID_48_1" id="ID_48_1" %ID_48_1_checked% ></td>
+															<td><input type="checkbox" name="ID_47_1" id="ID_47_1" %ID_47_1_checked% ></td>
+															<td><input type="checkbox" name="ID_46_1" id="ID_46_1" %ID_46_1_checked% ></td>
+															<td><input type="checkbox" name="ID_45_1" id="ID_45_1" %ID_45_1_checked% ></td>
+															<td><input type="checkbox" name="ID_44_1" id="ID_44_1" %ID_44_1_checked% ></td>
+															<td><input type="checkbox" name="ID_43_1" id="ID_43_1" %ID_43_1_checked% ></td>
+															<td><input type="checkbox" name="ID_42_1" id="ID_42_1" %ID_42_1_checked% ></td>
+															<td><input type="checkbox" name="ID_41_1" id="ID_41_1" %ID_41_1_checked% ></td>
+														</tr>
+													</tbody>
+												</table>	
+											</td>
+											<td>
+												<table class="result-alt">
+													<thead>
+														<tr>
+															<th>31</th>
+															<th>32</th>
+															<th>33</th>
+															<th>34</th>
+															<th>35</th>
+															<th>36</th>
+															<th>37</th>
+															<th>38</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="IS_31_1" id="IS_31_1" %IS_31_1_checked% ></td>
+															<td><input type="checkbox" name="IS_32_1" id="IS_32_1" %IS_32_1_checked% ></td>
+															<td><input type="checkbox" name="IS_33_1" id="IS_33_1" %IS_33_1_checked% ></td>
+															<td><input type="checkbox" name="IS_34_1" id="IS_34_1" %IS_34_1_checked% ></td>
+															<td><input type="checkbox" name="IS_35_1" id="IS_35_1" %IS_35_1_checked% ></td>
+															<td><input type="checkbox" name="IS_36_1" id="IS_36_1" %IS_36_1_checked% ></td>
+															<td><input type="checkbox" name="IS_37_1" id="IS_37_1" %IS_37_1_checked% ></td>
+															<td><input type="checkbox" name="IS_38_1" id="IS_38_1" %IS_38_1_checked% ></td>
+														</tr>
+													</tbody>
+												</table>	
+											</td>
+										</tr>				
+									</table>
+								</td>
+								<td style="padding-left: 40px;">
+									<select id="selectmenu2" id="voceGruppo_2" name="voceGruppo_2">
+										<option value=""></option>
+										%vociListinoGruppo_2%
+									</select>
+
+									<table class="result-alt">
+										<tr>
+											<td>
+												<table class="result-alt">
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="SD_18_2" id="SD_18_2" %SD_18_2_checked% ></td>
+															<td><input type="checkbox" name="SD_17_2" id="SD_17_2" %SD_17_2_checked% ></td>
+															<td><input type="checkbox" name="SD_16_2" id="SD_16_2" %SD_16_2_checked% ></td>
+															<td><input type="checkbox" name="SD_15_2" id="SD_15_2" %SD_15_2_checked% ></td>
+															<td><input type="checkbox" name="SD_14_2" id="SD_14_2" %SD_14_2_checked% ></td>
+															<td><input type="checkbox" name="SD_13_2" id="SD_13_2" %SD_13_2_checked% ></td>
+															<td><input type="checkbox" name="SD_12_2" id="SD_12_2" %SD_12_2_checked% ></td>
+															<td><input type="checkbox" name="SD_11_2" id="SD_11_2" %SD_11_2_checked% ></td>
+														</tr>
+													</tbody>
+													<tfoot>
+														<tr>
+															<th>18</th>
+															<th>17</th>
+															<th>16</th>
+															<th>15</th>
+															<th>14</th>
+															<th>13</th>
+															<th>12</th>
+															<th>11</th>
+														</tr>
+													</tfoot>
+												</table>	
+											</td>
+											<td>
+												<table class="result-alt">
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="SS_21_2" id="SS_21_2" %SS_21_2_checked% ></td>
+															<td><input type="checkbox" name="SS_22_2" id="SS_22_2" %SS_22_2_checked% ></td>
+															<td><input type="checkbox" name="SS_23_2" id="SS_23_2" %SS_23_2_checked% ></td>
+															<td><input type="checkbox" name="SS_24_2" id="SS_24_2" %SS_24_2_checked% ></td>
+															<td><input type="checkbox" name="SS_25_2" id="SS_25_2" %SS_25_2_checked% ></td>
+															<td><input type="checkbox" name="SS_26_2" id="SS_26_2" %SS_26_2_checked% ></td>
+															<td><input type="checkbox" name="SS_27_2" id="SS_27_2" %SS_27_2_checked% ></td>
+															<td><input type="checkbox" name="SS_28_2" id="SS_28_2" %SS_28_2_checked% ></td>
+														</tr>
+													</tbody>
+													<tfoot>
+														<tr>
+															<th>21</th>
+															<th>22</th>
+															<th>23</th>
+															<th>24</th>
+															<th>25</th>
+															<th>26</th>
+															<th>27</th>
+															<th>28</th>
+														</tr>
+													</tfoot>
+												</table>	
+											</td>
+										</tr>
+										<tr style="border-collapse: collapse;">
+											<td>
+												<table class="result-alt">
+													<thead>
+														<tr>
+															<th>48</th>
+															<th>47</th>
+															<th>46</th>
+															<th>45</th>
+															<th>44</th>
+															<th>43</th>
+															<th>42</th>
+															<th>41</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="ID_48_2" id="ID_48_2" %ID_48_2_checked% ></td>
+															<td><input type="checkbox" name="ID_47_2" id="ID_47_2" %ID_47_2_checked% ></td>
+															<td><input type="checkbox" name="ID_46_2" id="ID_46_2" %ID_46_2_checked% ></td>
+															<td><input type="checkbox" name="ID_45_2" id="ID_45_2" %ID_45_2_checked% ></td>
+															<td><input type="checkbox" name="ID_44_2" id="ID_44_2" %ID_44_2_checked% ></td>
+															<td><input type="checkbox" name="ID_43_2" id="ID_43_2" %ID_43_2_checked% ></td>
+															<td><input type="checkbox" name="ID_42_2" id="ID_42_2" %ID_42_2_checked% ></td>
+															<td><input type="checkbox" name="ID_41_2" id="ID_41_2" %ID_41_2_checked% ></td>
+														</tr>
+													</tbody>
+												</table>	
+											</td>
+											<td>
+												<table class="result-alt">
+													<thead>
+														<tr>
+															<th>31</th>
+															<th>32</th>
+															<th>33</th>
+															<th>34</th>
+															<th>35</th>
+															<th>36</th>
+															<th>37</th>
+															<th>38</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="IS_31_2" id="IS_31_2" %IS_31_2_checked% ></td>
+															<td><input type="checkbox" name="IS_32_2" id="IS_32_2" %IS_32_2_checked% ></td>
+															<td><input type="checkbox" name="IS_33_2" id="IS_33_2" %IS_33_2_checked% ></td>
+															<td><input type="checkbox" name="IS_34_2" id="IS_34_2" %IS_34_2_checked% ></td>
+															<td><input type="checkbox" name="IS_35_2" id="IS_35_2" %IS_35_2_checked% ></td>
+															<td><input type="checkbox" name="IS_36_2" id="IS_36_2" %IS_36_2_checked% ></td>
+															<td><input type="checkbox" name="IS_37_2" id="IS_37_2" %IS_37_2_checked% ></td>
+															<td><input type="checkbox" name="IS_38_2" id="IS_38_2" %IS_38_2_checked% ></td>
+														</tr>
+													</tbody>
+												</table>	
+											</td>
+										</tr>				
+									</table>
+								</td>
+							</tr>
+							<tr>
+								<td style="padding-top: 5px;">
+									<select id="selectmenu3" id="voceGruppo_3" name="voceGruppo_3">
+										<option value=""></option>
+										%vociListinoGruppo_3%
+									</select>
+
+									<table class="result-alt">
+										<tr>
+											<td>
+												<table class="result-alt">
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="SD_18_3" id="SD_18_3" %SD_18_3_checked% ></td>
+															<td><input type="checkbox" name="SD_17_3" id="SD_17_3" %SD_17_3_checked% ></td>
+															<td><input type="checkbox" name="SD_16_3" id="SD_16_3" %SD_16_3_checked% ></td>
+															<td><input type="checkbox" name="SD_15_3" id="SD_15_3" %SD_15_3_checked% ></td>
+															<td><input type="checkbox" name="SD_14_3" id="SD_14_3" %SD_14_3_checked% ></td>
+															<td><input type="checkbox" name="SD_13_3" id="SD_13_3" %SD_13_3_checked% ></td>
+															<td><input type="checkbox" name="SD_12_3" id="SD_12_3" %SD_12_3_checked% ></td>
+															<td><input type="checkbox" name="SD_11_3" id="SD_11_3" %SD_11_3_checked% ></td>
+														</tr>
+													</tbody>
+													<tfoot>
+														<tr>
+															<th>18</th>
+															<th>17</th>
+															<th>16</th>
+															<th>15</th>
+															<th>14</th>
+															<th>13</th>
+															<th>12</th>
+															<th>11</th>
+														</tr>
+													</tfoot>
+												</table>	
+											</td>
+											<td>
+												<table class="result-alt">
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="SS_21_3" id="SS_21_3" %SS_21_3_checked% ></td>
+															<td><input type="checkbox" name="SS_22_3" id="SS_22_3" %SS_22_3_checked% ></td>
+															<td><input type="checkbox" name="SS_23_3" id="SS_23_3" %SS_23_3_checked% ></td>
+															<td><input type="checkbox" name="SS_24_3" id="SS_24_3" %SS_24_3_checked% ></td>
+															<td><input type="checkbox" name="SS_25_3" id="SS_25_3" %SS_25_3_checked% ></td>
+															<td><input type="checkbox" name="SS_26_3" id="SS_26_3" %SS_26_3_checked% ></td>
+															<td><input type="checkbox" name="SS_27_3" id="SS_27_3" %SS_27_3_checked% ></td>
+															<td><input type="checkbox" name="SS_28_3" id="SS_28_3" %SS_28_3_checked% ></td>
+														</tr>
+													</tbody>
+													<tfoot>
+														<tr>
+															<th>21</th>
+															<th>22</th>
+															<th>23</th>
+															<th>24</th>
+															<th>25</th>
+															<th>26</th>
+															<th>27</th>
+															<th>28</th>
+														</tr>
+													</tfoot>
+												</table>	
+											</td>
+										</tr>
+										<tr style="border-collapse: collapse;">
+											<td>
+												<table class="result-alt">
+													<thead>
+														<tr>
+															<th>48</th>
+															<th>47</th>
+															<th>46</th>
+															<th>45</th>
+															<th>44</th>
+															<th>43</th>
+															<th>42</th>
+															<th>41</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="ID_48_3" id="ID_48_3" %ID_48_3_checked% ></td>
+															<td><input type="checkbox" name="ID_47_3" id="ID_47_3" %ID_47_3_checked% ></td>
+															<td><input type="checkbox" name="ID_46_3" id="ID_46_3" %ID_46_3_checked% ></td>
+															<td><input type="checkbox" name="ID_45_3" id="ID_45_3" %ID_45_3_checked% ></td>
+															<td><input type="checkbox" name="ID_44_3" id="ID_44_3" %ID_44_3_checked% ></td>
+															<td><input type="checkbox" name="ID_43_3" id="ID_43_3" %ID_43_3_checked% ></td>
+															<td><input type="checkbox" name="ID_42_3" id="ID_42_3" %ID_42_3_checked% ></td>
+															<td><input type="checkbox" name="ID_41_3" id="ID_41_3" %ID_41_3_checked% ></td>
+														</tr>
+													</tbody>
+												</table>	
+											</td>
+											<td>
+												<table class="result-alt">
+													<thead>
+														<tr>
+															<th>31</th>
+															<th>32</th>
+															<th>33</th>
+															<th>34</th>
+															<th>35</th>
+															<th>36</th>
+															<th>37</th>
+															<th>38</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="IS_31_3" id="IS_31_3" %IS_31_3_checked% ></td>
+															<td><input type="checkbox" name="IS_32_3" id="IS_32_3" %IS_32_3_checked% ></td>
+															<td><input type="checkbox" name="IS_33_3" id="IS_33_3" %IS_33_3_checked% ></td>
+															<td><input type="checkbox" name="IS_34_3" id="IS_34_3" %IS_34_3_checked% ></td>
+															<td><input type="checkbox" name="IS_35_3" id="IS_35_3" %IS_35_3_checked% ></td>
+															<td><input type="checkbox" name="IS_36_3" id="IS_36_3" %IS_36_3_checked% ></td>
+															<td><input type="checkbox" name="IS_37_3" id="IS_37_3" %IS_37_3_checked% ></td>
+															<td><input type="checkbox" name="IS_38_3" id="IS_38_3" %IS_38_3_checked% ></td>
+														</tr>
+													</tbody>
+												</table>	
+											</td>
+										</tr>				
+									</table>
+								</td>
+								<td style="padding-left: 40px; padding-top: 5px;">
+									<select id="selectmenu4" id="voceGruppo_4" name="voceGruppo_4">
+										<option value=""></option>
+										%vociListinoGruppo_4%
+									</select>
+
+									<table class="result-alt">
+										<tr>
+											<td>
+												<table class="result-alt">
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="SD_18_4" id="SD_18_4" %SD_18_4_checked% ></td>
+															<td><input type="checkbox" name="SD_17_4" id="SD_17_4" %SD_17_4_checked% ></td>
+															<td><input type="checkbox" name="SD_16_4" id="SD_16_4" %SD_16_4_checked% ></td>
+															<td><input type="checkbox" name="SD_15_4" id="SD_15_4" %SD_15_4_checked% ></td>
+															<td><input type="checkbox" name="SD_14_4" id="SD_14_4" %SD_14_4_checked% ></td>
+															<td><input type="checkbox" name="SD_13_4" id="SD_13_4" %SD_13_4_checked% ></td>
+															<td><input type="checkbox" name="SD_12_4" id="SD_12_4" %SD_12_4_checked% ></td>
+															<td><input type="checkbox" name="SD_11_4" id="SD_11_4" %SD_11_4_checked% ></td>
+														</tr>
+													</tbody>
+													<tfoot>
+														<tr>
+															<th>18</th>
+															<th>17</th>
+															<th>16</th>
+															<th>15</th>
+															<th>14</th>
+															<th>13</th>
+															<th>12</th>
+															<th>11</th>
+														</tr>
+													</tfoot>
+												</table>	
+											</td>
+											<td>
+												<table class="result-alt">
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="SS_21_4" id="SS_21_4" %SS_21_4_checked% ></td>
+															<td><input type="checkbox" name="SS_22_4" id="SS_22_4" %SS_22_4_checked% ></td>
+															<td><input type="checkbox" name="SS_23_4" id="SS_23_4" %SS_23_4_checked% ></td>
+															<td><input type="checkbox" name="SS_24_4" id="SS_24_4" %SS_24_4_checked% ></td>
+															<td><input type="checkbox" name="SS_25_4" id="SS_25_4" %SS_25_4_checked% ></td>
+															<td><input type="checkbox" name="SS_26_4" id="SS_26_4" %SS_26_4_checked% ></td>
+															<td><input type="checkbox" name="SS_27_4" id="SS_27_4" %SS_27_4_checked% ></td>
+															<td><input type="checkbox" name="SS_28_4" id="SS_28_4" %SS_28_4_checked% ></td>
+														</tr>
+													</tbody>
+													<tfoot>
+														<tr>
+															<th>21</th>
+															<th>22</th>
+															<th>23</th>
+															<th>24</th>
+															<th>25</th>
+															<th>26</th>
+															<th>27</th>
+															<th>28</th>
+														</tr>
+													</tfoot>
+												</table>	
+											</td>
+										</tr>
+										<tr style="border-collapse: collapse;">
+											<td>
+												<table class="result-alt">
+													<thead>
+														<tr>
+															<th>48</th>
+															<th>47</th>
+															<th>46</th>
+															<th>45</th>
+															<th>44</th>
+															<th>43</th>
+															<th>42</th>
+															<th>41</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="ID_48_4" id="ID_48_4" %ID_48_4_checked% ></td>
+															<td><input type="checkbox" name="ID_47_4" id="ID_47_4" %ID_47_4_checked% ></td>
+															<td><input type="checkbox" name="ID_46_4" id="ID_46_4" %ID_46_4_checked% ></td>
+															<td><input type="checkbox" name="ID_45_4" id="ID_45_4" %ID_45_4_checked% ></td>
+															<td><input type="checkbox" name="ID_44_4" id="ID_44_4" %ID_44_4_checked% ></td>
+															<td><input type="checkbox" name="ID_43_4" id="ID_43_4" %ID_43_4_checked% ></td>
+															<td><input type="checkbox" name="ID_42_4" id="ID_42_4" %ID_42_4_checked% ></td>
+															<td><input type="checkbox" name="ID_41_4" id="ID_41_4" %ID_41_4_checked% ></td>
+														</tr>
+													</tbody>
+												</table>	
+											</td>
+											<td>
+												<table class="result-alt">
+													<thead>
+														<tr>
+															<th>31</th>
+															<th>32</th>
+															<th>33</th>
+															<th>34</th>
+															<th>35</th>
+															<th>36</th>
+															<th>37</th>
+															<th>38</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td><input type="checkbox" name="IS_31_4" id="IS_31_4" %IS_31_4_checked% ></td>
+															<td><input type="checkbox" name="IS_32_4" id="IS_32_4" %IS_32_4_checked% ></td>
+															<td><input type="checkbox" name="IS_33_4" id="IS_33_4" %IS_33_4_checked% ></td>
+															<td><input type="checkbox" name="IS_34_4" id="IS_34_4" %IS_34_4_checked% ></td>
+															<td><input type="checkbox" name="IS_35_4" id="IS_35_4" %IS_35_4_checked% ></td>
+															<td><input type="checkbox" name="IS_36_4" id="IS_36_4" %IS_36_4_checked% ></td>
+															<td><input type="checkbox" name="IS_37_4" id="IS_37_4" %IS_37_4_checked% ></td>
+															<td><input type="checkbox" name="IS_38_4" id="IS_38_4" %IS_38_4_checked% ></td>
+														</tr>
+													</tbody>
+												</table>	
+											</td>
+										</tr>				
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+				
+			</div>
+			
+			<div id="tabs-2">
+								
+				<p>Questa funzionalit&agrave; di creazione del preventivo per gruppi di denti ti permette di creare fino a quattro gruppi di intervento.</p>
+				<p>Le voci che hai a disposizione sono quelle del listino asssegnato al paziente elencato qui sotto.</p>
+				<h2>Come si fa</h2>
+				<ul>
+					<li>Selezione la voce di intervento in uno dei quattro men&ugrave; a discesa</li>
+					<li>Sotto il men&ugrave; che hai selezionato trovi i denti sui quali fare l'intervento, seleziona quelli di interesse</li>
+					<li>Conferma la creazione col bottone "Conferma"</li>
+				</ul>
+
+				<table class="result-alt" id="resultTable">
+					<thead>
+						<th width="80">%ml.codice%</th>
+						<th width="700">%ml.descrizioneLavoro%</th>
+					</thead>
+					<tbody>%vociListinoEsteso%</tbody>
+				</table>			
+								
+			</div>
+		</div>
+					
+	</div>
+</div>

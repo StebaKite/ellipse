@@ -36,14 +36,26 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 	public static $dentiSingoli;
 	public static $impostazioniVoci;
-	
 
+	private static $voceGruppo_1;
+	private static $dentiGruppo_1;
+	private static $voceGruppo_2;
+	private static $dentiGruppo_2;
+	private static $voceGruppo_3;
+	private static $dentiGruppo_3;
+	private static $voceGruppo_4;
+	private static $dentiGruppo_4;
+	
+	public static $cureGeneriche;
+	
 	// Query -----------------------------------------------------------------------------
 	
 	public static $queryVociListinoPaziente = "/preventivo/ricercaVociListinoPaziente.sql";
 
 	public static $queryCategorieVociListinoPaziente = "/preventivo/ricercaCategorieVociListinoPaziente.sql";
 	public static $queryVociListinoCategoriaPaziente = "/preventivo/ricercaVociListinoCategoriaPaziente.sql";
+	public static $queryVociGenericheListinoPaziente = "/preventivo/ricercaVociGenericheListinoPaziente.sql";
+
 	public static $queryAggiornaUsoVoceListino = "/preventivo/aggiornaUsoVoceListino.sql";	
 	public static $queryLeggiPrezzoVoceListino = "/preventivo/leggiPrezzoVoceListino.sql";
 	public static $queryCreaPreventivo = "/preventivo/creaPreventivo.sql";
@@ -55,6 +67,16 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $queryVocePreventivoPaziente = "/preventivo/ricercaVocePreventivoPaziente.sql";	
 	public static $queryIdVocePreventivoPaziente = "/preventivo/ricercaIdVocePreventivoPaziente.sql";	
 	public static $queryVociPreventivoDentiSingoliPaziente = "/preventivo/ricercaVociPreventivoDentiSingoliPaziente.sql";
+
+	public static $queryVociSottoPreventivoGruppiPaziente = "/preventivo/ricercaVociSottoPreventivoGruppiPaziente.sql";
+	public static $queryVociPreventivoGruppiPaziente = "/preventivo/ricercaVociPreventivoGruppiPaziente.sql";
+
+	public static $queryComboPreventivoPrincipaleGruppiPaziente = "/preventivo/ricercaComboPreventivoPrincipaleGruppiPaziente.sql";
+	public static $queryComboPreventivoSecondarioGruppiPaziente = "/preventivo/ricercaComboPreventivoSecondarioGruppiPaziente.sql";
+
+	public static $queryVocePreventivoPrincipalePaziente = "/preventivo/ricercaVocePreventivoPrincipalePaziente.sql";
+	public static $queryVocePreventivoSecondarioPaziente = "/preventivo/ricercaVocePreventivoSecondarioPaziente.sql";
+	
 	
 	public static $queryCreaVoceSottoPreventivo = "/preventivo/creaVoceSottoPreventivo.sql";
 	public static $queryAggiornaSottoPreventivo = "/preventivo/aggiornaSottoPreventivo.sql";
@@ -150,6 +172,35 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function setImpostazioniVoci($impostazioniVoci) {
 		self::$impostazioniVoci = $impostazioniVoci;
 	}
+
+	public function setDentiGruppo_1($dentiGruppo_1) {
+		self::$dentiGruppo_1 = $dentiGruppo_1;
+	}
+	public function setDentiGruppo_2($dentiGruppo_2) {
+		self::$dentiGruppo_2 = $dentiGruppo_2;
+	}
+	public function setDentiGruppo_3($dentiGruppo_3) {
+		self::$dentiGruppo_3 = $dentiGruppo_3;
+	}
+	public function setDentiGruppo_4($dentiGruppo_4) {
+		self::$dentiGruppo_4 = $dentiGruppo_4;
+	}
+	public function setVoceGruppo_1($voceGruppo_1) {
+		self::$voceGruppo_1 = $voceGruppo_1;
+	}
+	public function setVoceGruppo_2($voceGruppo_2) {
+		self::$voceGruppo_2 = $voceGruppo_2;
+	}
+	public function setVoceGruppo_3($voceGruppo_3) {
+		self::$voceGruppo_3 = $voceGruppo_3;
+	}
+	public function setVoceGruppo_4($voceGruppo_4) {
+		self::$voceGruppo_4 = $voceGruppo_4;
+	}
+	
+	public function setCureGeneriche($cureGeneriche) {
+		self::$cureGeneriche = $cureGeneriche;
+	}
 	
 	
 
@@ -240,7 +291,35 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function getImpostazioniVoci() {
 		return self::$impostazioniVoci;
 	}
+
+	public function getDentiGruppo_1() {
+		return self::$dentiGruppo_1;
+	}
+	public function getDentiGruppo_2() {
+		return self::$dentiGruppo_2;
+	}
+	public function getDentiGruppo_3() {
+		return self::$dentiGruppo_3;
+	}
+	public function getDentiGruppo_4() {
+		return self::$dentiGruppo_4;
+	}
+	public function getVoceGruppo_1() {
+		return self::$voceGruppo_1;
+	}
+	public function getVoceGruppo_2() {
+		return self::$voceGruppo_2;
+	}
+	public function getVoceGruppo_3() {
+		return self::$voceGruppo_3;
+	}
+	public function getVoceGruppo_4() {
+		return self::$voceGruppo_4;
+	}
 	
+	public function getCureGeneriche() {
+		return self::$cureGeneriche;
+	}
 	
 	
 	
@@ -537,6 +616,66 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		return $result;
 	}
 
+	public function leggiVoceCuraPreventivoPrincipale($db, $idpreventivo, $nomeCampo, $nomeForm) {
+	
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idpreventivo%' => $idpreventivo,
+				'%nomeform%' => $nomeForm,
+				'%idnomecampo%' => $nomeCampo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryVocePreventivoPrincipalePaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		$vociInserite = pg_fetch_all($result);
+	
+		if (!$vociInserite) {
+			return "";
+		}
+		else {
+			foreach ($vociInserite as $voce) {
+				return $voce['codicevocelistino'];
+			}
+		}
+	}
+
+	public function leggiVoceCuraPreventivoSecondario($db, $idsottopreventivo, $nomeCampo, $nomeForm) {
+	
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idsottopreventivo%' => $idsottopreventivo,
+				'%nomeform%' => $nomeForm,
+				'%idnomecampo%' => $nomeCampo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryVocePreventivoSecondarioPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		$vociInserite = pg_fetch_all($result);
+	
+		if (!$vociInserite) {
+			return "";
+		}
+		else {
+			foreach ($vociInserite as $voce) {
+				return $voce['codicevocelistino'];
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @param unknown $db
@@ -667,6 +806,38 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$replace = array('%idvocepreventivo%' => $idvocepreventivo);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryIdVocePreventivoPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		$voceVisita = pg_fetch_all($result);
+	
+		if (!$voceVisita) {
+			return "";
+		}
+		else {
+			foreach ($voceVisita as $row) {
+				return $row['codicevocelistino'];
+			}
+		}
+	}
+
+	/**
+	 *
+	 * @param unknown $db
+	 * @param unknown $idvocevisita
+	 * @return il codice voce listino
+	 */
+	public function leggiIdVoceSottoPreventivo($db, $idvocesottopreventivo) {
+	
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array('%idvocesottopreventivo%' => $idvocesottopreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryIdVoceSottoPreventivoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	

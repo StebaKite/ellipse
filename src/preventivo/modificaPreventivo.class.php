@@ -221,8 +221,15 @@ class modificaPreventivo extends preventivoAbstract {
 		$preventivoTemplate->setConfermaTip("%ml.confermaModificaPreventivo%");
 		$preventivoTemplate->setGruppiTip("%ml.creaGruppi%");
 		$preventivoTemplate->setCureTip("%ml.creaCure%");
-	
-		$preventivoTemplate->setTitoloPagina("%ml.modificaPreventivoDentiSingoli%");
+
+		if ($this->getIdPreventivo() != "") {
+			$preventivoTemplate->setTitoloPagina("%ml.modificaPreventivoPrincipaleDentiSingoli%");
+		}
+		elseif ($this->getIdSottoPreventivo() != "") {
+			$preventivoTemplate->setTitoloPagina("%ml.modificaPreventivoSecondarioDentiSingoli%");
+		}
+		
+		$preventivoTemplate->setPreventivoLabel("Preventivo");
 	}
 }
 

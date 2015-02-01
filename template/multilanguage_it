@@ -132,9 +132,14 @@ ricercaVociListino = Voci Listino
 modificaVoceListino = Modifica Voce Listino
 ricercaPreventivo = Ricerca Preventivo
 creaNuovoPreventivoDentiSingoli = Crea Preventivo - Denti Singoli
-creaNuovoPreventivoDentiGruppi = Crea Preventivo - Gruppi di Denti
+creaNuovoPreventivoGruppi = Crea Preventivo - Gruppi di Denti
 creaNuovoPreventivoCure = Crea Preventivo - Cure Generiche
-modificaPreventivoDentiSingoli = Modifica Preventivo - Denti Singoli
+modificaPreventivoPrincipaleDentiSingoli = Modifica Preventivo Principale - Denti Singoli
+modificaPreventivoSecondarioDentiSingoli = Modifica Preventivo Secondario - Denti Singoli
+modificaPreventivoPrincipaleGruppi = Modifica Preventivo Principale - Gruppi di Denti
+modificaPreventivoSecondarioGruppi = Modifica Preventivo Secondario - Gruppi di Denti
+modificaPreventivoPrincipaleCure = Modifica Preventivo Principale - Cure Generiche
+modificaPreventivoSecondarioCure = Modifica Preventivo Secondario - Cure Generiche
 ;
 ; Messaggi -----------------------------
 ;
@@ -221,6 +226,8 @@ preventivo = Preventivo
 preventivi = Preventivi
 modificaPreventivoOk = Preventivo modificato
 modificaPreventivoKo = Errore durante la modifica del preventivo
+modificaCureOk = Cure generiche modificate
+modificaCureKo = Errore durante la modifica delle cure generiche
 ;
 ; Campi form ---------------------------
 ;
