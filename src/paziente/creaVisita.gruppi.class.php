@@ -134,10 +134,10 @@ class creaVisitaGruppi extends visitaPazienteAbstract {
 
 		if ($this->creaVisita($db)) {
 
-			if ($this->inserisciVociGruppo($db, $visitaGruppi->getVoceGruppo_1(), $visitaGruppi->getDentiGruppo_1(), $db->getLastIdUsed())) {
-				if ($this->inserisciVociGruppo($db, $visitaGruppi->getVoceGruppo_2(), $visitaGruppi->getDentiGruppo_2(), $db->getLastIdUsed())) {
-					if ($this->inserisciVociGruppo($db, $visitaGruppi->getVoceGruppo_3(), $visitaGruppi->getDentiGruppo_3(), $db->getLastIdUsed())) {
-						if ($this->inserisciVociGruppo($db, $visitaGruppi->getVoceGruppo_4(), $visitaGruppi->getDentiGruppo_4(), $db->getLastIdUsed())) {
+			if ($this->inserisciVociGruppo($db, 'voceGruppo_1', $visitaGruppi->getVoceGruppo_1(), $visitaGruppi->getDentiGruppo_1(), $db->getLastIdUsed())) {
+				if ($this->inserisciVociGruppo($db, 'voceGruppo_2', $visitaGruppi->getVoceGruppo_2(), $visitaGruppi->getDentiGruppo_2(), $db->getLastIdUsed())) {
+					if ($this->inserisciVociGruppo($db, 'voceGruppo_3', $visitaGruppi->getVoceGruppo_3(), $visitaGruppi->getDentiGruppo_3(), $db->getLastIdUsed())) {
+						if ($this->inserisciVociGruppo($db, 'voceGruppo_4', $visitaGruppi->getVoceGruppo_4(), $visitaGruppi->getDentiGruppo_4(), $db->getLastIdUsed())) {
 							$db->commitTransaction();
 							return TRUE;				
 						}
@@ -148,12 +148,12 @@ class creaVisitaGruppi extends visitaPazienteAbstract {
 		return FALSE;
 	}
 	
-	public function inserisciVociGruppo($db, $voceGruppo, $dentiGruppo, $idVisitaUsato) {
+	public function inserisciVociGruppo($db, $nomeCampoForm, $voceGruppo, $dentiGruppo, $idVisitaUsato) {
 	
 		foreach($dentiGruppo as $row) {
 
 			if ($row[1] != "") {
-				if (!$this->creaVoceVisita($db, $idVisitaUsato, $this->getGruppiForm(), trim($row[0]), $voceGruppo)) {
+				if (!$this->creaVoceVisita($db, $idVisitaUsato, $this->getGruppiForm(), $nomeCampoForm . ";" . trim($row[0]), $voceGruppo)) {
 					$db->rollbackTransaction();
 					error_log("Errore inserimento voce, eseguito Rollback");
 					return FALSE;	
