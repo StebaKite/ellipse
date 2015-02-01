@@ -162,10 +162,24 @@ class modificaPreventivoCure extends preventivoAbstract {
 			}
 			// se il nomecampo esiste in tabella "vocevisita" e il campo non è selezionato in pagina
 			elseif ($idVoce != "" and $row[1] == "") {
-				if (!$this->cancellaVocePreventivo($db, $idVoce)) {
-					error_log("Fallita cancellazione idvoce : " . $idVoce);
-					$db->rollbackTransaction();
-					return FALSE;
+
+				// Se il preventivo è in stato "Proposto" la voce può essere cancellata
+				
+				if ($preventivoTemplate->getStato() == "Proposto") {
+						
+					if (!$this->cancellaVocePreventivo($db, $idVoce)) {
+						error_log("Fallita cancellazione idvoce : " . $idVoce);
+						$db->rollbackTransaction();
+						return FALSE;
+					}
+				}
+				elseif ($preventivoTemplate->getStato() == "Accettato") {
+				
+					if (!$this->aggiornaStatoVocePreventivoPrincipale($db, $idVoce, '01')) {	// voce sospesa
+						error_log("Fallito cambio stato voce  : " . $idVoce);
+						$db->rollbackTransaction();
+						return FALSE;
+					}
 				}
 			}
 			// se il nomecampo non esiste in tabella "vocevisita" e il campo è selezionato in pagina
@@ -197,10 +211,24 @@ class modificaPreventivoCure extends preventivoAbstract {
 			}
 			// se il nomecampo esiste in tabella "vocevisita" e il campo non è selezionato in pagina
 			elseif ($idVoce != "" and $row[1] == "") {
-				if (!$this->cancellaVoceSottoPreventivo($db, $idVoce)) {
-					error_log("Fallita cancellazione idvoce : " . $idVoce);
-					$db->rollbackTransaction();
-					return FALSE;
+
+				// Se il preventivo è in stato "Proposto" la voce può essere cancellata
+				
+				if ($preventivoTemplate->getStato() == "Proposto") {
+						
+					if (!$this->cancellaVoceSottoPreventivo($db, $idVoce)) {
+						error_log("Fallita cancellazione idvoce : " . $idVoce);
+						$db->rollbackTransaction();
+						return FALSE;
+					}
+				}
+				elseif ($preventivoTemplate->getStato() == "Accettato") {
+				
+					if (!$this->aggiornaStatoVocePreventivoSecondario($db, $idVoce, '01')) {	// voce sospesa
+						error_log("Fallito cambio stato voce  : " . $idVoce);
+						$db->rollbackTransaction();
+						return FALSE;
+					}
 				}
 			}
 			// se il nomecampo non esiste in tabella "vocevisita" e il campo è selezionato in pagina

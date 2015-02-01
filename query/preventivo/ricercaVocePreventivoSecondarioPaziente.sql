@@ -1,9 +1,11 @@
-select
+SELECT
 	vocesottopreventivo.idvocesottopreventivo,
 	vocesottopreventivo.codicevocelistino
 
-from paziente.vocesottopreventivo as vocesottopreventivo
+FROM paziente.vocesottopreventivo as vocesottopreventivo
 	
-where vocesottopreventivo.idsottopreventivo = %idsottopreventivo%
-  and vocesottopreventivo.nomeform = '%nomeform%'
-  and vocesottopreventivo.nomecampoform = '%idnomecampo%'
+WHERE vocesottopreventivo.idsottopreventivo = %idsottopreventivo%
+  AND vocesottopreventivo.nomeform = '%nomeform%'
+  AND vocesottopreventivo.nomecampoform = '%idnomecampo%'
+  AND vocesottopreventivo.stato = '00'
+  

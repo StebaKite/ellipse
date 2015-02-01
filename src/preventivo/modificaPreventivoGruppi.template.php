@@ -58,6 +58,7 @@ class modificaPreventivoGruppiTemplate extends preventivoAbstract {
 				'%idPreventivo%' => $this->getIdPreventivo(),
 				'%idPreventivoPrincipale%' => $this->getIdPreventivoPrincipale(),
 				'%idSottoPreventivo%' => $this->getIdSottoPreventivo(),
+				'%stato%' => $this->getStato(),
 				'%vociListinoEsteso%' => $this->preparaListinoEsteso($rows),
 				'%vociListinoGruppo_1%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_1()),
 				'%vociListinoGruppo_2%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_2()),

@@ -287,6 +287,7 @@ class preventivoTemplate extends preventivoAbstract {
 				'%idPreventivo%' => $this->getIdPreventivo(),
 				'%idPreventivoPrincipale%' => $this->getIdPreventivoPrincipale(),
 				'%idSottoPreventivo%' => $this->getIdSottoPreventivo(),
+				'%stato%' => $this->getStato(),
 				'%vociListinoEsteso%' => $vociListinoEsteso,
 				'%tabsCategorie%' => $tabsCategorie,
 				'%divCategorie%' =>	$divCategorie,

@@ -68,7 +68,8 @@ class preventivoCureTemplate extends preventivoAbstract {
 				'%idListino%' => $this->getIdListino(),
 				'%idPreventivo%' => $this->getIdPreventivo(),
 				'%idPreventivoPrincipale%' => $this->getIdPreventivoPrincipale(),
-				'%idSottoPreventivo%' => $this->getIdSottoPreventivo()
+				'%idSottoPreventivo%' => $this->getIdSottoPreventivo(),
+				'%stato%' => $this->getStato()
 		);
 		
 		if ($rows) {

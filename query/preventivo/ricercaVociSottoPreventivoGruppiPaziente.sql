@@ -25,3 +25,4 @@ WHERE paziente.idpaziente = %idpaziente%
   AND preventivo.idpreventivo = %idpreventivo%
   AND sottopreventivo.idsottopreventivo = %idsottopreventivo%
   AND vocesottopreventivo.nomeform = 'gruppi'
+  AND vocesottopreventivo.stato = '00'

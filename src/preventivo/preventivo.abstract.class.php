@@ -76,8 +76,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 
 	public static $queryVocePreventivoPrincipalePaziente = "/preventivo/ricercaVocePreventivoPrincipalePaziente.sql";
 	public static $queryVocePreventivoSecondarioPaziente = "/preventivo/ricercaVocePreventivoSecondarioPaziente.sql";
-	
-	
+		
 	public static $queryCreaVoceSottoPreventivo = "/preventivo/creaVoceSottoPreventivo.sql";
 	public static $queryAggiornaSottoPreventivo = "/preventivo/aggiornaSottoPreventivo.sql";
 	public static $queryAggiornaVoceSottoPreventivo = "/preventivo/aggiornaVoceSottoPreventivo.sql";
@@ -85,6 +84,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $queryVoceSottoPreventivoPaziente = "/preventivo/ricercaVoceSottoPreventivoPaziente.sql";
 	public static $queryIdVoceSottoPreventivoPaziente = "/preventivo/ricercaIdVoceSottoPreventivoPaziente.sql";
 	public static $queryVociSottoPreventivoDentiSingoliPaziente = "/preventivo/ricercaVociSottoPreventivoDentiSingoliPaziente.sql";
+
+	public static $queryAggiornaStatoVocePreventivoPrincipale = "/preventivo/aggiornaStatoVocePreventivoPrincipale.sql";
+	public static $queryAggiornaStatoVocePreventivoSecondario = "/preventivo/aggiornaStatoVocePreventivoSecondario.sql";
 	
 	// Costruttore -----------------------------------------------------------------------------
 	
@@ -1090,7 +1092,55 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 		return $result;
 	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idVocePreventivo
+	 * @param unknown $stato
+	 * @return L'esito dell'aggiornamento
+	 */
+	public function aggiornaStatoVocePreventivoPrincipale($db, $idVocePreventivo, $stato) {
+
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+				'%idvocepreventivo%' => $idVocePreventivo,
+				'%stato%' => $stato
+		);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaStatoVocePreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		return $result;		
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idVoceSottoPreventivo
+	 * @param unknown $stato
+	 * @return L'esito dell'aggiornamento
+	 */
+	public function aggiornaStatoVocePreventivoSecondario($db, $idVoceSottoPreventivo, $stato) {
 	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+				'%idvocesottopreventivo%' => $idVoceSottoPreventivo,
+				'%stato%' => $stato
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaStatoVocePreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+		
 	/**
 	 * 
 	 * @param unknown $db

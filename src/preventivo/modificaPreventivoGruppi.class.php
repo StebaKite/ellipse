@@ -101,10 +101,10 @@ class modificaPreventivoGruppi extends preventivoAbstract {
 		$db = new database();
 		$db->beginTransaction();
 	
-		if ($this->modificaVociGruppoPreventivoPrincipale($db, 'voceGruppo_1', $modificaPreventivoGruppiTemplate->getVoceGruppo_1(), $modificaPreventivoGruppiTemplate->getDentiGruppo_1(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), self::$gruppiForm)) {
-			if ($this->modificaVociGruppoPreventivoPrincipale($db, 'voceGruppo_2', $modificaPreventivoGruppiTemplate->getVoceGruppo_2(), $modificaPreventivoGruppiTemplate->getDentiGruppo_2(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), self::$gruppiForm)) {
-				if ($this->modificaVociGruppoPreventivoPrincipale($db, 'voceGruppo_3', $modificaPreventivoGruppiTemplate->getVoceGruppo_3(), $modificaPreventivoGruppiTemplate->getDentiGruppo_3(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), self::$gruppiForm)) {
-					if ($this->modificaVociGruppoPreventivoPrincipale($db, 'voceGruppo_4', $modificaPreventivoGruppiTemplate->getVoceGruppo_4(), $modificaPreventivoGruppiTemplate->getDentiGruppo_4(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), self::$gruppiForm)) {
+		if ($this->modificaVociGruppoPreventivoPrincipale($db, 'voceGruppo_1', $modificaPreventivoGruppiTemplate->getVoceGruppo_1(), $modificaPreventivoGruppiTemplate->getDentiGruppo_1(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), self::$gruppiForm, $modificaPreventivoGruppiTemplate->getStato())) {
+			if ($this->modificaVociGruppoPreventivoPrincipale($db, 'voceGruppo_2', $modificaPreventivoGruppiTemplate->getVoceGruppo_2(), $modificaPreventivoGruppiTemplate->getDentiGruppo_2(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), self::$gruppiForm, $modificaPreventivoGruppiTemplate->getStato())) {
+				if ($this->modificaVociGruppoPreventivoPrincipale($db, 'voceGruppo_3', $modificaPreventivoGruppiTemplate->getVoceGruppo_3(), $modificaPreventivoGruppiTemplate->getDentiGruppo_3(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), self::$gruppiForm, $modificaPreventivoGruppiTemplate->getStato())) {
+					if ($this->modificaVociGruppoPreventivoPrincipale($db, 'voceGruppo_4', $modificaPreventivoGruppiTemplate->getVoceGruppo_4(), $modificaPreventivoGruppiTemplate->getDentiGruppo_4(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), self::$gruppiForm, $modificaPreventivoGruppiTemplate->getStato())) {
 	
 						// aggiorno la datamodifica del "preventivo" prima di consolidare gli aggiornamenti
 						if (!$this->aggiornaPreventivo($db, $modificaPreventivoGruppiTemplate->getIdPreventivo())) {
@@ -136,10 +136,10 @@ class modificaPreventivoGruppi extends preventivoAbstract {
 		$db = new database();
 		$db->beginTransaction();
 	
-		if ($this->modificaVociGruppoPreventivoSecondario($db, 'voceGruppo_1', $modificaPreventivoGruppiTemplate->getVoceGruppo_1(), $modificaPreventivoGruppiTemplate->getDentiGruppo_1(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), $modificaPreventivoGruppiTemplate->getIdSottoPreventivo(), self::$gruppiForm)) {
-			if ($this->modificaVociGruppoPreventivoSecondario($db, 'voceGruppo_2', $modificaPreventivoGruppiTemplate->getVoceGruppo_2(), $modificaPreventivoGruppiTemplate->getDentiGruppo_2(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), $modificaPreventivoGruppiTemplate->getIdSottoPreventivo(), self::$gruppiForm)) {
-				if ($this->modificaVociGruppoPreventivoSecondario($db, 'voceGruppo_3', $modificaPreventivoGruppiTemplate->getVoceGruppo_3(), $modificaPreventivoGruppiTemplate->getDentiGruppo_3(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), $modificaPreventivoGruppiTemplate->getIdSottoPreventivo(), self::$gruppiForm)) {
-					if ($this->modificaVociGruppoPreventivoSecondario($db, 'voceGruppo_4', $modificaPreventivoGruppiTemplate->getVoceGruppo_4(), $modificaPreventivoGruppiTemplate->getDentiGruppo_4(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), $modificaPreventivoGruppiTemplate->getIdSottoPreventivo(), self::$gruppiForm)) {
+		if ($this->modificaVociGruppoPreventivoSecondario($db, 'voceGruppo_1', $modificaPreventivoGruppiTemplate->getVoceGruppo_1(), $modificaPreventivoGruppiTemplate->getDentiGruppo_1(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), $modificaPreventivoGruppiTemplate->getIdSottoPreventivo(), self::$gruppiForm, $modificaPreventivoGruppiTemplate->getStato())) {
+			if ($this->modificaVociGruppoPreventivoSecondario($db, 'voceGruppo_2', $modificaPreventivoGruppiTemplate->getVoceGruppo_2(), $modificaPreventivoGruppiTemplate->getDentiGruppo_2(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), $modificaPreventivoGruppiTemplate->getIdSottoPreventivo(), self::$gruppiForm, $modificaPreventivoGruppiTemplate->getStato())) {
+				if ($this->modificaVociGruppoPreventivoSecondario($db, 'voceGruppo_3', $modificaPreventivoGruppiTemplate->getVoceGruppo_3(), $modificaPreventivoGruppiTemplate->getDentiGruppo_3(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), $modificaPreventivoGruppiTemplate->getIdSottoPreventivo(), self::$gruppiForm, $modificaPreventivoGruppiTemplate->getStato())) {
+					if ($this->modificaVociGruppoPreventivoSecondario($db, 'voceGruppo_4', $modificaPreventivoGruppiTemplate->getVoceGruppo_4(), $modificaPreventivoGruppiTemplate->getDentiGruppo_4(), $modificaPreventivoGruppiTemplate->getIdPreventivo(), $modificaPreventivoGruppiTemplate->getIdSottoPreventivo(), self::$gruppiForm, $modificaPreventivoGruppiTemplate->getStato())) {
 	
 						// aggiorno la datamodifica del "sottopreventivo" prima di consolidare gli aggiornamenti
 						if (!$this->aggiornaSottoPreventivo($db, $modificaPreventivoGruppiTemplate->getIdSottoPreventivo())) {
@@ -164,7 +164,7 @@ class modificaPreventivoGruppi extends preventivoAbstract {
 		return FALSE;
 	}
 	
-	public function modificaVociGruppoPreventivoPrincipale($db, $nomeCampoForm, $voceGruppo, $dentiGruppo, $idPreventivo, $nomeForm) {
+	public function modificaVociGruppoPreventivoPrincipale($db, $nomeCampoForm, $voceGruppo, $dentiGruppo, $idPreventivo, $nomeForm, $stato) {
 	
 		foreach($dentiGruppo as $row) {
 	
@@ -181,10 +181,24 @@ class modificaPreventivoGruppi extends preventivoAbstract {
 			}
 		// se il nomecampo esiste in tabella "vocepreventivo" e il campo non è ON in pagina
 			elseif ($idVoce != "" and $row[1] != "on") {
-				if (!$this->cancellaVocePreventivo($db, $idVoce)) {
-					error_log("Fallita cancellazione idvoce : " . $idVoce);
-					$db->rollbackTransaction();
-					return FALSE;
+
+				// Se il preventivo è in stato "Proposto" la voce può essere cancellata
+				
+				if ($stato == "Proposto") {
+						
+					if (!$this->cancellaVocePreventivo($db, $idVoce)) {
+						error_log("Fallita cancellazione idvoce : " . $idVoce);
+						$db->rollbackTransaction();
+						return FALSE;
+					}
+				}
+				elseif ($stato == "Accettato") {
+				
+					if (!$this->aggiornaStatoVocePreventivoPrincipale($db, $idVoce, '01')) {	// voce sospesa
+						error_log("Fallito cambio stato voce  : " . $idVoce);
+						$db->rollbackTransaction();
+						return FALSE;
+					}
 				}
 			}
 			// se il nomecampo non esiste in tabella "vocepreventivo" e il campo è ON in pagina
@@ -199,7 +213,7 @@ class modificaPreventivoGruppi extends preventivoAbstract {
 		return TRUE;
 	}
 
-	public function modificaVociGruppoPreventivoSecondario($db, $nomeCampoForm, $voceGruppo, $dentiGruppo, $idPreventivo, $idSottoPreventivo, $nomeForm) {
+	public function modificaVociGruppoPreventivoSecondario($db, $nomeCampoForm, $voceGruppo, $dentiGruppo, $idPreventivo, $idSottoPreventivo, $nomeForm, $stato) {
 	
 		foreach($dentiGruppo as $row) {
 	
@@ -216,12 +230,25 @@ class modificaPreventivoGruppi extends preventivoAbstract {
 			}
 			// se il nomecampo esiste in tabella "vocesottopreventivo" e il campo non è ON in pagina
 			elseif ($idVoce != "" and $row[1] != "on") {
-				if ($this->cancellaVoceSottoPreventivo($db, $idVoce)) {
-					error_log("Fallita cancellazione idvoce : " . $idVoce);
-					$db->rollbackTransaction();
-					return FALSE;
-				}
+
+				// Se il preventivo è in stato "Proposto" la voce può essere cancellata
 				
+				if ($stato == "Proposto") {
+				
+					if (!$this->cancellaVoceSottoPreventivo($db, $idVoce)) {
+						error_log("Fallita cancellazione idvoce : " . $idVoce);
+						$db->rollbackTransaction();
+						return FALSE;
+					}
+				}
+				elseif ($stato == "Accettato") {
+				
+					if (!$this->aggiornaStatoVocePreventivoSecondario($db, $idVoce, '01')) {	// voce sospesa
+						error_log("Fallito cambio stato voce  : " . $idVoce);
+						$db->rollbackTransaction();
+						return FALSE;
+					}
+				}
 			}
 			// se il nomecampo non esiste in tabella "vocepreventivo" e il campo è ON in pagina
 			elseif ($idVoce == "" and $row[1] == "on") {
