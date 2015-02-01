@@ -37,22 +37,7 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 		$utility = new utility();
 
 		$visitaGruppi = new visitaGruppi();		
-		$visitaGruppi->setIdPaziente($this->getIdPaziente());
-		$visitaGruppi->setIdListino($this->getIdListino());
-		$visitaGruppi->setIdVisita($this->getIdVisita());
-		$visitaGruppi->setCognomeRicerca($this->getCognomeRicerca());
-					
-		$visitaGruppi->setAzioneDentiSingoli(self::$azioneDentiSingoli);
-		$visitaGruppi->setAzioneGruppi(self::$azioneGruppi);
-		$visitaGruppi->setAzioneCure(self::$azioneCure);
-		
-		$visitaGruppi->setConfermaTip("%ml.confermaModificaVisita%");		
-		$visitaGruppi->setSingoliTip("%ml.modificaSingoli%");		
-		$visitaGruppi->setCureTip("%ml.modificaCure%");		
-				
-		$visitaGruppi->setTitoloPagina("%ml.modificaVisitaGruppi%");
-		$visitaGruppi->setVisitaLabel("- %ml.visita% : ");
-		$visitaGruppi->setVisitaGruppi($visitaGruppi);		
+		$this->preparaPagina($visitaGruppi);
 
 		// Compone la pagina
 		include(self::$testata);
@@ -70,6 +55,7 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 
 		$utility = new utility();
 		$visitaGruppi = new visitaGruppi();
+		$this->preparaPagina($visitaGruppi);
 		
 		$visitaGruppi->setIdListino($this->getIdListino());	
 		$visitaGruppi->setTitoloPagina('%ml.creaNuovaVisita%');
@@ -85,18 +71,6 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 		
 		$visitaGruppi->setVoceGruppo_4($_POST['voceGruppo_4']);
 		$visitaGruppi->setDentiGruppo_4($this->prelevaCampiFormGruppo_4());
-	
-		$visitaGruppi->setAzioneDentiSingoli(self::$azioneDentiSingoli);
-		$visitaGruppi->setAzioneGruppi(self::$azioneGruppi);
-		$visitaGruppi->setAzioneCure(self::$azioneCure);
-		
-		$visitaGruppi->setConfermaTip("%ml.confermaCreazioneVisita%");		
-		$visitaGruppi->setGruppiTip("%ml.creaGruppi%");		
-		$visitaGruppi->setCureTip("%ml.creaCure%");		
-		
-		$visitaGruppi->setTitoloPagina("%ml.modificaVisitaGruppi%");
-		$visitaGruppi->setVisitaLabel("- %ml.visita% : ");
-		$visitaGruppi->setVisitaGruppi($visitaGruppi);		
 		
 		include(self::$testata);
 
@@ -127,10 +101,10 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 
 		$visitaGruppi->setIdPaziente($this->getIdPaziente());
 
-		if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_1(), $visitaGruppi->getDentiGruppo_1(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {		
-			if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_2(), $visitaGruppi->getDentiGruppo_2(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
-				if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_3(), $visitaGruppi->getDentiGruppo_3(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
-					if ($this->modificaVociGruppo($db, $visitaGruppi->getVoceGruppo_4(), $visitaGruppi->getDentiGruppo_4(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
+		if ($this->modificaVociGruppo($db, 'voceGruppo_1', $visitaGruppi->getVoceGruppo_1(), $visitaGruppi->getDentiGruppo_1(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {		
+			if ($this->modificaVociGruppo($db, 'voceGruppo_2', $visitaGruppi->getVoceGruppo_2(), $visitaGruppi->getDentiGruppo_2(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
+				if ($this->modificaVociGruppo($db, 'voceGruppo_3', $visitaGruppi->getVoceGruppo_3(), $visitaGruppi->getDentiGruppo_3(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
+					if ($this->modificaVociGruppo($db, 'voceGruppo_4', $visitaGruppi->getVoceGruppo_4(), $visitaGruppi->getDentiGruppo_4(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
 
 						// aggiorno la datamodifica della "visita" prima di consolidare gli aggiornamenti
 						if (!$this->aggiornaVisita($db, $visitaGruppi->getIdVisita())) {
@@ -155,12 +129,12 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 		return FALSE;
 	}
 	
-	public function modificaVociGruppo($db, $voceGruppo, $dentiGruppo, $idVisitaUsato, $nomeForm) {
+	public function modificaVociGruppo($db, $nomeCampoForm, $voceGruppo, $dentiGruppo, $idVisitaUsato, $nomeForm) {
 
 		foreach($dentiGruppo as $row) {
 
 			// cerco il nomecampo sulla tabella vocevisita			
-			$idVoce = $this->leggiVoceVisita($db, $idVisitaUsato, trim($row[0]), $nomeForm);
+			$idVoce = $this->leggiVoceVisita($db, $idVisitaUsato, $nomeCampoForm . ";" . trim($row[0]), $nomeForm);
 
 			// se il nomecampo esiste in tabella "vocevisita" e il campo è ON in pagina
 			if ($idVoce != "" and $row[1] == "on") {
@@ -180,7 +154,7 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 			}
 			// se il nomecampo non esiste in tabella "vocevisita" e il campo è ON in pagina
 			elseif ($idVoce == "" and $row[1] == "on") {
-				if (!$this->creaVoceVisita($db, $idVisitaUsato, self::$gruppiForm, $row[0], $voceGruppo)) {
+				if (!$this->creaVoceVisita($db, $idVisitaUsato, self::$gruppiForm, $nomeCampoForm . ";" . trim($row[0]), $voceGruppo)) {
 					error_log("Fallita creazione voce per la visita : " . $idVisitaUsato);
 					$db->rollbackTransaction();
 					return FALSE;
@@ -189,6 +163,65 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 		}
 		return TRUE;
 	}	
+	
+
+	public function preparaPagina($visitaGruppi) {
+	
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+	
+		$visitaGruppi->setAzioneDentiSingoli(self::$azioneDentiSingoli);
+		$visitaGruppi->setAzioneGruppi(self::$azioneGruppi);
+		$visitaGruppi->setAzioneCure(self::$azioneCure);
+		
+		$visitaGruppi->setConfermaTip("%ml.confermaModificaVisita%");
+		$visitaGruppi->setSingoliTip("%ml.modificaSingoli%");
+		$visitaGruppi->setCureTip("%ml.modificaCure%");
+		
+		$visitaGruppi->setTitoloPagina("%ml.modificaVisitaGruppi%");
+		$visitaGruppi->setVisitaLabel("- %ml.visita% : ");
+
+		// Prelevo i nomi dei combo che hanno voci valorizzate ----------------------------
+
+		$rows = $this->preparaVociSelezionateGruppiVisita($visitaGruppi);
+		
+		// imposto le voci selezionate per i quattro gruppi
+		
+		foreach ($rows as $row) {
+		
+			if (trim($row['nomecomboform']) == 'voceGruppo_1') {
+				$visitaGruppi->setVoceGruppo_1($row['codicevocelistino']);
+			}
+			elseif (trim($row['nomecomboform']) == 'voceGruppo_2') {
+				$visitaGruppi->setVoceGruppo_2($row['codicevocelistino']);
+			}
+			elseif (trim($row['nomecomboform']) == 'voceGruppo_3') {
+				$visitaGruppi->setVoceGruppo_3($row['codicevocelistino']);
+			}
+			elseif (trim($row['nomecomboform']) == 'voceGruppo_4') {
+				$visitaGruppi->setVoceGruppo_4($row['codicevocelistino']);
+			}
+		}
+	}
+
+	public function preparaVociSelezionateGruppiVisita($visitaGruppi) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$db = new database();
+	
+		$replace = array(
+				'%idpaziente%' => $visitaGruppi->getIdPaziente(),
+				'%idvisita%' => $visitaGruppi->getIdVisita()
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryComboVisitaGruppiPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->getData($sql);
+	
+		return pg_fetch_all($result);
+	}
 }
 
 ?>

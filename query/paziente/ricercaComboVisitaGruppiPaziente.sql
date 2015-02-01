@@ -1,6 +1,6 @@
 SELECT
 
-	substring(vocevisita.nomecampoform, position(';' in vocevisita.nomecampoform) + 1) as nomecampoform,
+	substring(vocevisita.nomecampoform, 0, position(';' in vocevisita.nomecampoform)) as nomecomboform,
 	vocevisita.codicevocelistino
 
 FROM paziente.visita as visita
