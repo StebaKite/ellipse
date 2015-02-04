@@ -195,10 +195,10 @@ class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 				// Se il paziente non ha preventivi il bottone fa atterrare sulla pagina di creazione nuovo preventivo
 				// altrimenti atterra sull'elenco dei preventivi
 				
-				$bottonePreventivi = "<a class='tooltip' href='ricercaPreventivoFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&cognRic=" . $this->getCognome() . "&cognome=" . stripslashes($row['cognome']) . "&nome=" . stripslashes($row['nome']) . "&datanascita=" . stripslashes($row['datanascita']) . "'><li class='ui-state-default ui-corner-all' title='Ricerca preventivo'><span class='ui-icon ui-icon-note'></span></li></a>";
+				$bottonePreventivi = "<a class='tooltip' href='../preventivo/ricercaPreventivoFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&cognRic=" . $this->getCognome() . "&cognome=" . stripslashes($row['cognome']) . "&nome=" . stripslashes($row['nome']) . "&datanascita=" . stripslashes($row['datanascita']) . "'><li class='ui-state-default ui-corner-all' title='Ricerca preventivo'><span class='ui-icon ui-icon-note'></span></li></a>";
 				
 				if ($row['numpreventivi'] == 0) {
-					$bottonePreventivi = "<a class='tooltip' href='creaPreventivoFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&cognRic=" . $this->getCognome() . "&cognome=" . stripslashes($row['cognome']) . "&nome=" . stripslashes($row['nome']) . "&datanascita=" . stripslashes($row['datanascita']) . "'><li class='ui-state-default ui-corner-all' title='Crea una nuovo preventivo'><span class='ui-icon ui-icon-note'></span></li></a>";
+					$bottonePreventivi = "<a class='tooltip' href='../preventivo/creaPreventivoFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&cognRic=" . $this->getCognome() . "&cognome=" . stripslashes($row['cognome']) . "&nome=" . stripslashes($row['nome']) . "&datanascita=" . stripslashes($row['datanascita']) . "'><li class='ui-state-default ui-corner-all' title='Crea una nuovo preventivo'><span class='ui-icon ui-icon-note'></span></li></a>";
 				}
 
 				//  qui gli altri bottoni condizionati

@@ -140,6 +140,7 @@ modificaPreventivoPrincipaleGruppi = Modifica Preventivo Principale - Gruppi di 
 modificaPreventivoSecondarioGruppi = Modifica Preventivo Secondario - Gruppi di Denti
 modificaPreventivoPrincipaleCure = Modifica Preventivo Principale - Cure Generiche
 modificaPreventivoSecondarioCure = Modifica Preventivo Secondario - Cure Generiche
+splitPreventivo = Crea Preventivo Secondario
 ;
 ; Messaggi -----------------------------
 ;
@@ -228,6 +229,10 @@ modificaPreventivoOk = Preventivo modificato
 modificaPreventivoKo = Errore durante la modifica del preventivo
 modificaCureOk = Cure generiche modificate
 modificaCureKo = Errore durante la modifica delle cure generiche
+includiVocePreventivoOk = Voce inclusa nel preventivo
+includiVocePreventivoKo = Errore durante l'inclusione della voce nel preventivo
+escludiVocePreventivoOk = Voce esclusa dal nuovo preventivo
+escludiVocePreventivoKo = Errore durante l'esclusione della voce dal nuovo preventivo
 ;
 ; Campi form ---------------------------
 ;
@@ -346,3 +351,9 @@ preventivoSecondario = Secondario
 dataInserimentoPreventivo = Creazione
 dataModificaPreventivo = Modifica
 totalePreventivo = Totale
+
+vociPreventivoPrincipale = Voci Preventivo Principale
+vociPreventivoSecondario = Voci Nuovo Preventivo
+gruppo = Gruppo
+cura = Cura
+singolo = Singolo

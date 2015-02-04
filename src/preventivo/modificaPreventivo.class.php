@@ -5,9 +5,9 @@ require_once 'preventivo.abstract.class.php';
 class modificaPreventivo extends preventivoAbstract {
 
 	private static $singoliForm = "singoli";
-	public static $azioneDentiSingoli = "../paziente/modificaPreventivoFacade.class.php?modo=go";
-	public static $azioneGruppi = "../paziente/modificaPreventivoGruppiFacade.class.php?modo=start";
-	public static $azioneCure = "../paziente/modificaPreventivoCureFacade.class.php?modo=start";
+	public static $azioneDentiSingoli = "../preventivo/modificaPreventivoFacade.class.php?modo=go";
+	public static $azioneGruppi = "../preventivo/modificaPreventivoGruppiFacade.class.php?modo=start";
+	public static $azioneCure = "../preventivo/modificaPreventivoCureFacade.class.php?modo=start";
 
 	function __construct() {
 

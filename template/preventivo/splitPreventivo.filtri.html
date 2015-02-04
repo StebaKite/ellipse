@@ -1,0 +1,34 @@
+<body>
+
+<div id="body">
+	<div id="main">
+		<h2>%ml.splitPreventivo%</h2>
+		<table class="ricerca">
+			<tbody>
+				<tr>
+					<td>%ml.paziente% :</td>
+					<td><strong>%cognome% %nome%</strong></td>
+					<td>%ml.dataNasc% :</td>
+					<td><strong>%datanascita%</strong></td>
+					<td>%ml.preventivo% :</td>
+					<td><strong>%idpreventivo%</strong></td>
+				</tr>
+			</tbody>
+		</table>
+		<br/>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="../preventivo/ricercaPreventivoFacade.class.php?modo=start" >
+						<button class="button" title="Torna alla funzione precedente">%ml.indietro%</button>
+						<input type="hidden" name="idPaziente" value="%idpaziente%"/>
+						<input type="hidden" name="idPreventivo" value="%idpreventivo%"/>
+						<input type="hidden" name="idListino" value="%idlistino%"/>
+						<input type="hidden" name="cognRic" value="%cognomericerca%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>
+				</td>
+			</tr>
+		</table>

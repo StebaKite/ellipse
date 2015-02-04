@@ -16,11 +16,17 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $idPreventivo;
 	public static $idPreventivoPrincipale;
 	public static $idSottoPreventivo;
+	public static $idVocePreventivo;
+	public static $idVoceSottoPreventivo;
 	public static $cognome;
 	public static $nome;
 	public static $dataInserimento;
 	public static $dataNascita;
 	public static $stato;
+	public static $prezzo;
+	public static $nomeForm;
+	public static $nomeCampoForm;
+	public static $codiceVoceListino;
 	
 	public static $azioneDentiSingoli;
 	public static $azioneGruppi;
@@ -59,7 +65,8 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $queryAggiornaUsoVoceListino = "/preventivo/aggiornaUsoVoceListino.sql";	
 	public static $queryLeggiPrezzoVoceListino = "/preventivo/leggiPrezzoVoceListino.sql";
 	public static $queryCreaPreventivo = "/preventivo/creaPreventivo.sql";
-
+	public static $queryCreaSottoPreventivo = "/preventivo/creaSottoPreventivo.sql";
+	
 	public static $queryCreaVocePreventivo = "/preventivo/creaVocePreventivo.sql";
 	public static $queryAggiornaPreventivo = "/preventivo/aggiornaPreventivo.sql";
 	public static $queryAggiornaVocePreventivo = "/preventivo/aggiornaVocePreventivo.sql";
@@ -87,6 +94,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 
 	public static $queryAggiornaStatoVocePreventivoPrincipale = "/preventivo/aggiornaStatoVocePreventivoPrincipale.sql";
 	public static $queryAggiornaStatoVocePreventivoSecondario = "/preventivo/aggiornaStatoVocePreventivoSecondario.sql";
+
+	public static $queryRicercaVociPreventivoPrincipale = "/preventivo/ricercaVociPreventivoPrincipale.sql"; 
+	public static $queryRicercaVociPreventivoSecondario = "/preventivo/ricercaVociPreventivoSecondario.sql";
 	
 	// Costruttore -----------------------------------------------------------------------------
 	
@@ -150,6 +160,12 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function setIdSottoPreventivo($idSottoPreventivo) {
 		self::$idSottoPreventivo = $idSottoPreventivo;
 	}
+	public function setIdVocePreventivo($idVocePreventivo) {
+		self::$idVocePreventivo = $idVocePreventivo;
+	}
+	public function setIdVoceSottoPreventivo($idVoceSottoPreventivo) {
+		self::$idVoceSottoPreventivo = $idVoceSottoPreventivo;
+	}
 	public function setCognomeRicerca($cognomeRicerca) {
 		self::$cognomeRicerca = $cognomeRicerca;
 	}
@@ -167,6 +183,18 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	}
 	public function setStato($stato) {
 		self::$stato = $stato;
+	}
+	public function setPrezzo($prezzo) {
+		self::$prezzo = $prezzo;
+	}
+	public function setNomeForm($nomeForm) {
+		self::$nomeForm = $nomeForm;
+	}
+	public function setNomeCampoForm($nomeCampoForm) {
+		self::$nomeCampoForm = $nomeCampoForm;
+	}
+	public function setCodiceVoceListino($codiceVoceListino) {
+		self::$codiceVoceListino = $codiceVoceListino;
 	}
 	public function setDentiSingoli($dentiSingoli) {
 		self::$dentiSingoli = $dentiSingoli;
@@ -263,6 +291,12 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function getIdPreventivo() {
 		return self::$idPreventivo;
 	}
+	public function getIdVocePreventivo() {
+		return self::$idVocePreventivo;
+	}
+	public function getIdVoceSottoPreventivo() {
+		return self::$idVoceSottoPreventivo;
+	}
 	public function getIdPreventivoPrincipale() {
 		return self::$idPreventivoPrincipale;
 	}
@@ -286,6 +320,18 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	}
 	public function getStato() {
 		return self::$stato;
+	}
+	public function getPrezzo() {
+		return self::$prezzo;
+	}
+	public function getNomeForm() {
+		return self::$nomeForm;
+	}
+	public function getNomeCampoForm() {
+		return self::$nomeCampoForm;
+	}
+	public function getCodiceVoceListino() {
+		return self::$codiceVoceListino;
 	}
 	public function getDentiSingoli() {
 		return self::$dentiSingoli;
@@ -602,7 +648,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	/**
 	 * 
 	 * @param unknown $db
-	 * @return il result ottenuto
+	 * @return il result ottenuto dalla creazione del preventivo
 	 */	
 	public function creaPreventivo($db) {
 	
@@ -618,6 +664,25 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		return $result;
 	}
 
+	/**
+	 *
+	 * @param unknown $db
+	 * @return il result ottenuto dalla creazione del sottopreventivo
+	 */
+	public function creaSottoPreventivo($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array('%idpreventivo%' => $this->getIdpreventivo());
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaSottoPreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+	
 	public function leggiVoceCuraPreventivoPrincipale($db, $idpreventivo, $nomeCampo, $nomeForm) {
 	
 		require_once 'database.class.php';
