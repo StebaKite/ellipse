@@ -4,23 +4,8 @@ require_once 'visitaPaziente.abstract.class.php';
 
 class ricercaVisita  extends visitaPazienteAbstract {
 
-	private static $messaggio;
-	private static $queryRicercaVisitaPaziente = "/paziente/ricercaVisitaPaziente.sql";
-
 	function __construct() {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
-	}
-
-	// Setters ---------------------------------
-	
-	public function setMessaggio($messaggio) {
-		self::$messaggio = $messaggio;
-	}
-
-	// Getters --------------------------------
-
-	public function getMessaggio() {
-		return self::$messaggio;
 	}
 
 	public function start() {
@@ -36,11 +21,6 @@ class ricercaVisita  extends visitaPazienteAbstract {
 		$piede = self::$root . $array['piedePagina'];		
 		
 		$ricercaVisitaTemplate = new ricercaVisitaTemplate();
-		
-		// Il messaggio		
-		$ricercaVisitaTemplate->setMessaggio($this->getMessaggio());
-		$ricercaVisitaTemplate->setCognomeRicerca($this->getCognomeRicerca());
-		$ricercaVisitaTemplate->setCognome($this->getCognomeRicerca());
 		
 		if ($this->ricerca($ricercaVisitaTemplate)) {
 

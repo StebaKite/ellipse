@@ -5,9 +5,9 @@ require_once 'visitaPaziente.abstract.class.php';
 class modificaVisita extends visitaPazienteAbstract {
 	
 	private static $singoliForm = "singoli";
-	public static $azioneDentiSingoli = "../paziente/modificaVisitaFacade.class.php?modo=go";
-	public static $azioneGruppi = "../paziente/modificaVisitaGruppiFacade.class.php?modo=start";
-	public static $azioneCure = "../paziente/modificaVisitaCureFacade.class.php?modo=start";
+	public static $azioneDentiSingoli = "../visita/modificaVisitaFacade.class.php?modo=go";
+	public static $azioneGruppi = "../visita/modificaVisitaGruppiFacade.class.php?modo=start";
+	public static $azioneCure = "../visita/modificaVisitaCureFacade.class.php?modo=start";
 
 	function __construct() {
 		

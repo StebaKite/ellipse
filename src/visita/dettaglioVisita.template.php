@@ -4,10 +4,10 @@ require_once 'visitaPaziente.abstract.class.php';
 
 class riepilogoVociVisita extends visitaPazienteAbstract {
 
-	private static $pagina = "/paziente/visita.dettaglio.form.html";
-	private static $paginaSingoli = "/paziente/visita.dettagliosingoli.form.html";
-	private static $paginaGruppi = "/paziente/visita.dettagliogruppi.form.html";
-	private static $paginaCure = "/paziente/visita.dettagliocure.form.html";
+	private static $pagina = "/visita/visita.dettaglio.form.html";
+	private static $paginaSingoli = "/visita/visita.dettagliosingoli.form.html";
+	private static $paginaGruppi = "/visita/visita.dettagliogruppi.form.html";
+	private static $paginaCure = "/visita/visita.dettagliocure.form.html";
 	public static $vociVisitaDentiSingoli;	
 	public static $vociVisitaGruppi;	
 	public static $vociVisitaCureTab;	

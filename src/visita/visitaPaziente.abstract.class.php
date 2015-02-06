@@ -42,37 +42,45 @@ abstract class visitaPazienteAbstract extends ellipseAbstract {
 	private static $voceGruppo_4;
 	private static $dentiGruppo_4;
 
+	public static $messaggio;
 	public static $testata;
 	public static $piede;
 	public static $messaggioInfo = "/messaggioInfo.html";
 	public static $messaggioErrore = "/messaggioErrore.html";
 	
-	public static $queryCreaVisita = "/paziente/creaVisita.sql";
-	public static $queryAggiornaVisita = "/paziente/aggiornaVisita.sql";
-	public static $queryCreaVoceVisita = "/paziente/creaVoceVisita.sql";
-	public static $queryAggiornaVoceVisita = "/paziente/aggiornaVoceVisita.sql";
-	public static $queryCancellaVoceVisita = "/paziente/cancellaVoceVisita.sql";
-	public static $queryIdVoceVisitaPaziente = "/paziente/ricercaIdVoceVisitaPaziente.sql";
+	public static $queryCreaVisita = "/visita/creaVisita.sql";
+	public static $queryAggiornaVisita = "/visita/aggiornaVisita.sql";
+	public static $queryCreaVoceVisita = "/visita/creaVoceVisita.sql";
+	public static $queryAggiornaVoceVisita = "/visita/aggiornaVoceVisita.sql";
+	public static $queryCancellaVoceVisita = "/visita/cancellaVoceVisita.sql";
+	public static $queryIdVoceVisitaPaziente = "/visita/ricercaIdVoceVisitaPaziente.sql";
 
-	public static $queryVociListinoPaziente = "/paziente/ricercaVociListinoPaziente.sql";
-	public static $queryAggiornaUsoVoceListino = "/paziente/aggiornaUsoVoceListino.sql";
+	public static $queryRicercaVisitaPaziente = "/visita/ricercaVisitaPaziente.sql";
+	public static $queryCancellaVisita = "/visita/cancellaVisita.sql";
 	
-	public static $queryVociGenericheListinoPaziente = "/paziente/ricercaVociGenericheListinoPaziente.sql";
-	public static $queryRiepilogoVociVisitaPaziente = "/paziente/riepilogoVociVisitaPaziente.sql";
-	public static $queryRiepilogoTipiVociVisitaPaziente = "/paziente/riepilogoTipiVociVisitaPaziente.sql";
-	public static $queryRiepilogoVociVisitaGruppiPaziente = "/paziente/riepilogoVociVisitaGruppiPaziente.sql";
+	// queste ci sono anche in preventivo
+	public static $queryVociListinoPaziente = "/visita/ricercaVociListinoPaziente.sql";
+	public static $queryAggiornaUsoVoceListino = "/visita/aggiornaUsoVoceListino.sql";
+	public static $queryVociGenericheListinoPaziente = "/visita/ricercaVociGenericheListinoPaziente.sql";
+	// --------------------------------------
+	
+	public static $queryRiepilogoVociVisitaPaziente = "/visita/riepilogoVociVisitaPaziente.sql";
+	public static $queryRiepilogoTipiVociVisitaPaziente = "/visita/riepilogoTipiVociVisitaPaziente.sql";
+	public static $queryRiepilogoVociVisitaGruppiPaziente = "/visita/riepilogoVociVisitaGruppiPaziente.sql";
 
-	public static $queryCategorieVociListinoPaziente = "/paziente/ricercaCategorieVociListinoPaziente.sql";
-	public static $queryVociListinoCategoriaPaziente = "/paziente/ricercaVociListinoCategoriaPaziente.sql";
-		
-	public static $queryVociVisitaDentiSingoliPaziente = "/paziente/ricercaVociVisitaDentiSingoliPaziente.sql";
-	public static $queryVoceVisitaPaziente = "/paziente/ricercaVoceVisitaPaziente.sql";
-	public static $queryVoceCuraVisitaPaziente = "/paziente/ricercaVoceCuraVisitaPaziente.sql";
+	// queste ci sono anche in preventivo
+	public static $queryCategorieVociListinoPaziente = "/visita/ricercaCategorieVociListinoPaziente.sql";
+	public static $queryVociListinoCategoriaPaziente = "/visita/ricercaVociListinoCategoriaPaziente.sql";
+	// ---------------------------------------	
 	
-	public static $queryVociVisitaGruppiPaziente = "/paziente/ricercaVociVisitaGruppiPaziente.sql";
-	public static $queryVociVisitaCurePaziente = "/paziente/ricercaVociVisitaCurePaziente.sql";
+	public static $queryVociVisitaDentiSingoliPaziente = "/visita/ricercaVociVisitaDentiSingoliPaziente.sql";
+	public static $queryVoceVisitaPaziente = "/visita/ricercaVoceVisitaPaziente.sql";	
+//	public static $queryVoceCuraVisitaPaziente = "/visita/ricercaVoceCuraVisitaPaziente.sql";	//<<<<<<manca 
 	
-	public static $queryComboVisitaGruppiPaziente = "/paziente/ricercaComboVisitaGruppiPaziente.sql";
+	public static $queryVociVisitaGruppiPaziente = "/visita/ricercaVociVisitaGruppiPaziente.sql";
+//	public static $queryVociVisitaCurePaziente = "/visita/ricercaVociVisitaCurePaziente.sql";
+	
+	public static $queryComboVisitaGruppiPaziente = "/visita/ricercaComboVisitaGruppiPaziente.sql";
 
 	// ------------------------------------------------
 
@@ -147,6 +155,9 @@ abstract class visitaPazienteAbstract extends ellipseAbstract {
 	}
 	public function setStato($stato) {
 		self::$stato = $stato;
+	}
+	public function setMessaggio($messaggio) {
+		self::$messaggio = $messaggio;
 	}
 	
 	public function setDentiGruppo_1($dentiGruppo_1) {
@@ -224,6 +235,9 @@ abstract class visitaPazienteAbstract extends ellipseAbstract {
 		return self::$cureTip;
 	}
 	
+	public function getMessaggio() {
+		return self::$messaggio;
+	}
 	public function getTitoloPagina() {
 		return self::$titoloPagina;
 	}

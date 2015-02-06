@@ -4,20 +4,29 @@ require_once 'visitaPaziente.abstract.class.php';
 
 class ricercaVisitaTemplate  extends visitaPazienteAbstract {
 	
-	private static $filtri = "/paziente/ricercaVisita.filtri.html";
-	private static $risultatiTesta = "/paziente/ricercaVisita.risultati.testata.html";
-	private static $risultatiCorpo = "/paziente/ricercaVisita.risultati.corpo.html";
-	private static $risultatiPiede = "/paziente/ricercaVisita.risultati.piede.html";
+	private static $filtri = "/visita/ricercaVisita.filtri.html";
+	private static $risultatiTesta = "/visita/ricercaVisita.risultati.testata.html";
+	private static $risultatiCorpo = "/visita/ricercaVisita.risultati.corpo.html";
+	private static $risultatiPiede = "/visita/ricercaVisita.risultati.piede.html";
 
 	private static $numeroVisiteTrovate;
 	private static $visiteTrovate;
 	private static $visite;
-	private static $messaggio;
 
 	//-----------------------------------------------------------------------------
 
 	function __construct() {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
+
+		require_once 'utility.class.php';
+
+		$utility = new utility();
+		$array = $utility->getConfig();
+
+		self::$testata = self::$root . $array['testataPagina'];
+		self::$piede = self::$root . $array['piedePagina'];
+		self::$messaggioErrore = self::$root . $array['messaggioErrore'];
+		self::$messaggioInfo = self::$root . $array['messaggioInfo'];				
 	}
 		
 	// Setters ---------------------------------
@@ -27,9 +36,6 @@ class ricercaVisitaTemplate  extends visitaPazienteAbstract {
 	}
 	public function setVisiteTrovate($visiteTrovate) {
 		self::$visiteTrovate = $visiteTrovate;
-	}
-	public function setMessaggio($messaggio) {
-		self::$messaggio = $messaggio;
 	}
 	public function setVisite($visite) {
 		self::$visite = $visite;
@@ -42,9 +48,6 @@ class ricercaVisitaTemplate  extends visitaPazienteAbstract {
 	}
 	public function getVisiteTrovate() {
 		return self::$visiteTrovate;
-	}
-	public function getMessaggio() {
-		return self::$messaggio;
 	}
 	public function getVisite() {
 		return self::$visite;
@@ -103,8 +106,6 @@ class ricercaVisitaTemplate  extends visitaPazienteAbstract {
 		$risultatiTesta = self::$root . $array['template'] . self::$risultatiTesta;
 		$risultatiCorpo = self::$root . $array['template'] . self::$risultatiCorpo;
 		$risultatiPiede = self::$root . $array['template'] . self::$risultatiPiede;
-		$messaggioInfo = self::$root . $array['template'] . self::$messaggioInfo;
-		$messaggioErrore = self::$root . $array['template'] . self::$messaggioErrore;
 		
 		// Gestione del messaggio -------------------
 		
@@ -121,7 +122,7 @@ class ricercaVisitaTemplate  extends visitaPazienteAbstract {
 			if ($text0 != "") {$text0 = $text0 . " - ";};
 
 			$replace = array('%messaggio%' => $text0 . $text1 . $numVisite . $text2);
-			$template = $utility->tailFile($utility->getTemplate($messaggioInfo), $replace);
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);
 			
 			echo $utility->tailTemplate($template);
 
@@ -191,7 +192,7 @@ class ricercaVisitaTemplate  extends visitaPazienteAbstract {
 			if ($text0 != "") {$text0 = $text0 . " - ";};
 
 			$replace = array('%messaggio%' => $text0 . '%ml.norisultati%');
-			$template = $utility->tailFile($utility->getTemplate($messaggioErrore), $replace);
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);
 			
 			echo $utility->tailTemplate($template);
 

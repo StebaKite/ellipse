@@ -4,7 +4,7 @@ require_once 'visitaPaziente.abstract.class.php';
 
 class visita extends visitaPazienteAbstract {
 	
-	private static $pagina = "/paziente/visita.form.html";
+	private static $pagina = "/visita/visita.form.html";
 	
 	private static $dentiSingoli;	
 	private static $impostazioniVoci;

@@ -2,9 +2,9 @@
 
 require_once 'visitaPaziente.abstract.class.php';
 
-class visitaGruppi extends visitaPazienteAbstract {
+class visitaCure extends visitaPazienteAbstract {
 	
-	private static $pagina = "/paziente/visita.gruppi.form.html";
+	private static $pagina = "/visita/visita.cure.form.html";
 	
 	//-----------------------------------------------------------------------------
 
@@ -12,21 +12,28 @@ class visitaGruppi extends visitaPazienteAbstract {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
 	}
 
-	// template ------------------------------------------------------------------
-	
+	// template ------------------------------------------------
+
 	public function displayPagina() {
 
 		require_once 'database.class.php';
 		require_once 'utility.class.php';
 
 		error_log("<<<<<<< Display >>>>>>> " . $_SERVER['PHP_SELF']);
+		
+		// Template --------------------------------------------------------------
 
-		$visitaGruppi = $this->getVisitaGruppi();
+		$visita = $this->getVisitaCure();
 
 		$utility = new utility();
 		$array = $utility->getConfig();
 
 		$form = self::$root . $array['template'] . self::$pagina;
+		
+		$this->setTestata(self::$root . $array['testataPagina']);
+		$this->setPiede(self::$root . $array['piedePagina']);
+		$this->setMessaggioErrore(self::$root . $array['messaggioErrore']);
+		$this->setMessaggioInfo(self::$root . $array['messaggioInfo']);
 
 		$db = new database();
 
@@ -36,7 +43,7 @@ class visitaGruppi extends visitaPazienteAbstract {
 		
 		$replace = array('%idlistino%' => $this->getIdListino());
 		
-		$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoPaziente;
+		$sqlTemplate = self::$root . $array['query'] . self::$queryVociGenericheListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->getData($sql);
 		
@@ -53,53 +60,30 @@ class visitaGruppi extends visitaPazienteAbstract {
 			'%azioneCure%' => $this->getAzioneCure(),
 			'%confermaTip%' => $this->getConfermaTip(),
 			'%singoliTip%' => $this->getSingoliTip(),
-			'%cureTip%' => $this->getCureTip(),
+			'%gruppiTip%' => $this->getGruppiTip(),
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),
 			'%idPaziente%' => $this->getIdPaziente(),
 			'%idListino%' => $this->getIdListino(),
-			'%idVisita%' => $this->getIdVisita(),
-			'%vociListinoEsteso%' => $this->preparaListinoEsteso($rows),
-			'%vociListinoGruppo_1%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_1()),
-			'%vociListinoGruppo_2%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_2()),
-			'%vociListinoGruppo_3%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_3()),
-			'%vociListinoGruppo_4%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_4())
+			'%idVisita%' => $this->getIdVisita()
 		);
 
-		$replaceArray = array();
-		$replaceArray = $this->preparaCheckbox($this->prelevaVociGruppi($db, $visitaGruppi), $replace);
+		if ($rows) {			
+			$replace['%vociListinoEsteso%'] = $this->preparaListinoEsteso($rows);
+			foreach($this->getCureGeneriche() as $row) {
+				$replace['%' . $row['0'] . '%'] = $this->preparaComboGruppo($rows, $row['1']);
+			}
+		}
+		else {
+			$replaceMsg = array('%messaggio%' => '%ml.noVociGen%');				
+			$template = $utility->tailFile($utility->getTemplate($this->getMessaggioErrore()), $replaceMsg);			
+			echo $utility->tailTemplate($template);
+		}
 
-		$template = $utility->tailFile($utility->getTemplate($form), $replaceArray);
+		$template = $utility->tailFile($utility->getTemplate($form), $replace);
 		echo $utility->tailTemplate($template);
 	}	
-
-	public function prelevaVociGruppi($db, $visitaGruppi) {
-
-		require_once 'database.class.php';
-		require_once 'utility.class.php';
-		
-		$utility = new utility();
-		$array = $utility->getConfig();
-
-		$form = self::$root . $array['template'] . self::$pagina;
-
-		// preleva tutte le voci inserite in gruppi per la visita in modifica
-		
-		$replace = array(
-			'%idpaziente%' => $this->getIdPaziente(),
-			'%idvisita%' => $this->getIdVisita()
-		);
-		
-		$sqlTemplate = self::$root . $array['query'] . self::$queryVociVisitaGruppiPaziente;
-		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
-		$result = $db->getData($sql);
-		
-		$dentiGruppo = pg_fetch_all($result);		
-		return $dentiGruppo;	
-	}
 	
 	private function preparaComboGruppo($rows, $voceGruppo) {
-		
-		$vociCombo = "";
 		
 		foreach ($rows as $cod) {
 			 
@@ -113,22 +97,10 @@ class visitaGruppi extends visitaPazienteAbstract {
 	
 	private function preparaListinoEsteso($rows) {
 		
-		$vociListino = "";
-		
 		foreach ($rows as $cod) {
 			$vociListino .= "<tr><td>" . $cod['codicevocelistino'] . "</td><td>" . $cod['descrizionevoce'] . "</td></tr>";			
 		}		
 		return $vociListino;
 	}
-	
-	private function preparaCheckbox($dentiGruppo, $replaceArray) {
-
-		foreach ($dentiGruppo as $dente) {
-			$chiave = '%' . trim($dente['nomecampoform']) . '_checked%';
-			$valore = 'checked';
-			$replaceArray[$chiave] = $valore;		
-		}		
-		return $replaceArray;
-	}	
 }
 ?>
