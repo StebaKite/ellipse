@@ -173,7 +173,7 @@ class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 				// nasconde il bottone cancella paziente se ha figli legati
 				// solo nel caso di paziente provvisorio compare il bottone anche se ha figli  (delete cascade su db)
 
-				$bottoneCancella = "<a class='tooltip' href='cancellaPazienteFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&cognRic=" . $this->getCognome() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
+				$bottoneCancella = "<a class='tooltip' href='../paziente/cancellaPazienteFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&cognRic=" . $this->getCognome() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
 
 				if ($row['tipo'] == "D") {
 					if (($row['numvisite'] > 0) or

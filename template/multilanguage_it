@@ -222,7 +222,8 @@ modificaVoceListinoOk = Voce listino modificata con successo
 modificaVoceListinoKo = Errore durante la modifica della voce listino
 ;
 creaPreventivoOk = Preventivo creato
-creaPreventivoKo = Errore durante la creazione del preventivo 
+creaPreventivoKo = Errore durante la creazione del preventivo
+preventivoVuoto = Il preventivo principale è vuoto 
 preventivo = Preventivo
 preventivi = Preventivi
 modificaPreventivoOk = Preventivo modificato
@@ -238,6 +239,7 @@ escludiVocePreventivoKo = Errore durante l'esclusione della voce dal nuovo preve
 ;
 oggetto = Entit&agrave;
 totale = Totale
+tot = Tot.
 cognome = Cognome
 nome = Nome
 indirizzo = Indirizzo

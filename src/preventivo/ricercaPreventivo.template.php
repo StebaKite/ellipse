@@ -133,11 +133,17 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 				}
 		
 				// BOTTONE SPLIT -----------------------------------------------
-				// nasconde il bottone split per i preventivi secondari e per i preventivi "Accettati"
+				// nasconde il bottone split :
+				//   - per i preventivi secondari
+				//   - per i preventivi in stato "Accettato"
+				//   - per i preventivi vuoti
 				
 				$bottoneSplit = "<a class='tooltip' href='../preventivo/splitPreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Crea un preventivo secondario'><span class='ui-icon ui-icon-newwin'></span></li></a>";
 
-				if ((trim($row['tipopreventivo']) == 'S') or ($row['stato'] == "01")) {
+				if ((trim($row['tipopreventivo']) == 'S')
+				or ($row['stato'] == "01")
+				or ($row['totalepreventivo'] == 0))
+				{
 					$bottoneSplit = "";
 				}				
 				

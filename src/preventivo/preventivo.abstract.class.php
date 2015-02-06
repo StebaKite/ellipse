@@ -27,6 +27,8 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $nomeForm;
 	public static $nomeCampoForm;
 	public static $codiceVoceListino;
+	public static $totalePreventivoPrincipale;
+	public static $totalePreventivoSecondario;
 	
 	public static $azioneDentiSingoli;
 	public static $azioneGruppi;
@@ -196,6 +198,14 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function setCodiceVoceListino($codiceVoceListino) {
 		self::$codiceVoceListino = $codiceVoceListino;
 	}
+	public function setTotalePreventivoPrincipale($totalePreventivoPrincipale) {
+		self::$totalePreventivoPrincipale = $totalePreventivoPrincipale;
+	}
+	public function setTotalePreventivoSecondario($totalePreventivoSecondario) {
+		self::$totalePreventivoSecondario = $totalePreventivoSecondario;
+	}
+	
+	
 	public function setDentiSingoli($dentiSingoli) {
 		self::$dentiSingoli = $dentiSingoli;
 	}
@@ -231,15 +241,6 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function setCureGeneriche($cureGeneriche) {
 		self::$cureGeneriche = $cureGeneriche;
 	}
-	
-	
-
-
-	
-	
-	
-	
-	
 
 	// Getters -----------------------------------------------------------------------------
 
@@ -333,6 +334,14 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function getCodiceVoceListino() {
 		return self::$codiceVoceListino;
 	}
+	public function getTotalePreventivoPrincipale() {
+		return self::$totalePreventivoPrincipale;
+	}
+	public function getTotalePreventivoSecondario() {
+		return self::$totalePreventivoSecondario;
+	}
+	
+	
 	public function getDentiSingoli() {
 		return self::$dentiSingoli;
 	}
@@ -340,6 +349,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		return self::$impostazioniVoci;
 	}
 
+	
 	public function getDentiGruppo_1() {
 		return self::$dentiGruppo_1;
 	}
@@ -368,12 +378,6 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function getCureGeneriche() {
 		return self::$cureGeneriche;
 	}
-	
-	
-	
-	
-	
-	
 
 	// Start e Go funzione ----------------------------------------------------------------
 	

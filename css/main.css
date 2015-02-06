@@ -116,10 +116,15 @@
 	a:active {
 		text-decoration: underline;
 	}
-	div.scroll-listino {
-		width: 295px;
+	
+	div.scroll-listino-interventi {
+		width: 110%;
 		height: 300px;
-		background-color: #f6f6f6;
+		overflow: auto;
+	}	
+	div.scroll-listino {
+		width: 490px;
+		height: 330px;
 		overflow: auto;
 	}
 	div.scroll-voci {
@@ -127,10 +132,20 @@
 		height: 420px;
 		overflow: auto;
 	}
+	div.scroll-preventivo {
+		width: 450px;
+		height: 330px;
+		overflow: auto;
+	}
 	div.scroll {
 		width: 100%;
 		height: 420px;
 		overflow: auto;	
+	}	
+	div.scrollyes {
+		width: 100%;
+		height: 420px;
+		overflow: scroll;	
 	}	
 	.result-alt {
 		border: 7px solid #f6f6f6;

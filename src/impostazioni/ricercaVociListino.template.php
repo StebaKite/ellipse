@@ -175,7 +175,7 @@ class ricercaVociListinoTemplate  extends impostazioniAbstract {
 		
 			// Riga tabella ----------------------------------------------------
 			
-			$elencoVociListino .= "<tr " . $class . "><td align='center'>" . $row['codicevoce'] . "</td><td align='left'>" . $row['descrizionevoce'] . "</td><td align='right'>" . $row['prezzo'] . "</td><td align='right'>" . $row['qtaapplicazioni'] . "</td>";
+			$elencoVociListino .= "<tr " . $class . "><td align='center' width='48'>" . $row['codicevoce'] . "</td><td align='left' width='238'>" . $row['descrizionevoce'] . "</td><td align='right' width='48'>&euro;" . $row['prezzo'] . "</td><td align='right' width='48'>" . $row['qtaapplicazioni'] . "</td>";
 			$elencoVociListino .= "<td id='icons'><a class='tooltip' href='modificaVoceListinoFacade.class.php?modo=start&idlistino=" . $this->getIdlistino() . "&idvocelistino=" . $row['idvocelistino'] . "&codicevoce=" . $row['codicevoce'] . "&descrizionevoce=" . $row['descrizionevoce'] . "&codicelistino=" . $this->getCodiceListino() . "&descrizionelistino=" . $this->getDescrizioneListino() . "&prezzo=" . $row['prezzo'] ."'><li class='ui-state-default ui-corner-all' title='%ml.modificaVoceTip%'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
 			$elencoVociListino .= "<td id='icons'>" . $bottoneEscludi . "</td></tr>";
 		
@@ -197,7 +197,7 @@ class ricercaVociListinoTemplate  extends impostazioniAbstract {
 			else $class = "class=''";
 		
 			$elencoVociDisponibili .= "<tr " . $class . "><td id='icons'><a class='tooltip' href='includiVoceListinoFacade.class.php?modo=start&idlistino=" . $this->getIdlistino() . "&idvoce=" . $row['idvoce'] . "&prezzo=" . $row['prezzo'] . "&codicelistino=" . $this->getCodiceListino() . "&descrizionelistino=" . $this->getDescrizioneListino() . "'><li class='ui-state-default ui-corner-all' title='%ml.includiVoceTip%'><span class='ui-icon ui-icon-plus'></span></li></a></td>";
-			$elencoVociDisponibili .= "<td align='center'>" . $row['codice'] . "</td><td align='left'>" . $row['descrizione'] . "</td><td align='right'>" . $row['prezzo'] . "</td>";
+			$elencoVociDisponibili .= "<td align='center' width='48'>" . $row['codice'] . "</td><td align='left' width='320'>" . $row['descrizione'] . "</td><td align='right' width='48'>&euro;" . $row['prezzo'] . "</td>";
 			$elencoVociDisponibili .= "</tr>";
 		
 			++$rowcounter;

@@ -122,7 +122,7 @@ class cancellaPaziente extends gestionePazienteAbstract {
 			$paziente->setLaboratorio(trim($row["idlaboratorio"]));
 			$paziente->setLaboratorioDisable("disabled");			
 
-			$paziente->setAzione($this->getAzione() . "&idPaziente=" . $this->getIdPaziente() . "&cognRic=" . $this->getCognomeRicerca());
+			$paziente->setAzione(self::$azione . "&idPaziente=" . $this->getIdPaziente() . "&cognRic=" . $this->getCognomeRicerca());
 			$paziente->setConfermaTip("%ml.confermaCancellazionePaziente%");
 			$paziente->setCognomeRicerca($this->getCognomeRicerca());
  			$paziente->setTitoloPagina("%ml.cancellaPaziente%");

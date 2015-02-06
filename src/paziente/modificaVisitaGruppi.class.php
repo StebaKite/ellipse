@@ -57,9 +57,6 @@ class modificaVisitaGruppi extends visitaPazienteAbstract {
 		$visitaGruppi = new visitaGruppi();
 		$this->preparaPagina($visitaGruppi);
 		
-		$visitaGruppi->setIdListino($this->getIdListino());	
-		$visitaGruppi->setTitoloPagina('%ml.creaNuovaVisita%');
-		
 		$visitaGruppi->setVoceGruppo_1($_POST['voceGruppo_1']);
 		$visitaGruppi->setDentiGruppo_1($this->prelevaCampiFormGruppo_1());
 		

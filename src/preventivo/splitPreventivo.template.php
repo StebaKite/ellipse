@@ -136,9 +136,11 @@ class splitPreventivoTemplate  extends preventivoAbstract {
 				'%idpreventivo%' => $this->getIdPreventivo(),
 				'%idsottopreventivo%' => $this->getIdSottoPreventivo(),
 				'%elencovocipreventivosecondario%' => $this->preparaTabellaVociPreventivoSecondario($vociPreventivoSecondarioTrovate),
-				'%elencovocipreventivoprincipale%' => $this->preparaTabellaVociPreventivoPrincipale($vociPreventivoPrincipaleTrovate)
+				'%elencovocipreventivoprincipale%' => $this->preparaTabellaVociPreventivoPrincipale($vociPreventivoPrincipaleTrovate),
+				'%totalePreventivoPrincipale%' => number_format($this->getTotalePreventivoPrincipale(), 2, ',', '.'),
+				'%totalePreventivoSecondario%' => number_format($this->getTotalePreventivoSecondario(), 2, ',', '.') 
 		);
-			
+		
 		$utility = new utility();
 		
 		$template = $utility->tailFile($utility->getTemplate($risultati), $replace);
@@ -150,6 +152,7 @@ class splitPreventivoTemplate  extends preventivoAbstract {
 
 		$elencoVoci = "";
 		$rowcounter = 0;
+		$totale = 0;
 			
 		while ($row = pg_fetch_array($voci)) {
 		
@@ -177,20 +180,26 @@ class splitPreventivoTemplate  extends preventivoAbstract {
 				$indGruppo = "Si";
 			}
 			
-			$elencoVoci .= "<tr " . $class . "><td id='icons'><a class='tooltip' href='../preventivo/includiVocePreventivoFacade.class.php?modo=start&idpreventivo=" . $this->getIdPreventivo() . "&idsottopreventivo=" . $this->getIdSottoPreventivo() . "&idvocepreventivo=" . trim($row['idvocepreventivo']) . "&codicevocelistino=" . trim($row['codicevocelistino']) . "&prezzo=" . $row['prezzo'] . "&nomeform=" . trim($row['nomeform']) . "&nomecampoform=" . trim($row['nomecampoform']) . "&idlistino=" . $this->getIdlistino() . "&idpaziente=" . $this->getIdpaziente() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='%ml.includiVoceTip%'><span class='ui-icon ui-icon-plus'></span></li></a></td>";
-			$elencoVoci .= "<td align='center'>" . trim($campo) . "</td><td align='center'>" . $indSingolo . "</td><td align='center'>" . $indGruppo . "</td><td align='center'>" . $indCure . "</td><td align='center'>" . trim($row['codicevocelistino']) . "</td><td align='right'>" . $row['prezzo'] . "</td>";
+			$elencoVoci .= "<tr " . $class . "><td id='icons' width='30'><a class='tooltip' href='../preventivo/includiVocePreventivoFacade.class.php?modo=start&idpreventivo=" . $this->getIdPreventivo() . "&idsottopreventivo=" . $this->getIdSottoPreventivo() . "&idvocepreventivo=" . trim($row['idvocepreventivo']) . "&codicevocelistino=" . trim($row['codicevocelistino']) . "&prezzo=" . $row['prezzo'] . "&nomeform=" . trim($row['nomeform']) . "&nomecampoform=" . trim($row['nomecampoform']) . "&idlistino=" . $this->getIdlistino() . "&idpaziente=" . $this->getIdpaziente() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "&cognRic=" . $this->getCognomeRicerca() . "'><li class='ui-state-default ui-corner-all' title='%ml.includiVoceTip%'><span class='ui-icon ui-icon-plus'></span></li></a></td>";
+			$elencoVoci .= "<td align='center' width='48'>" . trim($campo) . "</td><td align='center' width='50'>" . $indSingolo . "</td><td align='center' width='50'>" . $indGruppo . "</td><td align='center' width='48'>" . $indCure . "</td><td align='center' width='107'>" . trim($row['codicevocelistino']) . "</td><td align='right' width='59'>&euro;" . $row['prezzo'] . "</td>";
 			$elencoVoci .= "</tr>";
 					
+			$totale += $row['prezzo'];
+			
 			++$rowcounter;
 		}			
-		return $elencoVoci;		
+		$this->setTotalePreventivoPrincipale($totale);
+		
+		if ($elencoVoci == "") return "";
+		else return "<table class='result' id='resultTable'><tbody>" . $elencoVoci . "</tbody></table>";
 	}
 
 	public function preparaTabellaVociPreventivoSecondario($voci) {
 
 		$elencoVoci = "";
 		$rowcounter = 0;
-			
+		$totale = 0;
+		
 		while ($row = pg_fetch_array($voci)) {
 		
 			if ($rowcounter % 2 == 0) $class = "class='on'";
@@ -218,13 +227,18 @@ class splitPreventivoTemplate  extends preventivoAbstract {
 			}
 				
 			$elencoVoci .= "<tr " . $class . ">";
-			$elencoVoci .= "<td align='center'>" . $campo . "</td><td align='center'>" . $indSingolo . "</td><td align='center'>" . $indGruppo . "</td><td align='center'>" . $indCure . "</td><td align='center'>" . $row['codicevocelistino'] . "</td><td align='right'>" . $row['prezzo'] . "</td>";
-			$elencoVoci .= "<td id='icons'><a class='tooltip' href='../preventivo/escludiVocePreventivoFacade.class.php?modo=start&idpreventivo=" . $this->getIdPreventivo() . "&idsottopreventivo=" . $this->getIdSottoPreventivo() . "&idvocesottopreventivo=" . trim($row['idvocesottopreventivo']) . "&codicevocelistino=" . trim($row['codicevocelistino']) . "&prezzo=" . $row['prezzo'] . "&nomeform=" . trim($row['nomeform']) . "&nomecampoform=" . trim($row['nomecampoform']) . "&idlistino=" . $this->getIdlistino() . "&idpaziente=" . $this->getIdpaziente() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='%ml.includiVoceTip%'><span class='ui-icon ui-icon-minus'></span></li></a></td>";
+			$elencoVoci .= "<td align='right' width='59'>&euro;" . $row['prezzo'] . "</td><td align='center' width='107'>" . $row['codicevocelistino'] . "</td><td align='center' width='48'>" . $indCure . "</td><td align='center' width='50'>" . $indGruppo . "</td><td align='center' width='50'>" . $indSingolo . "</td><td align='center' width='48'>" . $campo . "</td>";
+			$elencoVoci .= "<td id='icons' width='29'><a class='tooltip' href='../preventivo/escludiVocePreventivoFacade.class.php?modo=start&idpreventivo=" . $this->getIdPreventivo() . "&idsottopreventivo=" . $this->getIdSottoPreventivo() . "&idvocesottopreventivo=" . trim($row['idvocesottopreventivo']) . "&codicevocelistino=" . trim($row['codicevocelistino']) . "&prezzo=" . $row['prezzo'] . "&nomeform=" . trim($row['nomeform']) . "&nomecampoform=" . trim($row['nomecampoform']) . "&idlistino=" . $this->getIdlistino() . "&idpaziente=" . $this->getIdpaziente() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "&cognRic=" . $this->getCognomeRicerca() . "'><li class='ui-state-default ui-corner-all' title='%ml.includiVoceTip%'><span class='ui-icon ui-icon-minus'></span></li></a></td>";
 			$elencoVoci .= "</tr>";
 		
+			$totale += $row['prezzo'];
+						
 			++$rowcounter;
 		}
-		return $elencoVoci;		
+		$this->setTotalePreventivoSecondario($totale);		
+
+		if ($elencoVoci == "") return ""; 
+		else return "<table class='result' id='resultTable'><tbody>" . $elencoVoci . "</tbody></table>";
 	}
 }
 

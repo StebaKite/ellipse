@@ -137,6 +137,10 @@ $( ".autocomplete" ).autocomplete({
 	source: vociListino
 });
 
+$("#messaggioInfo").animate({opacity: 1.0}, 5000).effect("fade", 3500).fadeOut('slow');
+$("#messaggioErrore").animate({opacity: 1.0}, 5000).effect("pulsate", 3500).fadeOut('slow');
+
+
 
 $(function() {
 	$('tr.parent') 

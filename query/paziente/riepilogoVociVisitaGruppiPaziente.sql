@@ -1,7 +1,7 @@
 SELECT
 
 	vocevisita.codicevocelistino,
-	vocevisita.nomecampoform,
+	substring(vocevisita.nomecampoform, position(';' in vocevisita.nomecampoform) + 1) as nomecampoform,
 	vocevisita.nomeform,
 	voce.descrizione as descrizionevoce
 
