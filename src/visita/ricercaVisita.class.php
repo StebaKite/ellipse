@@ -1,8 +1,8 @@
 <?php
 
-require_once 'visitaPaziente.abstract.class.php';
+require_once 'visita.abstract.class.php';
 
-class ricercaVisita  extends visitaPazienteAbstract {
+class ricercaVisita  extends visitaAbstract {
 
 	function __construct() {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];

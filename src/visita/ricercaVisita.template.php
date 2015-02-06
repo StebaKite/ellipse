@@ -1,8 +1,8 @@
 <?php
 
-require_once 'visitaPaziente.abstract.class.php';
+require_once 'visita.abstract.class.php';
 
-class ricercaVisitaTemplate  extends visitaPazienteAbstract {
+class ricercaVisitaTemplate  extends visitaAbstract {
 	
 	private static $filtri = "/visita/ricercaVisita.filtri.html";
 	private static $risultatiTesta = "/visita/ricercaVisita.risultati.testata.html";

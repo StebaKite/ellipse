@@ -1,8 +1,8 @@
 <?php
 
-require_once 'visitaPaziente.abstract.class.php';
+require_once 'visita.abstract.class.php';
 
-class modificaVisitaGruppi extends visitaPazienteAbstract {
+class modificaVisitaGruppi extends visitaAbstract {
 	
 	private static $gruppiForm = "gruppi";
 	public static $azioneGruppi = "../visita/modificaVisitaGruppiFacade.class.php?modo=go";

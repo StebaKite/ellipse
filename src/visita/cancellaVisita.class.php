@@ -1,8 +1,8 @@
 <?php
 
-require_once 'visitaPaziente.abstract.class.php';
+require_once 'visita.abstract.class.php';
 
-class cancellaVisita extends visitaPazienteAbstract {
+class cancellaVisita extends visitaAbstract {
 	
 	public static $azione = "../visita/cancellaVisitaFacade.class.php?modo=go";
 

@@ -1,8 +1,8 @@
 <?php
 
-require_once 'visitaPaziente.abstract.class.php';
+require_once 'visita.abstract.class.php';
 
-class visitaGruppi extends visitaPazienteAbstract {
+class visitaGruppi extends visitaAbstract {
 	
 	private static $pagina = "/visita/visita.gruppi.form.html";
 	

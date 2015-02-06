@@ -2,7 +2,7 @@
 
 require_once 'ellipse.abstract.class.php';
 
-abstract class visitaPazienteAbstract extends ellipseAbstract {
+abstract class visitaAbstract extends ellipseAbstract {
 
 	public static $azioneDentiSingoli;
 	public static $azioneGruppi;
