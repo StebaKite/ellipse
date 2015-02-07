@@ -139,7 +139,7 @@
 	}
 	div.scroll {
 		width: 100%;
-		height: 420px;
+		height: 400px;
 		overflow: auto;	
 	}	
 	div.scrollyes {
@@ -166,12 +166,41 @@
 		color: white;
 	}	
 	.result-alt td {
-		text-align: left;
 		background-color: #ffffff;
 	}	
 	.result-alt .on {
 		background-color: #000000;
 	}
+	
+	.result-prev {
+		border: 7px solid #f6f6f6;
+		background-color: #f6f6f6;
+	}
+	.result-prev th {
+		font-weight: bolder;
+		background-color: #858585;
+		color: white;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+	.result-prev th a {
+		text-decoration: none;
+		color: white;
+	}	
+	.result-prev td {
+		background-color: #ffffff;
+	}
+	.result-prev .on {
+		background-color: #000000;
+	}
+	.result-prev tfoot th {
+		font-size: 1.2em;
+		color: #3399FF;
+		background-color: #f6f6f6;
+	}
+	
+	
+	
 	.result, .ricerca, .dettaglio, .datiCreate {
 		border: 7px solid #ececec;
 	}

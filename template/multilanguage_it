@@ -21,6 +21,9 @@ daeseguire = Da eseguire
 eseguito = Eseguito
 standard = Standard
 generica = Generica
+accetta = Accetta
+rinuncia = Rinuncia
+stampa = Stampa
 ;
 ; Tips ---------------------------------
 ;
@@ -92,6 +95,9 @@ modificaVoceListinoTip = Modifica la voce inclusa nel listino
 confermaCreazionePreventivo = Crea un nuovo preventivo
 confermaModificaPreventivo = Modifica il preventivo
 nuovoPreventivoTip = Crea un nuovo preventivo
+accettaPreventivoTip = Accetta il preventivo corrente e crea una cartella clinica
+rinunciaPreventivoTip = Rinuncia il preventivo corrente. La cartella clinica verr&agrave; cancellata e il preventivo rimesso in stato 'Proposto'
+cancellaPreventivoTip = Cancella il preventivo compresi gli eventuali preventivi secondari
 ;
 ; Funzioni -----------------------------
 ;
@@ -141,6 +147,10 @@ modificaPreventivoSecondarioGruppi = Modifica Preventivo Secondario - Gruppi di 
 modificaPreventivoPrincipaleCure = Modifica Preventivo Principale - Cure Generiche
 modificaPreventivoSecondarioCure = Modifica Preventivo Secondario - Cure Generiche
 splitPreventivo = Crea Preventivo Secondario
+dettaglioPreventivoPrincipale = Dettaglio Preventivo Principale
+dettaglioPreventivoSecondario = Dettaglio Preventivo Secondario
+cancellaPreventivoPrincipale = Cancella Preventivo Principale
+cancellaPreventivoSecondario = Cancella Preventivo Secondario
 ;
 ; Messaggi -----------------------------
 ;
@@ -203,6 +213,8 @@ modificaVoceOk = Voce modificata
 modificaVoceKo = Errore durante la modifica della voce
 cancellaVoceOk = Voce cancellata
 cancellaVoceKo = Errore durante la cancellazione della voce
+canPreventivoOk = Preventivo cancellato
+canPreventivoKo = Errore durante la cancellazione del preventivo
 ;
 listino = Listino
 listini = Listini
@@ -239,6 +251,10 @@ escludiVocePreventivoKo = Errore durante l'esclusione della voce dal nuovo preve
 ;
 oggetto = Entit&agrave;
 totale = Totale
+totalePrev = Totale Preventivo
+totaleSingoli = Totale Singoli
+totaleGruppi = Totale Gruppi
+totaleCure = Totale Cure
 tot = Tot.
 cognome = Cognome
 nome = Nome
@@ -359,3 +375,4 @@ vociPreventivoSecondario = Voci Nuovo Preventivo
 gruppo = Gruppo
 cura = Cura
 singolo = Singolo
+datainserimentoPreventivo = Inserito il 

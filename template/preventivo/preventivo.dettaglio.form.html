@@ -1,0 +1,58 @@
+<body>
+	
+<div id="body">
+	<div id="main">
+		
+		<h2>%titoloPagina%</h2>
+		<table class="ricerca">
+			<tbody>
+				<tr>
+					<td>%ml.paziente% :</td> <td><strong>%cognome% %nome%</strong></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td>%ml.dataNasc% :</td> <td><strong>%datanascita%</strong></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td>%ml.idpreventivo% :</td> <td><strong>%idPreventivo%</strong></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td>%ml.datainserimentoPreventivo% :</td> <td><strong>%datainserimento%</strong></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td>%ml.statopreventivo% :</td> <td><strong>%stato%</strong></td>						
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="%azionePreventivo%" >
+						<button class="button" title="%azionePreventivoTip%" >%azionePreventivoLabelBottone%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+						<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+						<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
+						<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
+						<input type="hidden" name="stato" value="%stato%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../preventivo/ricercaPreventivoFacade.class.php?modo=start" >
+						<button class="button" title="%ml.funzPrec%">%ml.indietro%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+				<td><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%ml.totalePrev%:&nbsp;&euro;%totalePreventivo%</h1></td>
+			</tr>
+		</table>
+		<br>			
+		<div class="scroll">
+		%riepilogoDentiSingoliDiv%
+		%riepilogoGruppiDiv%
+		%riepilogoCureDiv%
+		</div>
+	</div>
+</div>
+<br/>

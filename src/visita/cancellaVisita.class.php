@@ -64,8 +64,6 @@ class cancellaVisita extends visitaAbstract {
 		if ($this->cancella($this->getIdPaziente(), $this->getIdVisita())) {
 			$ricercaVisita = new ricercaVisita();
 			$ricercaVisita->setMessaggio('%ml.canVisitaOk%');
-//			$ricercaVisita->setIdPaziente($this->getIdPaziente());
-//			$ricercaVisita->setCognomeRicerca($this->getCognomeRicerca());
 			$ricercaVisita->start();
 		}
 		else {

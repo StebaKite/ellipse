@@ -4,7 +4,7 @@ require_once 'preventivo.abstract.class.php';
 
 class splitPreventivo extends preventivoAbstract {
 
-	public static $azioneSplitPreventivo = "../paziente/splitPreventivoFacade.class.php?modo=go";
+	public static $azioneSplitPreventivo = "../preventivo/splitPreventivoFacade.class.php?modo=go";
 
 	function __construct() {
 
