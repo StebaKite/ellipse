@@ -88,12 +88,10 @@ class riepilogoVociVisita extends visitaAbstract {
 		$formSingoli = self::$root . $array['template'] . self::$paginaSingoli;
 		$formGruppi = self::$root . $array['template'] . self::$paginaGruppi;
 		$formCure = self::$root . $array['template'] . self::$paginaCure;
-
+		
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
-			'%azione%' => $this->getAzione(),
-			'%azioneTip%' => $this->getConfermaTip(),
-			'%labelBottone%' => $this->getLabelBottone(),
+			'%bottonePreventivo%' => $this->preparaBottonePreventivo($this->getStato()),	
 			'%cognomeRicerca%' => $this->getCognomeRicerca(),
 			'%cognome%' => $this->getCognome(),
 			'%nome%' => $this->getNome(),
@@ -191,6 +189,25 @@ class riepilogoVociVisita extends visitaAbstract {
 		// display della pagina completata ------------------------------------------------------------------------
 		$template = $utility->tailFile($utility->getTemplate($form), $replace);
 		echo $utility->tailTemplate($template);
+	}
+	
+	public function preparaBottonePreventivo($statoVisita) {
+
+		$bottonePreventivo = "";
+		
+		if ($statoVisita == 'In corso') {
+
+			$bottonePreventivo = "<td>";
+			$bottonePreventivo .= "<form class='tooltip' method='post' action='" . $this->getAzione() . "'>";
+			$bottonePreventivo .= "<button class='button' title='" . $this->getAzioneTip() . "'>" . $this->getLabelBottone() . "</button>";
+			$bottonePreventivo .= "<input type='hidden' name='cognRic' value='" . $this->getCognomeRicerca() . "'/>";			
+			$bottonePreventivo .= "<input type='hidden' name='idPaziente' value='" . $this->getIdPaziente() . "'/>";
+			$bottonePreventivo .= "<input type='hidden' name='idListino' value='" . $this->getIdListino() . "'/>";
+			$bottonePreventivo .= "<input type='hidden' name='idVisita' value='" . $this->getIdVisita() . "'/>";
+			$bottonePreventivo .= "</form></td>";
+		}
+		
+		return $bottonePreventivo;
 	}
 }
 

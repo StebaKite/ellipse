@@ -140,25 +140,45 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 				// evidenzia in bold la riga se è stata inserita o modificata oggi
 				
 				if ($rowcounter % 2 == 0) {
-					if (($row['datainserimento'] == $oggi) or ($row['datamodifica'] == $oggi)) {
-						$class = "class='modifiedOn'";
+					
+					if ($row['stato'] == "Preventivata") {
+						$class = "class='preventivataOn'";
 					}
 					else {
-						$class = "class='on'";
-					}
+						if (($row['datainserimento'] == $oggi) or ($row['datamodifica'] == $oggi)) {
+							$class = "class='modifiedOn'";
+						}
+						else {
+							$class = "class='on'";
+						}
+					}					
 				}
 				else {
-					if (($row['datainserimento'] == $oggi) or ($row['datamodifica'] == $oggi)) {
-						$class = "class='modifiedOff'";
+
+					if ($row['stato'] == "Preventivata") {
+						$class = "class='preventivataOff'";
 					}
 					else {
-						$class = "class=''";
+						if (($row['datainserimento'] == $oggi) or ($row['datamodifica'] == $oggi)) {
+							$class = "class='modifiedOff'";
+						}
+						else {
+							$class = "class=''";
+						}
 					}
 				}
 
+				// BOTTONE MODIFICA -----------------------------------------------
+				// nasconde il bottone modifica visita se ha generato un preventivo
+				
+				$bottoneModifica = "<a class='tooltip' href='../visita/modificaVisitaFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&idVisita=" . stripslashes($row['idvisita']) . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-pencil'></span></li></a>";
+				
+				if ($row['stato'] == "Preventivata") {
+					$bottoneModifica = "";
+				}
+				
 				// BOTTONE CANCELLA -----------------------------------------------
-				// nasconde il bottone cancella paziente se ha figli legati
-				// solo nel caso di paziente provvisorio compare il bottone anche se ha figli  (delete cascade su db)
+				// nasconde il bottone cancella visita se ha generato un preventivo
 
 				$bottoneCancella = "<a class='tooltip' href='cancellaVisitaFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&idVisita=" . stripslashes($row['idvisita']) . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
 
@@ -179,6 +199,7 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 					'%cognomeRicerca%' => $this->getCognomeRicerca(),
 					'%datainserimento%' => stripslashes($row['datainserimento']),
 					'%bottoneCancella%' => $bottoneCancella,
+					'%bottoneModifica%' => $bottoneModifica,
 					'%stato%' => stripslashes($row['stato'])
 				);
 

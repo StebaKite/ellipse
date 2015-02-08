@@ -18,15 +18,7 @@
 		<br>
 		<table>
 			<tr>
-				<td>
-					<form class="tooltip" method="post" action="%azione%" >
-						<button class="button" title="%azioneTip%" >%labelBottone%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="idVisita" value="%idVisita%"/>
-					</form>		
-				</td>
+				%bottonePreventivo%
 				<td>
 					<form class="tooltip" method="post" action="../visita/ricercaVisitaFacade.class.php?modo=start" >
 						<button class="button" title="%ml.funzPrec%" %azione% >%ml.indietro%</button>

@@ -200,7 +200,15 @@
 	}
 	
 	
-	
+	.result .preventivataOn {
+		background-color: #ECECEC;
+		color: green;
+		font-weight: bolder;
+	}	
+	.result .preventivataOff {
+		color: green;
+		font-weight: bolder;
+	}	
 	.result, .ricerca, .dettaglio, .datiCreate {
 		border: 7px solid #ececec;
 	}
