@@ -247,6 +247,9 @@ includiVocePreventivoKo = Errore durante l'inclusione della voce nel preventivo
 escludiVocePreventivoOk = Voce esclusa dal nuovo preventivo
 escludiVocePreventivoKo = Errore durante l'esclusione della voce dal nuovo preventivo
 ;
+creaCartellaClinicaOk = Cartella clinica creata
+creaCartellaClinicaKo = Errore durante la creazione della cartella clinica
+;
 ; Campi form ---------------------------
 ;
 oggetto = Entit&agrave;

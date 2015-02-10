@@ -73,10 +73,10 @@ abstract class preventivoAbstract extends ellipseAbstract {
 
 	public static $queryAggiornaUsoVoceListino = "/preventivo/aggiornaUsoVoceListino.sql";	
 	public static $queryLeggiPrezzoVoceListino = "/preventivo/leggiPrezzoVoceListino.sql";
-	public static $queryCreaPreventivo = "/preventivo/creaPreventivo.sql";
 	public static $queryCreaSottoPreventivo = "/preventivo/creaSottoPreventivo.sql";
 	
-	public static $queryCreaVocePreventivo = "/preventivo/creaVocePreventivo.sql";
+	public static $queryAggiornaStatoPreventivo = "/preventivo/aggiornaStatoPreventivo.sql";
+	public static $queryAggiornaStatoSottoPreventivo = "/preventivo/aggiornaStatoSottoPreventivo.sql";
 	public static $queryAggiornaPreventivo = "/preventivo/aggiornaPreventivo.sql";
 	public static $queryAggiornaVocePreventivo = "/preventivo/aggiornaVocePreventivo.sql";
 	public static $queryCancellaVocePreventivo = "/preventivo/cancellaVocePreventivo.sql";
@@ -92,7 +92,8 @@ abstract class preventivoAbstract extends ellipseAbstract {
 
 	public static $queryVocePreventivoPrincipalePaziente = "/preventivo/ricercaVocePreventivoPrincipalePaziente.sql";
 	public static $queryVocePreventivoSecondarioPaziente = "/preventivo/ricercaVocePreventivoSecondarioPaziente.sql";
-		
+	public static $queryCreaVocePreventivo = "/preventivo/creaVocePreventivo.sql";
+	
 	public static $queryCreaVoceSottoPreventivo = "/preventivo/creaVoceSottoPreventivo.sql";
 	public static $queryAggiornaSottoPreventivo = "/preventivo/aggiornaSottoPreventivo.sql";
 	public static $queryAggiornaVoceSottoPreventivo = "/preventivo/aggiornaVoceSottoPreventivo.sql";
@@ -117,6 +118,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 	public static $queryCancellaPreventivoPrincipale = "/preventivo/cancellaPreventivoPrincipale.sql";
 	public static $queryCancellaPreventivoSecondario = "/preventivo/cancellaPreventivoSecondario.sql";
+	public static $queryRicercaPreventiviSecondariProposti = "/preventivo/ricercaPreventiviSecondariProposti.sql";
+	
+	public static $queryCreaVoceCartellaClinica = "/cartellaclinica/creaVoceCartellaClinica.sql";
 	
 	// Costruttore -----------------------------------------------------------------------------
 	
@@ -697,25 +701,6 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 		return $dentiGruppo_4;
 	}
-	
-	/**
-	 * 
-	 * @param unknown $db
-	 * @return il result ottenuto dalla creazione del preventivo
-	 */	
-	public function creaPreventivo($db) {
-	
-		$utility = new utility();
-		$array = $utility->getConfig();
-	
-		$replace = array('%idpaziente%' => $this->getIdPaziente());
-	
-		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaPreventivo;
-		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
-		$result = $db->execSql($sql);
-	
-		return $result;
-	}
 
 	/**
 	 *
@@ -795,9 +780,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 			}
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param unknown $db
 	 * @param unknown $idPreventivoUsato
 	 * @param unknown $nomeForm
@@ -831,7 +816,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		}
 		return $result;
 	}
-
+	
 	/**
 	 * 
 	 * @param unknown $db
@@ -1210,7 +1195,48 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 		return $result;
 	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idPreventivo
+	 * @param unknown $stato
+	 * @return unknown
+	 */
+	public function aggiornaStatoPreventivo($db, $idPreventivo, $stato) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+				'%idpreventivo%' => $idPreventivo,
+				'%stato%' => $stato
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaStatoPreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
 
+	public function aggiornaStatoSottoPreventivo($db, $idSottoPreventivo, $stato) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+				'%idsottopreventivo%' => $idSottoPreventivo,
+				'%stato%' => $stato
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaStatoSottoPreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+	
 	/**
 	 * 
 	 * @param unknown $db
@@ -1399,7 +1425,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	 * @param unknown $dettaglioPreventivoTemplate
 	 */
 	public function prelevaVociCure($db, $idPreventivo, $query, $utility, $array, $dettaglioPreventivoTemplate) {
-	
+		
 		$replace = array(
 				'%idpaziente%' => $this->getIdPaziente(),
 				'%idpreventivo%' => $idPreventivo,
@@ -1412,6 +1438,45 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$result = $db->getData($sql);
 	
 		$dettaglioPreventivoTemplate->setVociPreventivoCure(pg_fetch_all($result));
+	}	
+
+	public function creaVoceCartellaClinica($db, $idCartellaClinicaUsato, $nomeForm, $nomeCampoForm, $codiceVoceListino, $prezzo) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+				'%nomeform%' => trim($nomeForm),
+				'%nomecampoform%' => trim($nomeCampoForm),
+				'%codicevocelistino%' => trim($codiceVoceListino),
+				'%idcartellaclinica%' => $idCartellaClinicaUsato,
+				'%prezzo%' => $prezzo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVoceCartellaClinica;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+		
+	public function controllaStatoPreventiviSecondari($db, $utility, $idPreventivo, $idPaziente) {
+
+		$array = $utility->getConfig();
+		
+		$replace = array(
+				'%idpaziente%' => $idPaziente,
+				'%idpreventivo%' => $idPreventivo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaPreventiviSecondariProposti;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		$rows = pg_fetch_all($result);
+		foreach ($rows as $row) {
+			return $row['totaleproposti'];	
+		}		
 	}	
 }
 

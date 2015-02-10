@@ -4,7 +4,7 @@ require_once 'visita.abstract.class.php';
 
 class dettaglioVisita extends visitaAbstract {
 
-	public static $azione = "../visita/preventivaVisitaFacade.class.php?modo=go";
+	public static $azione = "../visita/preventivaVisitaFacade.class.php?modo=start";
 
 	function __construct() {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];

@@ -78,7 +78,9 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 			if ($text0 != "") {$text0 = $text0 . " - ";};
 		
 			$replace = array('%messaggio%' => $text0 . $text1 . $numPreventivi . $text2);
-			$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);
+
+			if (strpos($text0,'Ko')) $template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);
+			else $template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);
 				
 			echo $utility->tailTemplate($template);
 		

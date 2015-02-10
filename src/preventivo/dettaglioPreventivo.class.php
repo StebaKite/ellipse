@@ -4,8 +4,8 @@ require_once 'preventivo.abstract.class.php';
 
 class dettaglioPreventivo extends preventivoAbstract {
 
-	public static $azioneAccettaPreventivo = "../preventivo/accettaPreventivoFacade.class.php?modo=go";
-	public static $azioneRinunciaPreventivo = "../preventivo/rinunciaPreventivoFacade.class.php?modo=go";
+	public static $azioneAccettaPreventivo = "../preventivo/accettaPreventivoFacade.class.php?modo=start";
+	public static $azioneRinunciaPreventivo = "../preventivo/rinunciaPreventivoFacade.class.php?modo=start";
 	
 	function __construct() {
 

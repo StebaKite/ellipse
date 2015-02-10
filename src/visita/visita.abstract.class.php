@@ -50,13 +50,16 @@ abstract class visitaAbstract extends ellipseAbstract {
 	
 	public static $queryCreaVisita = "/visita/creaVisita.sql";
 	public static $queryAggiornaVisita = "/visita/aggiornaVisita.sql";
+	public static $queryAggiornaStatoVisita = "/visita/aggiornaStatoVisita.sql";
 	public static $queryCreaVoceVisita = "/visita/creaVoceVisita.sql";
 	public static $queryAggiornaVoceVisita = "/visita/aggiornaVoceVisita.sql";
 	public static $queryCancellaVoceVisita = "/visita/cancellaVoceVisita.sql";
 	public static $queryIdVoceVisitaPaziente = "/visita/ricercaIdVoceVisitaPaziente.sql";
-
+	public static $queryRicercaVociVisitaPaziente = "/visita/ricercaVociVisitaPaziente.sql";
+	
 	public static $queryRicercaVisitaPaziente = "/visita/ricercaVisitaPaziente.sql";
 	public static $queryCancellaVisita = "/visita/cancellaVisita.sql";
+	public static $queryCreaVocePreventivo = "/preventivo/creaVocePreventivo.sql";
 	
 	// queste ci sono anche in preventivo
 	public static $queryVociListinoPaziente = "/visita/ricercaVociListinoPaziente.sql";
@@ -300,6 +303,12 @@ abstract class visitaAbstract extends ellipseAbstract {
 
 	public function controlliLogici() { }
 
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idvocevisita
+	 * @return string|unknown
+	 */
 	public function leggiIdVoceVisita($db, $idvocevisita) {
 
 		require_once 'database.class.php';
@@ -325,7 +334,15 @@ abstract class visitaAbstract extends ellipseAbstract {
 			}
 		}		
 	}
-		
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idvisita
+	 * @param unknown $nomeCampo
+	 * @param unknown $nomeForm
+	 * @return string|unknown
+	 */
 	public function leggiVoceVisita($db, $idvisita, $nomeCampo, $nomeForm) {
 
 		require_once 'database.class.php';
@@ -355,7 +372,15 @@ abstract class visitaAbstract extends ellipseAbstract {
 			}		
 		}
 	}	
-		
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idvisita
+	 * @param unknown $nomeCampo
+	 * @param unknown $nomeForm
+	 * @return string|unknown
+	 */
 	public function leggiVoceCuraVisita($db, $idvisita, $nomeCampo, $nomeForm) {
 
 		require_once 'database.class.php';
@@ -385,7 +410,12 @@ abstract class visitaAbstract extends ellipseAbstract {
 			}		
 		}
 	}	
-	
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @return unknown
+	 */
 	public function creaVisita($db) {
 		
 		$utility = new utility();
@@ -399,7 +429,13 @@ abstract class visitaAbstract extends ellipseAbstract {
 
 		return $result;
 	}
-	
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idVisitaUsato
+	 * @return unknown
+	 */
 	public function aggiornaVisita($db, $idVisitaUsato) {
 		
 		$utility = new utility();
@@ -414,6 +450,30 @@ abstract class visitaAbstract extends ellipseAbstract {
 		$result = $db->execSql($sql);
 
 		return $result;	
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idVisitaUsato
+	 * @param unknown $stato
+	 * @return unknown
+	 */
+	public function aggiornaStatoVisita($db, $idVisitaUsato, $stato) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+				'%idvisita%' => $idVisitaUsato,
+				'%stato%' => $stato
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaStatoVisita;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
 	}
 	
 	public function creaVoceVisita($db, $idVisitaUsato, $nomeForm, $nomeCampoForm, $codiceVoceListino) {
@@ -442,6 +502,43 @@ abstract class visitaAbstract extends ellipseAbstract {
 		return $result;	
 	}
 
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idPreventivoUsato
+	 * @param unknown $nomeForm
+	 * @param unknown $nomeCampoForm
+	 * @param unknown $codiceVoceListino
+	 * @return il result ottenuto
+	 */
+	public function creaVocePreventivo($db, $idPreventivoUsato, $nomeForm, $nomeCampoForm, $codiceVoceListino, $prezzo) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+				'%nomeform%' => trim($nomeForm),
+				'%nomecampoform%' => trim($nomeCampoForm),
+				'%codicevocelistino%' => trim($codiceVoceListino),
+				'%idpreventivo%' => $idPreventivoUsato,
+				'%prezzo%' => $prezzo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVocePreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idListino
+	 * @param unknown $codiceVoceListino
+	 * @param unknown $operatore
+	 * @return unknown
+	 */
 	public function aggiornaUsoVoceListino($db, $idListino, $codiceVoceListino, $operatore) {
 
 		$this->setPathToInclude();
@@ -467,7 +564,14 @@ abstract class visitaAbstract extends ellipseAbstract {
 		
 		return $result;	
 	}
-		
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idvocevisita
+	 * @param unknown $codiceVoceListino
+	 * @return unknown
+	 */
 	public function aggiornaVoceVisita($db, $idvocevisita, $codiceVoceListino) {
 		
 		$utility = new utility();
@@ -484,7 +588,13 @@ abstract class visitaAbstract extends ellipseAbstract {
 
 		return $result;	
 	}
-	
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idvocevisita
+	 * @return unknown
+	 */
 	public function cancellaVoceVisita($db, $idvocevisita) {
 		
 		$utility = new utility();
@@ -510,7 +620,11 @@ abstract class visitaAbstract extends ellipseAbstract {
 	}
 
 	public function inizializzaPagina() { }
-	
+
+	/**
+	 * 
+	 * @return multitype:
+	 */
 	public function prelevaCampiFormSingoli() {
 		
 		$dentiSingoli = array();
@@ -528,6 +642,9 @@ abstract class visitaAbstract extends ellipseAbstract {
 		return $dentiSingoli;
 	}	
 
+	/**
+	 * 
+	 */
 	public function inizializzaGruppiPagina() {
 		
 		// primo gruppo --------------------------------------------------------------------------------------------------------------

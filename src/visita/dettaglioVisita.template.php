@@ -194,8 +194,11 @@ class riepilogoVociVisita extends visitaAbstract {
 	public function preparaBottonePreventivo($statoVisita) {
 
 		$bottonePreventivo = "";
-		
-		if ($statoVisita == 'In corso') {
+
+		/**
+		 * SB 9/2/2015 : lascio la possibilità di preventivare la visita più volte
+		 */
+//		if ($statoVisita == 'In corso') {
 
 			$bottonePreventivo = "<td>";
 			$bottonePreventivo .= "<form class='tooltip' method='post' action='" . $this->getAzione() . "'>";
@@ -204,8 +207,11 @@ class riepilogoVociVisita extends visitaAbstract {
 			$bottonePreventivo .= "<input type='hidden' name='idPaziente' value='" . $this->getIdPaziente() . "'/>";
 			$bottonePreventivo .= "<input type='hidden' name='idListino' value='" . $this->getIdListino() . "'/>";
 			$bottonePreventivo .= "<input type='hidden' name='idVisita' value='" . $this->getIdVisita() . "'/>";
+			$bottonePreventivo .= "<input type='hidden' name='cognome' value='" . $this->getCognome() . "'/>";
+			$bottonePreventivo .= "<input type='hidden' name='nome' value='" . $this->getNome() . "'/>";
+			$bottonePreventivo .= "<input type='hidden' name='datanascita' value='" . $this->getDataNascita() . "'/>";
 			$bottonePreventivo .= "</form></td>";
-		}
+//		}
 		
 		return $bottonePreventivo;
 	}

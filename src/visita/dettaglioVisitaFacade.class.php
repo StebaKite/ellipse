@@ -11,6 +11,7 @@ switch ($method) {
 	case 'GET':
 		$dettaglioVisita->setIdPaziente($_GET['idPaziente']);
 		$dettaglioVisita->setIdVisita($_GET['idVisita']);
+		$dettaglioVisita->setIdListino($_GET['idListino']);
 		$dettaglioVisita->setDataInserimento($_GET['datainserimento']);
 		$dettaglioVisita->setStato($_GET['stato']);
 		$dettaglioVisita->setCognomeRicerca($_GET['cognRic']);
@@ -21,6 +22,7 @@ switch ($method) {
 	case 'POST':
 		$dettaglioVisita->setIdPaziente($_POST['idPaziente']);
 		$dettaglioVisita->setIdVisita($_POST['idVisita']);
+		$dettaglioVisita->setIdListino($_POST['idListino']);
 		$dettaglioVisita->setDataInserimento($_POST['datainserimento']);
 		$dettaglioVisita->setStato($_POST['stato']);
 		$dettaglioVisita->setCognomeRicerca($_POST['cognRic']);

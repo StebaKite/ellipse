@@ -14,6 +14,8 @@ abstract class ellipseAbstract {
 	public static $dentiDecidui = array("51","52","53","54","55","61","62","63","64","65","71","72","73","74","75","81","82","83","84","85");	
 	
 	public static $queryAggiornaPaziente = "/paziente/aggiornaPaziente.sql";
+	public static $queryCreaPreventivo = "/preventivo/creaPreventivo.sql";
+	public static $queryCreaCartellaClinica = "/cartellaclinica/creaCartellaClinica.sql";
 	
 	function __construct() {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
@@ -88,6 +90,49 @@ abstract class ellipseAbstract {
 
 		return $result;	
 	}	
+
+	/**
+	 *
+	 * @param unknown $db
+	 * @return il result ottenuto dalla creazione del preventivo
+	 */
+	public function creaPreventivo($db) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array('%idpaziente%' => $this->getIdPaziente());
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaPreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idPreventivo
+	 * @param unknown $idPaziente
+	 * @return unknown
+	 */
+	public function creaCartellaClinica($db, $idPreventivo, $idPaziente) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idpaziente%' => $idPaziente,
+				'%idpreventivo%' => $idPreventivo				
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaCartellaClinica;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
 }
 
 ?>
