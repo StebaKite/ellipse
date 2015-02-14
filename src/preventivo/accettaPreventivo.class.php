@@ -62,7 +62,7 @@ class accettaPreventivo extends preventivoAbstract {
 			if (!$esito) {
 				$db->rollbackTransaction();
 				$ricercaPreventivo = new ricercaPreventivo();
-				$ricercaPreventivo->setMessaggio('%ml.creaCartellaClinicaKo%');
+				$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoKo%');
 				$ricercaPreventivo->start();
 			}
 			else {
@@ -82,13 +82,13 @@ class accettaPreventivo extends preventivoAbstract {
 						$ricercaPreventivo->setCognome($this->getCognome());
 						$ricercaPreventivo->setNome($this->getNome());
 						$ricercaPreventivo->setDataNascita($this->getDataNascita());
-						$ricercaPreventivo->setMessaggio('%ml.creaCartellaClinicaOk%');
+						$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoOk%');
 						$ricercaPreventivo->start();
 					}
 					else {
 						$db->rollbackTransaction();
 						$ricercaPreventivo = new ricercaVisita();
-						$ricercaPreventivo->setMessaggio('%ml.creaCartellaClinicaKo%');
+						$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoKo%');
 						$ricercaPreventivo->start();
 					}
 				}
@@ -102,9 +102,11 @@ class accettaPreventivo extends preventivoAbstract {
 						if ($this->aggiornaStatoSottoPreventivo($db, $this->getIdSottoPreventivo(), '01')) {
 							
 							/**
-							 * Se non ci sono sottopreventivi in stato "Proposto" aggiorno il preventivo principale in "Accettato"
+							 * Se non ci sono sottopreventivi in stato "Proposto" e l'importo del preventivo principale = 0
+							 * aggiorno il preventivo principale in "Accettato"
 							 */
-							if ($this->controllaStatoPreventiviSecondari($db, $utility, $this->getIdPreventivoPrincipale(), $this->getIdPaziente()) == 0) {
+							if (($this->leggiStatoPreventiviSecondari($db, $utility, $this->getIdPreventivoPrincipale(), $this->getIdPaziente(), '00') == 0)
+							and ($this->leggiImportoPreventiviPrincipale($db, $utility, $this->getIdPreventivoPrincipale(), $this->getIdPaziente()) == 0)) {
 								
 								if ($this->aggiornaStatoPreventivo($db, $this->getIdPreventivoPrincipale(), '01')) {
 									/**
@@ -116,13 +118,13 @@ class accettaPreventivo extends preventivoAbstract {
 									$ricercaPreventivo->setCognome($this->getCognome());
 									$ricercaPreventivo->setNome($this->getNome());
 									$ricercaPreventivo->setDataNascita($this->getDataNascita());
-									$ricercaPreventivo->setMessaggio('%ml.creaCartellaClinicaOk%');
+									$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoOk%');
 									$ricercaPreventivo->start();
 								}
 								else {
 									$db->rollbackTransaction();
 									$ricercaPreventivo = new ricercaVisita();
-									$ricercaPreventivo->setMessaggio('%ml.creaCartellaClinicaKo%');
+									$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoKo%');
 									$ricercaPreventivo->start();
 								}
 							}
@@ -137,13 +139,13 @@ class accettaPreventivo extends preventivoAbstract {
 									$ricercaPreventivo->setCognome($this->getCognome());
 									$ricercaPreventivo->setNome($this->getNome());
 									$ricercaPreventivo->setDataNascita($this->getDataNascita());
-									$ricercaPreventivo->setMessaggio('%ml.creaCartellaClinicaOk%');
+									$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoOk%');
 									$ricercaPreventivo->start();
 								}
 								else {
 									$db->rollbackTransaction();
 									$ricercaPreventivo = new ricercaVisita();
-									$ricercaPreventivo->setMessaggio('%ml.creaCartellaClinicaKo%');
+									$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoKo%');
 									$ricercaPreventivo->start();
 								}
 							}
@@ -151,7 +153,7 @@ class accettaPreventivo extends preventivoAbstract {
 						else {
 							$db->rollbackTransaction();
 							$ricercaPreventivo = new ricercaVisita();
-							$ricercaPreventivo->setMessaggio('%ml.creaCartellaClinicaKo%');
+							$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoKo%');
 							$ricercaPreventivo->start();
 						}						
 					}
@@ -161,7 +163,7 @@ class accettaPreventivo extends preventivoAbstract {
 		else {
 			$db->rollbackTransaction();
 			$ricercaVisita = new ricercaVisita();
-			$ricercaVisita->setMessaggio('%ml.creaPreventivoKo%');
+			$ricercaVisita->setMessaggio('%ml.accettaPreventivoKo%');
 			$ricercaVisita->start();
 		}
 	}

@@ -133,6 +133,19 @@ abstract class ellipseAbstract {
 	
 		return $result;
 	}
+
+	/**
+	 * 
+	 * @param unknown $data
+	 * @param unknown $carattereSeparatore
+	 * @param unknown $gioniDaSommare
+	 * @return unknown una data in formatto d-m-Y aumentata di N giorni
+	 */
+	public function sommaGiorniData($data, $carattereSeparatore, $giorniDaSommare) {
+		
+		list($giorno, $mese, $anno) = explode($carattereSeparatore, $data);		
+		return date("d/m/Y",mktime(0,0,0, $mese, $giorno + $giorniDaSommare, $anno));
+	}
 }
 
 ?>

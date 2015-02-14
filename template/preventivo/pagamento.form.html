@@ -1,0 +1,187 @@
+<body>
+	
+<div id="body">	
+	<div id="main">
+
+		<h2>%titoloPagina%</h2>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="%azioneDentiSingoli%" >
+						<button class="button" title="%ml.modificaSingoli%" %azione% >%ml.dentiSingoli%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+						<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
+						<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+						<input type="hidden" name="stato" value="%stato%"/>
+					</form>		
+				</td>			
+				<td>
+					<form class="tooltip" method="post" action="%azioneGruppi%" >
+						<button class="button" title="%ml.modificaGruppi%">%ml.gruppi%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+						<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
+						<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+						<input type="hidden" name="stato" value="%stato%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="%azioneCure%" >
+						<button class="button" title="%ml.modificaCure%">%ml.cure%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+						<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
+						<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+						<input type="hidden" name="stato" value="%stato%"/>
+					</form>		
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../preventivo/ricercaPreventivoFacade.class.php?modo=start" >
+						<button class="button" title="%ml.funzPrec%">%ml.indietro%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+					</form>		
+				</td>
+			</tr>
+		</table>
+		
+		<div class="tabs">
+			<ul>
+				<li><a href="#tabs-1">%cognome% %nome% %datanascita% %preventivo% %idPreventivo%%idSottoPreventivo%</a></li>
+				%tabelencoratepagamento%
+				<li><a href="#tabs-3">%ml.info%</a></li>
+			</ul>
+			
+			<div id="tabs-1">
+			
+				<form method="post" action="%azionePagamento%" >
+
+					<table>
+						<tbody>
+							<tr>
+								<td valign="top">
+									<table>
+										<thead>
+											<tr><td><h2>%ml.sconti%</h2></td></tr>											
+											<tr><td colspan="2"><hr></td></tr>											
+										</thead>
+										<tbody>
+											<tr>
+												<td>%ml.scontopercentuale% :</td>
+												<td class="tooltip"><input type="number" name="scontopercentuale" size="5" maxlength="3" title="%ml.scontopercentualeTip%" value="%scontopercentuale%" style="%scontopercentualeStyle%" %scontopercentualeDisable% /></td>
+											</tr>
+											<tr>
+												<td>%ml.scontocontante% :</td>
+												<td class="tooltip"><input type="number" name="scontocontante" size="5" maxlength="3" title="%ml.scontocontanteTip%" value="%scontocontante%" style="%scontocontanteStyle%" %scontocontanteDisable% /></td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+								<td valign="top">
+									<table>
+										<thead>
+											<tr><td><h2>%ml.acconti%</h2></td></tr>											
+											<tr><td colspan="2"><hr></td></tr>											
+										</thead>
+										<tbody>
+											<tr>
+												<td>%ml.accontoiniziocura% :</td>
+												<td class="tooltip"><input type="number" name="accontoiniziocura" size="5" maxlength="3" title="%ml.accontoiniziocuraTip%" value="%accontoiniziocura%" style="%accontoiniziocuraStyle%" %accontoiniziocuraDisable% /></td>
+											</tr>
+											<tr>
+												<td>%ml.accontometacura% :</td>
+												<td class="tooltip"><input type="number" name="accontometacura" size="5" maxlength="3" title="%ml.accontometacuraTip%" value="%accontometacura%" style="%accontometacuraStyle%" %accontometacuraDisable% /></td>
+											</tr>
+											<tr>
+												<td>%ml.saldofinecura% :</td>
+												<td class="tooltip"><input type="number" name="saldofinecura" size="5" maxlength="3" title="%ml.saldofinecuraTip%" value="%saldofinecura%" style="%saldofinecuraStyle%" %saldofinecuraDisable% /></td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+								<td valign="top">
+									<table>
+										<thead>
+											<tr><td><h2>%ml.rateizzazione%</h2></td></tr>											
+											<tr><td colspan="2"><hr></td></tr>											
+										</thead>
+										<tbody>
+											<tr>
+												<td>%ml.importodarateizzare% :</td>
+												<td class="tooltip"><input type="number" name="importodarateizzare" size="5" maxlength="3" title="%ml.importodarateizzareTip%" value="%importodarateizzare%" style="%importodarateizzareStyle%" %importodarateizzareDisable% /></td>
+											</tr>
+											<tr>
+												<td>%ml.dataprimarata% :</td>
+												<td class="tooltip"><input class="datepicker" type="text" name="dataprimarata" style="%dataprimarataStyle%" title="%dataprimarataTip%" required size="10" maxlength="10" value="%dataprimarata%" %dataprimarataDisable%></td>
+											</tr>
+											<tr>
+												<td>%ml.intervallorata% :</td>
+												<td class="tooltip"><input type="number" name="numerogiornirata" size="5" maxlength="3" title="%ml.numerogiornirataTip%" value="%numerogiornirata%" style="%numerogiornirataStyle%" %numerogiornirataDisable% /></td>
+											</tr>
+											<tr>
+												<td>%ml.importorata% :</td>
+												<td class="tooltip"><input type="number" name="importorata" size="5" maxlength="3" title="%ml.importorataTip%" value="%importorata%" style="%importorataStyle%" %importorataDisable% /></td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>												
+						<tfoot>
+							<tr>
+								<td colspan="6" align="right" class="tooltip">
+									<button class="button" title="%confermaTip%" >%ml.conferma%</button>
+									<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+									<input type="hidden" name="idListino" value="%idListino%"/>
+									<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+									<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
+									<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
+									<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+									<input type="hidden" name="cognome" value="%cognome%"/>
+									<input type="hidden" name="nome" value="%nome%"/>
+									<input type="hidden" name="datanascita" value="%datanascita%"/>
+									<input type="hidden" name="stato" value="%stato%"/>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+
+				</form>
+				
+			</div>			
+			
+			%divelencoratepagamento%
+						
+			<div id="tabs-3">
+
+				<table>
+					<tr valign="top">
+						<td>
+							<p>Note utili sulla funzionalit&agrave di impostazione delle condizioni di pagamento</p>
+						</td>
+					</tr>
+				</table>
+				
+			</div>			
+		</div>
+	</div>
+</div>

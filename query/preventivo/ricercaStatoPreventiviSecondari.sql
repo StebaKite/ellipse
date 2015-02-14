@@ -6,5 +6,5 @@ select count(*) totaleproposti
   			
   where preventivo.idpreventivo = %idpreventivo%
     and preventivo.idpaziente = %idpaziente%
-    and sottopreventivo.stato = '00'
+    and sottopreventivo.stato = '%stato%'
   group by sottopreventivo.stato

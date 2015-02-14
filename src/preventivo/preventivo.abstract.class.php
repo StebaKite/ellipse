@@ -35,6 +35,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $azioneDentiSingoli;
 	public static $azioneGruppi;
 	public static $azioneCure;
+	public static $azionePagamento;
 
 	public static $azionePreventivoLabelBottone;
 	public static $azionePreventivo;
@@ -62,6 +63,27 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	private static $dentiGruppo_4;
 	
 	public static $cureGeneriche;
+	
+	public static $scontopercentuale;
+	public static $scontocontante;
+	public static $accontoiniziocura;
+	public static $accontometacura;
+	public static $saldofinecura;
+	
+	public static $importodarateizzare;
+	public static $importodarateizzareStyle;
+	public static $importodarateizzareTip;
+	public static $numerogiornirata;
+	public static $numerogiornirataStyle;
+	public static $numerogiornirataTip;
+	public static $importorata;
+	public static $importorataStyle;
+	public static $importorataTip;
+	public static $dataprimarata;
+	public static $dataprimarataStyle;
+	public static $dataprimarataTip;
+
+	public static $ratePagamento;
 	
 	// Query -----------------------------------------------------------------------------
 	
@@ -107,7 +129,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 
 	public static $queryRicercaVociPreventivoPrincipale = "/preventivo/ricercaVociPreventivoPrincipale.sql"; 
 	public static $queryRicercaVociPreventivoSecondario = "/preventivo/ricercaVociPreventivoSecondario.sql";
-
+	public static $queryAggiornaPagamentoPreventivoPrincipale = "/preventivo/aggiornaPagamentoPreventivoPrincipale.sql";
+	public static $queryAggiornaPagamentoPreventivoSecondario = "/preventivo/aggiornaPagamentoPreventivoSecondario.sql";
+	
 	public static $queryRicercaTipiVociPreventivoPrincipalePaziente = "/preventivo/ricercaTipiVociPreventivoPrincipalePaziente.sql";
 	public static $queryRicercaTipiVociPreventivoSecondarioPaziente = "/preventivo/ricercaTipiVociPreventivoSecondarioPaziente.sql";
 
@@ -118,9 +142,22 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 	public static $queryCancellaPreventivoPrincipale = "/preventivo/cancellaPreventivoPrincipale.sql";
 	public static $queryCancellaPreventivoSecondario = "/preventivo/cancellaPreventivoSecondario.sql";
-	public static $queryRicercaPreventiviSecondariProposti = "/preventivo/ricercaPreventiviSecondariProposti.sql";
+	public static $queryRicercaStatoPreventiviSecondari = "/preventivo/ricercaStatoPreventiviSecondari.sql";
+	public static $queryLeggiImportoPreventiviPrincipale = "/preventivo/leggiImportoPreventivoPrincipale.sql";
 	
 	public static $queryCreaVoceCartellaClinica = "/cartellaclinica/creaVoceCartellaClinica.sql";
+	public static $queryRicercaStatoCartellaClinica = "/preventivo/ricercaStatoCartellaClinica.sql";
+	public static $queryCancellaCartellaClinicaPreventivo = "/preventivo/cancellaCartellaClinicaPreventivo.sql";
+
+	public static $queryLeggiCondizioniPagamentoPreventivoPrincipale = "/preventivo/leggiCondizioniPagamentoPreventivoPrincipale.sql";
+	public static $queryLeggiCondizioniPagamentoPreventivoSecondario = "/preventivo/leggiCondizioniPagamentoPreventivoSecondario.sql";
+
+	public static $queryCreaRataPagamentoPreventivoPrincipale = "/preventivo/creaRataPagamentoPreventivoPrincipale.sql";
+	public static $queryCreaRataPagamentoPreventivoSecondario = "/preventivo/creaRataPagamentoPreventivoSecondario.sql";
+	public static $queryCancellaRatePagamentoPreventivoPrincipale = "/preventivo/cancellaRatePagamentoPreventivoPrincipale.sql";
+	public static $queryCancellaRatePagamentoPreventivoSecondario = "/preventivo/cancellaRatePagamentoPreventivoSecondario.sql";
+	public static $queryLeggiRatePagamentoPreventivoPrincipale = "/preventivo/leggiRatePagamentoPreventivoPrincipale.sql";
+	public static $queryLeggiRatePagamentoPreventivoSecondario = "/preventivo/leggiRatePagamentoPreventivoSecondario.sql";
 	
 	// Costruttore -----------------------------------------------------------------------------
 	
@@ -128,7 +165,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
 	}
 
-	// Setters -----------------------------------------------------------------------------
+	// Setters ---------------------------------------------------------------------------------
 
 	public function setAzioneDentiSingoli($azioneDentiSingoli) {
 		self::$azioneDentiSingoli = $azioneDentiSingoli;
@@ -138,6 +175,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	}
 	public function setAzioneCure($azioneCure) {
 		self::$azioneCure = $azioneCure;
+	}
+	public function setAzionePagamento($azionePagamento) {
+		self::$azionePagamento = $azionePagamento;
 	}
 	public function setAzionePreventivo($azionePreventivo) {
 		self::$azionePreventivo = $azionePreventivo;
@@ -280,6 +320,66 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		self::$cureGeneriche = $cureGeneriche;
 	}
 
+	public function setScontoPercentuale($scontoPercentuale) {
+		self::$scontopercentuale = $scontoPercentuale;
+	}
+	public function setScontoContante($scontoContante) {
+		self::$scontocontante = $scontoContante;
+	}
+	public function setAccontoInizioCura($accontoInizioCura) {
+		self::$accontoiniziocura = $accontoInizioCura;
+	}
+	public function setAccontoMetaCura($accontoMetaCura) {
+		self::$accontometacura = $accontoMetaCura;
+	}
+	public function setSaldoFineCura($saldoFineCura) {
+		self::$saldofinecura = $saldoFineCura;
+	}
+	
+	public function setImportoDaRateizzare($importoDaRateizzare) {
+		self::$importodarateizzare = $importoDaRateizzare;
+	}
+	public function setStyleImportoDaRateizzare($style) {
+		self::$importodarateizzareStyle = $style;
+	}
+	public function setTipImportoDaRateizzare($tip) {
+		self::$importodarateizzareTip = $tip;
+	}
+	
+	public function setNumeroGiorniRata($numeroGiorniRata) {
+		self::$numerogiornirata = $numeroGiorniRata;
+	}
+	public function setStyleNumeroGiorniRata($style) {
+		self::$numerogiornirataStyle = $style;
+	}
+	public function setTipNumeroGiorniRata($tip) {
+		self::$numerogiornirataTip = $tip;
+	}
+	
+	public function setImportoRata($importoRata) {
+		self::$importorata = $importoRata;
+	}
+	public function setStyleImportoRata($style) {
+		self::$importorataStyle = $style;
+	}
+	public function setTipImportoRata($tip) {
+		self::$importorataTip = $tip;
+	}
+	
+	public function setDataPrimaRata($dataPrimaRata) {
+		self::$dataprimarata = $dataPrimaRata;
+	}
+	public function setStyleDataPrimaRata($style) {
+		self::$dataprimarataStyle = $style;
+	}
+	public function setTipDataPrimaRata($tip) {
+		self::$dataprimarataTip = $tip;
+	}
+
+	public function setRatePagamento($ratePagamento) {
+		self::$ratePagamento = $ratePagamento;
+	}
+	
 	// Getters -----------------------------------------------------------------------------
 
 	public function getAzioneDentiSingoli() {
@@ -290,6 +390,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	}
 	public function getAzioneCure() {
 		return self::$azioneCure;
+	}
+	public function getAzionePagamento() {
+		return self::$azionePagamento;
 	}
 	public function getAzionePreventivo() {
 		return self::$azionePreventivo;
@@ -432,6 +535,66 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		return self::$cureGeneriche;
 	}
 
+	public function getScontoPercentuale() {
+		return self::$scontopercentuale;
+	}
+	public function getScontoContante() {
+		return self::$scontocontante;
+	}
+	public function getAccontoInizioCura() {
+		return self::$accontoiniziocura;
+	}
+	public function getAccontoMetaCura() {
+		return self::$accontometacura;
+	}
+	public function getSaldoFineCura() {
+		return self::$saldofinecura;
+	}
+
+	public function getImportoDaRateizzare() {
+		return self::$importodarateizzare;
+	}
+	public function getStyleImportoDaRateizzare() {
+		return self::$importodarateizzareStyle;
+	}
+	public function getTipImportoDaRateizzare() {
+		return self::$importodarateizzareTip;
+	}
+	
+	public function getNumeroGiorniRata() {
+		return self::$numerogiornirata;
+	}
+	public function getStyleNumeroGiorniRata() {
+		return self::$numerogiornirataStyle;
+	}
+	public function getTipNumeroGiorniRata() {
+		return self::$numerogiornirataTip;
+	}
+	
+	public function getImportoRata() {
+		return self::$importorata;
+	}
+	public function getStyleImportoRata() {
+		return self::$importorataStyle;
+	}
+	public function getTipImportoRata() {
+		return self::$importorataTip;
+	}
+	
+	public function getDataPrimaRata() {
+		return self::$dataprimarata;
+	}
+	public function getStyleDataPrimaRata() {
+		return self::$dataprimarataStyle;
+	}
+	public function getTipDataPrimaRata() {
+		return self::$dataprimarataTip;
+	}
+	
+	public function getRatePagamento() {
+		return self::$ratePagamento;
+	}
+	
 	// Start e Go funzione ----------------------------------------------------------------
 	
 	public function start() { }
@@ -702,6 +865,19 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		return $dentiGruppo_4;
 	}
 
+	public function prelevaCampiFormPagamento() {
+		
+		$this->setScontoPercentuale($_POST['scontopercentuale']);
+		$this->setScontoContante($_POST['scontocontante']);
+		$this->setAccontoInizioCura($_POST['accontoiniziocura']);
+		$this->setAccontoMetaCura($_POST['accontometacura']);
+		$this->setSaldoFineCura($_POST['saldofinecura']);
+		$this->setImportoDaRateizzare($_POST['importodarateizzare']);
+		$this->setDataPrimaRata($_POST['dataprimarata']);		
+		$this->setNumeroGiorniRata($_POST['numerogiornirata']);
+		$this->setImportoRata($_POST['importorata']);
+	}
+	
 	/**
 	 *
 	 * @param unknown $db
@@ -1459,23 +1635,299 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 		return $result;
 	}
-		
-	public function controllaStatoPreventiviSecondari($db, $utility, $idPreventivo, $idPaziente) {
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idPreventivo
+	 * @param unknown $idPaziente
+	 * @return unknown
+	 */
+	public function leggiStatoPreventiviSecondari($db, $utility, $idPreventivo, $idPaziente, $stato) {
 
 		$array = $utility->getConfig();
 		
 		$replace = array(
 				'%idpaziente%' => $idPaziente,
-				'%idpreventivo%' => $idPreventivo
+				'%idpreventivo%' => $idPreventivo,
+				'%stato%' => $stato
 		);
 	
-		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaPreventiviSecondariProposti;
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaStatoPreventiviSecondari;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	
 		$rows = pg_fetch_all($result);
 		foreach ($rows as $row) {
 			return $row['totaleproposti'];	
+		}		
+	}	
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idPreventivo
+	 * @param unknown $idPaziente
+	 * @return unknown
+	 */
+	public function leggiImportoPreventiviPrincipale($db, $utility, $idPreventivo, $idPaziente) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idpaziente%' => $idPaziente,
+				'%idpreventivo%' => $idPreventivo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryLeggiImportoPreventiviPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		$rows = pg_fetch_all($result);
+		foreach ($rows as $row) {
+			return $row['totaleimportoprincipale'];
+		}
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idPreventivo
+	 * @param unknown $idPaziente
+	 * @return Ambigous <string, unknown>
+	 */
+	public function leggiStatoCartellaClinica($db, $utility, $idPreventivo, $idPaziente) {
+	
+		$stato = "";
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idpaziente%' => $idPaziente,
+				'%idpreventivo%' => $idPreventivo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaStatoCartellaClinica;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->getData($sql);
+	
+		$rows = pg_fetch_all($result);
+		foreach ($rows as $row) {
+			$stato = $row['stato'];
+		}
+		return $stato;
+	}	
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idPreventivo
+	 * @param unknown $idPaziente
+	 */
+	public function rimuoviCartellaClinicaPreventivo($db, $utility, $idPreventivo, $idPaziente) {
+
+		$array = $utility->getConfig();
+		
+		$replace = array(
+				'%idpreventivo%' => $idPreventivo,
+				'%idpaziente%' => $idPaziente				
+		 );
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaCartellaClinicaPreventivo;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		return $result;		
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idPreventivo
+	 * @param unknown $dataScadenza
+	 * @param unknown $importo
+	 * @param unknown $stato
+	 * @return L'esito dell'operazione di creazione rata
+	 */
+	public function creaRataPagamentoPreventivoPrincipale($db, $utility, $idPreventivo, $dataScadenza, $importo, $stato) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idpreventivo%' => $idPreventivo,
+				'%stato%' => $stato,
+				'%datascadenza%' => $dataScadenza,
+				'%importo%' => $importo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaRataPagamentoPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idSottoPreventivo
+	 * @param unknown $dataScadenza
+	 * @param unknown $importo
+	 * @param unknown $stato
+	 * @return L'esito booleano della creazione
+	 */
+	public function creaRataPagamentoPreventivoSecondario($db, $utility, $idSottoPreventivo, $dataScadenza, $importo, $stato) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idsottopreventivo%' => $idSottoPreventivo,
+				'%stato%' => $stato,
+				'%datascadenza%' => $dataScadenza,
+				'%importo%' => $importo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaRataPagamentoPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idPreventivo
+	 * @return L'esito della cancellazione
+	 */
+	public function cancellaRatePagamentoPreventivoPrincipale($db, $utility, $idPreventivo) {
+
+		$array = $utility->getConfig();
+		
+		$replace = array('%idpreventivo%' => $idPreventivo);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaRatePagamentoPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		return $result;		
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idSottoPreventivo
+	 * @return L'esito della cancellazione
+	 */
+	public function cancellaRatePagamentoPreventivoSecondario($db, $utility, $idSottoPreventivo) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array('%idsottopreventivo%' => $idSottoPreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaRatePagamentoPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $IdPreventivo
+	 * @return un'array che contiene il resultset
+	 */
+	public function leggiRatePagamentoPreventivoPrincipale($db, $utility, $idPreventivo) {
+
+		$array = $utility->getConfig();
+		
+		$replace = array('%idpreventivo%' => $idPreventivo);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryLeggiRatePagamentoPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+
+		return pg_fetch_all($result);
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $IdSottoPreventivo
+	 * @return un'array che contiene il resultset
+	 */
+	public function leggiRatePagamentoPreventivoSecondario($db, $utility, $idSottoPreventivo) {
+
+		$array = $utility->getConfig();
+		
+		$replace = array('%idsottopreventivo%' => $idSottoPreventivo);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryLeggiRatePagamentoPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		return pg_fetch_all($result);		
+	}
+	
+	/**
+	 * 
+	 * @param unknown $idPreventivo
+	 * @return Void, setta le variabili di classe corrispondenti alle colonne della tupla
+	 */
+	public function leggiCondizioniPagamentoPreventivoPrincipale($db, $utility, $idPreventivo) {
+	
+		$array = $utility->getConfig();
+		$replace = array('%idpreventivo%' => $idPreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryLeggiCondizioniPagamentoPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		$rows = pg_fetch_all($result);
+	
+		foreach ($rows as $row) {
+			$this->setScontoPercentuale($row['scontopercentuale']);
+			$this->setScontoContante($row['scontocontante']);
+			$this->setAccontoInizioCura($row['accontoiniziocura']);
+			$this->setAccontoMetaCura($row['accontometacura']);
+			$this->setSaldoFineCura($row['saldofinecura']);
+			$this->setImportoDaRateizzare($row['importodarateizzare']);
+			$this->setNumeroGiorniRata($row['numerogiornirata']);
+			$this->setImportoRata($row['importorata']);
+			$this->setDataPrimaRata($row['dataprimarata']);
+		}
+	}
+
+	public function leggiCondizioniPagamentoPreventivoSecondario($db, $utility, $idSottoPreventivo) {
+
+		$array = $utility->getConfig();
+		$replace = array('%idsottopreventivo%' => $idSottoPreventivo);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryLeggiCondizioniPagamentoPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		$rows = pg_fetch_all($result);
+		
+		foreach ($rows as $row) {
+			$this->setScontoPercentuale($row['scontopercentuale']);
+			$this->setScontoContante($row['scontocontante']);
+			$this->setAccontoInizioCura($row['accontoiniziocura']);
+			$this->setAccontoMetaCura($row['accontometacura']);
+			$this->setSaldoFineCura($row['saldofinecura']);
+			$this->setImportoDaRateizzare($row['importodarateizzare']);
+			$this->setNumeroGiorniRata($row['numerogiornirata']);
+			$this->setImportoRata($row['importorata']);
+			$this->setDataPrimaRata($row['dataprimarata']);
 		}		
 	}	
 }

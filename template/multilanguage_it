@@ -16,6 +16,7 @@ gruppi = Gruppi di Denti
 cure = Cure Generiche
 preventiva = Preventiva
 info = Informazioni funzionalit&agrave;
+condizioniPagamento = Pagamento
 importa = Importa
 daeseguire = Da eseguire
 eseguito = Eseguito
@@ -99,6 +100,10 @@ accettaPreventivoTip = Accetta il preventivo corrente e crea una cartella clinic
 rinunciaPreventivoTip = Rinuncia il preventivo corrente. La cartella clinica verr&agrave; cancellata e il preventivo rimesso in stato 'Proposto'
 cancellaPreventivoTip = Cancella il preventivo compresi gli eventuali preventivi secondari
 ;
+pagamentoTip = Permette di impostare le condizioni di pagamento per il preventivo
+scontopercentualeTip = Sconto in % da applicare al totale preventivo
+scontocontanteTip = Sconto in &euro; da applicare al totale preventivo 
+;
 ; Funzioni -----------------------------
 ;
 totaliProgressivi = Totali Progressivi
@@ -151,6 +156,8 @@ dettaglioPreventivoPrincipale = Dettaglio Preventivo Principale
 dettaglioPreventivoSecondario = Dettaglio Preventivo Secondario
 cancellaPreventivoPrincipale = Cancella Preventivo Principale
 cancellaPreventivoSecondario = Cancella Preventivo Secondario
+modificaPagamentoPrincipaleDentiSingoli = Modifica Preventivo Principale - Condizioni di Pagamento
+modificaPagamentoSecondarioDentiSingoli = Modifica Preventivo Secondario - Condizioni di Pagamento
 ;
 ; Messaggi -----------------------------
 ;
@@ -247,8 +254,13 @@ includiVocePreventivoKo = Errore durante l'inclusione della voce nel preventivo
 escludiVocePreventivoOk = Voce esclusa dal nuovo preventivo
 escludiVocePreventivoKo = Errore durante l'esclusione della voce dal nuovo preventivo
 ;
-creaCartellaClinicaOk = Cartella clinica creata
-creaCartellaClinicaKo = Errore durante la creazione della cartella clinica
+accettaPreventivoOk = Preventivo Accettato
+accettaPreventivoKo = Errore durante l'accettazione del preventivo
+rinunciaPreventivoOk = Preventivo Rinunciato
+rinunciaPreventivoKo = Errore durante la rinuncia del preventivo
+;
+modPagamentoOk = Condizioni Pagamento Modificate
+modPagamentoKo = Errore durante la modifica delle condizioni pagamento
 ;
 ; Campi form ---------------------------
 ;
@@ -379,3 +391,21 @@ gruppo = Gruppo
 cura = Cura
 singolo = Singolo
 datainserimentoPreventivo = Inserito il 
+;
+pagamento = Condizioni Pagamento
+sconti = Sconti
+acconti = Acconti
+rateizzazione = Rateizzazione
+scontopercentuale =  In %
+scontocontante = In &euro;
+accontoiniziocura = Inizio Cura (&euro;)
+accontometacura = Met&agrave; Cura (&euro;)
+saldofinecura = Fine Cura (&euro;)
+importodarateizzare = Importo da Rateizzare
+dataprimarata = Data Prima Rata
+intervallorata = Intervallo Rate (gg)
+importorata = Importo Rata
+
+ratepagamento = Rate Pagamento
+dapagare = Da Pagare
+pagata = Pagata

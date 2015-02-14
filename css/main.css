@@ -168,6 +168,15 @@
 	.result-alt td {
 		background-color: #ffffff;
 	}	
+	.result-alt .pagataOn {
+		background-color: #ECECEC;
+		color: green;
+		font-weight: bolder;
+	}	
+	.result-alt .pagataOff {
+		background-color: #ECECEC;
+		color: gray;
+	}	
 	.result-alt .on {
 		background-color: #000000;
 	}

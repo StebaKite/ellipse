@@ -8,7 +8,9 @@ class modificaPreventivo extends preventivoAbstract {
 	public static $azioneDentiSingoli = "../preventivo/modificaPreventivoFacade.class.php?modo=go";
 	public static $azioneGruppi = "../preventivo/modificaPreventivoGruppiFacade.class.php?modo=start";
 	public static $azioneCure = "../preventivo/modificaPreventivoCureFacade.class.php?modo=start";
-
+	public static $azionePagamento = "../preventivo/modificaPagamentoFacade.class.php?modo=start";
+	
+	
 	function __construct() {
 
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
@@ -32,6 +34,8 @@ class modificaPreventivo extends preventivoAbstract {
 	
 	public function start() {
 
+		error_log("<<<<<<< Start >>>>>>> " . $_SERVER['PHP_SELF']);
+		
 		require_once 'preventivo.template.php';
 		
 		$preventivoTemplate = new preventivoTemplate();
@@ -45,7 +49,9 @@ class modificaPreventivo extends preventivoAbstract {
 	}
 
 	public function go() {
-	
+
+		error_log("<<<<<<< Go >>>>>>> " . $_SERVER['PHP_SELF']);
+		
 		require_once 'ricercaPreventivo.class.php';
 		require_once 'preventivo.template.php';
 		require_once 'utility.class.php';
@@ -245,7 +251,8 @@ class modificaPreventivo extends preventivoAbstract {
 		$preventivoTemplate->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$preventivoTemplate->setAzioneGruppi(self::$azioneGruppi);
 		$preventivoTemplate->setAzioneCure(self::$azioneCure);
-	
+		$preventivoTemplate->setAzionePagamento(self::$azionePagamento);
+		
 		$preventivoTemplate->setConfermaTip("%ml.confermaModificaPreventivo%");
 		$preventivoTemplate->setGruppiTip("%ml.creaGruppi%");
 		$preventivoTemplate->setCureTip("%ml.creaCure%");

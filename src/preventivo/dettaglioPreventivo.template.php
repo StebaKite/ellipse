@@ -67,11 +67,34 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 		$formGruppi = self::$root . $array['template'] . self::$paginaGruppi;
 		$formCure = self::$root . $array['template'] . self::$paginaCure;
 		
+		if ($this->getAzionePreventivo() != '') {
+			
+			$bottoneAzionePreventivo  = "<td>";
+			$bottoneAzionePreventivo .= "<form class='tooltip' method='post' action='" . $this->getAzionePreventivo() . "' >";
+			$bottoneAzionePreventivo .= "<button class='button' title='" . $this->getAzionePreventivoTip() . "' >" . $this->getAzionePreventivoLabelBottone() . "</button>";
+			$bottoneAzionePreventivo .= "<input type='hidden' name='cognRic' value='" . $this->getCognomeRicerca() . "'/>";
+			$bottoneAzionePreventivo .= "<input type='hidden' name='idPaziente' value='" . $this->getIdPaziente() . "'/>";
+			$bottoneAzionePreventivo .= "<input type='hidden' name='idListino' value='" . $this->getIdListino() . "'/>";
+			$bottoneAzionePreventivo .= "<input type='hidden' name='cognome' value='" . $this->getCognome() . "'/>";
+			$bottoneAzionePreventivo .= "<input type='hidden' name='nome' value='" . $this->getNome() . "'/>";
+			$bottoneAzionePreventivo .= "<input type='hidden' name='datanascita' value='" . $this->getDataNascita() . "'/>";
+			$bottoneAzionePreventivo .= "<input type='hidden' name='idPreventivo' value='" . $this->getIdPreventivo() . "'/>";
+			$bottoneAzionePreventivo .= "<input type='hidden' name='idPreventivoPrincipale' value='" . $this->getIdPreventivoPrincipale() . "'/>";
+			$bottoneAzionePreventivo .= "<input type='hidden' name='idSottoPreventivo' value='" . $this->getIdSottoPreventivo() . "'/>";
+			$bottoneAzionePreventivo .= "<input type='hidden' name='stato' value='" . $this->getStato() . "'/>";
+			$bottoneAzionePreventivo .= "</form>";
+			$bottoneAzionePreventivo .= "</td>";			
+		}
+		else {
+			$bottoneAzionePreventivo = '';
+		}
+		
 		$replace = array(
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%azionePreventivo%' => $this->getAzionePreventivo(),
 				'%azionePreventivoTip%' => $this->getAzionePreventivoTip(),
 				'%azionePreventivoLabelBottone%' => $this->getAzionePreventivoLabelBottone(),
+				'%bottoneAzionePreventivo%' => $bottoneAzionePreventivo,
 				'%cognomeRicerca%' => $this->getCognomeRicerca(),
 				'%cognome%' => $this->getCognome(),
 				'%nome%' => $this->getNome(),

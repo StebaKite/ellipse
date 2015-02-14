@@ -31,11 +31,11 @@ class dettaglioPreventivo extends preventivoAbstract {
 		require_once 'dettaglioPreventivo.template.php';
 		require_once 'utility.class.php';
 		require_once 'database.class.php';
-		
-		$dettaglioPreventivoTemplate = new dettaglioPreventivoTemplate();
-		$this->preparaPagina($dettaglioPreventivoTemplate);
 
 		$db = new database();
+		
+		$dettaglioPreventivoTemplate = new dettaglioPreventivoTemplate();
+		$this->preparaPagina($dettaglioPreventivoTemplate, $db);
 
 		if ($this->getIdpreventivo() != "") {
 			$this->prelevaVociPreventivoPrincipale($db, $dettaglioPreventivoTemplate);
@@ -50,19 +50,49 @@ class dettaglioPreventivo extends preventivoAbstract {
 		include(self::$piede);
 	}
 	
-	public function preparaPagina($dettaglioPreventivoTemplate) {
+	public function preparaPagina($dettaglioPreventivoTemplate, $db) {
 
-		$dettaglioPreventivoTemplate->setIntestazioneColonnaAzioni("<th colspan='2'>&nbsp;</th>");
+		$utility = new utility();
 		
-		if ($this->getStato() == '01') {
+		$dettaglioPreventivoTemplate->setIntestazioneColonnaAzioni("<th colspan='2'>&nbsp;</th>");
+
+		if ($this->getIdpreventivo() != "") {
+			$idPreventivo = $this->getIdPreventivo();
+		}
+		elseif ($this->getIdSottoPreventivo() != "") {
+			$idPreventivo = $this->getIdSottoPreventivo();
+		}
+		
+		/**
+		 * Business Rule  : Visualizzazione del bottone RINUNCIA
+		 * 
+		 * La rinucia di un preventivo "Accettato" (01) è possibile solo se la cartella clinica si trova in stato "Attiva" (00)
+		 */
+		if (($this->getStato() == '01')
+		and ($this->leggiStatoCartellaClinica($db, $utility, $idPreventivo, $this->getIdPaziente())) == '00') {
+			
 			$dettaglioPreventivoTemplate->setAzionePreventivoLabelBottone('%ml.rinuncia%');
 			$dettaglioPreventivoTemplate->setAzionePreventivo(self::$azioneRinunciaPreventivo);
 			$dettaglioPreventivoTemplate->setAzionePreventivoTip('%ml.rinunciaPreventivoTip%');
 		}
 		else {
-			$dettaglioPreventivoTemplate->setAzionePreventivoLabelBottone('%ml.accetta%');
-			$dettaglioPreventivoTemplate->setAzionePreventivo(self::$azioneAccettaPreventivo);
-			$dettaglioPreventivoTemplate->setAzionePreventivoTip('%ml.accettaPreventivoTip%');
+			/**
+			 * Business Rule :  Visualizzazione del bottone ACCETTA
+			 * 
+			 * L'accettazione ricorsiva di un preventivo è consentita solo se la cartella clinica corrispondente è in 
+			 * stato "Attiva" (00). Se è "In Corso" non è consentita l'accettazione dello stesso preventivo 
+			 */
+			if (($this->leggiStatoCartellaClinica($db, $utility, $idPreventivo, $this->getIdPaziente()) == '00') 
+			or  ($this->leggiStatoCartellaClinica($db, $utility, $idPreventivo, $this->getIdPaziente()) == ''))  {
+				$dettaglioPreventivoTemplate->setAzionePreventivoLabelBottone('%ml.accetta%');
+				$dettaglioPreventivoTemplate->setAzionePreventivo(self::$azioneAccettaPreventivo);
+				$dettaglioPreventivoTemplate->setAzionePreventivoTip('%ml.accettaPreventivoTip%');				
+			}
+			else {
+				$dettaglioPreventivoTemplate->setAzionePreventivoLabelBottone('');
+				$dettaglioPreventivoTemplate->setAzionePreventivo('');
+				$dettaglioPreventivoTemplate->setAzionePreventivoTip('');				
+			}
 		}
 		
 		if ($this->getIdpreventivo() != "") {

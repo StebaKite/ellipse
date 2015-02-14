@@ -13,6 +13,10 @@ ALTER TABLE paziente.vocecartellaclinica ADD COLUMN nomeform character(10);
 ALTER TABLE paziente.vocecartellaclinica ALTER COLUMN nomeform SET NOT NULL;
 ALTER TABLE paziente.vocecartellaclinica ALTER COLUMN nomeform SET DEFAULT ' '::bpchar;
 
+---------------------------------------------------------------------------------------
+-- SB 10/2/2015 : aggiornamento fatto in occasione dell'accettazione del preventivo
+---------------------------------------------------------------------------------------
+
 -- Drop delle FK verso il preventivo / sottopreventivo
 --
 -- Questo per poter creare una cartella clinica anche senza preventivo

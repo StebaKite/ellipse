@@ -278,6 +278,7 @@ class preventivoTemplate extends preventivoAbstract {
 				'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
 				'%azioneGruppi%' => $this->getAzioneGruppi(),
 				'%azioneCure%' => $this->getAzioneCure(),
+				'%azionePagamento%' => $this->getAzionePagamento(),
 				'%confermaTip%' => $this->getConfermaTip(),
 				'%gruppiTip%' => $this->getGruppiTip(),
 				'%cureTip%' => $this->getCureTip(),
