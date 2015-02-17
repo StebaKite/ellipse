@@ -69,6 +69,7 @@ class modificaPagamento extends preventivoAbstract {
 		
 		$pagamentoTemplate = new pagamentoTemplate();
 		$this->preparaPagina($db, $utility, $pagamentoTemplate);
+		
 		/**
 		 * Salvo i valori originali prelevati da db
 		 */
@@ -89,9 +90,27 @@ class modificaPagamento extends preventivoAbstract {
 		include(self::$testata);
 		
 		if ($pagamentoTemplate->controlliLogici()) {
-		
+			
 			if ($this->modifica($db, $utility, $pagamentoTemplate)) {
 
+				/**
+				 * Se è stata inserito una data scadenza acconto lo aggiungo in tabella 
+				 */
+				if ($this->getDataScadenzaAcconto() != "") {
+					if (!$this->creaAccontoPreventivo($db, $utility, $this->getDataScadenzaAcconto(), $this->getDescrizioneAcconto(), $this->getImportoAcconto())) {
+						$pagamentoTemplate->displayPagina();
+						$replace = array('%messaggio%' => '%ml.modPagamentoKo%');
+						$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);
+						echo $utility->tailTemplate($template);
+						$db->rollbackTransaction();
+					}
+				}
+				
+				$this->leggiAccontiPreventivo($db, $utility);
+				$pagamentoTemplate->setDataScadenzaAcconto("");
+				$pagamentoTemplate->setDescrizioneAcconto("");
+				$pagamentoTemplate->setImportoAcconto("");				
+								
 				/**
 				 * Se è stato variato un parametro per la rateizzazione dell'importo cancello tutte le rate del preventivo e le rigenero 
 				 */
@@ -106,7 +125,7 @@ class modificaPagamento extends preventivoAbstract {
 						$this->leggiRatePagamentoPreventivo($db, $utility);
 						
 						$pagamentoTemplate->displayPagina();
-						$replace = array('%messaggio%' => '%ml.modPagamentoOk%');
+						$replace = array('%messaggio%' => '%ml.rateok%' . ' - ' . '%ml.modPagamentoOk%');
 						$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);
 						echo $utility->tailTemplate($template);
 						$db->commitTransaction();
@@ -124,6 +143,7 @@ class modificaPagamento extends preventivoAbstract {
 					$replace = array('%messaggio%' => '%ml.modPagamentoOk%');
 					$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);
 					echo $utility->tailTemplate($template);
+					$db->commitTransaction();
 				}
 			}
 			else {
@@ -131,11 +151,12 @@ class modificaPagamento extends preventivoAbstract {
 				$replace = array('%messaggio%' => '%ml.modPagamentoKo%');		
 				$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);
 				echo $utility->tailTemplate($template);		
+				$db->rollbackTransaction();
 			}
 		}
 		else {
 			$pagamentoTemplate->displayPagina();
-		}
+		}		
 		include(self::$piede);
 	}
 
@@ -149,16 +170,35 @@ class modificaPagamento extends preventivoAbstract {
 		if ($this->getIdPreventivo() != "") {
 			$pagamentoTemplate->setTitoloPagina("%ml.modificaPagamentoPrincipaleDentiSingoli%");
 			$this->leggiCondizioniPagamentoPreventivoPrincipale($db, $utility, $this->getIdPreventivo());
-			$this->setRatePagamento($this->leggiRatePagamentoPreventivoPrincipale($db, $utility, $this->getIdPreventivo()));				
+			$pagamentoTemplate->setRatePagamento($this->leggiRatePagamentoPreventivoPrincipale($db, $utility, $this->getIdPreventivo()));
+			$pagamentoTemplate->setAcconti($this->leggiAccontiPreventivoPrincipale($db, $utility, $this->getIdPreventivo()));
 		}
 		elseif ($this->getIdSottoPreventivo() != "") {
 			$pagamentoTemplate->setTitoloPagina("%ml.modificaPagamentoSecondarioDentiSingoli%");
 			$this->leggiCondizioniPagamentoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo());
-			$this->setRatePagamento($this->leggiRatePagamentoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo()));				
+			$pagamentoTemplate->setRatePagamento($this->leggiRatePagamentoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo()));				
+			$pagamentoTemplate->setAcconti($this->leggiAccontiPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo()));
 		}
-	
+
+		$pagamentoTemplate->setDataScadenzaAcconto("");
+		$pagamentoTemplate->setDescrizioneAcconto("");
+		$pagamentoTemplate->setImportoAcconto("");
 		$pagamentoTemplate->setPreventivoLabel("Preventivo");
 	}	
+	
+	private function creaAccontoPreventivo($db, $utility, $dataScadenzaAcconto, $descrizioneAcconto, $importoAcconto) {
+
+		if ($this->getIdPreventivo() != "") {
+			if ($this->creaAccontoPreventivoPrincipale($db, $utility, $this->getIdPreventivo(), $dataScadenzaAcconto, $descrizioneAcconto, $importoAcconto)) return TRUE;
+			else return FALSE;
+		}
+		elseif ($this->getIdSottoPreventivo() != "") {
+			if ($this->creaAccontoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo(), $dataScadenzaAcconto, $descrizioneAcconto, $importoAcconto)) return TRUE;
+			else return FALSE;
+		}
+		
+	}
+	
 	
 	private function modifica($db, $utility, $pagamentoTemplate) {
 
@@ -182,14 +222,14 @@ class modificaPagamento extends preventivoAbstract {
 		if ($pagamentoTemplate->getScontoContante() == "") $scontoContante = 'null';
 		else $scontoContante = $pagamentoTemplate->getScontoContante();
 
-		if ($pagamentoTemplate->getAccontoInizioCura() == "") $accontoInizioCura = 'null';
-		else $accontoInizioCura = $pagamentoTemplate->getAccontoInizioCura();
+// 		if ($pagamentoTemplate->getAccontoInizioCura() == "") $accontoInizioCura = 'null';
+// 		else $accontoInizioCura = $pagamentoTemplate->getAccontoInizioCura();
 
-		if ($pagamentoTemplate->getAccontoMetaCura() == "") $accontoMetaCura = 'null';
-		else $accontoMetaCura = $pagamentoTemplate->getAccontoMetaCura();
+// 		if ($pagamentoTemplate->getAccontoMetaCura() == "") $accontoMetaCura = 'null';
+// 		else $accontoMetaCura = $pagamentoTemplate->getAccontoMetaCura();
 
-		if ($pagamentoTemplate->getSaldoFineCura() == "") $saldoFineCura = 'null';
-		else $saldoFineCura = $pagamentoTemplate->getSaldoFineCura();
+// 		if ($pagamentoTemplate->getSaldoFineCura() == "") $saldoFineCura = 'null';
+// 		else $saldoFineCura = $pagamentoTemplate->getSaldoFineCura();
 
 		if ($pagamentoTemplate->getNumeroGiorniRata() == "") $numeroGiorniRata = 'null';
 		else $numeroGiorniRata = $pagamentoTemplate->getNumeroGiorniRata();
@@ -207,9 +247,9 @@ class modificaPagamento extends preventivoAbstract {
 				'%idpreventivo%' => $idPreventivo,
 				'%scontopercentuale%' => $scontoPercentuale,
 				'%scontocontante%' => $scontoContante,
-				'%accontoiniziocura%' => $accontoInizioCura,
-				'%accontometacura%' => $accontoMetaCura,
-				'%saldofinecura%' => $saldoFineCura,
+// 				'%accontoiniziocura%' => $accontoInizioCura,
+// 				'%accontometacura%' => $accontoMetaCura,
+// 				'%saldofinecura%' => $saldoFineCura,
 				'%numerogiornirata%' => $numeroGiorniRata,
 				'%importorata%' => $importoRata,
 				'%importodarateizzare%' => $importoDaRateizzare,
@@ -286,6 +326,16 @@ class modificaPagamento extends preventivoAbstract {
 		}		
 	}
 
+	public function leggiAccontiPreventivo($db, $utility) {
+	
+		if ($this->getIdPreventivo() != "") {
+			$this->setAcconti($this->leggiAccontiPreventivoPrincipale($db, $utility, $this->getIdPreventivo()));
+		}
+		elseif ($this->getIdSottoPreventivo() != "") {
+			$this->setAcconti($this->leggiAccontiPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo()));
+		}
+	}
+	
 	public function leggiRatePagamentoPreventivo($db, $utility) {
 
 		if ($this->getIdPreventivo() != "") {

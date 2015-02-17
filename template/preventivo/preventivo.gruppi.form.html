@@ -41,6 +41,21 @@
 					</form>		
 				</td>
 				<td>
+					<form class="tooltip" method="post" action="%azionePagamento%" >
+						<button class="button" title="%ml.pagamentoTip%">%ml.pagamento%</button>
+						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+						<input type="hidden" name="idListino" value="%idListino%"/>
+						<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+						<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
+						<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
+						<input type="hidden" name="cognome" value="%cognome%"/>
+						<input type="hidden" name="nome" value="%nome%"/>
+						<input type="hidden" name="datanascita" value="%datanascita%"/>
+						<input type="hidden" name="stato" value="%stato%"/>
+					</form>		
+				</td>
+				<td>
 					<form class="tooltip" method="post" action="../preventivo/ricercaPreventivoFacade.class.php?modo=start" >
 						<button class="button" title="%ml.funzPrec%">%ml.indietro%</button>
 						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
@@ -592,22 +607,22 @@
 			
 			<div id="tabs-2">
 								
-				<p>Questa funzionalit&agrave; di creazione del preventivo per gruppi di denti ti permette di creare fino a quattro gruppi di intervento.</p>
-				<p>Le voci che hai a disposizione sono quelle del listino asssegnato al paziente elencato qui sotto.</p>
 				<h2>Come si fa</h2>
 				<ul>
 					<li>Selezione la voce di intervento in uno dei quattro men&ugrave; a discesa</li>
 					<li>Sotto il men&ugrave; che hai selezionato trovi i denti sui quali fare l'intervento, seleziona quelli di interesse</li>
 					<li>Conferma la creazione col bottone "Conferma"</li>
 				</ul>
-
-				<table class="result-alt" id="resultTable">
-					<thead>
-						<th width="80">%ml.codice%</th>
-						<th width="700">%ml.descrizioneLavoro%</th>
-					</thead>
-					<tbody>%vociListinoEsteso%</tbody>
-				</table>			
+				
+				<div class="scroll-listino">
+					<table class="result-alt" id="resultTable">
+						<thead>
+							<th width="80">%ml.codice%</th>
+							<th width="700">%ml.descrizioneLavoro%</th>
+						</thead>
+						<tbody>%vociListinoEsteso%</tbody>
+					</table>			
+				</div>
 								
 			</div>
 		</div>

@@ -142,6 +142,11 @@
 		height: 400px;
 		overflow: auto;	
 	}	
+	div.scroll-acconti {
+		width: 660px;
+		height: 260px;
+		overflow: auto;	
+	}	
 	div.scrollyes {
 		width: 100%;
 		height: 420px;

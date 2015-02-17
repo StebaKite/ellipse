@@ -8,7 +8,8 @@ class modificaPreventivoCure extends preventivoAbstract {
 	public static $azioneDentiSingoli = "../preventivo/modificaPreventivoFacade.class.php?modo=start";
 	public static $azioneGruppi = "../preventivo/modificaPreventivoGruppiFacade.class.php?modo=start";
 	public static $azioneCure = "../preventivo/modificaPreventivoCureFacade.class.php?modo=go";
-
+	public static $azionePagamento = "../preventivo/modificaPagamentoFacade.class.php?modo=start";
+	
 	function __construct() {
 
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
@@ -245,15 +246,16 @@ class modificaPreventivoCure extends preventivoAbstract {
 
 	public function preparaPagina($preventivoCureTemplate) {
 			
-		$preventivoCureTemplate->setIdPaziente($this->getIdPaziente());
-		$preventivoCureTemplate->setIdListino($this->getIdListino());
-		$preventivoCureTemplate->setIdPreventivo($this->getIdPreventivo());
-		$preventivoCureTemplate->setCognomeRicerca($this->getCognomeRicerca());
+// 		$preventivoCureTemplate->setIdPaziente($this->getIdPaziente());
+// 		$preventivoCureTemplate->setIdListino($this->getIdListino());
+// 		$preventivoCureTemplate->setIdPreventivo($this->getIdPreventivo());
+// 		$preventivoCureTemplate->setCognomeRicerca($this->getCognomeRicerca());
 			
 		$preventivoCureTemplate->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$preventivoCureTemplate->setAzioneGruppi(self::$azioneGruppi);
 		$preventivoCureTemplate->setAzioneCure(self::$azioneCure);
-	
+		$preventivoCureTemplate->setAzionePagamento(self::$azionePagamento);
+		
 		$preventivoCureTemplate->setConfermaTip("%ml.confermaModificaPreventivo%");
 		$preventivoCureTemplate->setSingoliTip("%ml.modificaSingoli%");
 		$preventivoCureTemplate->setGruppiTip("%ml.modificaGruppi%");

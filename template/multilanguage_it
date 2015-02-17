@@ -103,6 +103,11 @@ cancellaPreventivoTip = Cancella il preventivo compresi gli eventuali preventivi
 pagamentoTip = Permette di impostare le condizioni di pagamento per il preventivo
 scontopercentualeTip = Sconto in % da applicare al totale preventivo
 scontocontanteTip = Sconto in &euro; da applicare al totale preventivo 
+descrizioneaccontoTip = Breve descrizione dell'acconto
+importoaccontoTip = Importo dell'acconto
+importodarateizzareTip = Importo totale da rateizzazione
+numerogiornirataTip = Numero giorni che intercorrono tra una rata e la successiva
+importorataTip = Importo della singola rata
 ;
 ; Funzioni -----------------------------
 ;
@@ -260,7 +265,10 @@ rinunciaPreventivoOk = Preventivo Rinunciato
 rinunciaPreventivoKo = Errore durante la rinuncia del preventivo
 ;
 modPagamentoOk = Condizioni Pagamento Modificate
+rateok = Rateizzazione Ok
 modPagamentoKo = Errore durante la modifica delle condizioni pagamento
+cancellaAccontoOk = Acconto cancellato
+cancellaAccontoKo = Errore durante la cancellazione dell'acconto
 ;
 ; Campi form ---------------------------
 ;
@@ -405,7 +413,11 @@ importodarateizzare = Importo da Rateizzare
 dataprimarata = Data Prima Rata
 intervallorata = Intervallo Rate (gg)
 importorata = Importo Rata
+importoacconto = Importo Acconto
 
 ratepagamento = Rate Pagamento
 dapagare = Da Pagare
 pagata = Pagata
+pagato = Pagato
+datascadenza = Scadenza
+descrizioneacconto = Descrizione

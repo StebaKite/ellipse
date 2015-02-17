@@ -8,7 +8,8 @@ class modificaPreventivoGruppi extends preventivoAbstract {
 	public static $azioneGruppi = "../preventivo/modificaPreventivoGruppiFacade.class.php?modo=go";
 	public static $azioneDentiSingoli = "../preventivo/modificaPreventivoFacade.class.php?modo=start";
 	public static $azioneCure = "../preventivo/modificaPreventivoCureFacade.class.php?modo=start";
-
+	public static $azionePagamento = "../preventivo/modificaPagamentoFacade.class.php?modo=start";
+	
 	function __construct() {
 
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
@@ -270,7 +271,8 @@ class modificaPreventivoGruppi extends preventivoAbstract {
 		$modificaPreventivoGruppiTemplate->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$modificaPreventivoGruppiTemplate->setAzioneGruppi(self::$azioneGruppi);
 		$modificaPreventivoGruppiTemplate->setAzioneCure(self::$azioneCure);
-	
+		$modificaPreventivoGruppiTemplate->setAzionePagamento(self::$azionePagamento);
+		
 		$modificaPreventivoGruppiTemplate->setConfermaTip("%ml.confermaModificaPreventivo%");
 		$modificaPreventivoGruppiTemplate->setSingoliTip("%ml.modificaSingoli%");
 		$modificaPreventivoGruppiTemplate->setCureTip("%ml.modificaCure%");

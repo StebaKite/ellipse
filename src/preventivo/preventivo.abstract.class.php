@@ -70,6 +70,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $accontometacura;
 	public static $saldofinecura;
 	
+	public static $ratePagamento;
 	public static $importodarateizzare;
 	public static $importodarateizzareStyle;
 	public static $importodarateizzareTip;
@@ -83,7 +84,17 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $dataprimarataStyle;
 	public static $dataprimarataTip;
 
-	public static $ratePagamento;
+	public static $acconti;	
+	public static $idAcconto;
+	public static $dataScadenzaAcconto;
+	public static $dataScadenzaAccontoStyle;
+	public static $dataScadenzaAccontoTip;
+	public static $descrizioneAcconto;
+	public static $descrizioneAccontoStyle;
+	public static $descrizioneAccontoTip;
+	public static $importoAcconto;
+	public static $importoAccontoStyle;
+	public static $importoAccontoTip;
 	
 	// Query -----------------------------------------------------------------------------
 	
@@ -158,6 +169,13 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $queryCancellaRatePagamentoPreventivoSecondario = "/preventivo/cancellaRatePagamentoPreventivoSecondario.sql";
 	public static $queryLeggiRatePagamentoPreventivoPrincipale = "/preventivo/leggiRatePagamentoPreventivoPrincipale.sql";
 	public static $queryLeggiRatePagamentoPreventivoSecondario = "/preventivo/leggiRatePagamentoPreventivoSecondario.sql";
+
+	public static $queryLeggiAccontiPreventivoPrincipale = "/preventivo/leggiAccontiPreventivoPrincipale.sql"; 
+	public static $queryLeggiAccontiPreventivoSecondario = "/preventivo/leggiAccontiPreventivoSecondario.sql";
+	public static $queryCreaAccontoPreventivoPrincipale = "/preventivo/creaAccontoPreventivoPrincipale.sql";
+	public static $queryCreaAccontoPreventivoSecondario = "/preventivo/creaAccontoPreventivoSecondario.sql";
+	public static $queryCancellaAccontoPagamentoPreventivoPrincipale = "/preventivo/cancellaAccontoPagamentoPreventivoPrincipale.sql";
+	public static $queryCancellaAccontoPagamentoPreventivoSecondario = "/preventivo/cancellaAccontoPagamentoPreventivoSecondario.sql";
 	
 	// Costruttore -----------------------------------------------------------------------------
 	
@@ -376,8 +394,41 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		self::$dataprimarataTip = $tip;
 	}
 
+	public function setAcconti($acconti) {
+		self::$acconti = $acconti;
+	}
+	public function setIdAcconto($idacconti) {
+		self::$idAcconto = $idacconti;
+	}
 	public function setRatePagamento($ratePagamento) {
 		self::$ratePagamento = $ratePagamento;
+	}
+	public function setdataScadenzaAcconto($dataScadenzaAcconto) {
+		self::$dataScadenzaAcconto = $dataScadenzaAcconto;
+	}
+	public function setStyledataScadenzaAcconto($style) {
+		self::$dataScadenzaAccontoStyle = $style;
+	}
+	public function setTipdataScadenzaAcconto($tip) {
+		self::$dataScadenzaAccontoTip = $tip;
+	}
+	public function setdescrizioneAcconto($descrizioneAcconto) {
+		self::$descrizioneAcconto = $descrizioneAcconto;
+	}
+	public function setStyledescrizioneAcconto($style) {
+		self::$descrizioneAccontoStyle = $style;
+	}
+	public function setTipdescrizioneAcconto($tip) {
+		self::$descrizioneAccontoTip = $tip;
+	}
+	public function setimportoAcconto($importoAcconto) {
+		self::$importoAcconto = $importoAcconto;
+	}
+	public function setStyleimportoAcconto($style) {
+		self::$importoAccontoStyle = $style;
+	}
+	public function setTipimportoAcconto($tip) {
+		self::$importoAccontoTip = $tip;
 	}
 	
 	// Getters -----------------------------------------------------------------------------
@@ -551,6 +602,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		return self::$saldofinecura;
 	}
 
+	public function getRatePagamento() {
+		return self::$ratePagamento;
+	}
 	public function getImportoDaRateizzare() {
 		return self::$importodarateizzare;
 	}
@@ -591,8 +645,40 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		return self::$dataprimarataTip;
 	}
 	
-	public function getRatePagamento() {
-		return self::$ratePagamento;
+	public function getAcconti() {
+		return self::$acconti;
+	}	
+	public function getIdAcconto() {
+		return self::$idAcconto;
+	}	
+	public function getdataScadenzaAcconto() {
+		return self::$dataScadenzaAcconto;
+	}
+	public function getStyledataScadenzaAcconto() {
+		return self::$dataScadenzaAccontoStyle;
+	}
+	public function getTipdataScadenzaAcconto() {
+		return self::$dataScadenzaAccontoTip;
+	}
+	
+	public function getdescrizioneAcconto() {
+		return self::$descrizioneAcconto;
+	}
+	public function getStyledescrizioneAcconto() {
+		return self::$descrizioneAccontoStyle;
+	}
+	public function getTipdescrizioneAcconto() {
+		return self::$descrizioneAccontoTip;
+	}
+	
+	public function getimportoAcconto() {
+		return self::$importoAcconto;
+	}
+	public function getStyleimportoAcconto() {
+		return self::$importoAccontoStyle;
+	}
+	public function getTipimportoAcconto() {
+		return self::$importoAccontoTip;
 	}
 	
 	// Start e Go funzione ----------------------------------------------------------------
@@ -869,9 +955,15 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		
 		$this->setScontoPercentuale($_POST['scontopercentuale']);
 		$this->setScontoContante($_POST['scontocontante']);
-		$this->setAccontoInizioCura($_POST['accontoiniziocura']);
-		$this->setAccontoMetaCura($_POST['accontometacura']);
-		$this->setSaldoFineCura($_POST['saldofinecura']);
+
+		$this->setDataScadenzaAcconto($_POST['datascadenzaacconto']);
+		$this->setDescrizioneAcconto($_POST['descrizioneacconto']);
+		$this->setImportoAcconto($_POST['importoacconto']);
+		
+// 		$this->setAccontoInizioCura($_POST['accontoiniziocura']);
+// 		$this->setAccontoMetaCura($_POST['accontometacura']);
+// 		$this->setSaldoFineCura($_POST['saldofinecura']);
+		
 		$this->setImportoDaRateizzare($_POST['importodarateizzare']);
 		$this->setDataPrimaRata($_POST['dataprimarata']);		
 		$this->setNumeroGiorniRata($_POST['numerogiornirata']);
@@ -1803,6 +1895,62 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	 * @param unknown $db
 	 * @param unknown $utility
 	 * @param unknown $idPreventivo
+	 * @param unknown $dataScadenzaAcconto
+	 * @param unknown $descrizioneAcconto
+	 * @param unknown $importoAcconto
+	 * @return unknown
+	 */
+	public function creaAccontoPreventivoPrincipale($db, $utility, $idPreventivo, $dataScadenzaAcconto, $descrizioneAcconto, $importoAcconto) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idpreventivo%' => $idPreventivo,
+				'%datascadenza%' => $dataScadenzaAcconto,
+				'%descrizione%' => $descrizioneAcconto,
+				'%importo%' => $importoAcconto
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaAccontoPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idSottoPreventivo
+	 * @param unknown $dataScadenzaAcconto
+	 * @param unknown $descrizioneAcconto
+	 * @param unknown $importoAcconto
+	 * @return unknown
+	 */
+	public function creaAccontoPreventivoSecondario($db, $utility, $idSottoPreventivo, $dataScadenzaAcconto, $descrizioneAcconto, $importoAcconto) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idsottopreventivo%' => $idSottoPreventivo,
+				'%datascadenza%' => $dataScadenzaAcconto,
+				'%descrizione%' => $descrizioneAcconto,
+				'%importo%' => $importoAcconto
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaAccontoPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idPreventivo
 	 * @return L'esito della cancellazione
 	 */
 	public function cancellaRatePagamentoPreventivoPrincipale($db, $utility, $idPreventivo) {
@@ -1880,6 +2028,44 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 	/**
 	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idSottoPreventivo
+	 */
+	public function leggiAccontiPreventivoPrincipale($db, $utility, $idPreventivo) {
+
+		$array = $utility->getConfig();
+		
+		$replace = array('%idpreventivo%' => $idPreventivo);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryLeggiAccontiPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		return pg_fetch_all($result);
+	}	
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idSottoPreventivo
+	 */
+	public function leggiAccontiPreventivoSecondario($db, $utility, $idSottoPreventivo) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array('%idsottopreventivo%' => $idSottoPreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryLeggiAccontiPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return pg_fetch_all($result);
+	}
+	
+	/**
+	 * 
 	 * @param unknown $idPreventivo
 	 * @return Void, setta le variabili di classe corrispondenti alle colonne della tupla
 	 */
@@ -1930,6 +2116,46 @@ abstract class preventivoAbstract extends ellipseAbstract {
 			$this->setDataPrimaRata($row['dataprimarata']);
 		}		
 	}	
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idAcconto
+	 * @return L'esito della cancellazione
+	 */
+	public function cancellaAccontoPagamentoPreventivoPrincipale($db, $utility, $idAcconto) {
+
+		$array = $utility->getConfig();
+		
+		$replace = array('%idacconto%' => $idAcconto);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaAccontoPagamentoPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idAcconto
+	 * @return L'esito della cancellazione
+	 */
+	public function cancellaAccontoPagamentoPreventivoSecondario($db, $utility, $idAcconto) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array('%idaccontosottopreventivo%' => $idAcconto);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaAccontoPagamentoPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;	
+	}
 }
 
 ?>

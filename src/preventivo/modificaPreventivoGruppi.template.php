@@ -49,6 +49,7 @@ class modificaPreventivoGruppiTemplate extends preventivoAbstract {
 				'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
 				'%azioneGruppi%' => $this->getAzioneGruppi(),
 				'%azioneCure%' => $this->getAzioneCure(),
+				'%azionePagamento%' => $this->getAzionePagamento(),
 				'%singoliTip%' => $this->getSingoliTip(),
 				'%cureTip%' => $this->getCureTip(),
 				'%confermaTip%' => $this->getConfermaTip(),
