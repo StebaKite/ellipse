@@ -1,10 +1,14 @@
 SELECT
 
+	vocepreventivo.idvocepreventivo,
 	vocepreventivo.codicevocelistino,
 	vocepreventivo.nomecampoform,
 	vocepreventivo.nomeform,
 	vocepreventivo.prezzo,
-	voce.descrizione as descrizionevoce
+	case
+		when vocepreventivo.descrizione is null then voce.descrizione
+		when vocepreventivo.descrizione is not null then vocepreventivo.descrizione
+	end as descrizionevoce
 
 FROM paziente.preventivo as preventivo
 

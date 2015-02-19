@@ -163,6 +163,9 @@ cancellaPreventivoPrincipale = Cancella Preventivo Principale
 cancellaPreventivoSecondario = Cancella Preventivo Secondario
 modificaPagamentoPrincipaleDentiSingoli = Modifica Preventivo Principale - Condizioni di Pagamento
 modificaPagamentoSecondarioDentiSingoli = Modifica Preventivo Secondario - Condizioni di Pagamento
+modificaVocePreventivoSingoli = Modifica Voce Preventivo - Denti Singoli
+modificaVocePreventivoGruppi = Modifica Voce Preventivo - Gruppo di Denti
+modificaVocePreventivoCure = Modifica Voce Preventivo - Cure Generiche
 ;
 ; Messaggi -----------------------------
 ;

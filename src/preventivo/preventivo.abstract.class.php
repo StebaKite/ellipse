@@ -23,7 +23,6 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $dataInserimento;
 	public static $dataNascita;
 	public static $stato;
-	public static $prezzo;
 	public static $nomeForm;
 	public static $nomeCampoForm;
 	public static $codiceVoceListino;
@@ -95,6 +94,18 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $importoAcconto;
 	public static $importoAccontoStyle;
 	public static $importoAccontoTip;
+
+	public static $codiceVoce;
+	public static $descrizioneVoce;
+	public static $descrizioneVoceStyle;
+	public static $descrizioneVoceTip;
+	public static $descrizioneVoceListino;
+	public static $prezzo;
+	public static $prezzoStyle;
+	public static $prezzoTip;
+
+	public static $tabella;
+	public static $dente;
 	
 	// Query -----------------------------------------------------------------------------
 	
@@ -112,6 +123,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $queryAggiornaStatoSottoPreventivo = "/preventivo/aggiornaStatoSottoPreventivo.sql";
 	public static $queryAggiornaPreventivo = "/preventivo/aggiornaPreventivo.sql";
 	public static $queryAggiornaVocePreventivo = "/preventivo/aggiornaVocePreventivo.sql";
+	public static $queryAggiornaVocePreventivoPrincipale = "/preventivo/aggiornaVocePreventivoPrincipale.sql";
+	public static $queryAggiornaVocePreventivoSecondario = "/preventivo/aggiornaVocePreventivoSecondario.sql";
+	
 	public static $queryCancellaVocePreventivo = "/preventivo/cancellaVocePreventivo.sql";
 	public static $queryVocePreventivoPaziente = "/preventivo/ricercaVocePreventivoPaziente.sql";	
 	public static $queryIdVocePreventivoPaziente = "/preventivo/ricercaIdVocePreventivoPaziente.sql";	
@@ -276,9 +290,6 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function setStato($stato) {
 		self::$stato = $stato;
 	}
-	public function setPrezzo($prezzo) {
-		self::$prezzo = $prezzo;
-	}
 	public function setNomeForm($nomeForm) {
 		self::$nomeForm = $nomeForm;
 	}
@@ -430,6 +441,40 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function setTipimportoAcconto($tip) {
 		self::$importoAccontoTip = $tip;
 	}
+
+	public function setCodiceVoce($codiceVoce) {
+		self::$codiceVoce = $codiceVoce;
+	}
+	
+	public function setDescrizioneVoce($descrizioneVoce) {
+		self::$descrizioneVoce = $descrizioneVoce;
+	}
+	public function setDescrizioneVoceListino($descrizioneVoceListino) {
+		self::$descrizioneVoceListino = $descrizioneVoceListino;
+	}
+	public function setStyleDescrizioneVoce($style) {
+		self::$descrizioneVoceStyle = $style;
+	}
+	public function setTipDescrizioneVoce($tip) {
+		self::$descrizioneVoceTip = $tip;
+	}
+	
+	public function setStylePrezzo($style) {
+		self::$prezzoStyle = $style;
+	}
+	public function setTipPrezzo($tip) {
+		self::$prezzoTip = $tip;
+	}
+	public function setPrezzo($prezzo) {
+		self::$prezzo = $prezzo;
+	}
+
+	public function setTabella($tabella) {
+		self::$tabella = $tabella;
+	}
+	public function setDente($dente) {
+		self::$dente = $dente;
+	}
 	
 	// Getters -----------------------------------------------------------------------------
 
@@ -522,9 +567,6 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	}
 	public function getStato() {
 		return self::$stato;
-	}
-	public function getPrezzo() {
-		return self::$prezzo;
 	}
 	public function getNomeForm() {
 		return self::$nomeForm;
@@ -680,6 +722,40 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function getTipimportoAcconto() {
 		return self::$importoAccontoTip;
 	}
+
+	public function getCodiceVoce() {
+		return self::$codiceVoce;
+	}
+	
+	public function getDescrizioneVoceListino() {
+		return self::$descrizioneVoceListino;
+	}
+	public function getDescrizioneVoce() {
+		return self::$descrizioneVoce;
+	}
+	public function getStyleDescrizioneVoce() {
+		return self::$descrizioneVoceStyle;
+	}
+	public function getTipDescrizioneVoce() {
+		return self::$descrizioneVoceTip;
+	}
+
+	public function getPrezzo() {
+		return self::$prezzo;
+	}
+	public function getStylePrezzo() {
+		return self::$prezzoStyle;
+	}
+	public function getTipPrezzo() {
+		return self::$prezzoTip;
+	}
+	
+	public function getTabella() {
+		return self::$tabella;
+	}
+	public function getDente() {
+		return self::$dente;
+	}	
 	
 	// Start e Go funzione ----------------------------------------------------------------
 	
@@ -1195,6 +1271,29 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	}
 
 	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idvocepreventivo
+	 * @return la tupla della vocepreventivo trovata
+	 */
+	public function leggiVocePreventivoPrincipale($db, $idvocepreventivo) {
+	
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array('%idvocepreventivo%' => $idvocepreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryIdVocePreventivoPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return pg_fetch_all($result);
+	}
+	
+	/**
 	 *
 	 * @param unknown $db
 	 * @param unknown $idvocevisita
@@ -1224,6 +1323,23 @@ abstract class preventivoAbstract extends ellipseAbstract {
 				return $row['codicevocelistino'];
 			}
 		}
+	}
+
+	public function leggiVocePreventivoSecondario($db, $idvocesottopreventivo) {
+	
+		require_once 'database.class.php';
+		require_once 'utility.class.php';
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		$replace = array('%idvocesottopreventivo%' => $idvocesottopreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryIdVoceSottoPreventivoPaziente;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return pg_fetch_all($result);
 	}
 	
 	/**
@@ -1383,6 +1499,60 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 		return $result;
 	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $descrizione
+	 * @param unknown $prezzo
+	 * @return L'esito dell'aggiornamento
+	 */
+	public function aggiornaVocePreventivoPrincipale($db, $utility, $descrizione, $prezzo, $idvocepreventivo) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+				'%descrizione%' => trim($descrizione),
+				'%prezzo%' => $prezzo,
+				'%idvocepreventivo%' => $idvocepreventivo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaVocePreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $descrizione
+	 * @param unknown $prezzo
+	 * @param unknown $idvocesottopreventivo
+	 * @return L'esito dell'aggiornamento
+	 */
+	public function aggiornaVocePreventivoSecondario($db, $utility, $descrizione, $prezzo, $idvocesottopreventivo) {
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+			
+		$replace = array(
+				'%descrizione%' => trim($descrizione),
+				'%prezzo%' => $prezzo,
+				'%idvocesottopreventivo%' => $idvocesottopreventivo
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaVocePreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+	
 	
 	/**
 	 * 

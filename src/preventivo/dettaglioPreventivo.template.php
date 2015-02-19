@@ -66,7 +66,21 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 		$formSingoli = self::$root . $array['template'] . self::$paginaSingoli;
 		$formGruppi = self::$root . $array['template'] . self::$paginaGruppi;
 		$formCure = self::$root . $array['template'] . self::$paginaCure;
+
+		/**
+		 * Gestisco il messaggio eventualmente impostato da altre funzioni
+		 */
+		$text0 = $this->getMessaggio();
+		if ($text0 != "") {
+			$replace = array('%messaggio%' => $text0);			
+			if (strpos($text0,'Ko')) $template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);
+			else $template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);			
+			echo $utility->tailTemplate($template);
+		};		
 		
+		/**
+		 * Preparo il bottone
+		 */
 		if ($this->getAzionePreventivo() != '') {
 			
 			$bottoneAzionePreventivo  = "<td>";
@@ -149,11 +163,14 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 
 						/**
 						 * se il preventivo è "Accettato" non permette la modifica della voce
+						 * 
+						 *   (per ora no, SB 17/2/2015)
 						 */
-						if ($this->getStato() != '01') $riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
-						else $riepilogoVociPreventivoDentiSingoli .= "<td>&nbsp;</td>";
-						
-						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/ricercaNoteVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";
+// 						if ($this->getStato() != '01') $riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
+// 						else $riepilogoVociPreventivoDentiSingoli .= "<td>&nbsp;</td>";
+
+						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&tabella=Singoli&idListino=" . $this->getIdlistino() . "&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "&idPreventivo=" . $this->getIdPreventivo() . "&idPreventivoPrincipale=" . $this->getIdPreventivoPrincipale() . "&idSottoPreventivo=" . $this->getIdSottoPreventivo() . "&datainserimento=" . $this->getDataInserimento() . "&stato=" . $this->getStato() . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";						
+						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/ricercaNoteVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . $this->getDataInserimento() . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";
 					}
 					
 					$riepilogoVociPreventivoDentiSingoli .= "</tr>";
@@ -171,11 +188,14 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 
 						/**
 						 * se il preventivo è "Accettato" non permette la modifica della voce
+						 * 
+						 *   (per ora no, SB 17/2/2015)
 						 */
-						if ($this->getStato() != '01') $riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
-						else $riepilogoVociPreventivoDentiSingoli .= "<td>&nbsp;</td>";
+// 						if ($this->getStato() != '01') $riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
+// 						else $riepilogoVociPreventivoDentiSingoli .= "<td>&nbsp;</td>";
 						
-						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/ricercaNoteVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";						
+						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&tabella=Singoli&idListino=" . $this->getIdlistino() . "&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "&idPreventivo=" . $this->getIdPreventivo() . "&idPreventivoPrincipale=" . $this->getIdPreventivoPrincipale() . "&idSottoPreventivo=" . $this->getIdSottoPreventivo() . "&datainserimento=" . $this->getDataInserimento() . "&stato=" . $this->getStato() . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";						
+						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/ricercaNoteVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . $this->getDataInserimento() . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";						
 					}
 											
 					$riepilogoVociPreventivoDentiSingoli .= "</tr>";
@@ -206,13 +226,13 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 			$riepilogoVociPreventivoGruppi = "";
 			$replace['%riepilogoGruppiTab%'] = "<li><a href='#tabs-2'>%ml.gruppi%</a></li>";
 		
-			$voceListinoBreak = "";
+			$descrizioneVoceBreak = "";
 				
 			foreach ($this->getVociPreventivoGruppi() as $row) {
 		
 				$dente = split("_", $row['nomecampoform']);
 		
-				if (trim($row['codicevocelistino']) != trim($voceListinoBreak)) {
+				if (trim($row['descrizionevoce']) != trim($descrizioneVoceBreak)) {
 					$riepilogoVociPreventivoGruppi .= "<tr>";
 					$riepilogoVociPreventivoGruppi .= "<td align='center'>" . $row['codicevocelistino'] . "</td><td>" . $row['descrizionevoce'] . "</td><td align='center'>" . $dente[1] . "</td><td align='right'>&euro;" . number_format($row['prezzo'], 2, ',', '.') . "</td>";
 
@@ -223,15 +243,18 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 
 						/**
 						 * se il preventivo è "Accettato" non permette la modifica della voce
+						 * 
+						 * (per ora no, SB 17/2/2015)
 						 */
-						if ($this->getStato() != '01') $riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
-						else $riepilogoVociPreventivoGruppi .= "<td>&nbsp;</td>";
+// 						if ($this->getStato() != '01') $riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
+// 						else $riepilogoVociPreventivoGruppi .= "<td>&nbsp;</td>";
 						
+						$riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&tabella=Gruppi&idListino=" . $this->getIdlistino() . "&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "&idPreventivo=" . $this->getIdPreventivo() . "&idPreventivoPrincipale=" . $this->getIdPreventivoPrincipale() . "&idSottoPreventivo=" . $this->getIdSottoPreventivo() . "&datainserimento=" . $this->getDataInserimento() . "&stato=" . $this->getStato() . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
 						$riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/ricercaNoteVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";
 					}
 					
 					$riepilogoVociPreventivoGruppi .= "</tr>";
-					$voceListinoBreak = $row['codicevocelistino'];
+					$descrizioneVoceBreak = trim($row['descrizionevoce']);
 				}
 				else {
 					$riepilogoVociPreventivoGruppi .= "<tr>";
@@ -244,10 +267,13 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 					
 						/**
 						 * se il preventivo è "Accettato" non permette la modifica della voce
+						 * 
+						 * (per ora no, SB 17/2/2015)
 						 */
-						if ($this->getStato() != '01') $riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
-						else $riepilogoVociPreventivoGruppi .= "<td>&nbsp;</td>";
-					
+// 						if ($this->getStato() != '01') $riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
+// 						else $riepilogoVociPreventivoGruppi .= "<td>&nbsp;</td>";
+
+						$riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&tabella=Gruppi&idListino=" . $this->getIdlistino() . "&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "&idPreventivo=" . $this->getIdPreventivo() . "&idPreventivoPrincipale=" . $this->getIdPreventivoPrincipale() . "&idSottoPreventivo=" . $this->getIdSottoPreventivo() . "&datainserimento=" . $this->getDataInserimento() . "&stato=" . $this->getStato() . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
 						$riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/ricercaNoteVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";
 					}
 						
@@ -289,10 +315,18 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 
 					/**
 					 * se il preventivo è "Accettato" non permette la modifica della voce
+					 * 
+					 * (per ora no, SB 17/2/2015)
+					 * 
 					 */
-					if ($this->getStato() != '01') $riepilogoVociPreventivoCure .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
-					else $riepilogoVociPreventivoCure .= "<td>&nbsp;</td>";
+// 					if ($this->getStato() != '01') $riepilogoVociPreventivoCure .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
+// 					else $riepilogoVociPreventivoCure .= "<td>&nbsp;</td>";
+
 					
+					$riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&tabella=Gruppi&idListino=" . $this->getIdlistino() . "&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "&idPreventivo=" . $this->getIdPreventivo() . "&idPreventivoPrincipale=" . $this->getIdPreventivoPrincipale() . "&idSottoPreventivo=" . $this->getIdSottoPreventivo() . "&datainserimento=" . $this->getDataInserimento() . "&stato=" . $this->getStato() . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
+						
+					
+					$riepilogoVociPreventivoCure .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&tabella=Cure&idListino=" . $this->getIdlistino() . "&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "&idPreventivo=" . $this->getIdPreventivo() . "&idPreventivoPrincipale=" . $this->getIdPreventivoPrincipale() . "&idSottoPreventivo=" . $this->getIdSottoPreventivo() . "&datainserimento=" . $this->getDataInserimento() . "&stato=" . $this->getStato() . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
 					$riepilogoVociPreventivoCure .= "<td id='icons'><a class='tooltip' href='../preventivo/ricercaNoteVocePreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";
 				}
 
