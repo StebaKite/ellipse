@@ -1,9 +1,10 @@
 select
 	idaccontosottopreventivo as idacconto,
-	datascadenza,
+	to_char(datascadenza, 'DD/MM/YYYY') as datascadenza,
+	datascadenza as data,
 	descrizione,
 	importo,
 	stato
  from paziente.accontosottopreventivo
  where idsottopreventivo = %idsottopreventivo%
- order by datascadenza	
+ order by data

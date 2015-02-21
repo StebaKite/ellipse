@@ -100,9 +100,11 @@ class preventivoTemplate extends preventivoAbstract {
 	
 		$impostazioniVoci = "";	
 		$campiImpostati = "";
+		$totaleDentiSingoli = 0;
 	
 		foreach ($vociInserite as $voce) {
 	
+			$totaleDentiSingoli += $voce['prezzo'];
 			$name = trim($voce['nomecampoform']);
 			$value = trim($voce['codicevocelistino']);
 			$campiImpostati .= $name . ",";
@@ -121,10 +123,8 @@ class preventivoTemplate extends preventivoAbstract {
 		$inpHidden = "<input type='hidden' name='campiValorizzati' size='150' id='campiValorizzati' value='" . $campiImpostati . "'/>";
 		$impostazioniVoci .= '$("#campimpostati").html("' . $inpHidden . '");';
 	
-	
+		$this->setTotalePreventivoDentiSingoli($totaleDentiSingoli);		
 		$this->setImpostazioniVoci($impostazioniVoci);
-		error_log("Voci inserite caricate in pagina");
-		error_log("Listino: " . $this->getIdListino());
 	}
 
 	public function impostaVociPreventivoSecondario() {
@@ -150,9 +150,11 @@ class preventivoTemplate extends preventivoAbstract {
 	
 		$impostazioniVoci = "";
 		$campiImpostati = "";
-	
+		$totaleDentiSingoli = 0;
+		
 		foreach ($vociInserite as $voce) {
 	
+			$totaleDentiSingoli += $voce['prezzo'];
 			$name = trim($voce['nomecampoform']);
 			$value = trim($voce['codicevocelistino']);
 			$campiImpostati .= $name . ",";
@@ -171,10 +173,8 @@ class preventivoTemplate extends preventivoAbstract {
 		$inpHidden = "<input type='hidden' name='campiValorizzati' size='150' id='campiValorizzati' value='" . $campiImpostati . "'/>";
 		$impostazioniVoci .= '$("#campimpostati").html("' . $inpHidden . '");';
 	
-	
+		$this->setTotalePreventivoDentiSingoli($totaleDentiSingoli);
 		$this->setImpostazioniVoci($impostazioniVoci);
-		error_log("Voci inserite caricate in pagina");
-		error_log("Listino: " . $this->getIdListino());
 	}
 	
 	public function displayPagina() {
@@ -272,6 +272,10 @@ class preventivoTemplate extends preventivoAbstract {
 		$replace = array(
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%preventivo%' => $this->getPreventivoLabel(),
+				'%totale%' => $this->getTotalePreventivoLabel(),
+				'%totsingoli%' => '&euro;' . number_format($this->getTotalePreventivoDentiSingoli(), 2, ',', '.'),
+				'%totgruppi%' => $this->getTotalePreventivoGruppi(),
+				'%totcure%' => $this->getTotalePreventivoCure(),
 				'%cognome%' => $this->getCognome(),
 				'%nome%' => $this->getNome(),
 				'%datanascita%' => $this->getDataNascita(),

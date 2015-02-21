@@ -284,6 +284,7 @@ class modificaPreventivoGruppi extends preventivoAbstract {
 			$modificaPreventivoGruppiTemplate->setTitoloPagina("%ml.modificaPreventivoSecondarioGruppi%");
 		}
 		$modificaPreventivoGruppiTemplate->setPreventivoLabel("Preventivo");
+		$modificaPreventivoGruppiTemplate->setTotalePreventivoLabel("Totale Gruppi:");
 		
 		// Prelevo i nomi dei combo che hanno voci valorizzate ----------------------------		
 

@@ -1,7 +1,8 @@
 SELECT
 
 	vocesottopreventivo.nomecampoform,
-	vocesottopreventivo.codicevocelistino
+	vocesottopreventivo.codicevocelistino,
+	vocesottopreventivo.prezzo
 
 FROM paziente.preventivo as preventivo
 

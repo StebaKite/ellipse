@@ -19,6 +19,9 @@
 						<input type="hidden" name="nome" value="%nome%"/>
 						<input type="hidden" name="datanascita" value="%datanascita%"/>
 						<input type="hidden" name="stato" value="%stato%"/>
+						<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
+						<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
+						<input type="hidden" name="totalecure" value="%totcure%"/>
 					</form>		
 				</td>			
 				<td>
@@ -34,6 +37,9 @@
 						<input type="hidden" name="nome" value="%nome%"/>
 						<input type="hidden" name="datanascita" value="%datanascita%"/>
 						<input type="hidden" name="stato" value="%stato%"/>
+						<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
+						<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
+						<input type="hidden" name="totalecure" value="%totcure%"/>
 					</form>		
 				</td>
 				<td>
@@ -49,6 +55,9 @@
 						<input type="hidden" name="nome" value="%nome%"/>
 						<input type="hidden" name="datanascita" value="%datanascita%"/>
 						<input type="hidden" name="stato" value="%stato%"/>
+						<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
+						<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
+						<input type="hidden" name="totalecure" value="%totcure%"/>
 					</form>		
 				</td>
 				<td>
@@ -67,7 +76,7 @@
 		
 		<div class="tabs">
 			<ul>
-				<li><a href="#tabs-1">%cognome% %nome% %datanascita% %preventivo% %idPreventivo%%idSottoPreventivo%</a></li>
+				<li><a href="#tabs-1">%cognome% %nome% %datanascita% %preventivo% %idPreventivo%%idSottoPreventivo% %totale% %totpreventivo%</a></li>
 				%tabelencoratepagamento%
 				<li><a href="#tabs-3">%ml.info%</a></li>
 			</ul>
@@ -81,10 +90,27 @@
 							<tr>
 								<td width="400" valign="top">
 									<table>
-										<thead>
-											<tr><td><h2>%ml.sconti%</h2></td></tr>											
-										</thead>
 										<tbody>
+											<tr>
+												<td><h2>%ml.situazionePagamenti%</h2></td>											
+											</tr>
+											<tr>
+												<td>%ml.totalePagatoInPiano% :</td>
+												<td><h4>%totalePagatoInPiano%</h4></td>
+											</tr>
+											<tr>
+												<td>%ml.totaleDapagareInPiano% :</td>
+												<td><h4>%totaleDaPagareInPiano%</h4></td>
+											</tr>
+											<tr>
+												<td>%ml.totaleDapagareFuoriPiano% :</td>
+												<td><h4>%totaleDaPagareFuoriPiano%</h4></td>
+											</tr>
+											<tr><td><br><td></tr>
+											<tr><td colspan="2"><hr><td></tr>
+											<tr>
+												<td><h2>%ml.sconti%</h2></td>											
+											</tr>
 											<tr>
 												<td>%ml.scontopercentuale% :</td>
 												<td class="tooltip"><input type="number" name="scontopercentuale" size="5" maxlength="3" title="%ml.scontopercentualeTip%" value="%scontopercentuale%" style="%scontopercentualeStyle%" %scontopercentualeDisable% /></td>
@@ -118,10 +144,10 @@
 								<td width="100"></td>
 								<td width="500" align="left" valign="top">
 									<table>
-										<thead>
-											<tr><td><h2>%ml.acconti%</h2></td></tr>											
-										</thead>
 										<tbody>
+											<tr>
+												<td><h2>%ml.acconti%</h2></td>											
+											</tr>
 											<tr>
 												<td>
 													<table class='result-alt' width="640">
@@ -165,6 +191,9 @@
 									<input type="hidden" name="nome" value="%nome%"/>
 									<input type="hidden" name="datanascita" value="%datanascita%"/>
 									<input type="hidden" name="stato" value="%stato%"/>
+									<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
+									<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
+									<input type="hidden" name="totalecure" value="%totcure%"/>
 								</td>								
 							</tr>
 						</tfoot>

@@ -1,13 +1,10 @@
 select 
 	scontopercentuale,
 	scontocontante,
-	accontoiniziocura,
-	accontometacura,
-	saldofinecura,
 	numerogiornirata,
 	importorata,
 	importodarateizzare,
-	dataprimarata
+	to_char(dataprimarata, 'DD/MM/YYYY') as dataprimarata
 
 from paziente.sottopreventivo 
 where idsottopreventivo = %idsottopreventivo%

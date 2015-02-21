@@ -129,7 +129,7 @@ class modificaPreventivo extends preventivoAbstract {
 				
 				// Se il preventivo è in stato "Proposto" la voce può essere cancellata 
 				
-				if ($preventivoTemplate->getStato() == "Proposto") {
+				if ($preventivoTemplate->getStato() == "00") {
 					
 					if (!$this->cancellaVocePreventivo($db, $idVoce)) {
 						error_log("Fallita cancellazione idvoce : " . $idVoce);
@@ -137,7 +137,7 @@ class modificaPreventivo extends preventivoAbstract {
 						return FALSE;
 					}						
 				}
-				elseif ($preventivoTemplate->getStato() == "Accettato") {
+				elseif ($preventivoTemplate->getStato() == "01") {
 				
 					if (!$this->aggiornaStatoVocePreventivoPrincipale($db, $idVoce, '01')) {	// voce sospesa
 						error_log("Fallito cambio stato voce  : " . $idVoce);
@@ -264,7 +264,8 @@ class modificaPreventivo extends preventivoAbstract {
 			$preventivoTemplate->setTitoloPagina("%ml.modificaPreventivoSecondarioDentiSingoli%");
 		}
 		
-		$preventivoTemplate->setPreventivoLabel("Preventivo");
+		$preventivoTemplate->setPreventivoLabel("Preventivo:");
+		$preventivoTemplate->setTotalePreventivoLabel("Totale Singoli:");
 	}
 }
 

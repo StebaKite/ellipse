@@ -33,6 +33,9 @@ switch ($method) {
 		$modificaPagamento->setCognome($_POST['cognome']);
 		$modificaPagamento->setNome($_POST['nome']);
 		$modificaPagamento->setDataNascita($_POST['datanascita']);
+		$modificaPagamento->setTotalePreventivoDentiSingoli($_POST['totalesingoli']);
+		$modificaPagamento->setTotalePreventivoGruppi($_POST['totalegruppi']);
+		$modificaPagamento->setTotalePreventivoCure($_POST['totalecure']);
 		break;
 	default:
 		error_log("ERRORE: tipo di chiamata REST non previsto!!");

@@ -1,6 +1,7 @@
 SELECT
 	vocesottopreventivo.idvocesottopreventivo,
-	vocesottopreventivo.codicevocelistino
+	vocesottopreventivo.codicevocelistino,
+	vocesottopreventivo.prezzo
 
 FROM paziente.vocesottopreventivo as vocesottopreventivo
 	

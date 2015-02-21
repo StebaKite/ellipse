@@ -246,11 +246,6 @@ class modificaPreventivoCure extends preventivoAbstract {
 
 	public function preparaPagina($preventivoCureTemplate) {
 			
-// 		$preventivoCureTemplate->setIdPaziente($this->getIdPaziente());
-// 		$preventivoCureTemplate->setIdListino($this->getIdListino());
-// 		$preventivoCureTemplate->setIdPreventivo($this->getIdPreventivo());
-// 		$preventivoCureTemplate->setCognomeRicerca($this->getCognomeRicerca());
-			
 		$preventivoCureTemplate->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$preventivoCureTemplate->setAzioneGruppi(self::$azioneGruppi);
 		$preventivoCureTemplate->setAzioneCure(self::$azioneCure);
@@ -268,7 +263,8 @@ class modificaPreventivoCure extends preventivoAbstract {
 		elseif ($this->getIdSottoPreventivo() != "") {
 			$preventivoCureTemplate->setTitoloPagina("%ml.modificaPreventivoSecondarioCure%");
 		}		
-		$preventivoCureTemplate->setPreventivoLabel("Preventivo");
+		$preventivoCureTemplate->setPreventivoLabel("Preventivo:");
+		$preventivoCureTemplate->setTotalePreventivoLabel("Totale cure:");
 	}
 }	
 

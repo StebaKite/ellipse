@@ -29,7 +29,14 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $totalePreventivoPrincipale;
 	public static $totalePreventivoSecondario;
 	public static $totalePreventivo;
+	public static $totalePreventivoDentiSingoli;
+	public static $totalePreventivoGruppi;
+	public static $totalePreventivoCure;
 	public static $intestazioneColonnaAzioni;
+
+	public static $totaleDaPagareFuoriPiano;
+	public static $totaleDaPagareInPiano;
+	public static $totalePagatoInPiano;
 	
 	public static $azioneDentiSingoli;
 	public static $azioneGruppi;
@@ -48,6 +55,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 	public static $titoloPagina;
 	public static $preventivoLabel;
+	public static $totalePreventivoLabel;
 	
 	public static $dentiSingoli;
 	public static $impostazioniVoci;
@@ -190,6 +198,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $queryCreaAccontoPreventivoSecondario = "/preventivo/creaAccontoPreventivoSecondario.sql";
 	public static $queryCancellaAccontoPagamentoPreventivoPrincipale = "/preventivo/cancellaAccontoPagamentoPreventivoPrincipale.sql";
 	public static $queryCancellaAccontoPagamentoPreventivoSecondario = "/preventivo/cancellaAccontoPagamentoPreventivoSecondario.sql";
+
+	public static $querySommaImportoVociPreventivoPrincipale = "/preventivo/sommaImportoVociPreventivoPrincipale.sql";
+	public static $querySommaImportoVociPreventivoSecondario = "/preventivo/sommaImportoVociPreventivoSecondario.sql";
 	
 	// Costruttore -----------------------------------------------------------------------------
 	
@@ -240,6 +251,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	}
 	public function setPreventivoLabel($preventivoLabel) {
 		self::$preventivoLabel = $preventivoLabel;
+	}
+	public function setTotalePreventivoLabel($totalePreventivoLabel) {
+		self::$totalePreventivoLabel = $totalePreventivoLabel;
 	}
 	
 	public function setMessaggio($messaggio) {
@@ -308,6 +322,28 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function setTotalePreventivo($totalePreventivo) {
 		self::$totalePreventivo = $totalePreventivo;
 	}
+	public function setTotalePreventivoDentiSingoli($totalePreventivoDentiSingoli) {
+		self::$totalePreventivoDentiSingoli = $totalePreventivoDentiSingoli;
+	}
+	public function setTotalePreventivoGruppi($totalePreventivoGruppi) {
+		self::$totalePreventivoGruppi = $totalePreventivoGruppi;
+	}
+	public function setTotalePreventivoCure($totalePreventivoCure) {
+		self::$totalePreventivoCure = $totalePreventivoCure;
+	}
+	
+	public function setTotaleDaPagareFuoriPiano($totaleDaPagareFuoriPiano) {
+		self::$totaleDaPagareFuoriPiano = $totaleDaPagareFuoriPiano;
+	}
+	public function setTotaleDaPagareInPiano($totaleDaPagareInPiano) {
+		self::$totaleDaPagareInPiano = $totaleDaPagareInPiano;
+	}
+	public function setTotalePagatoInPiano($totalePagatoInPiano) {
+		self::$totalePagatoInPiano = $totalePagatoInPiano;
+	}
+	
+	
+	
 	public function setIntestazioneColonnaAzioni($intestazioneColonnaAzioni) {
 		self::$intestazioneColonnaAzioni = $intestazioneColonnaAzioni;
 	}
@@ -519,6 +555,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function getPreventivoLabel() {
 		return self::$preventivoLabel;
 	}
+	public function getTotalePreventivoLabel() {
+		return self::$totalePreventivoLabel;
+	}
 	
 	public function getMessaggio() {
 		return self::$messaggio;
@@ -586,10 +625,29 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function getTotalePreventivo() {
 		return self::$totalePreventivo;
 	}
+	public function getTotalePreventivoDentiSingoli() {
+		return self::$totalePreventivoDentiSingoli;
+	}
+	public function getTotalePreventivoGruppi() {
+		return self::$totalePreventivoGruppi;
+	}
+	public function getTotalePreventivoCure() {
+		return self::$totalePreventivoCure;
+	}
+	
+	public function getTotaleDaPagareInPiano() {
+		return self::$totaleDaPagareInPiano;
+	}
+	public function getTotaleDaPagareFuoriPiano() {
+		return self::$totaleDaPagareFuoriPiano;
+	}
+	public function getTotalePagatoInPiano() {
+		return self::$totalePagatoInPiano;
+	}	
+	
 	public function getIntestazioneColonnaAzioni() {
 		return self::$intestazioneColonnaAzioni;
 	}
-	
 	
 	public function getDentiSingoli() {
 		return self::$dentiSingoli;
@@ -1083,16 +1141,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	
-		$vociInserite = pg_fetch_all($result);
-	
-		if (!$vociInserite) {
-			return "";
-		}
-		else {
-			foreach ($vociInserite as $voce) {
-				return $voce['codicevocelistino'];
-			}
-		}
+		return pg_fetch_all($result);
 	}
 
 	public function leggiVoceCuraPreventivoSecondario($db, $idsottopreventivo, $nomeCampo, $nomeForm) {
@@ -1113,16 +1162,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	
-		$vociInserite = pg_fetch_all($result);
-	
-		if (!$vociInserite) {
-			return "";
-		}
-		else {
-			foreach ($vociInserite as $voce) {
-				return $voce['codicevocelistino'];
-			}
-		}
+		return pg_fetch_all($result);
 	}
 
 	/**
@@ -2253,9 +2293,6 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		foreach ($rows as $row) {
 			$this->setScontoPercentuale($row['scontopercentuale']);
 			$this->setScontoContante($row['scontocontante']);
-			$this->setAccontoInizioCura($row['accontoiniziocura']);
-			$this->setAccontoMetaCura($row['accontometacura']);
-			$this->setSaldoFineCura($row['saldofinecura']);
 			$this->setImportoDaRateizzare($row['importodarateizzare']);
 			$this->setNumeroGiorniRata($row['numerogiornirata']);
 			$this->setImportoRata($row['importorata']);
@@ -2277,9 +2314,6 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		foreach ($rows as $row) {
 			$this->setScontoPercentuale($row['scontopercentuale']);
 			$this->setScontoContante($row['scontocontante']);
-			$this->setAccontoInizioCura($row['accontoiniziocura']);
-			$this->setAccontoMetaCura($row['accontometacura']);
-			$this->setSaldoFineCura($row['saldofinecura']);
 			$this->setImportoDaRateizzare($row['importodarateizzare']);
 			$this->setNumeroGiorniRata($row['numerogiornirata']);
 			$this->setImportoRata($row['importorata']);
@@ -2326,6 +2360,47 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 		return $result;	
 	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idPreventivo
+	 * @param unknown $stato
+	 * @return Un'array con i totali acconti e rate
+	 */
+	public function sommaImportoVociPreventivoPrincipale($db, $utility, $idPreventivo, $stato) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idpreventivo%' => $idPreventivo,
+				'%stato%' => $stato
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$querySommaImportoVociPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return pg_fetch_all($result);
+	}
+
+	public function sommaImportoVociPreventivoSecondario($db, $utility, $idsottoPreventivo, $stato) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idsottopreventivo%' => $idsottoPreventivo,
+				'%stato%' => $stato
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$querySommaImportoVociPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return pg_fetch_all($result);
+	}
+	
 }
 
 ?>

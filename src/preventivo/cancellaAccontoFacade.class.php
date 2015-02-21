@@ -21,6 +21,9 @@ switch ($method) {
 		$cancellaAcconto->setCognome($_GET['cognome']);
 		$cancellaAcconto->setNome($_GET['nome']);
 		$cancellaAcconto->setDataNascita($_GET['datanascita']);
+		$cancellaAcconto->setTotalePreventivoDentiSingoli($_GET['totalesingoli']);
+		$cancellaAcconto->setTotalePreventivoGruppi($_GET['totalegruppi']);
+		$cancellaAcconto->setTotalePreventivoCure($_GET['totalecure']);
 		break;
 	case 'POST':
 		$cancellaAcconto->setIdPaziente($_POST['idPaziente']);

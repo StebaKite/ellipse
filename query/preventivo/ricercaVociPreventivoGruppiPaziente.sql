@@ -1,7 +1,8 @@
 SELECT
 
 	substring(vocepreventivo.nomecampoform, position(';' in vocepreventivo.nomecampoform) + 1) as nomecampoform,
-	vocepreventivo.codicevocelistino
+	vocepreventivo.codicevocelistino,
+	vocepreventivo.prezzo
 
 FROM paziente.preventivo as preventivo
 

@@ -43,6 +43,9 @@ class modificaPreventivoGruppiTemplate extends preventivoAbstract {
 		$replace = array(
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%preventivo%' => $this->getPreventivoLabel(),
+				'%totale%' => $this->getTotalePreventivoLabel(),
+				'%totsingoli%' => $this->getTotalePreventivoDentiSingoli(),
+				'%totcure%' => $this->getTotalePreventivoCure(),
 				'%cognome%' => $this->getCognome(),
 				'%nome%' => $this->getNome(),
 				'%datanascita%' => $this->getDataNascita(),
@@ -157,11 +160,18 @@ class modificaPreventivoGruppiTemplate extends preventivoAbstract {
 
 	private function preparaCheckbox($dentiGruppo, $replaceArray) {
 	
+		$totalePreventivoGruppi = 0;
+		
 		foreach ($dentiGruppo as $dente) {
 			$chiave = '%' . trim($dente['nomecampoform']) . '_checked%';
 			$valore = 'checked';
 			$replaceArray[$chiave] = $valore;
+			$totalePreventivoGruppi += $dente['prezzo']; 
 		}
+		$chiave = '%totgruppi%';
+		$valore = '&euro;' . number_format($totalePreventivoGruppi, 2, ',', '.');
+		$replaceArray[$chiave] = $valore;
+		$this->setTotalePreventivoGruppi($totalePreventivoGruppi);
 		return $replaceArray;
 	}
 }

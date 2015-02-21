@@ -7,15 +7,22 @@ class preventivoCureTemplate extends preventivoAbstract {
 	private static $cureForm = "cure";
 	private static $pagina = "/preventivo/preventivo.cure.form.html";
 	private static $voceCura;
+	private static $totaleCure;
 
 	public function setVoceCura($voceCura) {
 		self::$voceCura = $voceCura;
 	}
-
+	public function setTotaleCure($totale) {
+		self::$totaleCure = $totale;
+	}
+	
 	public function getVoceCura() {
 		return self::$voceCura;
 	}
-
+	public function getTotaleCure() {
+		return self::$totaleCure;
+	}
+	
 	//-----------------------------------------------------------------------------
 
 	function __construct() {
@@ -54,6 +61,9 @@ class preventivoCureTemplate extends preventivoAbstract {
 		$replace = array(
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%preventivo%' => $this->getPreventivoLabel(),
+				'%totale%' => $this->getTotalePreventivoLabel(),
+				'%totsingoli%' => $this->getTotalePreventivoDentiSingoli(),
+				'%totgruppi%' => $this->getTotalePreventivoGruppi(),
 				'%cognome%' => $this->getCognome(),
 				'%nome%' => $this->getNome(),
 				'%datanascita%' => $this->getDataNascita(),
@@ -76,18 +86,29 @@ class preventivoCureTemplate extends preventivoAbstract {
 		if ($rows) {
 			$replace['%vociListinoEsteso%'] = $this->preparaListinoEsteso($rows);
 		
+			$this->setTotaleCure(0);
+			
 			foreach($this->getCureGeneriche() as $comboCure) {
 
 				if ($this->getIdPreventivo() != "") {
-					$this->setVoceCura($this->leggiVoceCuraPreventivoPrincipale($db, $this->getIdPreventivo(), $comboCure[0], self::$cureForm));
+					
+					foreach ($this->leggiVoceCuraPreventivoPrincipale($db, $this->getIdPreventivo(), $comboCure[0], self::$cureForm) as $voceInserita) {
+						$this->setVoceCura($voceInserita['codicevocelistino']);
+						$this->setTotaleCure($this->getTotaleCure() + $voceInserita['prezzo']);
+					}
 				}
 				elseif ($this->getIdSottoPreventivo() != "") {
-					$this->setVoceCura($this->leggiVoceCuraPreventivoSecondario($db, $this->getIdSottoPreventivo(), $comboCure[0], self::$cureForm));
-				}
-				
+					
+					foreach ($this->leggiVoceCuraPreventivoSecondario($db, $this->getIdSottoPreventivo(), $comboCure[0], self::$cureForm) as $voceInserita) {
+						$this->setVoceCura($voceInserita['codicevocelistino']);
+						$this->setTotaleCure($this->getTotaleCure() + $voceInserita['prezzo']);						
+					}				
+				}				
 				$replace['%' . $comboCure[0] . '%'] = $this->preparaComboGruppo($rows, $this->getVoceCura());
-		
 			}
+			$replace['%totcure%'] = '&euro;' . number_format($this->getTotaleCure(), 2, ',', '.');
+			$this->setTotalePreventivoCure($this->getTotaleCure());
+			
 			$db->commitTransaction();
 		}
 		else {
@@ -101,9 +122,9 @@ class preventivoCureTemplate extends preventivoAbstract {
 	}
 
 	private function preparaComboGruppo($rows, $voceCura) {
-	
+			
 		foreach ($rows as $cod) {
-				
+							
 			if (trim($cod['codicevocelistino']) == trim($voceCura)) {
 				$vociCombo .= "<option selected='selected' value='" . trim($cod['codicevocelistino']) . "'>" . trim($cod['descrizionevoce']) . "</option>";
 				$voceCura = "";
