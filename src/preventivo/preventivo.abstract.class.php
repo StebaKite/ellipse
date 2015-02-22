@@ -173,6 +173,8 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $queryRiepilogoVociGruppiPreventivoPrincipalePaziente = "/preventivo/riepilogoVociGruppiPreventivoPrincipalePaziente.sql";
 	public static $queryRiepilogoVociGruppiPreventivoSecondarioPaziente = "/preventivo/riepilogoVociGruppiPreventivoSecondarioPaziente.sql";
 	
+	public static $queryRiassuntoVociStampaPreventivoPrincipale = "/preventivo/riassuntoVociStampaPreventivoPrincipale.sql";
+	
 	public static $queryCancellaPreventivoPrincipale = "/preventivo/cancellaPreventivoPrincipale.sql";
 	public static $queryCancellaPreventivoSecondario = "/preventivo/cancellaPreventivoSecondario.sql";
 	public static $queryRicercaStatoPreventiviSecondari = "/preventivo/ricercaStatoPreventiviSecondari.sql";
@@ -1782,7 +1784,28 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 		return $result;
 	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 */
+	public function prelevaRiassuntoVociStampaPreventivoPrincipale($db, $root, $idpaziente, $idpreventivo) {
 
+		$utility = new utility();
+		$array = $utility->getConfig();
+		
+		$replace = array(
+				'%idpaziente%' => $idpaziente,
+				'%idpreventivo%' => $idpreventivo
+		);
+	
+		$sqlTemplate = $root . $array['query'] . self::$queryRiassuntoVociStampaPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->getData($sql);
+	
+		return pg_fetch_all($result);
+	}
+	
 	/**
 	 * @param unknown $db
 	 * @param unknown $dettaglioPreventivoTemplate
@@ -1918,6 +1941,16 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$dettaglioPreventivoTemplate->setVociPreventivoCure(pg_fetch_all($result));
 	}	
 
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $idCartellaClinicaUsato
+	 * @param unknown $nomeForm
+	 * @param unknown $nomeCampoForm
+	 * @param unknown $codiceVoceListino
+	 * @param unknown $prezzo
+	 * @return unknown
+	 */
 	public function creaVoceCartellaClinica($db, $idCartellaClinicaUsato, $nomeForm, $nomeCampoForm, $codiceVoceListino, $prezzo) {
 	
 		$utility = new utility();

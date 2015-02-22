@@ -159,7 +159,7 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 				// BOTTONE STAMPA -----------------------------------------------
 				// nasconde il bottone stampa preventivo se è vuoto
 				
-				$bottoneStampa = "<a class='tooltip' href='../preventivo/dettaglioPreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdListino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Stampa'><span class='ui-icon ui-icon-print'></span></li></a>";
+				$bottoneStampa = "<a class='tooltip' href='../preventivo/stampaPreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdListino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Stampa'><span class='ui-icon ui-icon-print'></span></li></a>";
 				if ($row['totalepreventivo'] == 0) {
 					$bottoneStampa = "";
 				}
