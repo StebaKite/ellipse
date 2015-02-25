@@ -60,8 +60,6 @@ class ricercaVociListino  extends impostazioniAbstract {
 	
 		require_once 'database.class.php';
 	
-		$esito = TRUE;
-	
 		// carica il comando sql da lanciare
 	
 		$utility = new utility();
@@ -75,15 +73,13 @@ class ricercaVociListino  extends impostazioniAbstract {
 		$result = $db->getData($sql);
 	
 		$ricercaVociListinoTemplate->setNumeroVociListinoTrovate(pg_num_rows($result));
-		$ricercaVociListinoTemplate->setVociListinoTrovate($result);
-		return $esito;
+		$ricercaVociListinoTemplate->setVociListinoTrovate(pg_fetch_all($result));
+		return $result;
 	}	
 
 	public function ricercaVociDisponibili($ricercaVociListinoTemplate) {
 	
 		require_once 'database.class.php';
-	
-		$esito = TRUE;
 	
 		// carica il comando sql da lanciare
 	
@@ -97,8 +93,8 @@ class ricercaVociListino  extends impostazioniAbstract {
 		$db = new database();
 		$result = $db->getData($sql);
 	
-		$ricercaVociListinoTemplate->setVociDisponibiliTrovate($result);
-		return $esito;
+		$ricercaVociListinoTemplate->setVociDisponibiliTrovate(pg_fetch_all($result));
+		return $result;
 	}	
 }
 	

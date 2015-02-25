@@ -276,6 +276,7 @@ class preventivoTemplate extends preventivoAbstract {
 				'%totsingoli%' => '&euro;' . number_format($this->getTotalePreventivoDentiSingoli(), 2, ',', '.'),
 				'%totgruppi%' => $this->getTotalePreventivoGruppi(),
 				'%totcure%' => $this->getTotalePreventivoCure(),
+				'%importoSconto%' => $this->getImportoSconto(),
 				'%cognome%' => $this->getCognome(),
 				'%nome%' => $this->getNome(),
 				'%datanascita%' => $this->getDataNascita(),

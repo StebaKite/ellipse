@@ -64,15 +64,26 @@ $( "#slider" ).slider({
 	values: [ 17, 67 ]
 });
 
+function impostaProgressBarPagamento(pagato, fuoriPiano) {
+
+	impostaProgressBarPagato(pagato);
+	impostaProgressBarFuoriPiano(fuoriPiano);
+}
+
+function impostaProgressBarPagato(valore) {
+	$( "#preventivoPagato" ).progressbar({
+		value: valore
+	});
+}
+
+function impostaProgressBarFuoriPiano(valore) {
+	$( "#preventivoFuoriPiano" ).progressbar({
+		value: valore
+	});
+}
 
 
-$( "#progressbar" ).progressbar({
-	value: 20
-});
-
-
-
-$( "#spinner" ).spinner();
+$( ".spinner" ).spinner();
 
 
 

@@ -36,6 +36,7 @@ switch ($method) {
 		$modificaPreventivoGruppi->setTotalePreventivoDentiSingoli($_POST['totalesingoli']);
 		$modificaPreventivoGruppi->setTotalePreventivoGruppi($_POST['totalegruppi']);
 		$modificaPreventivoGruppi->setTotalePreventivoCure($_POST['totalecure']);
+		$modificaPreventivoGruppi->setImportoSconto($_POST['importosconto']);
 		break;
 	default:
 		error_log("ERRORE: tipo di chiamata REST non previsto!!");

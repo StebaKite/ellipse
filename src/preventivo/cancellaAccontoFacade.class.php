@@ -24,6 +24,7 @@ switch ($method) {
 		$cancellaAcconto->setTotalePreventivoDentiSingoli($_GET['totalesingoli']);
 		$cancellaAcconto->setTotalePreventivoGruppi($_GET['totalegruppi']);
 		$cancellaAcconto->setTotalePreventivoCure($_GET['totalecure']);
+		$cancellaAcconto->setImportoSconto($_GET['importosconto']);
 		break;
 	case 'POST':
 		$cancellaAcconto->setIdPaziente($_POST['idPaziente']);

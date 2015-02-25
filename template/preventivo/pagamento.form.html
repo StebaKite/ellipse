@@ -1,4 +1,4 @@
-<body>
+<body onload="impostaProgressBarPagamento(%totalePagatoProgressBar%, %totaleFuoriPianoProgressBar%)">
 	
 <div id="body">	
 	<div id="main">
@@ -22,6 +22,7 @@
 						<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
 						<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
 						<input type="hidden" name="totalecure" value="%totcure%"/>
+						<input type="hidden" name="importosconto" value="%importoSconto%"/>
 					</form>		
 				</td>			
 				<td>
@@ -40,6 +41,7 @@
 						<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
 						<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
 						<input type="hidden" name="totalecure" value="%totcure%"/>
+						<input type="hidden" name="importosconto" value="%importoSconto%"/>
 					</form>		
 				</td>
 				<td>
@@ -58,6 +60,7 @@
 						<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
 						<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
 						<input type="hidden" name="totalecure" value="%totcure%"/>
+						<input type="hidden" name="importosconto" value="%importoSconto%"/>
 					</form>		
 				</td>
 				<td>
@@ -88,7 +91,7 @@
 					<table>
 						<tbody>
 							<tr>
-								<td width="400" valign="top">
+								<td width="215" valign="top">
 									<table>
 										<tbody>
 											<tr>
@@ -106,97 +109,132 @@
 												<td>%ml.totaleDapagareFuoriPiano% :</td>
 												<td><h4>%totaleDaPagareFuoriPiano%</h4></td>
 											</tr>
-											<tr><td><br><td></tr>
-											<tr><td colspan="2"><hr><td></tr>
-											<tr>
-												<td><h2>%ml.sconti%</h2></td>											
-											</tr>
-											<tr>
-												<td>%ml.scontopercentuale% :</td>
-												<td class="tooltip"><input type="number" name="scontopercentuale" size="5" maxlength="3" title="%ml.scontopercentualeTip%" value="%scontopercentuale%" style="%scontopercentualeStyle%" %scontopercentualeDisable% /></td>
-											</tr>
-											<tr>
-												<td>%ml.scontocontante% :</td>
-												<td class="tooltip"><input type="number" name="scontocontante" size="5" maxlength="3" title="%ml.scontocontanteTip%" value="%scontocontante%" style="%scontocontanteStyle%" %scontocontanteDisable% /></td>
-											</tr>
-											<tr>
-												<td><h2>%ml.rateizzazione%</h2></td>											
-											</tr>
-											<tr>
-												<td>%ml.importodarateizzare% :</td>
-												<td class="tooltip"><input type="number" name="importodarateizzare" size="5" maxlength="3" title="%ml.importodarateizzareTip%" value="%importodarateizzare%" style="%importodarateizzareStyle%" %importodarateizzareDisable% /></td>
-											</tr>
-											<tr>
-												<td>%ml.dataprimarata% :</td>
-												<td class="tooltip"><input class="datepicker" type="text" name="dataprimarata" style="%dataprimarataStyle%" title="%dataprimarataTip%" size="10" maxlength="10" value="%dataprimarata%" %dataprimarataDisable%></td>
-											</tr>
-											<tr>
-												<td>%ml.intervallorata% :</td>
-												<td class="tooltip"><input type="number" name="numerogiornirata" size="5" maxlength="3" title="%ml.numerogiornirataTip%" value="%numerogiornirata%" style="%numerogiornirataStyle%" %numerogiornirataDisable% /></td>
-											</tr>
-											<tr>
-												<td>%ml.importorata% :</td>
-												<td class="tooltip"><input type="number" name="importorata" size="5" maxlength="3" title="%ml.importorataTip%" value="%importorata%" style="%importorataStyle%" %importorataDisable% /></td>
-											</tr>
+
 										</tbody>
 									</table>
 								</td>
-								<td width="100"></td>
-								<td width="500" align="left" valign="top">
+								<td width="80">
 									<table>
 										<tbody>
-											<tr>
-												<td><h2>%ml.acconti%</h2></td>											
-											</tr>
-											<tr>
-												<td>
-													<table class='result-alt' width="640">
-														<thead>
-															<tr>
-																<th width="70">%ml.datascadenza%</th>
-																<th width="210">%ml.descrizioneacconto%</th>
-																<th width="100">%ml.importoacconto%</th>
-																<th width="100">%ml.stato%</th>
-																<th width="25">&nbsp;</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td class="tooltip"><input class="datepicker" type="text" name="datascadenzaacconto" style="%datascadenzaaccontoStyle%" title="%datascadenzaaccontoTip%" size="8" maxlength="10" value="%datascadenzaacconto%" %datascadenzaaccontoDisable%></td>
-																<td class="tooltip"><input type="text" name="descrizioneacconto" size="30" maxlength="50" title="%ml.descrizioneaccontoTip%" value="%descrizioneacconto%" style="%descrizioneaccontoStyle%" %descrizioneaccontoDisable% /></td>
-																<td class="tooltip"><input type="number" name="importoacconto" size="10" maxlength="10" title="%ml.importoaccontoTip%" value="%importoacconto%" style="%importoaccontoStyle%" %importoaccontoDisable% /></td>
-															</tr>
-														</tbody>											
-													</table>
-													<div class="scroll-acconti">
-													%elencoacconti%
-													</div>
-												</td>
-											</tr>											
+											<tr></tr>
+											<tr></tr>
+											<tr></tr>
+											<tr></tr>
 										</tbody>
-									</table>
+									</table>									
+								</td>
+								<td width="660" valign="bottom">
+									<table>
+										<tbody>
+											<tr></tr>
+											<tr><td width="640"><div id="preventivoPagato"></div></td></tr>
+											<tr height="10"></tr>
+											<tr><td width="640"><div id="preventivoFuoriPiano"></div></td></tr>
+										</tbody>
+									</table>									
 								</td>
 							</tr>
-						<tfoot>
 							<tr>
-								<td colspan="5" align="right" class="tooltip">
-									<button class="button" title="%confermaTip%" >%ml.conferma%</button>
-									<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-									<input type="hidden" name="idListino" value="%idListino%"/>
-									<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
-									<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
-									<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
-									<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-									<input type="hidden" name="cognome" value="%cognome%"/>
-									<input type="hidden" name="nome" value="%nome%"/>
-									<input type="hidden" name="datanascita" value="%datanascita%"/>
-									<input type="hidden" name="stato" value="%stato%"/>
-									<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
-									<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
-									<input type="hidden" name="totalecure" value="%totcure%"/>
-								</td>								
+								<table>
+									<tbody>
+										<tr>
+											<td width="200" align="left" valign="top">
+												<table>
+													<tbody>
+
+														<tr>
+															<td><h2>%ml.sconti%</h2></td>											
+														</tr>
+														<tr>
+															<td>%ml.scontopercentuale% :</td>
+															<td class="tooltip"><input class="spinner" name="scontopercentuale" size="10" maxlength="10" title="%ml.scontopercentualeTip%" value="%scontopercentuale%" style="%scontopercentualeStyle%" %scontopercentualeDisable% /></td>
+														</tr>
+														<tr>
+															<td>%ml.scontocontante% :</td>
+															<td class="tooltip"><input class="spinner" name="scontocontante" size="10" maxlength="10" title="%ml.scontocontanteTip%" value="%scontocontante%" style="%scontocontanteStyle%" %scontocontanteDisable% /></td>
+														</tr>
+														<tr>
+															<td><h2>%ml.rateizzazione%</h2></td>											
+														</tr>
+														<tr>
+															<td>%ml.importodarateizzare% :</td>
+															<td class="tooltip"><input class="spinner" name="importodarateizzare" size="10" maxlength="10" title="%ml.importodarateizzareTip%" value="%importodarateizzare%" style="%importodarateizzareStyle%" %importodarateizzareDisable% /></td>
+														</tr>
+														<tr>
+															<td>%ml.dataprimarata% :</td>
+															<td class="tooltip"><input class="datepicker" type="text" name="dataprimarata" style="%dataprimarataStyle%" title="%dataprimarataTip%" size="10" maxlength="10" value="%dataprimarata%" %dataprimarataDisable%></td>
+														</tr>
+														<tr>
+															<td>%ml.intervallorata% :</td>
+															<td class="tooltip"><input class="spinner" name="numerogiornirata" size="10" maxlength="10" title="%ml.numerogiornirataTip%" value="%numerogiornirata%" style="%numerogiornirataStyle%" %numerogiornirataDisable% /></td>
+														</tr>
+														<tr>
+															<td>%ml.importorata% :</td>
+															<td class="tooltip"><input class="spinner" name="importorata" size="10" maxlength="10" title="%ml.importorataTip%" value="%importorata%" style="%importorataStyle%" %importorataDisable% /></td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+											<td width="80"></td>
+											<td width="500" align="left" valign="top">
+												<table>
+													<tbody>
+														<tr>
+															<td><h2>%ml.acconti%</h2></td>											
+														</tr>
+														<tr>
+															<td>
+																<table class='result-alt' width="640">
+																	<thead>
+																		<tr>
+																			<th width="70">%ml.datascadenza%</th>
+																			<th width="180">%ml.descrizioneacconto%</th>
+																			<th width="110">%ml.importoacconto%</th>
+																			<th width="100">%ml.stato%</th>
+																			<th width="25">&nbsp;</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td class="tooltip"><input class="datepicker" type="text" name="datascadenzaacconto" style="%datascadenzaaccontoStyle%" title="%datascadenzaaccontoTip%" size="8" maxlength="10" value="%datascadenzaacconto%" %datascadenzaaccontoDisable%></td>
+																			<td class="tooltip"><input type="text" name="descrizioneacconto" size="35" maxlength="50" title="%ml.descrizioneaccontoTip%" value="%descrizioneacconto%" style="%descrizioneaccontoStyle%" %descrizioneaccontoDisable% /></td>
+																			<td class="tooltip"><input class="spinner" name="importoacconto" size="10" maxlength="10" title="%ml.importoaccontoTip%" value="%importoacconto%" style="%importoaccontoStyle%" %importoaccontoDisable% /></td>
+																		</tr>
+																	</tbody>											
+																</table>
+																<div class="scroll-acconti">
+																%elencoacconti%
+																</div>
+															</td>
+														</tr>											
+													</tbody>
+												</table>
+											</td>																			
+										</tr>	
+									</tbody>
+									<tfoot>
+										<tr>
+											<td colspan="3" align="right" class="tooltip">
+												<button class="button" title="%confermaTip%" >%ml.conferma%</button>
+												<input type="hidden" name="idPaziente" value="%idPaziente%"/>
+												<input type="hidden" name="idListino" value="%idListino%"/>
+												<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
+												<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
+												<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
+												<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
+												<input type="hidden" name="cognome" value="%cognome%"/>
+												<input type="hidden" name="nome" value="%nome%"/>
+												<input type="hidden" name="datanascita" value="%datanascita%"/>
+												<input type="hidden" name="stato" value="%stato%"/>
+												<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
+												<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
+												<input type="hidden" name="totalecure" value="%totcure%"/>
+											</td>								
+										</tr>
+									</tfoot>
+									
+								</table>
 							</tr>
-						</tfoot>
 					</table>
 
 				</form>

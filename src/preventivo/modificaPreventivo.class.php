@@ -37,9 +37,16 @@ class modificaPreventivo extends preventivoAbstract {
 		error_log("<<<<<<< Start >>>>>>> " . $_SERVER['PHP_SELF']);
 		
 		require_once 'preventivo.template.php';
+		require_once 'database.class.php';
+		
+		$db = new database();
+
+		$db->beginTransaction();
 		
 		$preventivoTemplate = new preventivoTemplate();
-		$this->preparaPagina($preventivoTemplate);
+		$this->preparaPagina($db, $preventivoTemplate);
+
+		$db->commitTransaction();
 		
 		// Compone la pagina
 		include(self::$testata);
@@ -55,19 +62,20 @@ class modificaPreventivo extends preventivoAbstract {
 		require_once 'ricercaPreventivo.class.php';
 		require_once 'preventivo.template.php';
 		require_once 'utility.class.php';
-	
-		// Template
+		require_once 'database.class.php';
+		
+		$db = new database();
 		$utility = new utility();
 	
 		$preventivoTemplate = new preventivoTemplate();
-		$this->preparaPagina($preventivoTemplate);
+		$this->preparaPagina($db, $preventivoTemplate);
 		$this->setDentiSingoli($this->prelevaCampiFormSingoli());
 	
 		include(self::$testata);
 	
 		if ($preventivoTemplate->controlliLogici()) {
 			
-			if ($this->modificaSingoli($preventivoTemplate)) {
+			if ($this->modificaSingoli($db, $preventivoTemplate)) {
 	
 				$preventivoTemplate->impostaVoci();
 				$preventivoTemplate->displayPagina();
@@ -92,21 +100,18 @@ class modificaPreventivo extends preventivoAbstract {
 		include(self::$piede);
 	}
 
-	private function modificaSingoli($preventivoTemplate) {
+	private function modificaSingoli($db, $preventivoTemplate) {
 		
 		if ($preventivoTemplate->getIdPreventivo() != "") {
-			return $this->modificaSingoliPreventivoPrincipale($preventivoTemplate);
+			return $this->modificaSingoliPreventivoPrincipale($db, $preventivoTemplate);
 		}
 		elseif ($preventivoTemplate->getIdSottoPreventivo() != "") {
-			return $this->modificaSingoliPreventivoSecondario($preventivoTemplate);			
+			return $this->modificaSingoliPreventivoSecondario($db, $preventivoTemplate);			
 		}
 	}
 		
-	private function modificaSingoliPreventivoPrincipale($preventivoTemplate) {
+	private function modificaSingoliPreventivoPrincipale($db, $preventivoTemplate) {
 
-		require_once 'database.class.php';
-		
-		$db = new database();
 		$db->beginTransaction();
 		
 		$dentiSingoli = $preventivoTemplate->getDentiSingoli();
@@ -174,11 +179,8 @@ class modificaPreventivo extends preventivoAbstract {
 		return TRUE;
 	}
 
-	public function modificaSingoliPreventivoSecondario($preventivoTemplate) {
+	public function modificaSingoliPreventivoSecondario($db, $preventivoTemplate) {
 
-		require_once 'database.class.php';
-		
-		$db = new database();
 		$db->beginTransaction();
 		
 		$dentiSingoli = $preventivoTemplate->getDentiSingoli();
@@ -246,8 +248,8 @@ class modificaPreventivo extends preventivoAbstract {
 		return TRUE;
 	}
 	
-	public function preparaPagina($preventivoTemplate) {
-	
+	public function preparaPagina($db, $preventivoTemplate) {
+				
 		$preventivoTemplate->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$preventivoTemplate->setAzioneGruppi(self::$azioneGruppi);
 		$preventivoTemplate->setAzioneCure(self::$azioneCure);
@@ -258,14 +260,52 @@ class modificaPreventivo extends preventivoAbstract {
 		$preventivoTemplate->setCureTip("%ml.creaCure%");
 
 		if ($this->getIdPreventivo() != "") {
-			$preventivoTemplate->setTitoloPagina("%ml.modificaPreventivoPrincipaleDentiSingoli%");
+			
+			$preventivoTemplate->setTitoloPagina("%ml.modificaPreventivoPrincipaleDentiSingoli%");			
+			
+			/**
+			 * Calcolo il totale dei Gruppi del preventivo principale
+			 */
+			$totalePreventivoGruppi = 0;
+			foreach ($this->leggiVociPreventivoPrincipale($db, $this->getIdPreventivo(), "gruppi") as $row) {
+				$totalePreventivoGruppi += $row['prezzo'];
+			}
+			$this->setTotalePreventivoGruppi("EUR" . number_format($totalePreventivoGruppi, 2, ',', '.'));
+
+			/**
+			 * Calcolo il totale delle Cure del preventivo principale
+			 */
+			$totalePreventivoCure = 0;
+			foreach ($this->leggiVociPreventivoPrincipale($db, $this->getIdPreventivo(), "cure") as $row) {
+				$totalePreventivoCure += $row['prezzo'];
+			}
+			$this->setTotalePreventivoCure("EUR" . number_format($totalePreventivoCure, 2, ',', '.'));				
 		}
 		elseif ($this->getIdSottoPreventivo() != "") {
+			
 			$preventivoTemplate->setTitoloPagina("%ml.modificaPreventivoSecondarioDentiSingoli%");
+
+			/**
+			 * Calcolo il totale dei Gruppi del preventivo secondario
+			 */
+			$totalePreventivoGruppi = 0;
+			foreach ($this->leggiVociPreventivoSecondario($db, $this->getIdSottoPreventivo(), "gruppi") as $row) {
+				$totalePreventivoGruppi += $row['prezzo'];
+			}
+			$this->setTotalePreventivoGruppi("EUR" . number_format($totalePreventivoGruppi, 2, ',', '.'));
+			
+			/**
+			 * Calcolo il totale delle Cure del preventivo secondario
+			*/
+			$totalePreventivoCure = 0;
+			foreach ($this->leggiVociPreventivoSecondario($db, $this->getIdSottoPreventivo(), "cure") as $row) {
+				$totalePreventivoCure += $row['prezzo'];
+			}
+			$this->setTotalePreventivoCure("EUR" . number_format($totalePreventivoCure, 2, ',', '.'));
 		}
 		
 		$preventivoTemplate->setPreventivoLabel("Preventivo:");
-		$preventivoTemplate->setTotalePreventivoLabel("Totale Singoli:");
+		$preventivoTemplate->setTotalePreventivoLabel("Totale Singoli:");		
 	}
 }
 

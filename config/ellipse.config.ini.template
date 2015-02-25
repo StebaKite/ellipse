@@ -24,3 +24,26 @@ languageFile_it = /ellipse/template/multilanguage_it
 languageFile_en = /ellipse/template/multilanguage_en
 languageFile_fr = 
 languageFile_de = 
+
+[intestatario]
+logo = /ellipse/images/images_1.jpg
+studio = Studio Odontoiatrico M.P.  S.r.l.
+sedelegale = Sede e studio: P.zza Padre F. Tentorio, 5 - 23889 Santa Maria Hoè - LECCO - Tel: 039-57413  Fax: 039-57413
+sedesecondaria = Studio: Via Mons. Bosio, 6 - 24039 Sotto Il Monte - BERGAMO - Tel: 035-797273
+piva = P.iva: 02747710131
+rea = R.E.A. : 297313
+capitale = Capitale Sociale:
+importoCapitale = 15000
+versato = Interamente Versato
+
+[preventivo]
+validitaGiorniPreventivo = 90
+stampaPreventivoRiassuntivo = true
+stampaPreventivoDettagliato = false
+stampaSezioneIntestazione = true
+stampaSezioneDatiAnagraficiPaziente = true
+stampaSezioneNota = true
+stampaSezioneFirma = true
+stampaSezionePianoPagamento = true
+nota1Validita = La validità del preventivo è di
+nota2Validita = gg. Eventuali operazioni non preventivate potranno modificarlo.

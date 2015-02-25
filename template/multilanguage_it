@@ -101,8 +101,8 @@ rinunciaPreventivoTip = Rinuncia il preventivo corrente. La cartella clinica ver
 cancellaPreventivoTip = Cancella il preventivo compresi gli eventuali preventivi secondari
 ;
 pagamentoTip = Permette di impostare le condizioni di pagamento per il preventivo
-scontopercentualeTip = Sconto in % da applicare al totale preventivo
-scontocontanteTip = Sconto in &euro; da applicare al totale preventivo 
+scontopercentualeTip = Sconto in % da applicare al totale Fuori Piano
+scontocontanteTip = Sconto in &euro; da applicare al totale Fuori Piano 
 descrizioneaccontoTip = Breve descrizione dell'acconto
 importoaccontoTip = Importo dell'acconto
 importodarateizzareTip = Importo totale da rateizzazione

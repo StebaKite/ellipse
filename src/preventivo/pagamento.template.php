@@ -14,16 +14,50 @@ class pagamentoTemplate extends preventivoAbstract {
 
 	// template ------------------------------------------------
 
-	public function controlliLogici($importoDaRateizzare_db, $dataPrimaRata_db, $numeroGiorniRata_db, $importoRata_db,
-									$importoDaRateizzare_form, $dataPrimaRata_form, $numeroGiorniRata_form, $importoRata_form) {
+	public function controlliLogici($scontoPercentuale_db, $scontoContante_db, $importoDaRateizzare_db, $dataPrimaRata_db, $numeroGiorniRata_db, $importoRata_db,
+									$scontoPercentuale_form, $scontoContante_form, $importoDaRateizzare_form, $dataPrimaRata_form, $numeroGiorniRata_form, $importoRata_form) {
 
 		require_once 'utility.class.php';
 
 		$esito = TRUE;
 
 		/**
+		 * Determino la situazione del preventivo
+		 */
+
+		foreach ($this->getTotalePagatoInPiano() as $row) {
+			$totalePagatoInPiano += $row['totale'];
+		}
+			
+		foreach ($this->getTotaleDaPagareInPiano() as $row) {
+			$totaleDaPagareInPiano += $row['totale'];
+		}
+			
+		$totaleDaPagareFuoriPiano = $this->calcolaTotalePreventivo() - $totaleDaPagareInPiano - $totalePagatoInPiano;
+		$totalePreventivo = $this->calcolaTotalePreventivo();
+
+		/**
+		 * Calcolo l'importo o la percentuale di sconto
+		 */
+		
+ 		if ($scontoPercentuale_db != $scontoPercentuale_form) {
+			$scontoContante = ($totalePreventivo / 100) * $this->getScontoPercentuale();					// calcolo il contante da sommare al residuo fuori piano
+ 			$this->setScontoContante($scontoContante);
+ 			$this->setTotaleDaPagareFuoriPiano($totaleDaPagareFuoriPiano - $scontoContante);				// tolgo lo sconto al totale fuori piano
+ 		}
+ 		elseif ($scontoContante_db != $scontoContante_form) {
+ 			$scontoPercentuale = ($this->getScontoContante() * 100) / $totalePreventivo;					// calcolo la percentuale
+ 			$this->setScontoPercentuale($scontoPercentuale);
+ 			$this->setTotaleDaPagareFuoriPiano($totaleDaPagareFuoriPiano - $this->getScontoContante());		// tolgo lo sconto al totale fuori piano 			
+ 		}
+		else {
+			$this->setTotaleDaPagareFuoriPiano($totaleDaPagareFuoriPiano - $this->getScontoContante());		// tolgo lo sconto al totale fuori piano			
+		}
+		
+		/**
 		 * Se è stato variato un parametro di rateizzazione controllo la congruenza con l'importo che rimane da pagare
 		 */	
+		
 		if ($this->getImportoDaRateizzare() != "") {
 		
 			if (($importoDaRateizzare_db != $importoDaRateizzare_form)
@@ -33,23 +67,17 @@ class pagamentoTemplate extends preventivoAbstract {
 	
 				/**
 				 * Controllo che il delta fra l'importo fissato e quello nuovo inserito in pagina
-				 * non causi il superamento dell'importo da pagare fuori piano. 
+				 * non causi il superamento dell'importo da pagare fuori piano al netto dello sconto
 				 * 
-				 */
-				foreach ($this->getTotalePagatoInPiano() as $row) {
-					$totalePagatoInPiano += $row['totale'];
-				}
+				 */		
 				
-				foreach ($this->getTotaleDaPagareInPiano() as $row) {
-					$totaleDaPagareInPiano += $row['totale'];
-				}
-				
-				$totaleDaPagareFuoriPiano = $this->calcolaTotalePreventivo() - ($totaleDaPagareInPiano + $totalePagatoInPiano);
 				$deltaImporto = $importoDaRateizzare_form - $importoDaRateizzare_db;
 				
-				if ($deltaImporto > $totaleDaPagareFuoriPiano) {
-					$this->setImportoDaRateizzare($importoDaRateizzare_db + $totaleDaPagareFuoriPiano);
+				if ($deltaImporto > ($this->getTotaleDaPagareFuoriPiano())) {
+					$this->setImportoDaRateizzare($importoDaRateizzare_db + $this->getTotaleDaPagareFuoriPiano());
 				}
+				$totaleFuoriPiano = $this->getTotaleDaPagareFuoriPiano() - $this->getImportoDaRateizzare();
+				$this->setTotaleDaPagareFuoriPiano($totaleFuoriPiano);				
 				
 				if ($this->getDataPrimaRata() == "") {
 					$esito = FALSE;
@@ -81,7 +109,8 @@ class pagamentoTemplate extends preventivoAbstract {
 
 		/**
 		 * Controllo campi per acconti
-		 */		
+		 */
+		
 		if ($this->getDataScadenzaAcconto() != "") {
 			
 			if ($this->getDescrizioneAcconto() == "") {
@@ -97,19 +126,11 @@ class pagamentoTemplate extends preventivoAbstract {
 			}
 			else {
 				
-				foreach ($this->getTotalePagatoInPiano() as $row) {
-					$totalePagatoInPiano += $row['totale'];
+				if ($this->getImportoAcconto() > $this->getTotaleDaPagareFuoriPiano()) {
+					$this->setImportoAcconto($this->getTotaleDaPagareFuoriPiano());
 				}
-				
-				foreach ($this->getTotaleDaPagareInPiano() as $row) {
-					$totaleDaPagareInPiano += $row['totale'];
-				}
-				
-				$totaleDaPagareFuoriPiano = $this->calcolaTotalePreventivo() - ($totaleDaPagareInPiano + $totalePagatoInPiano);
-				
-				if ($this->getImportoAcconto() > $totaleDaPagareFuoriPiano) {
-					$this->setImportoAcconto($totaleDaPagareFuoriPiano);
-				}				
+				$totaleFuoriPiano = $this->getTotaleDaPagareFuoriPiano() - $this->getImportoAcconto();
+				$this->setTotaleDaPagareFuoriPiano($totaleFuoriPiano);
 			}
 		}
 		
@@ -138,14 +159,10 @@ class pagamentoTemplate extends preventivoAbstract {
 			echo $utility->tailTemplate($template);				
 		}
 		
-		$singoli = substr(str_replace(",",".",str_replace(".","",$this->getTotalePreventivoDentiSingoli())),3);		
-		$gruppi = substr(str_replace(",",".",str_replace(".","",$this->getTotalePreventivoGruppi())),3);
-		$cure = substr(str_replace(",",".",str_replace(".","",$this->getTotalePreventivoCure())),3);
-		
 		/**
 		 * Gestione dei totali
 		 */
-		$totalePreventivo = $singoli + $gruppi + $cure;
+		$totalePreventivo = $this->calcolaTotalePreventivo();
 		
 		foreach ($this->getTotalePagatoInPiano() as $row) {
 			$totalePagatoInPiano += $row['totale'];
@@ -155,16 +172,18 @@ class pagamentoTemplate extends preventivoAbstract {
 			$totaleDaPagareInPiano += $row['totale'];
 		}
 		
-		$totaleDaPagareFuoriPiano = $this->calcolaTotalePreventivo() - ($totaleDaPagareInPiano + $totalePagatoInPiano);
+		$totaleDaPagareFuoriPiano = $this->getTotaleDaPagareFuoriPiano();
 		
 		$replace = array(
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%preventivo%' => $this->getPreventivoLabel(),
 				'%totale%' => $this->getTotalePreventivoLabel(),
-				'%totpreventivo%' => '&euro;' . number_format($this->calcolaTotalePreventivo(), 2, ',', '.'),
+				'%totpreventivo%' => '&euro;' . number_format($totalePreventivo, 2, ',', '.'),
 				'%totsingoli%' => $this->getTotalePreventivoDentiSingoli(),
 				'%totgruppi%' => $this->getTotalePreventivoGruppi(),
 				'%totcure%' => $this->getTotalePreventivoCure(),
+				'%totalePagatoProgressBar%' => ($totalePagatoInPiano * 100) / $totalePreventivo,
+				'%totaleFuoriPianoProgressBar%' => ($totaleDaPagareFuoriPiano * 100) / $totalePreventivo,
 				'%totalePagatoInPiano%' => '&euro;' . number_format($totalePagatoInPiano, 2, ',', '.'),
 				'%totaleDaPagareInPiano%' => '&euro;' . number_format($totaleDaPagareInPiano, 2, ',', '.'),
 				'%totaleDaPagareFuoriPiano%' => '&euro;' . number_format($totaleDaPagareFuoriPiano, 2, ',', '.'),
@@ -207,6 +226,8 @@ class pagamentoTemplate extends preventivoAbstract {
 				'%importorataStyle%' => $this->getStyleImportoRata(),
 				'%importorataTip%' => $this->getTipImportoRata(),
 				'%importorataDisable%' => "",
+				'%confermaTip%'=> $this->getConfermaTip(),
+				'%importoSconto%' => $this->getImportoSconto(),
 				'%divelencoratepagamento%' => $this->creaElencoRatePagamento(),
 				'%tabelencoratepagamento%' => $this->creaTabRatePagamento()
 		);
@@ -243,9 +264,9 @@ class pagamentoTemplate extends preventivoAbstract {
 					$class = "class='pagataOn'";
 				}
 				$corpoElencoAcconti .= "<tr height='30' " . $class . ">";
-				$corpoElencoAcconti .= "<td width='80'>" . $row['datascadenza']  . "</td><td width='225'>" . $row['descrizione']  . "</td><td width='160' align='right'>&euro;" . $row['importo']  . "</td><td width='106' align='center'>" . $stato  . "</td>";
+				$corpoElencoAcconti .= "<td width='80'>" . $row['datascadenza']  . "</td><td width='261'>" . $row['descrizione']  . "</td><td width='120' align='right'>&euro;" . $row['importo']  . "</td><td width='110' align='center'>" . $stato  . "</td>";
 				if ($row['stato'] == '00') {
-					$corpoElencoAcconti .= "<td id='icons' width='35'><a class='tooltip' href='../preventivo/cancellaAccontoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idAcconto=" . $row['idacconto'] . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $this->getIdPreventivo() . "&idPreventivoPrincipale=" . $this->getIdPreventivoPrincipale() . "&idSottoPreventivo=" . $this->getIdSottoPreventivo() . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "&totalesingoli=" . $this->getTotalePreventivoDentiSingoli() . "&totalegruppi=" . $this->getTotalePreventivoGruppi() . "&totalecure=" . $this->getTotalePreventivoCure() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a></td>";
+					$corpoElencoAcconti .= "<td id='icons' width='35'><a class='tooltip' href='../preventivo/cancellaAccontoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idAcconto=" . $row['idacconto'] . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $this->getIdPreventivo() . "&idPreventivoPrincipale=" . $this->getIdPreventivoPrincipale() . "&idSottoPreventivo=" . $this->getIdSottoPreventivo() . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "&totalesingoli=" . $this->getTotalePreventivoDentiSingoli() . "&totalegruppi=" . $this->getTotalePreventivoGruppi() . "&totalecure=" . $this->getTotalePreventivoCure() . "&importosconto=" . $this->getImportoSconto() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a></td>";
 				}
 				else {
 					$corpoElencoAcconti .= "<td width='33'>&nbsp;</td>";

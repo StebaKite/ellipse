@@ -45,7 +45,7 @@ class modificaPagamento extends preventivoAbstract {
 		
 		$pagamentoTemplate = new pagamentoTemplate();
 		$this->preparaPagina($db, $utility, $pagamentoTemplate);
-
+		
 		$db->commitTransaction();
 		
 		// Compone la pagina
@@ -73,6 +73,8 @@ class modificaPagamento extends preventivoAbstract {
 		/**
 		 * Salvo i valori originali prelevati da db
 		 */
+		$scontoPercentuale_db = $this->getScontoPercentuale();
+		$scontoContante_db = $this->getScontoContante();
 		$importoDaRateizzare_db =  $this->getImportoDaRateizzare();
 		$dataPrimaRata_db = $this->getDataPrimaRata();
 		$numeroGiorniRata_db = $this->getNumeroGiorniRata();
@@ -82,6 +84,8 @@ class modificaPagamento extends preventivoAbstract {
 		 * Salvo i valori impostati sl form
 		 */
 		$this->prelevaCampiFormPagamento();
+		$scontoPercentuale_form = $this->getScontoPercentuale();
+		$scontoContante_form = $this->getScontoContante();
 		$importoDaRateizzare_form = $this->getImportoDaRateizzare();
 		$dataPrimaRata_form = $this->getDataPrimaRata();
 		$numeroGiorniRata_form = $this->getNumeroGiorniRata();
@@ -89,8 +93,8 @@ class modificaPagamento extends preventivoAbstract {
 		
 		include(self::$testata);
 		
-		if ($pagamentoTemplate->controlliLogici($importoDaRateizzare_db, $dataPrimaRata_db, $numeroGiorniRata_db, $importoRata_db, 
-												$importoDaRateizzare_form, $dataPrimaRata_form, $numeroGiorniRata_form, $importoRata_form)) {
+		if ($pagamentoTemplate->controlliLogici($scontoPercentuale_db, $scontoContante_db, $importoDaRateizzare_db, $dataPrimaRata_db, $numeroGiorniRata_db, $importoRata_db, 
+												$scontoPercentuale_form, $scontoContante_form, $importoDaRateizzare_form, $dataPrimaRata_form, $numeroGiorniRata_form, $importoRata_form)) {
 			
 			if ($this->modifica($db, $utility, $pagamentoTemplate)) {
 
@@ -187,11 +191,28 @@ class modificaPagamento extends preventivoAbstract {
 			$pagamentoTemplate->setTotaleDaPagareInPiano($this->sommaImportoVociPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo(), '00'));
 		}
 
+		/**
+		 * Determino la situazione del preventivo solo quando provengo dallo start della funzione
+		 */
+		
+		if ($this->getTotaleDaPagareFuoriPiano() == null) {
+			
+			foreach ($this->getTotalePagatoInPiano() as $row) {
+				$totalePagatoInPiano += $row['totale'];
+			}
+				
+			foreach ($this->getTotaleDaPagareInPiano() as $row) {
+				$totaleDaPagareInPiano += $row['totale'];
+			}
+			$this->setTotaleDaPagareFuoriPiano($this->calcolaTotalePreventivo() - $totaleDaPagareInPiano - $totalePagatoInPiano - $this->getScontoContante());				
+		}
+		
 		$pagamentoTemplate->setDataScadenzaAcconto("");
 		$pagamentoTemplate->setDescrizioneAcconto("");
 		$pagamentoTemplate->setImportoAcconto("");
 		$pagamentoTemplate->setPreventivoLabel("Preventivo");
 		$pagamentoTemplate->setTotalePreventivoLabel("Totale:");
+		$pagamentoTemplate->setConfermaTip("%ml.confermaModificaPreventivo%");
 	}	
 	
 	private function creaAccontoPreventivo($db, $utility, $dataScadenzaAcconto, $descrizioneAcconto, $importoAcconto) {
@@ -228,7 +249,7 @@ class modificaPagamento extends preventivoAbstract {
 		else $scontoPercentuale = $pagamentoTemplate->getScontoPercentuale();
 
 		if ($pagamentoTemplate->getScontoContante() == "") $scontoContante = 'null';
-		else $scontoContante = $pagamentoTemplate->getScontoContante();
+		else $scontoContante = $pagamentoTemplate->getScontoCOntante();
 
 		if ($pagamentoTemplate->getNumeroGiorniRata() == "") $numeroGiorniRata = 'null';
 		else $numeroGiorniRata = $pagamentoTemplate->getNumeroGiorniRata();
@@ -262,13 +283,13 @@ class modificaPagamento extends preventivoAbstract {
 	private function modificaPreventivoSecondario($db, $utility, $idSottoPreventivo, $pagamentoTemplate) {
 
 		$array = $utility->getConfig();
-	
+
 		if ($pagamentoTemplate->getScontoPercentuale() == "") $scontoPercentuale = 'null';
 		else $scontoPercentuale = $pagamentoTemplate->getScontoPercentuale();
-
+		
 		if ($pagamentoTemplate->getScontoContante() == "") $scontoContante = 'null';
-		else $scontoContante = $pagamentoTemplate->getScontoContante();
-
+		else $scontoContante = $pagamentoTemplate->getScontoCOntante();
+		
 		if ($pagamentoTemplate->getNumeroGiorniRata() == "") $numeroGiorniRata = 'null';
 		else $numeroGiorniRata = $pagamentoTemplate->getNumeroGiorniRata();
 

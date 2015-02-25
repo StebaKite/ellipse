@@ -64,6 +64,7 @@ class preventivoCureTemplate extends preventivoAbstract {
 				'%totale%' => $this->getTotalePreventivoLabel(),
 				'%totsingoli%' => $this->getTotalePreventivoDentiSingoli(),
 				'%totgruppi%' => $this->getTotalePreventivoGruppi(),
+				'%importoSconto%' => $this->getImportoSconto(),
 				'%cognome%' => $this->getCognome(),
 				'%nome%' => $this->getNome(),
 				'%datanascita%' => $this->getDataNascita(),

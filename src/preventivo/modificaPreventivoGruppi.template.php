@@ -46,6 +46,7 @@ class modificaPreventivoGruppiTemplate extends preventivoAbstract {
 				'%totale%' => $this->getTotalePreventivoLabel(),
 				'%totsingoli%' => $this->getTotalePreventivoDentiSingoli(),
 				'%totcure%' => $this->getTotalePreventivoCure(),
+				'%importoSconto%' => $this->getImportoSconto(),
 				'%cognome%' => $this->getCognome(),
 				'%nome%' => $this->getNome(),
 				'%datanascita%' => $this->getDataNascita(),
@@ -81,57 +82,6 @@ class modificaPreventivoGruppiTemplate extends preventivoAbstract {
 		
 		$template = $utility->tailFile($utility->getTemplate($form), $replaceArray);
 		echo $utility->tailTemplate($template);
-	}
-
-	public function prelevaVociGruppiPreventivoPrincipale($db) {
-	
-		require_once 'database.class.php';
-		require_once 'utility.class.php';
-	
-		$utility = new utility();
-		$array = $utility->getConfig();
-	
-		$form = self::$root . $array['template'] . self::$pagina;
-	
-		// preleva tutte le voci inserite in gruppi per la visita in modifica
-	
-		$replace = array(
-				'%idpaziente%' => $this->getIdPaziente(),
-				'%idpreventivo%' => $this->getIdPreventivo()
-		);
-	
-		$sqlTemplate = self::$root . $array['query'] . self::$queryVociPreventivoGruppiPaziente;
-		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
-		$result = $db->getData($sql);
-	
-		$dentiGruppo = pg_fetch_all($result);
-		return $dentiGruppo;
-	}
-
-	public function prelevaVociGruppiPreventivoSecondario($db) {
-	
-		require_once 'database.class.php';
-		require_once 'utility.class.php';
-	
-		$utility = new utility();
-		$array = $utility->getConfig();
-	
-		$form = self::$root . $array['template'] . self::$pagina;
-	
-		// preleva tutte le voci inserite in gruppi per la visita in modifica
-	
-		$replace = array(
-				'%idpaziente%' => $this->getIdPaziente(),
-				'%idpreventivo%' => $this->getIdPreventivoPrincipale(),
-				'%idsottopreventivo%' => $this->getIdSottoPreventivo()
-		);
-	
-		$sqlTemplate = self::$root . $array['query'] . self::$queryVociSottoPreventivoGruppiPaziente;
-		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
-		$result = $db->getData($sql);
-	
-		$dentiGruppo = pg_fetch_all($result);
-		return $dentiGruppo;
 	}
 	
 	private function preparaComboGruppo($rows, $voceGruppo) {

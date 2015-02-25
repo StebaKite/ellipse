@@ -15,9 +15,16 @@ class stampaPreventivo extends preventivoAbstract {
 	public static $capitale;
 	public static $importoCapitale;
 	public static $versato;
-	public static $notaValidita;
-	
-	public static $queryRicercaIdPaziente = "/paziente/ricercaIdPaziente.sql";
+	public static $nota1Validita;
+	public static $nota2Validita;
+	public static $validitaGiorniPreventivo;
+	public static $stampaPreventivoRiassuntivo;
+	public static $stampaPreventivoDettagliato;
+	public static $stampaSezioneNota;
+	public static $stampaSezioneFirma;
+	public static $stampaSezioneDatiAnagraficiPaziente;
+	public static $stampaSezioneIntestazione;
+	public static $stampaSezionePianoPagamento;
 	
 	function __construct() {
 	
@@ -37,7 +44,16 @@ class stampaPreventivo extends preventivoAbstract {
 		self::$capitale = $array['capitale'];
 		self::$importoCapitale = $array['importoCapitale'];
 		self::$versato = $array['versato'];
-		self::$notaValidita = $array['notaValidita'];
+		self::$nota1Validita = $array['nota1Validita'];
+		self::$nota2Validita = $array['nota2Validita'];
+		self::$validitaGiorniPreventivo = $array['validitaGiorniPreventivo'];
+		self::$stampaPreventivoRiassuntivo = $array['stampaPreventivoRiassuntivo'];
+		self::$stampaPreventivoDettagliato = $array['stampaPreventivoDettagliato'];
+		self::$stampaSezioneNota = $array['stampaSezioneNota'];
+		self::$stampaSezioneFirma = $array['stampaSezioneFirma'];
+		self::$stampaSezioneDatiAnagraficiPaziente = $array['stampaSezioneDatiAnagraficiPaziente'];
+		self::$stampaSezioneIntestazione = $array['stampaSezioneIntestazione'];
+		self::$stampaSezionePianoPagamento = $array['stampaSezionePianoPagamento'];
 	}
 	
 	public function start() {
@@ -55,10 +71,46 @@ class stampaPreventivo extends preventivoAbstract {
 		$pdf->SetCreator('Ellipse');
 		$pdf->AliasNbPages();
 
-		/**
-		 * Dati per l'header di pagina
-		 */
+		$db->beginTransaction();
+
 		$pdf->setLogo(self::$logo);
+		
+		if (self::$stampaSezioneIntestazione) $pdf = $this->generaSezioneIntestazione($pdf);
+		if (self::$stampaSezioneDatiAnagraficiPaziente) $pdf = $this->generaSezioneDatiAnagraficiPaziente($pdf, $db, $utility);
+		if (self::$stampaPreventivoRiassuntivo) $pdf = $this->generaSezioneTabellaRiassuntiva($pdf, $db);
+		if (self::$stampaPreventivoDettagliato) $pdf = $this->generaSezioneTabellaDettagliata($pdf, $db);
+		if (self::$stampaSezioneNota) $pdf = $this->generaSezioneNota($pdf);
+		if (self::$stampaSezioneFirma) $pdf = $this->generaSezioneFirma($pdf);
+		if (self::$stampaSezionePianoPagamento) $pdf = $this->generaSezionePianoPagamento($pdf, $db, $utility);
+		
+		$db->commitTransaction();
+		
+		$pdf->Output();
+	}
+
+	public function generaSezioneNota($pdf) {
+
+		$pdf->SetY(-50);				// Posizione 5 cm dal fondo pagina
+		$pdf->SetFillColor(224,235,255);
+		$pdf->SetTextColor(0);
+		$pdf->SetFont('Arial','',10);
+		$pdf->Cell(10,10, utf8_decode(self::$nota1Validita) . ' ' . self::$validitaGiorniPreventivo . ' ' . utf8_decode(self::$nota2Validita));
+
+		return $pdf;
+	}
+	
+	public function generaSezioneFirma($pdf) {
+
+		$pdf->SetY(-35);				// Posizione 3.5 cm dal fondo pagina
+		$pdf->Cell(10,10, "Data: ____________________");
+		$pdf->Cell(50);
+		$pdf->Cell(10,10, "Firma per accettazione: _____________________________________");
+
+		return $pdf;
+	} 
+	
+	public function generaSezioneIntestazione($pdf) {
+
 		$pdf->setStudio(self::$studio);
 		$pdf->setSedeLegale(self::$sedelegale);
 		$pdf->setSedeSecondaria(self::$sedesecondaria);
@@ -67,66 +119,102 @@ class stampaPreventivo extends preventivoAbstract {
 		$pdf->setCapitale(self::$capitale);
 		$pdf->setImportoCapitale(self::$importoCapitale);
 		$pdf->setVersato(self::$versato);
-		$pdf->setNotaValidita(self::$notaValidita);
 		
-		/**
-		 * Dati anagrafici del paziente
-		 */
+		return $pdf;
+	}
+	
+	public function generaSezioneDatiAnagraficiPaziente($pdf, $db, $utility) {
 		
 		$pdf->AddPage();
-
+		
 		$pdf->SetFont('Arial','B',12);
-		$pdf->Cell(40,10,"Preventivo:  " . $this->getIdPreventivo() . "  del  " . $this->getDataInserimento());
+		
+		if ($this->getIdPreventivo() != "") $idPreventivo = $this->getIdPreventivo();
+		if ($this->getIdSottoPreventivo() != "") $idPreventivo = $this->getIdSottoPreventivo();
+		
+		$pdf->Cell(40,10,"Preventivo:  " . $idPreventivo . "  del  " . $this->getDataInserimento());
 		$pdf->Ln(10);
 		
 		$pdf->SetFont('Arial','B',12);
 		$pdf->Cell(30,10,"Paziente");
 		
 		$pdf->SetFont('Arial','',10);
+		$this->setRoot(self::$root);
 		foreach ($this->caricaDatiAnagraficiPaziente($db, $utility) as $row) {
 			$pdf->Cell(40,10, utf8_decode(trim($row['cognome'])) . utf8_decode(trim($row['nome'])));
-			$pdf->Ln(5);				
+			$pdf->Ln(5);
 			$pdf->Cell(30);
 			$pdf->Cell(40,10, utf8_decode(trim($row['indirizzo'])));
-			$pdf->Ln(5);				
+			$pdf->Ln(5);
 			$pdf->Cell(30);
 			$pdf->Cell(40,10, trim($row['cap']) . ' ' . utf8_decode(trim($row['citta'])) . '  (' . trim($row['provincia']) . ')');
-			$pdf->Ln(5);				
+			$pdf->Ln(5);
 		}
-		
 		$pdf->Ln(20);
-
-		/**
-		 * Intestazioni colonne tabella voci
-		 */
-		$header = array("Descrizione", "Voce", "Quantita'");
 		
-		/**
-		 * Genera una tabella riassuntiva delle voci
-		 */
+		return $pdf;
+	}
+	
+	public function generaSezioneTabellaRiassuntiva($pdf, $db) {
+
+		$header = array("Descrizione", "Voce", "Quantita'");
 		$pdf->SetFont('Arial','',9);
 		$pdf->PreventivoTable($header,$this->caricaRiassuntoVoci($db, self::$root));
+	
+		return $pdf;
+	}
+
+	public function generaSezionePianoPagamento($pdf, $db, $utility) {
+
+		$acconti = $this->caricaAcconti($db, $utility);
+		$rate = $this->caricaRate($db, $utility);
+		$sconti = $this->caricaSconti($db, $utility);
 		
-		/**
-		 * Inserisce la nota per la validità del preventivo
-		 */
-		$pdf->SetY(-50);												// Position at 2.5 cm from bottom		
-	    $pdf->SetFillColor(224,235,255);
-	    $pdf->SetTextColor(0);
-		$pdf->SetFont('Arial','',10);
-		$pdf->Cell(10,10, utf8_decode(self::$notaValidita));
+		if($acconti) {
+			$pdf->AddPage();
+			
+			$pdf->SetFont('Arial','B',12);
+			$pdf->Cell(30,10,"Piano di Pagamento");
+			$pdf->Ln(10);
+
+			$pdf->SetFont('Arial','B',10);
+			$pdf->Cell(30,10,"Acconti");
+			$pdf->Ln(10);
+			
+			$header = array("Scadenza", "Descrizione", "Importo");
+			$pdf->SetFont('Arial','',9);
+			$pdf->AccontiTable($header,$acconti);				
+		}
 		
-		/**
-		 * Inserisco la data e lo spazio per la firma
-		 */
-		$pdf->SetY(-35);												// Position at 2.5 cm from bottom		
-		$pdf->Cell(10,10, "Data: ____________________");
-		$pdf->Cell(50);
-		$pdf->Cell(10,10, "Firma per accettazione: _____________________________________");
+		if ($rate) {
+			$pdf->Ln(10);			
+			$pdf->SetFont('Arial','B',10);
+			$pdf->Cell(30,10,"Rateizzazione");
+			$pdf->Ln(10);
+				
+			$header = array("Scadenza", "Descrizione", "Importo");
+			$pdf->SetFont('Arial','',9);
+			$pdf->RateTable($header,$rate);				
+		}
 		
+		if (($sconti[0]['scontopercentuale'] != null) or ($sconti[0]['scontocontante'] != null)) {
+			$pdf->Ln(10);
+			$pdf->SetFont('Arial','B',10);
+			$pdf->Cell(30,10,"Sconti");
+			$pdf->Ln(10);
+			
+			$header = array("Sconto", "Valore", "Importo");
+			$pdf->SetFont('Arial','',9);
+			$pdf->ScontiTable($header,$sconti);
+		}		
+		return $pdf;		
+	}
+	
+	public function generaSezioneTabellaDettaliata($pdf, $db) {
+
+		// da implementare
 		
-		
-		$pdf->Output();
+		return $pdf;
 	}
 	
 	public function caricaRiassuntoVoci($db, $root) {
@@ -134,19 +222,84 @@ class stampaPreventivo extends preventivoAbstract {
 		if ($this->getIdpreventivo() != "") {
 			return $this->prelevaRiassuntoVociStampaPreventivoPrincipale($db, $root, $this->getIdPaziente(), $this->getIdPreventivo());
 		}
+		elseif ($this->getIdSottopreventivo() != "") {
+			return $this->prelevaRiassuntoVociStampaPreventivoSecondario($db, $root, $this->getIdPaziente(), $this->getIdSottoPreventivo());
+		}
+	}
+
+	public function caricaSconti($db, $utility) {
+	
+		if ($this->getIdpreventivo() != "") {
+			$this->setRoot(self::$root);
+			return $this->leggiCondizioniPagamentoPreventivoPrincipale($db, $utility, $this->getIdPreventivo());
+		}
+		elseif ($this->getIdSottopreventivo() != "") {
+			return $this->leggiCondizioniPagamentoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo());
+		}
 	}
 	
-	public function caricaDatiAnagraficiPaziente($db, $utility) {
+	public function caricaAcconti($db, $utility) {
+		
+		if ($this->getIdpreventivo() != "") {
+			$this->setRoot(self::$root);
+			return $this->leggiAccontiPreventivoPrincipale($db, $utility, $this->getIdPreventivo());
+		}		
+		elseif ($this->getIdSottopreventivo() != "") {
+			$this->setRoot(self::$root);
+			return $this->leggiAccontiPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo());
+		}
+	}
 
+	public function caricaRate($db, $utility) {
+	
+		if ($this->getIdpreventivo() != "") {
+			$this->setRoot(self::$root);
+			return $this->leggiRatePagamentoPreventivoPrincipale($db, $utility, $this->getIdPreventivo());
+		}
+		elseif ($this->getIdSottopreventivo() != "") {
+			$this->setRoot(self::$root);
+			return $this->leggiRatePagamentoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo());
+		}
+	}
+
+	/**
+	 *
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idPreventivo
+	 * 
+	 * @override
+	 */
+	public function leggiCondizioniPagamentoPreventivoPrincipale($db, $utility, $idPreventivo) {
+	
 		$array = $utility->getConfig();
-		
-		$replace = array('%idpaziente%' => $this->getIdPaziente());
-		
-		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaIdPaziente;		
+		$replace = array('%idpreventivo%' => $idPreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryLeggiCondizioniPagamentoPreventivoPrincipale;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
-		$result = $db->getData($sql);
-		
-		return pg_fetch_all($result);		
+		$result = $db->execSql($sql);
+	
+		return pg_fetch_all($result);
+	}
+	
+	/**
+	 *
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idSottoPreventivo
+	 * 
+	 * @override
+	 */
+	public function leggiCondizioniPagamentoPreventivoSecondario($db, $utility, $idSottoPreventivo) {
+	
+		$array = $utility->getConfig();
+		$replace = array('%idsottopreventivo%' => $idSottoPreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryLeggiCondizioniPagamentoPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return pg_fetch_all($result);
 	}
 }
 

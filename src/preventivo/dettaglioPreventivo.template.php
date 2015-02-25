@@ -103,6 +103,9 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 			$bottoneAzionePreventivo = '';
 		}
 		
+		if ($this->getIdPreventivo() != "") $idPreventivo = $this->getIdPreventivo();
+		if ($this->getIdSottoPreventivo() != "") $idPreventivo = $this->getIdSottoPreventivo();
+		
 		$replace = array(
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%azionePreventivo%' => $this->getAzionePreventivo(),
@@ -117,7 +120,7 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 				'%stato%' => $this->getStato(),
 				'%idPaziente%' => $this->getIdPaziente(),
 				'%idListino%' => $this->getIdListino(),
-				'%idPreventivo%' => $this->getIdPreventivo(),
+				'%idPreventivo%' => $idPreventivo,
 				'%idPreventivoPrincipale%' => $this->getIdPreventivoPrincipale(),
 				'%idSottoPreventivo%' => $this->getIdSottoPreventivo(),
 				'%thAzioni%' => $this->getIntestazioneColonnaAzioni()
