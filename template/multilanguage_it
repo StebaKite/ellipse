@@ -25,6 +25,8 @@ generica = Generica
 accetta = Accetta
 rinuncia = Rinuncia
 stampa = Stampa
+si = Si
+no = No
 ;
 ; Tips ---------------------------------
 ;
@@ -111,13 +113,16 @@ importorataTip = Importo della singola rata
 ;
 ; Funzioni -----------------------------
 ;
+modificaConfig = Configurazioni di Sistema
+modificaConfigPreventivo = Configurazioni Preventivi
+;
 totaliProgressivi = Totali Progressivi
 creaNuovoPaziente = Crea Nuovo Paziente
 ricercaPaziente = Ricerca Paziente
 modificaPaziente = Modifica Paziente
-modificaConfig = Configurazioni di Sistema
 cancellaPaziente = Cancella Paziente
 dettaglioPaziente = Dettaglio Paziente
+;
 creaNuovaVisitaDentiSingoli = Crea Visita Iniziale - Denti Singoli
 creaNuovaVisitaDentiGruppi = Crea Visita Iniziale - Gruppi di Denti
 creaNuovaVisitaCure = Crea Visita Iniziale - Cure Generiche
@@ -127,12 +132,14 @@ modificaVisitaDentiSingoli = Modifica Visita Iniziale - Denti Singoli
 modificaVisitaGruppi = Modifica Visita Iniziale - Gruppi di Denti
 modificaVisitaCure = Modifica Visita Iniziale - Cure Generiche
 cancellaVisita = Cancella Visita Iniziale
+;
 importaDati = Importazione Dati
 ricercaConfigurazioni = Ricerca Configurazioni
 creaConfigurazione = Crea Configurazione
 cancellaConfig = Cancella Configurazione
 ricercaRegoleConfigurazioni = Ricerca Regole Configurazione
 creaRegolaConfigurazione = Crea Regola Configurazione
+;
 ricercaCategoria = Ricerca Categoria
 creaCategoria = Crea Categoria
 cancellaCategoria = Cancella Categoria
@@ -146,6 +153,7 @@ modificaListino = Modifica Listino
 cancellaListino = Cancella Listino
 ricercaVociListino = Voci Listino
 modificaVoceListino = Modifica Voce Listino
+;
 ricercaPreventivo = Ricerca Preventivo
 creaNuovoPreventivoDentiSingoli = Crea Preventivo - Denti Singoli
 creaNuovoPreventivoGruppi = Crea Preventivo - Gruppi di Denti
@@ -161,6 +169,7 @@ dettaglioPreventivoPrincipale = Dettaglio Preventivo Principale
 dettaglioPreventivoSecondario = Dettaglio Preventivo Secondario
 cancellaPreventivoPrincipale = Cancella Preventivo Principale
 cancellaPreventivoSecondario = Cancella Preventivo Secondario
+;
 modificaPagamentoPrincipaleDentiSingoli = Modifica Preventivo Principale - Piano Pagamento
 modificaPagamentoSecondarioDentiSingoli = Modifica Preventivo Secondario - Piano Pagamento
 modificaVocePreventivoSingoli = Modifica Voce Preventivo - Denti Singoli
@@ -421,10 +430,23 @@ dataprimarata = Data Prima Rata
 intervallorata = Intervallo Rate (gg)
 importorata = Importo Rata
 importoacconto = Importo Acconto
-
+;
 ratepagamento = Rate Pagamento
 dapagare = Da Pagare
 pagata = Pagata
 pagato = Pagato
 datascadenza = Scadenza
 descrizioneacconto = Descrizione
+;
+validitaPreventivo = Validit&agrave; giorni preventivo
+preventivoRiassuntivo = Preventivo Riassuntivo
+sezioneIntestazione = Carta Intestata
+layoutStampaPreventivo = Composizione Stampa Preventivo
+sezioneDatiAnagraficiPaziente = Dati Anagrafici del Paziente
+sezioneNotaValidita = Nota Validità Preventivo
+sezioneFirmaAccettazione = Firma per Accettazione
+sezionePianoPagamento = Piano di Pagamento
+sezioneAnnotazioni = Osservazioni Generali
+sezioneAnnotazioniVoci = Annotazioni
+nota1ValiditaPreventivo = Nota di Validit&agrave;
+

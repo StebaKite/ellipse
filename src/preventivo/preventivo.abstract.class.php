@@ -209,6 +209,11 @@ abstract class preventivoAbstract extends ellipseAbstract {
 
 	public static $querySommaImportoVociPreventivoPrincipale = "/preventivo/sommaImportoVociPreventivoPrincipale.sql";
 	public static $querySommaImportoVociPreventivoSecondario = "/preventivo/sommaImportoVociPreventivoSecondario.sql";
+
+	public static $queryAnnotazioniPreventivoPrincipale = "/preventivo/leggiAnnotazioniPreventivoPrincipale.sql";
+	public static $queryAnnotazioniPreventivoSecondario = "/preventivo/leggiAnnotazioniPreventivoSecondario.sql";
+	public static $queryAnnotazioniVociPreventivoPrincipale = "/preventivo/leggiAnnotazioniVociPreventivoPrincipale.sql";
+	public static $queryAnnotazioniVociPreventivoSecondario = "/preventivo/leggiAnnotazioniVociPreventivoSecondario.sql";
 	
 	// Costruttore -----------------------------------------------------------------------------
 	
@@ -2617,6 +2622,78 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 		return $singoli + $gruppi + $cure;
 	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idPreventivo
+	 */
+	public function leggiAnnotazioniPreventivoPrincipale($db, $utility, $idPreventivo) {
+		
+		$array = $utility->getConfig();
+		
+		$replace = array('%idpreventivo%' => $idPreventivo);
+				
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAnnotazioniPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		return pg_fetch_all($result);
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idSottoPreventivo
+	 */
+	public function leggiAnnotazioniPreventivoSecondario($db, $utility, $idSottoPreventivo) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array('%idsottopreventivo%' => $idSottoPreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAnnotazioniPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return pg_fetch_all($result);
+	}	
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idPreventivo
+	 */
+	public function leggiAnnotazioniVociPreventivoPrincipale($db, $utility, $idPreventivo) {
+		
+		$array = $utility->getConfig();
+		
+		$replace = array('%idpreventivo%' => $idPreventivo);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAnnotazioniVociPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		return pg_fetch_all($result);
+		
+	}
+
+	public function leggiAnnotazioniVociPreventivoSecondario($db, $utility, $idSottoPreventivo) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array('%idsottopreventivo%' => $idSottoPreventivo);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAnnotazioniVociPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return pg_fetch_all($result);
+	}
+	
 }
 
 ?>

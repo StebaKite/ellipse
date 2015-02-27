@@ -124,15 +124,10 @@ class PDF extends FPDF {
 	// Simple table
 	public function BasicTable($header, $data)
 	{
-	    // Header
-	    foreach($header as $col)
-	        $this->Cell(40,7,$col,1);
-	    $this->Ln();
-	    // Data
 	    foreach($data as $row)
 	    {
 	        foreach($row as $col)
-	            $this->Cell(40,6,$col,1);
+	            $this->Cell(190,6,$col,1);
 	        $this->Ln();
 	    }
 	}
@@ -159,6 +154,53 @@ class PDF extends FPDF {
 	    $this->Cell(array_sum($w),0,'','T');
 	}
 
+	/** ************************************************************
+	 * MultiCell con bullet (array)
+	 * 
+	 * E' richiesta una array con le seguenti colonne:
+	 * 
+	 * 		Bullet	-> Stringa o Numero
+	 * 		Margine -> Numero, spazio fra il bullet e il testo
+	 * 		Indent	-> Numero, spazio dalla posizione corrente
+	 * 		Spacer	-> Numero, chiama Cell(x), spacer=x
+	 * 		Text	-> Array, elementi da inserire nell'elenco
+	 * 
+	 * *************************************************************
+	 */
+	public function MultiCellBulletList($w, $h, $blt_array, $border=0, $align='J', $fill=0) {
+
+		if (is_array($blt_array)) {
+			
+			$bak_x = $this->x;
+			
+			for ($i=0; $i<sizeof($blt_array['text']); $i++) {
+				
+				// Prendo il bullet incluso il margine
+				$blt_width = $this->GetStringWidth($blt_array['bullet'] . $blt_array['margin']) + $this->cMargin*2;
+				$this->SetX($bak_x);
+				
+				// indentazione
+				if ($blt_array['indent'] > 0) $this->Cell($blt_array['indent']);
+				
+				// output del bullet
+				$this->Cell($blt_width, $h, $blt_array['bullet'] . $blt_array['margin'], 0, '', $fill);
+				
+				// output del testo
+				$this->MultiCell($w - $blt_width, $h, $blt_array['text'][$i], $border, $align, $fill);
+				
+				// Inserisco lo spacer fra gli elementi se non è l'ultima linea
+				if ($i != sizeof($blt_array['text']) - 1) $this->Ln($blt_array['spacer']);
+				
+				// Incremento il bullet se è un numero
+				if (is_numeric($blt_array['bullet'])) $blt_array['bullet']++;
+				
+				// ripristino x
+				$this->x = $bak_x;				
+			}
+		}
+	}
+	
+	
 	/**
 	 * Tabella per stampa preventivo in formato riassuntivo
 	 */

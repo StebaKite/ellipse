@@ -38,12 +38,13 @@ versato = Interamente Versato
 
 [preventivo]
 validitaGiorniPreventivo = 90
-stampaPreventivoRiassuntivo = true
-stampaPreventivoDettagliato = false
-stampaSezioneIntestazione = true
-stampaSezioneDatiAnagraficiPaziente = true
-stampaSezioneNota = true
-stampaSezioneFirma = true
-stampaSezionePianoPagamento = true
+stampaPreventivoRiassuntivo = si
+stampaSezioneIntestazione = si
+stampaSezioneDatiAnagraficiPaziente = si
+stampaSezioneNota = si
+stampaSezioneFirma = si
+stampaSezionePianoPagamento = si
+stampaSezioneAnnotazioni = si
+stampaSezioneAnnotazioniVoci = si
 nota1Validita = La validità del preventivo è di
 nota2Validita = gg. Eventuali operazioni non preventivate potranno modificarlo.

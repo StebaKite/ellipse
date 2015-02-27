@@ -1,0 +1,111 @@
+<div id="body">
+	<div id="main">
+		<form method="post" action="%azione%" >
+			<h2>%ml.modificaConfigPreventivo%</h2>
+			<table class="datiCreate">
+				<tbody>
+					<tr>
+						<td>%ml.nota1ValiditaPreventivo% :</td>
+						<td colspan="2" class="tooltip"><input required name="nota1validita" size="60" maxlength="100" title="%ml.nota1validitapreventivoTip%" value="%nota1validita%"/></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td class="tooltip"><input class="spinner" required name="validitagiornipreventivo" size="10" maxlength="10" title="%ml.validitagiornipreventivoTip%" value="%validitagiornipreventivo%"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td colspan="2" class="tooltip"><input required name="nota2validita" size="60" maxlength="100" title="%ml.nota2validitapreventivoTip%" value="%nota2validita%"/></td>
+					</tr>
+					
+					<tr><td colspan="2"><h3>%ml.layoutStampaPreventivo%</h3></td></tr>
+					<tr>
+						<td>%ml.preventivoRiassuntivo% :</td>
+						<td>
+							<div class="radioset">
+								<input type="radio" id="riassuntivo" name="stampaPreventivoRiassuntivo" %preventivoRiassuntivoSi% value="si"/><label for="riassuntivo">%ml.si%</label>
+								<input type="radio" id="dettagliato" name="stampaPreventivoRiassuntivo" %preventivoRiassuntivoNo% value="no"/><label for="dettagliato">%ml.no%</label>
+							</div>
+						</td>
+						<td valign="middle"><i class="smallNote">Le voci di intervento verranno elencate e conteggiate</i></td>
+					</tr>
+					<tr>
+						<td>%ml.sezioneIntestazione% :</td>
+						<td>
+							<div class="radioset">
+								<input type="radio" id="intestato" name="sezioneIntestazione" %sezioneIntestazioneSi% value="si"/><label for="intestato">%ml.si%</label>
+								<input type="radio" id="libero" name="sezioneIntestazione" %sezioneIntestazioneNo% value="no"/><label for="libero">%ml.no%</label>
+							</div>
+						</td>
+						<td valign="middle"><i class="smallNote">Il preventivo verr&agrave; emesso su carta intestata</i></td>
+					</tr>
+					<tr>
+						<td>%ml.sezioneDatiAnagraficiPaziente% :</td>
+						<td>
+							<div class="radioset">
+								<input type="radio" id="datiAnagraficiPazientePresenti" name="sezioneDatiAnagraficiPaziente" %sezioneDatiAnagraficiPazienteSi% value="si"/><label for="datiAnagraficiPazientePresenti">%ml.si%</label>
+								<input type="radio" id="datiAnagraficiPazienteAssenti" name="sezioneDatiAnagraficiPaziente" %sezioneDatiAnagraficiPazienteNo% value="no"/><label for="datiAnagraficiPazienteAssenti">%ml.no%</label>
+							</div>
+						</td>
+						<td valign="middle"><i class="smallNote">Verranno riportati i dati anagrafici salienti del paziente</i></td>
+					</tr>
+					<tr>
+						<td>%ml.sezioneNotaValidita% :</td>
+						<td>
+							<div class="radioset">
+								<input type="radio" id="notaValiditaPresente" name="sezioneNotaValidita" %sezioneNotaValiditaSi% value="si"/><label for="notaValiditaPresente">%ml.si%</label>
+								<input type="radio" id="notaValiditaAssente" name="sezioneNotaValidita" %sezioneNotaValiditaNo% value="no"/><label for="notaValiditaAssente">%ml.no%</label>
+							</div>
+						</td>
+						<td valign="middle"><i class="smallNote">Verr&agrave; riportata una nota che evidenzier&agrave; la validit&agrave; del preventivo</i></td>
+					</tr>
+					<tr>
+						<td>%ml.sezioneFirmaAccettazione% :</td>
+						<td>
+							<div class="radioset">
+								<input type="radio" id="firmaAccettazionePresente" name="sezioneFirmaAccettazione" %sezioneFirmaAccettazioneSi% value="si"/><label for="firmaAccettazionePresente">%ml.si%</label>
+								<input type="radio" id="firmaAccettazioneAssente" name="sezioneFirmaAccettazione" %sezioneFirmaAccettazioneNo% value="no"/><label for="firmaAccettazioneAssente">%ml.no%</label>
+							</div>
+						</td>
+						<td valign="middle"><i class="smallNote">Verr&agrave; emesso lo spazio per apporre la firma di accettazione</i></td>
+					</tr>
+					<tr>
+						<td>%ml.sezionePianoPagamento% :</td>
+						<td>
+							<div class="radioset">
+								<input type="radio" id="pianoPagamentoPresente" name="sezionePianoPagamento" %sezionePianoPagamentoSi% value="si"/><label for="pianoPagamentoPresente">%ml.si%</label>
+								<input type="radio" id="pianoPagamentoAssente" name="sezionePianoPagamento" %sezionePianoPagamentoNo% value="no"/><label for="pianoPagamentoAssente">%ml.no%</label>
+							</div>
+						</td>
+						<td valign="middle"><i class="smallNote">Verr&agrave; prodotta una pagina supplementare con il piano di pagamento proposto</i></td>
+					</tr>
+					<tr>
+						<td>%ml.sezioneAnnotazioni% :</td>
+						<td>
+							<div class="radioset">
+								<input type="radio" id="sezioneAnnotazioniPresente" name="sezioneAnnotazioni" %sezioneAnnotazioniSi% value="si"/><label for="sezioneAnnotazioniPresente">%ml.si%</label>
+								<input type="radio" id="sezioneAnnotazioniAssente" name="sezioneAnnotazioni" %sezioneAnnotazioniNo% value="no"/><label for="sezioneAnnotazioniAssente">%ml.no%</label>
+							</div>
+						</td>
+						<td valign="middle"><i class="smallNote">Verr&agrave; prodotta una pagina supplementare con le osservazioni generali</i></td>
+					</tr>
+					<tr>
+						<td>%ml.sezioneAnnotazioniVoci% :</td>
+						<td>
+							<div class="radioset">
+								<input type="radio" id="sezioneAnnotazioniVociPresente" name="sezioneAnnotazioniVoci" %sezioneAnnotazioniVociSi% value="si"/><label for="sezioneAnnotazioniVociPresente">%ml.si%</label>
+								<input type="radio" id="sezioneAnnotazioniVociAssente" name="sezioneAnnotazioniVoci" %sezioneAnnotazioniVociNo% value="no"/><label for="sezioneAnnotazioniVociAssente">%ml.no%</label>
+							</div>
+						</td>
+						<td valign="middle"><i class="smallNote">Verranno emesse le annotazioni particolari sui singoli interventi</i></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr height="50" valign="bottom">
+						<td colspan="6" align="right" class="tooltip"><button class="button" title="Conferma le modifiche fatte" >%ml.conferma%</button></td>
+					</tr>
+				</tfoot>
+			</table>	
+		</form>
+	</div>
+</div>

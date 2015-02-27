@@ -25,6 +25,8 @@ class stampaPreventivo extends preventivoAbstract {
 	public static $stampaSezioneDatiAnagraficiPaziente;
 	public static $stampaSezioneIntestazione;
 	public static $stampaSezionePianoPagamento;
+	public static $stampaSezioneAnnotazioni;
+	public static $stampaSezioneAnnotazioniVoci;
 	
 	function __construct() {
 	
@@ -47,13 +49,14 @@ class stampaPreventivo extends preventivoAbstract {
 		self::$nota1Validita = $array['nota1Validita'];
 		self::$nota2Validita = $array['nota2Validita'];
 		self::$validitaGiorniPreventivo = $array['validitaGiorniPreventivo'];
-		self::$stampaPreventivoRiassuntivo = $array['stampaPreventivoRiassuntivo'];
-		self::$stampaPreventivoDettagliato = $array['stampaPreventivoDettagliato'];
-		self::$stampaSezioneNota = $array['stampaSezioneNota'];
-		self::$stampaSezioneFirma = $array['stampaSezioneFirma'];
-		self::$stampaSezioneDatiAnagraficiPaziente = $array['stampaSezioneDatiAnagraficiPaziente'];
-		self::$stampaSezioneIntestazione = $array['stampaSezioneIntestazione'];
-		self::$stampaSezionePianoPagamento = $array['stampaSezionePianoPagamento'];
+		self::$stampaPreventivoRiassuntivo = ($array['stampaPreventivoRiassuntivo'] == 'si') ? true : false;
+		self::$stampaSezioneNota = ($array['stampaSezioneNota'] == 'si') ? true : false;
+		self::$stampaSezioneFirma = ($array['stampaSezioneFirma'] == 'si') ? true : false;
+		self::$stampaSezioneDatiAnagraficiPaziente = ($array['stampaSezioneDatiAnagraficiPaziente'] == 'si') ? true : false;
+		self::$stampaSezioneIntestazione = ($array['stampaSezioneIntestazione'] == 'si') ? true : false;
+		self::$stampaSezionePianoPagamento = ($array['stampaSezionePianoPagamento'] == 'si') ? true : false;
+		self::$stampaSezioneAnnotazioni = ($array['stampaSezioneAnnotazioni'] == 'si') ? true : false;
+		self::$stampaSezioneAnnotazioniVoci = ($array['stampaSezioneAnnotazioniVoci'] == 'si') ? true : false;
 	}
 	
 	public function start() {
@@ -77,11 +80,18 @@ class stampaPreventivo extends preventivoAbstract {
 		
 		if (self::$stampaSezioneIntestazione) $pdf = $this->generaSezioneIntestazione($pdf);
 		if (self::$stampaSezioneDatiAnagraficiPaziente) $pdf = $this->generaSezioneDatiAnagraficiPaziente($pdf, $db, $utility);
+		
+		/**
+		 * SB 27/02/2015 : per ora fa solo il riepilogo riassuntivo
+		 */
 		if (self::$stampaPreventivoRiassuntivo) $pdf = $this->generaSezioneTabellaRiassuntiva($pdf, $db);
-		if (self::$stampaPreventivoDettagliato) $pdf = $this->generaSezioneTabellaDettagliata($pdf, $db);
+		else $pdf = $this->generaSezioneTabellaRiassuntiva($pdf, $db);
+		
 		if (self::$stampaSezioneNota) $pdf = $this->generaSezioneNota($pdf);
 		if (self::$stampaSezioneFirma) $pdf = $this->generaSezioneFirma($pdf);
 		if (self::$stampaSezionePianoPagamento) $pdf = $this->generaSezionePianoPagamento($pdf, $db, $utility);
+		if (self::$stampaSezioneAnnotazioni) $pdf = $this->generaSezioneAnnotazioni($pdf, $db, $utility);
+		if (self::$stampaSezioneAnnotazioniVoci) $pdf = $this->generaSezioneAnnotazioniVoci($pdf, $db, $utility);
 		
 		$db->commitTransaction();
 		
@@ -210,11 +220,127 @@ class stampaPreventivo extends preventivoAbstract {
 		return $pdf;		
 	}
 	
+	public function generaSezioneAnnotazioni($pdf, $db, $utility) {
+
+		$annotazioni = $this->caricaAnnotazioni($db, $utility);
+
+		if ($annotazioni) {
+			
+			$pdf->AddPage();
+			
+			$pdf->SetFont('Arial','B',12);
+			$pdf->Cell(40,10,"Osservazioni Generali");
+			$pdf->Ln(10);
+			$pdf->SetFont('Arial','',9);
+			
+			$column_width = $pdf->w - 30;
+			
+			$noteArray = array();
+			$noteArray['bullet'] = chr(149);
+			$noteArray['margin'] = ' ';
+			$noteArray['indent'] = 0;
+			$noteArray['spacer'] = 0;
+			$noteArray['text'] = array();
+			
+			$i = 0;
+			foreach ($annotazioni as $row) {
+				$noteArray['text'][$i] = utf8_decode(trim($row['nota']));
+				$i++;
+			}
+			
+			$pdf->SetX(10);
+			$pdf->MultiCellBulletList($column_width - $pdf->x, 6, $noteArray);				
+		}
+				
+		return $pdf;
+	}
+	
+	public function generaSezioneAnnotazioniVoci($pdf, $db, $utility) {
+
+		$annotazioniVoci = $this->caricaAnnotazioniVoci($db, $utility);
+		
+		if ($annotazioniVoci) {
+			
+			$pdf->Ln(10);
+			$pdf->SetFont('Arial','B',12);
+			$pdf->Cell(40,10,"Annotazioni Operazioni");
+			$pdf->Ln(10);
+			$pdf->SetFont('Arial','',9);
+			
+			$column_width = $pdf->w - 30;
+			
+			$i = 0;
+			$denteBreak = "";
+			
+			foreach ($annotazioniVoci as $row) {
+					
+				if (trim($row['dente']) != $denteBreak) {
+			
+					/**
+					 * Se cambia dente e non è la prima tabella emetto le note del dente
+					 */
+					if ($denteBreak != "") {
+						$pdf->SetFont('Arial','B',10);
+						$pdf->Cell(40,10, utf8_decode("Dente N° ") . $denteBreak . " - " . utf8_decode($descrizioneBreak));
+						$pdf->Ln(10);
+						$pdf->SetFont('Arial','',9);
+						$pdf->SetX(10);
+						$pdf->MultiCellBulletList($column_width - $pdf->x, 6, $noteArray);
+					}
+			
+					$noteArray = array();
+					$noteArray['bullet'] = chr(149);
+					$noteArray['margin'] = ' ';
+					$noteArray['indent'] = 0;
+					$noteArray['spacer'] = 0;
+					$noteArray['text'] = array();
+			
+					$denteBreak = trim($row['dente']);
+					$descrizioneBreak = trim($row['descrizionevoce']);
+					$i = 0;
+				}
+				$noteArray['text'][$i] = utf8_decode(trim($row['nota']));
+				$i++;
+			}
+			
+			/**
+			 * Butto fuori l'ultima lista
+			 */
+			$pdf->SetFont('Arial','B',10);
+			$pdf->Cell(40,10, utf8_decode("Dente N° ") . $denteBreak . " - " . utf8_decode($descrizioneBreak));
+			$pdf->Ln(10);
+			$pdf->SetFont('Arial','',9);
+			$pdf->SetX(10);
+			$pdf->MultiCellBulletList($column_width - $pdf->x, 6, $noteArray);		
+		}		
+		return $pdf;		
+	}
+	
 	public function generaSezioneTabellaDettaliata($pdf, $db) {
 
 		// da implementare
 		
 		return $pdf;
+	}
+	
+	public function caricaAnnotazioni($db, $utility) {
+
+		if ($this->getIdpreventivo() != "") {
+			return $this->leggiAnnotazioniPreventivoPrincipale($db, $utility, $this->getIdPreventivo());
+		}
+		elseif ($this->getIdSottopreventivo() != "") {
+			return $this->leggiAnnotazioniPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo());
+		}
+	}
+
+	public function caricaAnnotazioniVoci($db, $utility) {
+	
+		if ($this->getIdpreventivo() != "") {
+			return $this->leggiAnnotazioniVociPreventivoPrincipale($db, $utility, $this->getIdPreventivo());
+		}
+		elseif ($this->getIdSottopreventivo() != "") {
+			return $this->leggiAnnotazioniVociPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo());
+		}
 	}
 	
 	public function caricaRiassuntoVoci($db, $root) {
