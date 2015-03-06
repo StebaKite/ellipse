@@ -15,6 +15,7 @@ piedePagina = /ellipse/template/piedePagina.html
 messaggioInfo = /ellipse/template/messaggioInfo.html
 messaggioErrore = /ellipse/template/messaggioErrore.html
 query = /ellipse/query
+firewall = /ellipse/config/firewall.ini
 
 [multilanguage]
 language = it

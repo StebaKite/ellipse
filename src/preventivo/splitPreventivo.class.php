@@ -30,6 +30,8 @@ class splitPreventivo extends preventivoAbstract {
 		require_once 'splitPreventivo.template.php';
 		require_once 'utility.class.php';
 	
+		$utility = new utility();
+		
 		$splitPreventivoTemplate = new splitPreventivoTemplate();
 		$this->preparaPagina($splitPreventivoTemplate);
 
@@ -88,16 +90,16 @@ class splitPreventivo extends preventivoAbstract {
 		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaVociPreventivoPrincipale;
 	
 		$replace = array(
-				'%idpreventivo%' => $this->getIdPreventivo(),
-				'%idpaziente%' => $this->getIdpaziente()
+				'%idpreventivo%' => $_SESSION['idPreventivo'],
+				'%idpaziente%' => $_SESSION['idPaziente']
 		);
 	
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$db = new database();
 		$result = $db->getData($sql);
 	
-		$splitPreventivoTemplate->setNumeroVociPreventivoPrincipaleTrovate(pg_num_rows($result));
-		$splitPreventivoTemplate->setVociPreventivoPrincipaleTrovate($result);
+		$_SESSION['numerovocipreventivoprincipaletrovate'] = pg_num_rows($result);
+		$_SESSION['vocipreventivoprincipaletrovate'] = $result;
 		return $result;
 	}
 
@@ -112,17 +114,17 @@ class splitPreventivo extends preventivoAbstract {
 		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaVociPreventivoSecondario;
 	
 		$replace = array(
-				'%idpreventivo%' => $this->getIdPreventivo(),
-				'%idsottopreventivo%' => $this->getIdSottoPreventivo(),
-				'%idpaziente%' => $this->getIdpaziente()
+				'%idpreventivo%' => $_SESSION['idPreventivo'],
+				'%idsottopreventivo%' => $_SESSION['idSottoPreventivo'],
+				'%idpaziente%' => $_SESSION['idPaziente']
 		);
 	
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$db = new database();
 		$result = $db->getData($sql);
 	
-		$splitPreventivoTemplate->setNumeroVociPreventivoSecondarioTrovate(pg_num_rows($result));
-		$splitPreventivoTemplate->setVociPreventivoSecondarioTrovate($result);
+		$_SESSION['numerovocipreventivosecondariotrovate'] = pg_num_rows($result);
+		$_SESSION['vocipreventivosecondariotrovate'] = $result;
 		return $result;
 	}
 	
@@ -141,8 +143,7 @@ class splitPreventivo extends preventivoAbstract {
 		$db->beginTransaction();
 	
 		if ($this->creaSottoPreventivo($db)) {
-			$idSottoPreventivoUsato = $db->getLastIdUsed();
-			$this->setIdSottoPreventivo($idSottoPreventivoUsato);
+			$_SESSION['idSottoPreventivo'] = $db->getLastIdUsed();
 			$db->commitTransaction();
 			return TRUE;
 		}

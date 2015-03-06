@@ -24,10 +24,6 @@ class modificaVisita extends visitaAbstract {
 		self::$messaggioInfo = self::$root . $array['messaggioInfo'];				
 	}
 
-	public function getSingoliForm() {
-		return self::$singoliForm;
-	}
-
 	// ------------------------------------------------
 
 	public function start() {
@@ -41,10 +37,6 @@ class modificaVisita extends visitaAbstract {
 		$utility = new utility();
 
 		$visita = new visita();		
-		$visita->setIdPaziente($this->getIdPaziente());
-		$visita->setIdListino($this->getIdListino());
-		$visita->setIdVisita($this->getIdVisita());		
-		$visita->setCognomeRicerca($this->getCognomeRicerca());
 					
 		$visita->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$visita->setAzioneGruppi(self::$azioneGruppi);
@@ -56,7 +48,6 @@ class modificaVisita extends visitaAbstract {
 				
 		$visita->setTitoloPagina("%ml.modificaVisitaDentiSingoli%");
 		$visita->setVisitaLabel("- %ml.visita% : ");
-		$visita->setVisita($visita);		
 
 		// Compone la pagina
 		include(self::$testata);
@@ -76,12 +67,8 @@ class modificaVisita extends visitaAbstract {
 
 		$utility = new utility();
 		$visita = new visita();
-		$visita->setIdPaziente($this->getIdPaziente());
-		$visita->setIdListino($this->getIdListino());
-		$visita->setIdVisita($this->getIdVisita());		
-		$visita->setCognomeRicerca($this->getCognomeRicerca());
 
-		$visita->setDentiSingoli($this->prelevaCampiFormSingoli());
+		$_SESSION['dentisingoli'] = $this->prelevaCampiFormSingoli();
 					
 		$visita->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$visita->setAzioneGruppi(self::$azioneGruppi);
@@ -93,7 +80,6 @@ class modificaVisita extends visitaAbstract {
 
 		$visita->setTitoloPagina("%ml.modificaVisitaDentiSingoli%");
 		$visita->setVisitaLabel("- %ml.visita% : ");
-		$visita->setVisita($visita);		
 
 		// carica in pagina le voci inserite sul DB
 		$visita->impostaVoci();
@@ -107,7 +93,7 @@ class modificaVisita extends visitaAbstract {
 				// ricarica in pagina le voci inserite sul DB
 				$visita->impostaVoci();
 				$visita->displayPagina();
-				$replace = array('%messaggio%' => '%ml.modificaVisitaOk%');				
+				$replace = array('%messaggio%' => '%ml.modificaVisitaOk%');
 				$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);			
 				echo $utility->tailTemplate($template);
 			}
@@ -139,15 +125,12 @@ class modificaVisita extends visitaAbstract {
 		$db = new database();
 		$db->beginTransaction();
 
-		$dentiSingoli = $visita->getDentiSingoli();
-		$idVisitaUsato = $visita->getIdVisita(); 
-		$visita->setIdVisita($idVisitaUsato);
-		$visita->setIdPaziente($this->getIdPaziente());
+		$idVisitaUsato = $_SESSION['idVisita']; 
 
-		foreach($dentiSingoli as $row) {
+		foreach($_SESSION['dentisingoli'] as $row) {
 
 			// cerco il nomecampo sulla tabella vocevisita			
-			$idVoce = $this->leggiVoceVisita($db, $idVisitaUsato, trim($row[0]), self::$singoliForm);
+			$idVoce = $this->leggiVoceVisita($db, $_SESSION['idVisita'], trim($row[0]), self::$singoliForm);
 			
 			// se il nomecampo esiste in tabella "vocevisita" e la voce in pagina è != ""						
 			if ($idVoce != "" and $row[1] != "") {
@@ -168,23 +151,23 @@ class modificaVisita extends visitaAbstract {
 			// se il nomecampo non esiste e la voce in pagina è != ""
 			elseif ($idVoce == "" and $row[1] != "") {
 
-				if (!$this->creaVoceVisita($db, $idVisitaUsato, self::$singoliForm, $row[0], $row[1])) {
-					error_log("Fallita creazione voce per la visita : " . $idVisitaUsato);
+				if (!$this->creaVoceVisita($db, $_SESSION['idVisita'], self::$singoliForm, $row[0], $row[1])) {
+					error_log("Fallita creazione voce per la visita : " . $_SESSION['idVisita']);
 					$db->rollbackTransaction();
 					return FALSE;
 				}
 			}
 		}
 		// aggiorno la datamodifica della "visita"
-		if (!$this->aggiornaVisita($db, $idVisitaUsato)) {
-			error_log("Fallito aggiornamento visita : " . $idVisitaUsato);
+		if (!$this->aggiornaVisita($db, $_SESSION['idVisita'])) {
+			error_log("Fallito aggiornamento visita : " . $_SESSION['idVisita']);
 			$db->rollbackTransaction();
 			return FALSE;
 		}
 
 		// aggiorno la datamodifica del "paziente"
-		if (!$this->aggiornaPaziente($db, $this->getIdPaziente())) {
-			error_log("Fallito aggiornamento paziente : " . $this->getIdPaziente());
+		if (!$this->aggiornaPaziente($db, $_SESSION['idPaziente'], self::$root)) {
+			error_log("Fallito aggiornamento paziente : " . $_SESSION['idPaziente']);
 			$db->rollbackTransaction();
 			return FALSE;
 		}
@@ -193,4 +176,5 @@ class modificaVisita extends visitaAbstract {
 		return TRUE;				
 	}
 }
+
 ?>

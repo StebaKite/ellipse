@@ -2,47 +2,57 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/preventivo:/var/www/html/ellipse/src/utility');
 require_once 'modificaPagamento.class.php';
+require_once 'firewall.class.php';
 
-$modificaPagamento = new modificaPagamento();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$modificaPagamento->setIdPaziente($_GET['idPaziente']);
-		$modificaPagamento->setIdListino($_GET['idListino']);
-		$modificaPagamento->setIdPreventivo($_GET['idPreventivo']);
-		$modificaPagamento->setIdPreventivoPrincipale($_GET['idPreventivoPrincipale']);
-		$modificaPagamento->setIdSottoPreventivo($_GET['idSottoPreventivo']);
-		$modificaPagamento->setDataInserimento($_GET['datainserimento']);
-		$modificaPagamento->setStato($_GET['stato']);
-		$modificaPagamento->setCognomeRicerca($_GET['cognRic']);
-		$modificaPagamento->setCognome($_GET['cognome']);
-		$modificaPagamento->setNome($_GET['nome']);
-		$modificaPagamento->setDataNascita($_GET['datanascita']);
-		break;
-	case 'POST':
-		$modificaPagamento->setIdPaziente($_POST['idPaziente']);
-		$modificaPagamento->setIdListino($_POST['idListino']);
-		$modificaPagamento->setIdPreventivo($_POST['idPreventivo']);
-		$modificaPagamento->setIdPreventivoPrincipale($_POST['idPreventivoPrincipale']);
-		$modificaPagamento->setIdSottoPreventivo($_POST['idSottoPreventivo']);
-		$modificaPagamento->setDataInserimento($_POST['datainserimento']);
-		$modificaPagamento->setStato($_POST['stato']);
-		$modificaPagamento->setCognomeRicerca($_POST['cognRic']);
-		$modificaPagamento->setCognome($_POST['cognome']);
-		$modificaPagamento->setNome($_POST['nome']);
-		$modificaPagamento->setDataNascita($_POST['datanascita']);
-		$modificaPagamento->setTotalePreventivoDentiSingoli($_POST['totalesingoli']);
-		$modificaPagamento->setTotalePreventivoGruppi($_POST['totalegruppi']);
-		$modificaPagamento->setTotalePreventivoCure($_POST['totalecure']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$modificaPagamento = new modificaPagamento();
+	if ($_GET['modo'] == "start") $modificaPagamento->start();
+	if ($_GET['modo'] == "go") $modificaPagamento->go();
 }
+else {
 
-if ($_GET['modo'] == "start") $modificaPagamento->start();
-if ($_GET['modo'] == "go") $modificaPagamento->go();
+	$firewall = new firewall();
+
+	$data = array();
+	if ($_GET['idPreventivo'] != "") $data['idPreventivo'] = 'idPreventivo' . ';' . $_GET['idPreventivo'];
+	if ($_GET['idPreventivoPrincipale'] != "") $data['idPreventivoPrincipale'] = 'idPreventivoPrincipale' . ';' . $_GET['idPreventivoPrincipale'];
+	if ($_GET['idSottoPreventivo'] != "") $data['idSottoPreventivo'] = 'idSottoPreventivo' . ';' . $_GET['idSottoPreventivo'];
+	if ($_GET['datainserimento'] != "") $data['dataInserimento'] = 'dataInserimento' . ';' . $_GET['datainserimento'];
+	if ($_GET['stato'] != "") $data['stato'] = 'stato' . ';' . $_GET['stato'];
+
+
+	if ($firewall->controlloCampiRichiesta($data)) {
+
+		$_SESSION['idPreventivo'] = $_GET['idPreventivo'];
+		$_SESSION['idPreventivoPrincipale'] = $_GET['idPreventivoPrincipale'];
+		$_SESSION['idSottoPreventivo'] = $_GET['idSottoPreventivo'];
+		$_SESSION['dataInserimento'] = $_GET['datainserimento'];
+		$_SESSION['stato'] = $_GET['stato'];
+
+		$modificaPagamento = new modificaPagamento();
+		if ($_GET['modo'] == "start") $modificaPagamento->start();
+		if ($_GET['modo'] == "go") $modificaPagamento->go();
+	}
+	else {
+
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>

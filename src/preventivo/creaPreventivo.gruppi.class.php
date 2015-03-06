@@ -58,27 +58,24 @@ class creaPreventivoGruppi extends preventivoAbstract {
 		$preventivoGruppiTemplate = new preventivoGruppiTemplate();
 		$this->preparaPagina($preventivoGruppiTemplate);
 		
-		$preventivoGruppiTemplate->setVoceGruppo_1($_POST['voceGruppo_1']);
-		$preventivoGruppiTemplate->setDentiGruppo_1($this->prelevaCampiFormGruppo_1());
+		$_SESSION['vocegruppo_1'] = $_POST['voceGruppo_1'];
+		$_SESSION['dentigruppo_1'] = $this->prelevaCampiFormGruppo_1();
 		
-		$preventivoGruppiTemplate->setVoceGruppo_2($_POST['voceGruppo_2']);
-		$preventivoGruppiTemplate->setDentiGruppo_2($this->prelevaCampiFormGruppo_2());
+		$_SESSION['vocegruppo_2'] = $_POST['voceGruppo_2'];
+		$_SESSION['dentigruppo_2'] = $this->prelevaCampiFormGruppo_2();
 		
-		$preventivoGruppiTemplate->setVoceGruppo_3($_POST['voceGruppo_3']);
-		$preventivoGruppiTemplate->setDentiGruppo_3($this->prelevaCampiFormGruppo_3());
+		$_SESSION['vocegruppo_3'] = $_POST['voceGruppo_3'];
+		$_SESSION['dentigruppo_3'] = $this->prelevaCampiFormGruppo_3();
 		
-		$preventivoGruppiTemplate->setVoceGruppo_4($_POST['voceGruppo_4']);
-		$preventivoGruppiTemplate->setDentiGruppo_4($this->prelevaCampiFormGruppo_4());
+		$_SESSION['vocegruppo_4'] = $_POST['voceGruppo_4'];
+		$_SESSION['dentigruppo_4'] = $this->prelevaCampiFormGruppo_4();
 
 		include($this->getTestata());
 			
 		if ($this->inserisciGruppi($preventivoGruppiTemplate)) {
 		
 			$ricercaPreventivo = new ricercaPreventivo();
-			$ricercaPreventivo->setIdPaziente($this->getIdPaziente());
-			$ricercaPreventivo->setIdListino($this->getIdListino());
 			$ricercaPreventivo->setMessaggio("%ml.creaPreventivoOk%");
-			$ricercaPreventivo->setCognomeRicerca($this->getCognomeRicerca());
 			$ricercaPreventivo->start();
 		}
 		else {
@@ -102,12 +99,12 @@ class creaPreventivoGruppi extends preventivoAbstract {
 		 * Una riga in "preventivo" e tutte le voci in tabella "vocePreventivo"
 		 */ 
 
-		if ($this->creaPreventivo($db)) {
+		if ($this->creaPreventivo($db, self::$root)) {
 
-			if ($this->inserisciVociGruppo($db, 'voceGruppo_1', $preventivoGruppiTemplate->getVoceGruppo_1(), $preventivoGruppiTemplate->getDentiGruppo_1(), $db->getLastIdUsed())) {
-				if ($this->inserisciVociGruppo($db, 'voceGruppo_2', $preventivoGruppiTemplate->getVoceGruppo_2(), $preventivoGruppiTemplate->getDentiGruppo_2(), $db->getLastIdUsed())) {
-					if ($this->inserisciVociGruppo($db, 'voceGruppo_3', $preventivoGruppiTemplate->getVoceGruppo_3(), $preventivoGruppiTemplate->getDentiGruppo_3(), $db->getLastIdUsed())) {
-						if ($this->inserisciVociGruppo($db, 'voceGruppo_4', $preventivoGruppiTemplate->getVoceGruppo_4(), $preventivoGruppiTemplate->getDentiGruppo_4(), $db->getLastIdUsed())) {
+			if ($this->inserisciVociGruppo($db, 'voceGruppo_1', $_SESSION['vocegruppo_1'], $_SESSION['dentigruppo_1'], $db->getLastIdUsed())) {
+				if ($this->inserisciVociGruppo($db, 'voceGruppo_2', $_SESSION['vocegruppo_2'], $_SESSION['dentigruppo_2'], $db->getLastIdUsed())) {
+					if ($this->inserisciVociGruppo($db, 'voceGruppo_3', $_SESSION['vocegruppo_3'], $_SESSION['dentigruppo_3'], $db->getLastIdUsed())) {
+						if ($this->inserisciVociGruppo($db, 'voceGruppo_4', $_SESSION['vocegruppo_4'], $_SESSION['dentigruppo_4'], $db->getLastIdUsed())) {
 							$db->commitTransaction();
 							return TRUE;				
 						}
@@ -145,7 +142,20 @@ class creaPreventivoGruppi extends preventivoAbstract {
 	
 		$preventivoGruppiTemplate->setTitoloPagina("%ml.creaNuovoPreventivoGruppi%");
 		$preventivoGruppiTemplate->setPreventivoLabel("");
-		$preventivoGruppiTemplate->setIdPreventivo("");
+		
+		unset($_SESSION['idPreventivo']);
+		unset($_SESSION['idSottoPreventivo']);
+		unset($_SESSION['totalepreventivogruppi']);
+
+		unset($_SESSION['vocegruppo_1']);
+		unset($_SESSION['vocegruppo_2']);
+		unset($_SESSION['vocegruppo_3']);
+		unset($_SESSION['vocegruppo_4']);
+		unset($_SESSION['dentigruppo_1']);
+		unset($_SESSION['dentigruppo_2']);
+		unset($_SESSION['dentigruppo_3']);
+		unset($_SESSION['dentigruppo_4']);
+		
 	}
 }
 

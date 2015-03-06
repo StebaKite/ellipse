@@ -47,26 +47,24 @@ class vocePreventivoTemplate extends preventivoAbstract {
 		$array = $utility->getConfig();
 		
 		$form = self::$root . $array['template'] . self::$pagina;
+
+		if ($_SESSION['idPreventivo'] != "") $idPreventivo = $_SESSION['idPreventivo'];
+		elseif ($_SESSION['idSottoPreventivo'] != "") $idPreventivo = $_SESSION['idSottoPreventivo'];
 		
 		$replace = array(
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%azione%' => $this->getAzione(),
-				'%cognome%' => $this->getCognome(),
-				'%nome%' => $this->getNome(),
-				'%datanascita%' => $this->getDataNascita(),
-				'%datainserimento%' => $this->getDataInserimento(),
-				'%stato%' => $this->getStato(),
-				'%dente%' => $this->getDente(),
-				'%tabella%' => $this->getTabella(),
-				'%testoAzione%' => $this->getTestoAzione(),
-				'%idvocepreventivo%' => $this->getIdvocePreventivo(),
-				'%idvocesottopreventivo%' => $this->getIdvoceSottoPreventivo(),
-				'%cognomeRicerca%' => $this->getCognomeRicerca(),
-				'%idPaziente%' => $this->getIdPaziente(),
-				'%idListino%' => $this->getIdListino(),
-				'%idPreventivo%' => $this->getIdPreventivo(),
-				'%idPreventivoPrincipale%' => $this->getIdPreventivoPrincipale(),
-				'%idSottoPreventivo%' => $this->getIdSottoPreventivo(),
+				'%cognome%' => $_SESSION['cognome'],
+				'%nome%' => $_SESSION['nome'],
+				'%datanascita%' => $_SESSION['datanascita'],
+				'%datainserimento%' => $_SESSION['dataInserimento'],
+				'%stato%' => $_SESSION['stato'],
+				'%dente%' => $_SESSION['dente'],
+				'%tabella%' => $_SESSION['tabella'],
+				'%testoAzione%' => $this->getTestoAzione(),				
+				'%idvocepreventivo%' => $_SESSION['idvocePreventivo'],
+				'%idvocesottopreventivo%' => $_SESSION['IdvoceSottoPreventivo'],
+				'%idPreventivo%' => $idPreventivo,				
 				'%codicevoce%' => $this->getCodiceVoce(),
 				'%descrizionevoce%' => $this->getDescrizioneVoce(),
 				'%descrizionevocelistino%' => $this->getDescrizioneVoceListino(),
@@ -77,10 +75,10 @@ class vocePreventivoTemplate extends preventivoAbstract {
 				'%prezzoStyle%' => $this->getStylePrezzo()
 		);
 
-		if ($this->getStato() == '00') $replace['%stato%'] = '%ml.proposto%';
-		if ($this->getStato() == '01') $replace['%stato%'] = '%ml.accettato%';
-		if ($this->getStato() == '02') $replace['%stato%'] = '%ml.parzialmenteaccettato%';
-		if ($this->getStato() == '03') $replace['%stato%'] = '%ml.splittato%';
+		if ($_SESSION['stato'] == '00') $replace['%stato%'] = '%ml.proposto%';
+		if ($_SESSION['stato'] == '01') $replace['%stato%'] = '%ml.accettato%';
+		if ($_SESSION['stato'] == '02') $replace['%stato%'] = '%ml.parzialmenteaccettato%';
+		if ($_SESSION['stato'] == '03') $replace['%stato%'] = '%ml.splittato%';
 		
 		$utility = new utility();
 		

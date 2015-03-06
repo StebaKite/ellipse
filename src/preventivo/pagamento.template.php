@@ -22,43 +22,23 @@ class pagamentoTemplate extends preventivoAbstract {
 		$esito = TRUE;
 
 		/**
-		 * Determino la situazione del preventivo
-		 */
-
-		foreach ($this->getTotalePagatoInPiano() as $row) {
-			$totalePagatoInPiano += $row['totale'];
-		}
-			
-		foreach ($this->getTotaleDaPagareInPiano() as $row) {
-			$totaleDaPagareInPiano += $row['totale'];
-		}
-			
-		$totaleDaPagareFuoriPiano = $this->calcolaTotalePreventivo() - $totaleDaPagareInPiano - $totalePagatoInPiano;
-		$totalePreventivo = $this->calcolaTotalePreventivo();
-
-		/**
 		 * Calcolo l'importo o la percentuale di sconto
 		 */
 		
  		if ($scontoPercentuale_db != $scontoPercentuale_form) {
-			$scontoContante = ($totalePreventivo / 100) * $this->getScontoPercentuale();					// calcolo il contante da sommare al residuo fuori piano
- 			$this->setScontoContante($scontoContante);
- 			$this->setTotaleDaPagareFuoriPiano($totaleDaPagareFuoriPiano - $scontoContante);				// tolgo lo sconto al totale fuori piano
+			$_SESSION['scontocontante'] = ($_SESSION['totalepreventivo'] / 100) * $_SESSION['scontopercentuale'];			// calcolo il contante da sommare al residuo fuori piano
+ 			$_SESSION['totaledapagarefuoripiano'] = ($_SESSION['totaledapagarefuoripiano'] - $_SESSION['scontocontante']);	// tolgo lo sconto al totale fuori piano
  		}
  		elseif ($scontoContante_db != $scontoContante_form) {
- 			$scontoPercentuale = ($this->getScontoContante() * 100) / $totalePreventivo;					// calcolo la percentuale
- 			$this->setScontoPercentuale($scontoPercentuale);
- 			$this->setTotaleDaPagareFuoriPiano($totaleDaPagareFuoriPiano - $this->getScontoContante());		// tolgo lo sconto al totale fuori piano 			
+ 			$_SESSION['scontopercentuale'] = ($_SESSION['scontocontante'] * 100) / $_SESSION['totalepreventivo'];			// calcolo la percentuale
+ 			$_SESSION['totaledapagarefuoripiano'] = ($_SESSION['totaledapagarefuoripiano'] - $_SESSION['scontocontante']);	// tolgo lo sconto al totale fuori piano 			
  		}
-		else {
-			$this->setTotaleDaPagareFuoriPiano($totaleDaPagareFuoriPiano - $this->getScontoContante());		// tolgo lo sconto al totale fuori piano			
-		}
 		
 		/**
 		 * Se è stato variato un parametro di rateizzazione controllo la congruenza con l'importo che rimane da pagare
 		 */	
 		
-		if ($this->getImportoDaRateizzare() != "") {
+		if ($importoDaRateizzare_form != "") {
 		
 			if (($importoDaRateizzare_db != $importoDaRateizzare_form)
 			or ($dataPrimaRata_db != $dataPrimaRata_form)
@@ -73,64 +53,80 @@ class pagamentoTemplate extends preventivoAbstract {
 				
 				$deltaImporto = $importoDaRateizzare_form - $importoDaRateizzare_db;
 				
-				if ($deltaImporto > ($this->getTotaleDaPagareFuoriPiano())) {
-					$this->setImportoDaRateizzare($importoDaRateizzare_db + $this->getTotaleDaPagareFuoriPiano());
+				if ($deltaImporto > $_SESSION['totaledapagarefuoripiano']) {
+					$_SESSION['importodarateizzare'] = $importoDaRateizzare_db + $_SESSION['totaledapagarefuoripiano'];
 				}
-				$totaleFuoriPiano = $this->getTotaleDaPagareFuoriPiano() - $this->getImportoDaRateizzare();
-				$this->setTotaleDaPagareFuoriPiano($totaleFuoriPiano);				
+				$_SESSION['totaledapagarefuoripiano'] = $_SESSION['totaledapagarefuoripiano'] - $_SESSION['importodarateizzare'];
 				
-				if ($this->getDataPrimaRata() == "") {
-					$esito = FALSE;
-					$this->setStyleDataPrimaRata("border-color:#ff0000; border-width:2px;");
-					$this->setTipDataPrimaRata("%ml.dataprimaratamancante%");				
+				if ($_SESSION['importodarateizzare'] == 0) {
+					$_SESSION['dataprimarata'] = "";
+					$_SESSION['numerogiornirata'] = "";
+					$_SESSION['importorata'] = "";
 				}
-						
-				if ($this->getNumeroGiorniRata() == "") {
-					$esito = FALSE;
-					$this->setStyleNumeroGiorniRata("border-color:#ff0000; border-width:2px;");
-					$this->setTipNumeroGiorniRata("%ml.numerogiorniratamancante%");				
-				}
-								
-				if ($this->getImportoRata() == "") {
-					$esito = FALSE;
-					$this->setStyleImportoRata("border-color:#ff0000; border-width:2px;");
-					$this->setTipImportoRata("%ml.importoratamancante%");				
-				}
+				else {
+					if ($dataPrimaRata_form == "") {
+							
+						$esito = FALSE;
+						$_SESSION['styledataprimarata'] = "border-color:#ff0000; border-width:2px;";
+						$_SESSION['tipdataprimarata'] = "%ml.dataprimaratamancante%";
+					}
+					else {
+						$_SESSION['dataprimarata'] = "$dataPrimaRata_form";
+					}
+					
+					if ($numeroGiorniRata_form == "") {
+						$esito = FALSE;
+						$_SESSION['stylenumerogiornirata'] = "border-color:#ff0000; border-width:2px;";
+						$_SESSION['tipnumerogiornirata'] = "%ml.numerogiorniratamancante%";
+					}
+					else {
+						$_SESSION['numerogiornirata'] = "$numeroGiorniRata_form";
+					}
+					
+					if ($importoRata_form == "") {
+						$esito = FALSE;
+						$_SESSION['styleimportorata'] = "border-color:#ff0000; border-width:2px;";
+						$_SESSION['tipimportorata'] = "%ml.importoratamancante%";
+					}
+					else {
+						$_SESSION['importorata'] = "$importoRata_form";
+					}													
+				}				
 			}
 		}
 		else {
 			/**
 			 * Se l'importo da rateizzare è stato cancellato pulisco tutti i parametri per la rateizzazione
 			 */
-			$this->setDataPrimaRata("");
-			$this->setNumeroGiorniRata("");
-			$this->setImportoRata("");
+			$_SESSION['importodarateizzare'] = "";
+			$_SESSION['dataprimarata'] = "";
+			$_SESSION['numerogiornirata'] = "";
+			$_SESSION['importorata'] = "";
 		}
 
 		/**
 		 * Controllo campi per acconti
 		 */
 		
-		if ($this->getDataScadenzaAcconto() != "") {
+		if ($_SESSION['datascadenzaacconto'] != "") {
 			
-			if ($this->getDescrizioneAcconto() == "") {
+			if ($_SESSION['descrizioneacconto'] == "") {
 				$esito = FALSE;
-				$this->setStyleDescrizioneAcconto("border-color:#ff0000; border-width:2px;");
-				$this->setTipDescrizioneAcconto("%ml.descrizionemancante%");
+				$_SESSION['styledescrizioneacconto'] = "border-color:#ff0000; border-width:2px;";
+				$_SESSION['tipdescrizioneacconto'] = "%ml.descrizionemancante%";
 			}
 
-			if ($this->getImportoAcconto() == "") {
+			if ($_SESSION['importoacconto'] == "") {
 				$esito = FALSE;
-				$this->setStyleImportoAcconto("border-color:#ff0000; border-width:2px;");
-				$this->setTipImportoAcconto("%ml.importoratamancante%");
+				$_SESSION['styleimportoacconto'] = "border-color:#ff0000; border-width:2px;";
+				$_SESSION['tipimportoacconto'] = "%ml.importoratamancante%";
 			}
 			else {
 				
-				if ($this->getImportoAcconto() > $this->getTotaleDaPagareFuoriPiano()) {
-					$this->setImportoAcconto($this->getTotaleDaPagareFuoriPiano());
+				if ($_SESSION['importoacconto'] > $_SESSION['totaledapagarefuoripiano']) {
+					$_SESSION['importoacconto'] = $_SESSION['totaledapagarefuoripiano'];
 				}
-				$totaleFuoriPiano = $this->getTotaleDaPagareFuoriPiano() - $this->getImportoAcconto();
-				$this->setTotaleDaPagareFuoriPiano($totaleFuoriPiano);
+				$_SESSION['totaledapagarefuoripiano'] = $_SESSION['totaledapagarefuoripiano'] - $_SESSION['importoacconto'];
 			}
 		}
 		
@@ -158,76 +154,57 @@ class pagamentoTemplate extends preventivoAbstract {
 			else $template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);			
 			echo $utility->tailTemplate($template);				
 		}
-		
-		/**
-		 * Gestione dei totali
-		 */
-		$totalePreventivo = $this->calcolaTotalePreventivo();
-		
-		foreach ($this->getTotalePagatoInPiano() as $row) {
-			$totalePagatoInPiano += $row['totale'];
-		}
-		
-		foreach ($this->getTotaleDaPagareInPiano() as $row) {
-			$totaleDaPagareInPiano += $row['totale'];
-		}
-		
-		$totaleDaPagareFuoriPiano = $this->getTotaleDaPagareFuoriPiano();
+				
+		$totaleDaPagareFuoriPiano = $_SESSION['totaledapagarefuoripiano'];
 		
 		$replace = array(
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%preventivo%' => $this->getPreventivoLabel(),
 				'%totale%' => $this->getTotalePreventivoLabel(),
-				'%totpreventivo%' => '&euro;' . number_format($totalePreventivo, 2, ',', '.'),
-				'%totsingoli%' => $this->getTotalePreventivoDentiSingoli(),
-				'%totgruppi%' => $this->getTotalePreventivoGruppi(),
-				'%totcure%' => $this->getTotalePreventivoCure(),
-				'%totalePagatoProgressBar%' => ($totalePagatoInPiano * 100) / $totalePreventivo,
-				'%totaleFuoriPianoProgressBar%' => ($totaleDaPagareFuoriPiano * 100) / $totalePreventivo,
-				'%totalePagatoInPiano%' => '&euro;' . number_format($totalePagatoInPiano, 2, ',', '.'),
-				'%totaleDaPagareInPiano%' => '&euro;' . number_format($totaleDaPagareInPiano, 2, ',', '.'),
-				'%totaleDaPagareFuoriPiano%' => '&euro;' . number_format($totaleDaPagareFuoriPiano, 2, ',', '.'),
-				'%cognome%' => $this->getCognome(),
-				'%nome%' => $this->getNome(),
-				'%datanascita%' => $this->getDataNascita(),
+				'%totpreventivo%' => '&euro;' . number_format($_SESSION['totalepreventivo'], 2, ',', '.'),
+				'%totalePagatoProgressBar%' => ($_SESSION['totalepagatoinpiano'] * 100) / $_SESSION['totalepreventivo'],
+				'%totaleDaPagareProgressBar%' => ($_SESSION['totaledapagareinpiano'] * 100) / $_SESSION['totalepreventivo'],
+				'%totaleFuoriPianoProgressBar%' => ($_SESSION['totaledapagarefuoripiano'] * 100) / $_SESSION['totalepreventivo'],
+				'%totalePagatoInPiano%' => '&euro;' . number_format($_SESSION['totalepagatoinpiano'], 2, ',', '.'),
+				'%totaleDaPagareInPiano%' => '&euro;' . number_format($_SESSION['totaledapagareinpiano'], 2, ',', '.'),
+				'%totaleDaPagareFuoriPiano%' => '&euro;' . number_format($_SESSION['totaledapagarefuoripiano'], 2, ',', '.'),
+				'%cognome%' => $_SESSION['cognome'],
+				'%nome%' => $_SESSION['nome'],
+				'%datanascita%' => $_SESSION['datanascita'],
 				'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
 				'%azioneGruppi%' => $this->getAzioneGruppi(),
 				'%azioneCure%' => $this->getAzioneCure(),
 				'%azionePagamento%' => $this->getAzionePagamento(),
-				'%cognomeRicerca%' => $this->getCognomeRicerca(),
-				'%idPaziente%' => $this->getIdPaziente(),
-				'%idListino%' => $this->getIdListino(),
-				'%idPreventivo%' => $this->getIdPreventivo(),
-				'%idPreventivoPrincipale%' => $this->getIdPreventivoPrincipale(),
-				'%idSottoPreventivo%' => $this->getIdSottoPreventivo(),
-				'%stato%' => $this->getStato(),
-				'%scontopercentuale%' => $this->getScontoPercentuale(),
-				'%scontocontante%' => $this->getScontoContante(),
-				'%datascadenzaacconto%' => $this->getDataScadenzaAcconto(),
-				'%datascadenzaaccontoStyle%' => $this->getStyleDataScadenzaAcconto(),
-				'%datascadenzaaccontoTip%' => $this->getTipDataScadenzaAcconto(),
-				'%descrizioneacconto%' => $this->getDescrizioneAcconto(),
-				'%descrizioneaccontoStyle%' => $this->getStyleDescrizioneAcconto(),
-				'%descrizioneaccontoTip%' => $this->getTipDescrizioneAcconto(),
-				'%importoacconto%' => $this->getImportoAcconto(),
-				'%importoaccontoStyle%' => $this->getStyleImportoAcconto(),
-				'%importoaccontoTip%' => $this->getTipImportoAcconto(),
+				'%idPreventivo%' => $_SESSION['idPreventivo'],
+				'%idPreventivoPrincipale%' => $_SESSION['idPreventivoPrincipale'],
+				'%idSottoPreventivo%' => $_SESSION['idSottoPreventivo'],
+				'%stato%' => $_SESSION['stato'],
+				'%scontopercentuale%' => $_SESSION['scontopercentuale'],
+				'%scontocontante%' => $_SESSION['scontocontante'],
+				'%datascadenzaacconto%' => $_SESSION['datascadenzaacconto'],
+				'%datascadenzaaccontoStyle%' => $_SESSION['styledatascadenzaacconto'],
+				'%datascadenzaaccontoTip%' => $_SESSION['tipdatascadenzaacconto'],
+				'%descrizioneacconto%' => $_SESSION['descrizioneacconto'],
+				'%descrizioneaccontoStyle%' => $_SESSION['styledescrizioneacconto'],
+				'%descrizioneaccontoTip%' => $_SESSION['tipdescrizioneacconto'],
+				'%importoacconto%' => $_SESSION['importoacconto'],
+				'%importoaccontoStyle%' => $_SESSION['styleimportoacconto'],
+				'%importoaccontoTip%' => $_SESSION['tipimportoacconto'],
 				'%elencoacconti%' => $this->creaElencoAcconti(),
-				'%importodarateizzare%' => $this->getImportoDaRateizzare(),
-				'%dataprimarata%' => $this->getDataPrimaRata(),
-				'%dataprimarataStyle%' => $this->getStyleDataPrimaRata(),
-				'%dataprimarataTip%' => $this->getTipDataPrimaRata(),
+				'%importodarateizzare%' => $_SESSION['importodarateizzare'],
+				'%dataprimarata%' => $_SESSION['dataprimarata'],
+				'%dataprimarataStyle%' => $_SESSION['styledataprimarata'],
+				'%dataprimarataTip%' => $_SESSION['tipdataprimarata'],
 				'%dataprimarataDisable%' => "",
-				'%numerogiornirata%' => $this->getNumeroGiorniRata(),
-				'%numerogiornirataStyle%' => $this->getStyleNumeroGiorniRata(),
-				'%numerogiornirataTip%' => $this->getTipNumeroGiorniRata(),
+				'%numerogiornirata%' => $_SESSION['numerogiornirata'],
+				'%numerogiornirataStyle%' => $_SESSION['stylenumerogiornirata'],
+				'%numerogiornirataTip%' => $_SESSION['tipnumerogiornirata'],
 				'%numerogiornirataDisable%' => "",
-				'%importorata%' => $this->getImportoRata(),
-				'%importorataStyle%' => $this->getStyleImportoRata(),
-				'%importorataTip%' => $this->getTipImportoRata(),
+				'%importorata%' => $_SESSION['importorata'],
+				'%importorataStyle%' => $_SESSION['styleimportorata'],
+				'%importorataTip%' => $_SESSION['tipimportorata'],
 				'%importorataDisable%' => "",
 				'%confermaTip%'=> $this->getConfermaTip(),
-				'%importoSconto%' => $this->getImportoSconto(),
 				'%divelencoratepagamento%' => $this->creaElencoRatePagamento(),
 				'%tabelencoratepagamento%' => $this->creaTabRatePagamento()
 		);
@@ -238,23 +215,14 @@ class pagamentoTemplate extends preventivoAbstract {
 		echo $utility->tailTemplate($template);
 	}	
 	
-	public function calcolaTotalePreventivo() {
-		
-		$singoli = substr(str_replace(",",".",str_replace(".","",$this->getTotalePreventivoDentiSingoli())),3);
-		$gruppi = substr(str_replace(",",".",str_replace(".","",$this->getTotalePreventivoGruppi())),3);
-		$cure = substr(str_replace(",",".",str_replace(".","",$this->getTotalePreventivoCure())),3);
-		
-		return $singoli + $gruppi + $cure;		
-	}
-	
 	public function creaElencoAcconti() {
 
-		if ($this->getAcconti() != "") {
+		if ($_SESSION['acconti'] != "") {
 				
 			$testaElencoAcconti = "<table class='result-alt'><tbody>";
 				
 			$corpoElencoAcconti = "";
-			foreach ($this->getAcconti() as $row) {
+			foreach ($_SESSION['acconti'] as $row) {
 				if ($row['stato'] == '00') {
 					$stato = '%ml.dapagare%';
 					$class = "class='pagataOff'";
@@ -266,7 +234,7 @@ class pagamentoTemplate extends preventivoAbstract {
 				$corpoElencoAcconti .= "<tr height='30' " . $class . ">";
 				$corpoElencoAcconti .= "<td width='80'>" . $row['datascadenza']  . "</td><td width='261'>" . $row['descrizione']  . "</td><td width='120' align='right'>&euro;" . $row['importo']  . "</td><td width='110' align='center'>" . $stato  . "</td>";
 				if ($row['stato'] == '00') {
-					$corpoElencoAcconti .= "<td id='icons' width='35'><a class='tooltip' href='../preventivo/cancellaAccontoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idAcconto=" . $row['idacconto'] . "&idListino=" . $this->getIdlistino() . "&idPreventivo=" . $this->getIdPreventivo() . "&idPreventivoPrincipale=" . $this->getIdPreventivoPrincipale() . "&idSottoPreventivo=" . $this->getIdSottoPreventivo() . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "&totalesingoli=" . $this->getTotalePreventivoDentiSingoli() . "&totalegruppi=" . $this->getTotalePreventivoGruppi() . "&totalecure=" . $this->getTotalePreventivoCure() . "&importosconto=" . $this->getImportoSconto() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a></td>";
+					$corpoElencoAcconti .= "<td id='icons' width='35'><a class='tooltip' href='../preventivo/cancellaAccontoFacade.class.php?modo=start&idAcconto=" . $row['idacconto'] . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a></td>";
 				}
 				else {
 					$corpoElencoAcconti .= "<td width='33'>&nbsp;</td>";
@@ -281,12 +249,12 @@ class pagamentoTemplate extends preventivoAbstract {
 	
 	public function creaElencoRatePagamento() {
 		
-		if ($this->getRatePagamento() != "") {
+		if ($_SESSION['ratepagamento'] != "") {
 				
 			$testaelencoRatePagamento = "<div id='tabs-2'><div class='scroll'><table class='result-alt' id='resultTable'><thead><tr><th>Data Scadenza</th><th>Importo</th><th>Stato</th></tr></thead><tbody>";
 				
 			$corpoelencoRatePagamento = "";
-			foreach ($this->getRatePagamento() as $row) {
+			foreach ($_SESSION['ratepagamento'] as $row) {
 				if ($row['stato'] == '00') {
 					$stato = '%ml.dapagare%';
 					$class = "class='pagataOff'";
@@ -308,7 +276,7 @@ class pagamentoTemplate extends preventivoAbstract {
 	
 	public function creaTabRatePagamento() {
 
-		if ($this->getRatePagamento() != "") {
+		if ($_SESSION['ratepagamento'] != "") {
 			return "<li><a href='#tabs-2'>%ml.ratepagamento%</a></li>";				
 		}
 		else return "";		

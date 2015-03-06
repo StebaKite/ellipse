@@ -24,12 +24,6 @@ class creaVisitaCure extends visitaAbstract {
 		self::$messaggioInfo = self::$root . $array['messaggioInfo'];						
 	}
 
-	// -------------------------------------------------
-	
-	public function getCureForm() {
-		return self::$cureForm;
-	}
-
 	// ------------------------------------------------
 
 	public function start() {
@@ -40,7 +34,7 @@ class creaVisitaCure extends visitaAbstract {
 		error_log("<<<<<<< Start >>>>>>> " . $_SERVER['PHP_SELF']);
 
 		$visitaCure = new visitaCure();
-		$visitaCure->setVisitaCure($this->preparaPagina($visitaCure));		
+		$this->preparaPagina($visitaCure);		
 
 		// Compone la pagina
 		include(self::$testata);
@@ -58,15 +52,15 @@ class creaVisitaCure extends visitaAbstract {
 		error_log("<<<<<<< Go >>>>>>> " . $_SERVER['PHP_SELF']);
 
 		$visitaCure = new visitaCure();
-		$visitaCure->setVisitaCure($this->preparaPagina($visitaCure));		
-		$visitaCure->setCureGeneriche($this->prelevaCampiFormCure());
+		$this->preparaPagina($visitaCure);		
+		$_SESSION['curegeneriche'] = $this->prelevaCampiFormCure();
 		
 		include(self::$testata);
 
 		$utility = new utility();
 
 		$voceSelezionata = FALSE;
-		foreach ($visitaCure->getCureGeneriche() as $row) {
+		foreach ($_SESSION['curegeneriche'] as $row) {
 			if ($row['1'] != "") {
 				$voceSelezionata = TRUE;
 				break;
@@ -78,10 +72,7 @@ class creaVisitaCure extends visitaAbstract {
 			if ($this->inserisciCure($visitaCure)) {
 
 				$ricercaVisita = new ricercaVisita();
-				$ricercaVisita->setIdPaziente($this->getIdPaziente());
-				$ricercaVisita->setIdListino($this->getIdListino());
 				$ricercaVisita->setMessaggio("%ml.creaVisitaOk%");
-				$ricercaVisita->setCognomeRicerca($this->getCognomeRicerca());
 				$ricercaVisita->start();
 			}
 			else {
@@ -93,15 +84,23 @@ class creaVisitaCure extends visitaAbstract {
 		}
 		else {
 			$ricercaVisita = new ricercaVisita();
-			$ricercaVisita->setIdPaziente($this->getIdPaziente());
-			$ricercaVisita->setIdListino($this->getIdListino());
-			$ricercaVisita->setCognomeRicerca($this->getCognomeRicerca());
 			$ricercaVisita->start();
 		}
 
 		include(self::$piede);		
 	}
-				
+
+	public function preparaPagina($visitaCure) {
+	
+		$visitaCure->setAzioneDentiSingoli(self::$azioneDentiSingoli);
+		$visitaCure->setAzioneGruppi(self::$azioneGruppi);
+		$visitaCure->setAzioneCure(self::$azioneCure);
+		$visitaCure->setConfermaTip('%ml.confermaCreazioneVisita%');
+		$visitaCure->setGruppiTip('%ml.creaGruppi%');
+		$visitaCure->setSingoliTip('%ml.creaSingoli%');
+		$visitaCure->setTitoloPagina('%ml.creaNuovaVisitaCure%');
+	}
+	
 	private function inserisciCure($visitaCure) {
 
 		require_once 'database.class.php';
@@ -115,18 +114,13 @@ class creaVisitaCure extends visitaAbstract {
 
 		if ($this->creaVisita($db)) {
 
-			$vociGeneriche = $visitaCure->getCureGeneriche();
-			$idVisitaUsato = $db->getLastIdUsed(); 
-			$visitaCure->setIdVisita($idVisitaUsato);
-			$this->setIdVisita($idVisitaUsato);
-			$visitaCure->setIdPaziente($this->getIdPaziente());
+			$_SESSION['idVisita'] = $db->getLastIdUsed(); 
 				
-			foreach($vociGeneriche as $row) {
+			foreach($_SESSION['curegeneriche'] as $row) {
 
 				if ($row[1] != "") {
-					if (!$this->creaVoceVisita($db, $idVisitaUsato, $this->getCureForm(), trim($row[0]), trim($row[1]))) {
+					if (!$this->creaVoceVisita($db, $_SESSION['idVisita'], self::$cureForm, trim($row[0]), trim($row[1]))) {
 						$db->rollbackTransaction();
-						error_log("Errore inserimento voce, eseguito Rollback");
 						return FALSE;	
 					}
 				}			
@@ -136,26 +130,6 @@ class creaVisitaCure extends visitaAbstract {
 		}		
 		return FALSE;
 	}
-
-	public function preparaPagina($visitaCure) {
-
-		$visitaCure->setIdPaziente($this->getIdPaziente());
-		$visitaCure->setIdListino($this->getIdListino());
-		$visitaCure->setIdVisita($this->getIdVisita());
-
-		$visitaCure->setAzioneDentiSingoli(self::$azioneDentiSingoli);
-		$visitaCure->setAzioneGruppi(self::$azioneGruppi);
-		$visitaCure->setAzioneCure(self::$azioneCure);
-		
-		$visitaCure->setConfermaTip('%ml.confermaCreazioneVisita%');		
-		$visitaCure->setGruppiTip('%ml.creaGruppi%');		
-		$visitaCure->setSingoliTip('%ml.creaSingoli%');		
-				
-		$visitaCure->setTitoloPagina('%ml.creaNuovaVisitaCure%');
-		$visitaCure->setVisitaCure($visitaCure);		
-
-		return $visitaCure;
-	}	
 }
 
 ?>

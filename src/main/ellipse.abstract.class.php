@@ -44,7 +44,10 @@ abstract class ellipseAbstract {
 	public function setTitoloPagina($titoloPagina) {
 		self::$titoloPagina = $titoloPagina;
 	}
-
+	public function setSid($sid) {
+		self::$sid = $sid;
+	}
+	
 	// Getters -----------------------------------------------------------------------------
 
 	public function getTestata() {
@@ -68,6 +71,9 @@ abstract class ellipseAbstract {
 	public function getTitoloPagina() {
 		return self::$titoloPagina;
 	}
+	public function getSid() {
+		return self::$sid;
+	}
 	
 	// Start e Go funzione ----------------------------------------------------------------
 
@@ -75,7 +81,7 @@ abstract class ellipseAbstract {
 			
 	public function go() { }
 	
-	public function aggiornaPaziente($db, $idPaziente) {
+	public function aggiornaPaziente($db, $idPaziente, $root) {
 		
 		$utility = new utility();
 		$array = $utility->getConfig();
@@ -84,7 +90,7 @@ abstract class ellipseAbstract {
 			'%idpaziente%' => $idPaziente
 		);
 		
-		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaPaziente;
+		$sqlTemplate = $root . $array['query'] . self::$queryAggiornaPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 
@@ -96,14 +102,14 @@ abstract class ellipseAbstract {
 	 * @param unknown $db
 	 * @return il result ottenuto dalla creazione del preventivo
 	 */
-	public function creaPreventivo($db) {
+	public function creaPreventivo($db, $root) {
 	
 		$utility = new utility();
 		$array = $utility->getConfig();
 	
-		$replace = array('%idpaziente%' => $this->getIdPaziente());
+		$replace = array('%idpaziente%' => $_SESSION['idPaziente']);
 	
-		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaPreventivo;
+		$sqlTemplate = $root . $array['query'] . self::$queryCreaPreventivo;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	
@@ -117,7 +123,7 @@ abstract class ellipseAbstract {
 	 * @param unknown $idPaziente
 	 * @return unknown
 	 */
-	public function creaCartellaClinica($db, $idPreventivo, $idPaziente) {
+	public function creaCartellaClinica($db, $idPreventivo, $idPaziente, $root) {
 	
 		$utility = new utility();
 		$array = $utility->getConfig();
@@ -127,7 +133,7 @@ abstract class ellipseAbstract {
 				'%idpreventivo%' => $idPreventivo				
 		);
 	
-		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaCartellaClinica;
+		$sqlTemplate = $root . $array['query'] . self::$queryCreaCartellaClinica;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 	

@@ -2,34 +2,58 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/preventivo:/var/www/html/ellipse/src/utility');
 require_once 'ricercaPreventivo.class.php';
+require_once 'firewall.class.php';
 
-$ricercaPreventivo = new ricercaPreventivo();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+ */
 
-switch ($method) {
-	case 'GET':
-		$ricercaPreventivo->setIdPaziente($_GET['idPaziente']);
-		$ricercaPreventivo->setIdListino($_GET['idListino']);
-		$ricercaPreventivo->setCognomeRicerca($_GET['cognRic']);
-		$ricercaPreventivo->setCognome($_GET['cognome']);
-		$ricercaPreventivo->setNome($_GET['nome']);
-		$ricercaPreventivo->setDataNascita($_GET['datanascita']);
-		break;
-	case 'POST':
-		$ricercaPreventivo->setIdPaziente($_POST['idPaziente']);
-		$ricercaPreventivo->setIdListino($_POST['idListino']);
-		$ricercaPreventivo->setCognomeRicerca($_POST['cognRic']);
-		$ricercaPreventivo->setCognome($_POST['cognome']);
-		$ricercaPreventivo->setNome($_POST['nome']);
-		$ricercaPreventivo->setDataNascita($_POST['datanascita']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$ricercaPreventivo = new ricercaPreventivo();
+	if ($_GET["modo"] == "start") $ricercaPreventivo->start();
+	if ($_GET["modo"] == "go") $ricercaPreventivo->go();
+	
 }
+else {
+	
+	$firewall = new firewall();
+	
+	$data = array();
+	if ($_GET['cognome'] != "") $data['cognome'] = 'cognome' . ';' . $_GET['cognome'];
+	if ($_GET['nome'] != "") $data['nome'] = 'nome' . ';' . $_GET['nome'];
+	if ($_GET['idListino'] != "") $data['idListino'] = 'idListino' . ';' . $_GET['idListino'];
+	if ($_GET['idPaziente'] != "") $data['idPaziente'] = 'idPaziente' . ';' . $_GET['idPaziente'];
+	if ($_GET['datanascita'] != "") $data['datanascita'] = 'datanascita' . ';' . $_GET['datanascita'];
+	
+	if ($firewall->controlloCampiRichiesta($data)) {
+	
+		$_SESSION['cognome'] = trim($_GET['cognome']);
+		$_SESSION['nome'] = trim($_GET['nome']);
+		$_SESSION['idListino'] = trim($_GET['idListino']);
+		$_SESSION['idPaziente'] = trim($_GET['idPaziente']);
+		$_SESSION['datanascita'] = trim($_GET['datanascita']);
+		
+		$ricercaPreventivo = new ricercaPreventivo();
+		if ($_GET["modo"] == "start") $ricercaPreventivo->start();
+		if ($_GET["modo"] == "go") $ricercaPreventivo->go();
+	}
+	else {
 
-if ($_GET["modo"] == "start") $ricercaPreventivo->start();
-if ($_GET["modo"] == "go") $ricercaPreventivo->go();
+		$ricercaPreventivo = new ricercaPreventivo();
+		$ricercaPreventivo->start();		
+	}		
+}
 
 ?>

@@ -42,18 +42,7 @@
 					<tr>
 						<td colspan="6" align="right" class="tooltip">
 							<button class="button" title="%testoAzione%" >%ml.conferma%</button>
-							<input type="hidden" name="idvocepreventivo" value="%idvocepreventivo%"/>
-							<input type="hidden" name="idvocesottopreventivo" value="%idvocesottopreventivo%"/>
-							<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-							<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-							<input type="hidden" name="idListino" value="%idListino%"/>
-							<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
-							<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
-							<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
-							<input type="hidden" name="cognome" value="%cognome%"/>
-							<input type="hidden" name="nome" value="%nome%"/>
-							<input type="hidden" name="datanascita" value="%datanascita%"/>
-							<input type="hidden" name="stato" value="%stato%"/>
+							<input type="hidden" name="usa-sessione" value="true"/>
 						</td>
 					</tr>
 				</tfoot>
@@ -62,17 +51,7 @@
 		</form>
 		<form class="tooltip" method="post" action="../preventivo/dettaglioPreventivoFacade.class.php?modo=start" >
 			<button class="button" title="Torna alla funzione precedente" %azione% >%ml.indietro%</button>
-			<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-			<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-			<input type="hidden" name="idListino" value="%idListino%"/>
-			<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
-			<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
-			<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
-			<input type="hidden" name="datainserimento" value="%datainserimento%"/>
-			<input type="hidden" name="stato" value="%stato%"/>
-			<input type="hidden" name="cognome" value="%cognome%"/>
-			<input type="hidden" name="nome" value="%nome%"/>
-			<input type="hidden" name="datanascita" value="%datanascita%"/>
+			<input type="hidden" name="usa-sessione" value="true"/>
 		</form>
 		
 	</div>

@@ -8,11 +8,6 @@ abstract class visitaAbstract extends ellipseAbstract {
 	public static $azioneGruppi;
 	public static $azioneCure;
 	
-	public static $cognomeRicerca;
-	public static $idPaziente;
-	public static $idListino;
-	public static $idVisita;
-	
 	public static $confermaTip;
 	public static $singoliTip;
 	public static $gruppiTip;
@@ -20,27 +15,6 @@ abstract class visitaAbstract extends ellipseAbstract {
 
 	public static $titoloPagina;
 	public static $visitaLabel;
-
-	public static $cognome;
-	public static $nome;
-	public static $dataNascita;
-	public static $dataInserimento;
-	public static $stato;
-
-	public static $visita;
-	public static $visitaGruppi;
-	public static $visitaCure;
-	public static $esitoControlliLogici;
-	public static $cureGeneriche;
-
-	private static $voceGruppo_1;
-	private static $dentiGruppo_1;	
-	private static $voceGruppo_2;
-	private static $dentiGruppo_2;
-	private static $voceGruppo_3;
-	private static $dentiGruppo_3;
-	private static $voceGruppo_4;
-	private static $dentiGruppo_4;
 
 	public static $messaggio;
 	public static $testata;
@@ -78,10 +52,8 @@ abstract class visitaAbstract extends ellipseAbstract {
 	
 	public static $queryVociVisitaDentiSingoliPaziente = "/visita/ricercaVociVisitaDentiSingoliPaziente.sql";
 	public static $queryVoceVisitaPaziente = "/visita/ricercaVoceVisitaPaziente.sql";	
-//	public static $queryVoceCuraVisitaPaziente = "/visita/ricercaVoceCuraVisitaPaziente.sql";	//<<<<<<manca 
 	
 	public static $queryVociVisitaGruppiPaziente = "/visita/ricercaVociVisitaGruppiPaziente.sql";
-//	public static $queryVociVisitaCurePaziente = "/visita/ricercaVociVisitaCurePaziente.sql";
 	
 	public static $queryComboVisitaGruppiPaziente = "/visita/ricercaComboVisitaGruppiPaziente.sql";
 
@@ -95,31 +67,6 @@ abstract class visitaAbstract extends ellipseAbstract {
 	}
 	public function setAzioneCure($azioneCure) {
 		self::$azioneCure = $azioneCure;
-	}
-
-	public function setIdPaziente($idPaziente) {
-		self::$idPaziente = $idPaziente;
-	}
-	public function setIdListino($idListino) {
-		self::$idListino = $idListino;
-	}
-	public function setIdVisita($idVisita) {
-		self::$idVisita = $idVisita;
-	}
-	public function setCognomeRicerca($cognomeRicerca) {
-		self::$cognomeRicerca = $cognomeRicerca;
-	}
-	public function setVisita($visita) {
-		self::$visita = $visita;
-	}
-	public function setVisitaCure($visitaCure) {
-		self::$visitaCure = $visitaCure;
-	}
-	public function setVisitaGruppi($visitaGruppi) {
-		self::$visitaGruppi = $visitaGruppi;
-	}
-	public function setEsitoControlloLogici($esito) {
-		self::$esitoControlliLogici = $esito;
 	}
 	
 	public function setConfermaTip($tip) {
@@ -141,51 +88,9 @@ abstract class visitaAbstract extends ellipseAbstract {
 	public function setVisitaLabel($visitaLabel) {
 		self::$visitaLabel = $visitaLabel;
 	}
-	public function setCureGeneriche($cureGeneriche) {
-		self::$cureGeneriche = $cureGeneriche;
-	}
-	public function setCognome($cognome) {
-		self::$cognome = $cognome;
-	}
-	public function setNome($nome) {
-		self::$nome = $nome;
-	}
-	public function setDataNascita($dataNascita) {
-		self::$dataNascita = $dataNascita;
-	}
-	public function setDataInserimento($dataInserimento) {
-		self::$dataInserimento = $dataInserimento;
-	}
-	public function setStato($stato) {
-		self::$stato = $stato;
-	}
+
 	public function setMessaggio($messaggio) {
 		self::$messaggio = $messaggio;
-	}
-	
-	public function setDentiGruppo_1($dentiGruppo_1) {
-		self::$dentiGruppo_1 = $dentiGruppo_1;
-	}
-	public function setDentiGruppo_2($dentiGruppo_2) {
-		self::$dentiGruppo_2 = $dentiGruppo_2;
-	}
-	public function setDentiGruppo_3($dentiGruppo_3) {
-		self::$dentiGruppo_3 = $dentiGruppo_3;
-	}
-	public function setDentiGruppo_4($dentiGruppo_4) {
-		self::$dentiGruppo_4 = $dentiGruppo_4;
-	}
-	public function setVoceGruppo_1($voceGruppo_1) {
-		self::$voceGruppo_1 = $voceGruppo_1;
-	}
-	public function setVoceGruppo_2($voceGruppo_2) {
-		self::$voceGruppo_2 = $voceGruppo_2;
-	}
-	public function setVoceGruppo_3($voceGruppo_3) {
-		self::$voceGruppo_3 = $voceGruppo_3;
-	}
-	public function setVoceGruppo_4($voceGruppo_4) {
-		self::$voceGruppo_4 = $voceGruppo_4;
 	}
 	
 	// ------------------------------------------------
@@ -198,31 +103,6 @@ abstract class visitaAbstract extends ellipseAbstract {
 	}
 	public function getAzioneCure() {
 		return self::$azioneCure;
-	}
-	
-	public function getIdPaziente() {
-		return self::$idPaziente;
-	}
-	public function getIdListino() {
-		return self::$idListino;
-	}
-	public function getIdVisita() {
-		return self::$idVisita;
-	}
-	public function getCognomeRicerca() {
-		return self::$cognomeRicerca;
-	}
-	public function getVisita() {
-		return self::$visita;
-	}
-	public function getVisitaCure() {
-		return self::$visitaCure;
-	}
-	public function getVisitaGruppi() {
-		return self::$visitaGruppi;
-	}
-	public function getEsitoControlliLogici() {
-		return self::$esitoControlliLogici;
 	}
 	
 	public function getConfermaTip() {
@@ -246,49 +126,6 @@ abstract class visitaAbstract extends ellipseAbstract {
 	}
 	public function getVisitaLabel() {
 		return self::$visitaLabel;
-	}
-	public function getCureGeneriche() {
-		return self::$cureGeneriche;
-	}
-	public function getCognome() {
-		return self::$cognome;
-	}
-	public function getNome() {
-		return self::$nome;
-	}
-	public function getDataNascita() {
-		return self::$dataNascita;
-	}
-	public function getDataInserimento() {
-		return self::$dataInserimento;
-	}
-	public function getStato() {
-		return self::$stato;
-	}
-
-	public function getDentiGruppo_1() {
-		return self::$dentiGruppo_1;
-	}
-	public function getDentiGruppo_2() {
-		return self::$dentiGruppo_2;
-	}
-	public function getDentiGruppo_3() {
-		return self::$dentiGruppo_3;
-	}
-	public function getDentiGruppo_4() {
-		return self::$dentiGruppo_4;
-	}
-	public function getVoceGruppo_1() {
-		return self::$voceGruppo_1;
-	}
-	public function getVoceGruppo_2() {
-		return self::$voceGruppo_2;
-	}
-	public function getVoceGruppo_3() {
-		return self::$voceGruppo_3;
-	}
-	public function getVoceGruppo_4() {
-		return self::$voceGruppo_4;
 	}
 
 	// ------------------------------------------------
@@ -421,7 +258,7 @@ abstract class visitaAbstract extends ellipseAbstract {
 		$utility = new utility();
 		$array = $utility->getConfig();
 
-		$replace = array('%idpaziente%' => $this->getIdPaziente());
+		$replace = array('%idpaziente%' => $_SESSION['idPaziente']);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVisita;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
@@ -497,7 +334,7 @@ abstract class visitaAbstract extends ellipseAbstract {
 		 */
 		
 		if ($result) {
-			$this->aggiornaUsoVoceListino($db, $this->getIdlistino(), trim($codiceVoceListino), '+');
+			$this->aggiornaUsoVoceListino($db, $_SESSION['idListino'], trim($codiceVoceListino), '+');
 		}		
 		return $result;	
 	}
@@ -614,7 +451,7 @@ abstract class visitaAbstract extends ellipseAbstract {
 		 */
 		
 		if ($result) {
-			$this->aggiornaUsoVoceListino($db, $this->getIdlistino(), trim($codiceVoceListino), '-');
+			$this->aggiornaUsoVoceListino($db, $_SESSION['idListino'], trim($codiceVoceListino), '-');
 		}
 		return $result;		
 	}
@@ -667,7 +504,7 @@ abstract class visitaAbstract extends ellipseAbstract {
 		array_push($dentiGruppo_1, array('IS_34_1', ''), array('IS_35_1', ''), array('IS_36_1', ''));
 		array_push($dentiGruppo_1, array('IS_37_1', ''), array('IS_38_1', ''));
 
-		$this->setDentiGruppo_1($dentiGruppo_1);
+		$_SESSION['dentigruppo_1'] = $dentiGruppo_1;
 		
 		// secondo gruppo --------------------------------------------------------------------------------------------------------------
 		
@@ -689,7 +526,7 @@ abstract class visitaAbstract extends ellipseAbstract {
 		array_push($dentiGruppo_2, array('IS_34_2', ''), array('IS_35_2', ''), array('IS_36_2', ''));
 		array_push($dentiGruppo_2, array('IS_37_2', ''), array('IS_38_2', ''));
 
-		$this->setDentiGruppo_2($dentiGruppo_2);
+		$_SESSION['dentigruppo_2'] = $dentiGruppo_2;
 		
 		// terzo gruppo --------------------------------------------------------------------------------------------------------------
 
@@ -711,7 +548,7 @@ abstract class visitaAbstract extends ellipseAbstract {
 		array_push($dentiGruppo_3, array('IS_34_3', ''), array('IS_35_3', ''), array('IS_36_3', ''));
 		array_push($dentiGruppo_3, array('IS_37_3', ''), array('IS_38_3', ''));
 
-		$this->setDentiGruppo_3($dentiGruppo_3);
+		$_SESSION['dentigruppo_3'] = $dentiGruppo_3;
 		
 		// quarto gruppo --------------------------------------------------------------------------------------------------------------
 
@@ -733,7 +570,7 @@ abstract class visitaAbstract extends ellipseAbstract {
 		array_push($dentiGruppo_4, array('IS_34_4', ''), array('IS_35_4', ''), array('IS_36_4', ''));
 		array_push($dentiGruppo_4, array('IS_37_4', ''), array('IS_38_4', ''));
 
-		$this->setDentiGruppo_4($dentiGruppo_4);		
+		$_SESSION['dentigruppo_4'] = $dentiGruppo_4;
 	}
 	
 	public function inizializzaCurePagina() {
@@ -749,7 +586,7 @@ abstract class visitaAbstract extends ellipseAbstract {
 		array_push($vociGeneriche, array('voceGenerica_5', ''));
 		array_push($vociGeneriche, array('voceGenerica_6', ''));
 		
-		$this->setCureGeneriche($vociGeneriche);		
+		$_SESSION['curegeneriche'] = $vociGeneriche;		
 	}
 
 	public function prelevaCampiFormCure() {

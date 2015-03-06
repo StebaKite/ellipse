@@ -7,10 +7,7 @@ SELECT
   visita.idpaziente, 
   to_char(visita.datainserimento, 'DD/MM/YYYY') as datainserimento,
   to_char(visita.datamodifica, 'DD/MM/YYYY') as datamodifica,
-  case visita.stato
-	when '00' then 'In corso'
-	when '01' then 'Preventivata'
-  end as stato,
+  visita.stato,
   visita.idvisita
   
 FROM paziente.paziente

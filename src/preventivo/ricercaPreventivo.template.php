@@ -38,12 +38,11 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 		$filtri = self::$root . $array['template'] . self::$filtri;
 				
 		$replace = array(
-				'%idPaziente%' => $this->getIdpaziente(),
-				'%idListino%' => $this->getIdListino(),
-				'%cognomeRicerca%' => $this->getCognomeRicerca(),
-				'%cognome%' => $this->getCognome(),
-				'%nome%' => $this->getNome(),
-				'%datanascita%' => $this->getDataNascita()
+				'%idPaziente%' => $_SESSION['idPaziente'],
+				'%idListino%' => $_SESSION['idListino'],
+				'%cognome%' => $_SESSION['cognome'],
+				'%nome%' => $_SESSION['nome'],
+				'%datanascita%' => $_SESSION['datanascita']
 		);
 		
 		echo $utility->tailFile($utility->getTemplate($filtri), $replace);		
@@ -65,7 +64,7 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 		
 		// Gestione del messaggio -------------------
 		
-		$numPreventivi = $this->getNumeroPreventiviTrovati();
+		$numPreventivi = $_SESSION['numeroPreventiviTrovati'];
 		
 		if ($numPreventivi > 0) {
 			if ($numPreventivi > 1) {
@@ -88,7 +87,7 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 			echo $utility->getTemplate($risultatiTesta);
 		
 			$templateRiga = $utility->getTemplate($risultatiCorpo);
-			$preventiviTrovati = $this->getPreventiviTrovati();
+			$preventiviTrovati = $_SESSION['preventiviTrovati'];
 						
 			$rowcounter = 0;
 			$oggi = date('d/m/Y');
@@ -114,40 +113,39 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 					$idsottopreventivo = trim($row['idsottopreventivo']);
 					$idpreventivoprincipale = trim($row['idpreventivo']);
 				}
-
+				
 				// BOTTONE DETTAGLIO -----------------------------------------------
 				// nasconde il bottone dettaglio preventivo se è vuoto
-				
-				$bottoneDettaglio = "<a class='tooltip' href='../preventivo/dettaglioPreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdListino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Dettaglio'><span class='ui-icon ui-icon-search'></span></li></a>";
+								
+				$bottoneDettaglio = "<a class='tooltip' href='../preventivo/dettaglioPreventivoFacade.class.php?modo=start&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . $row['datainserimento'] . "&stato=" . $row['stato'] . "'><li class='ui-state-default ui-corner-all' title='Dettaglio'><span class='ui-icon ui-icon-search'></span></li></a>";
 				if ($row['totalepreventivo'] == 0) {
 					$bottoneDettaglio = "";
 				}
 
-				// BOTTONE MODIFICA -----------------------------------------------
+				// BOTTONE MODIFICA ------------------------------------------------
 				
-				$bottoneModifica = "<a class='tooltip' href='../preventivo/modificaPreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdListino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a>";
-				
+				$bottoneModifica = "<a class='tooltip' href='../preventivo/modificaPreventivoFacade.class.php?modo=start&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . $row['datainserimento'] . "&stato=" . $row['stato'] . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a>";				
 // 				if ($row['stato'] == "01") {
 // 					$bottoneModifica = "";
 // 				}
 				
-				// BOTTONE CANCELLA -----------------------------------------------
+				// BOTTONE CANCELLA ------------------------------------------------
 				// nasconde il bottone cancella paziente se ha figli legati
 				// solo nel caso di paziente provvisorio compare il bottone anche se ha figli  (delete cascade su db)
 		
-				$bottoneCancella = "<a class='tooltip' href='../preventivo/cancellaPreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdListino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
+				$bottoneCancella = "<a class='tooltip' href='../preventivo/cancellaPreventivoFacade.class.php?modo=start&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . $row['datainserimento'] . "&stato=" . $row['stato'] . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
 		
 				if ($row['stato'] != "00") {
 					$bottoneCancella = "";
 				}
 		
-				// BOTTONE SPLIT -----------------------------------------------
+				// BOTTONE SPLIT ---------------------------------------------------
 				// nasconde il bottone split :
 				//   - per i preventivi secondari
 				//   - per i preventivi in stato "Accettato"
 				//   - per i preventivi vuoti
 				
-				$bottoneSplit = "<a class='tooltip' href='../preventivo/splitPreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdListino() . "&idPreventivo=" . $idpreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Crea un preventivo secondario'><span class='ui-icon ui-icon-newwin'></span></li></a>";
+				$bottoneSplit = "<a class='tooltip' href='../preventivo/splitPreventivoFacade.class.php?modo=start&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . $row['datainserimento'] . "&stato=" . $row['stato'] . "'><li class='ui-state-default ui-corner-all' title='Crea un preventivo secondario'><span class='ui-icon ui-icon-newwin'></span></li></a>";
 
 				if ((trim($row['tipopreventivo']) == 'S')
 				or ($row['stato'] == "01")
@@ -156,10 +154,14 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 					$bottoneSplit = "";
 				}				
 
+				// BOTTONE NOTA -------------------------------------------------
+				
+				$bottoneNota = "<a class='tooltip' href='../preventivo/ricercaNotaPreventivoFacade.class.php?modo=start&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . $row['datainserimento'] . "&stato=" . $row['stato'] . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";
+				
 				// BOTTONE STAMPA -----------------------------------------------
 				// nasconde il bottone stampa preventivo se è vuoto
 				
-				$bottoneStampa = "<a class='tooltip' href='../preventivo/stampaPreventivoFacade.class.php?modo=start&idPaziente=" . $this->getIdpaziente() . "&idListino=" . $this->getIdListino() . "&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Stampa'><span class='ui-icon ui-icon-print'></span></li></a>";
+				$bottoneStampa = "<a class='tooltip' href='../preventivo/stampaPreventivoFacade.class.php?modo=start&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . $row['datainserimento'] . "&stato=" . $row['stato'] . "'><li class='ui-state-default ui-corner-all' title='Stampa'><span class='ui-icon ui-icon-print'></span></li></a>";
 				if ($row['totalepreventivo'] == 0) {
 					$bottoneStampa = "";
 				}
@@ -178,12 +180,12 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 						'%idpreventivo%' => $idpreventivo,
 						'%idpreventivoprincipale%' => $idpreventivoprincipale,
 						'%idsottopreventivo%' => $idsottopreventivo,
-						'%idpaziente%' => $this->getIdpaziente(),
-						'%idlistino%' => $this->getIdListino(),
-						'%cognome%' => $this->getCognome(),
-						'%nome%' => $this->getNome(),
-						'%datanascita%' => $this->getDataNascita(),
-						'%cognomeRicerca%' => $this->getCognomeRicerca(),
+						'%idpaziente%' => $_SESSION['idpaziente'],
+						'%idlistino%' => $_SESSION['idListino'],
+						'%cognome%' => $_SESSION['cognome'],
+						'%nome%' => $_SESSION['nome'],
+						'%datanascita%' => $_SESSION['datanascita'],
+						'%cognomeRicerca%' => $_SESSION['cognome'],
 						'%datainserimento%' => stripslashes($row['datainserimento']),
 						'%datamodifica%' => stripslashes($row['datamodifica']),
 						'%bottoneDettaglio%' => $bottoneDettaglio,
@@ -191,6 +193,7 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 						'%bottoneCancella%' => $bottoneCancella,
 						'%bottoneStampa%' => $bottoneStampa,
 						'%bottoneSplit%' => $bottoneSplit,
+						'%bottoneNota%' => $bottoneNota,
 						'%stato%' => $stato,
 						'%totalepreventivo%' => number_format(trim(stripslashes($row['totalepreventivo'])), 2, ',', '.'),
 				);
@@ -205,7 +208,7 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 			if ($text0 != "") {$text0 = $text0 . " - ";};
 		
 			$replace = array('%messaggio%' => $text0 . '%ml.norisultati%');
-			$template = $utility->tailFile($utility->getTemplate($messaggioErrore), $replace);
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);
 				
 			echo $utility->tailTemplate($template);		
 		}

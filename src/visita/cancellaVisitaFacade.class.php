@@ -2,40 +2,52 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/paziente:/var/www/html/ellipse/src/utility');
 require_once 'cancellaVisita.class.php';
+require_once 'firewall.class.php';
 
-$cancellaVisita = new cancellaVisita();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$cancellaVisita->setIdPaziente($_GET['idPaziente']);
-		$cancellaVisita->setIdListino($_GET['idListino']);
-		$cancellaVisita->setIdVisita($_GET['idVisita']);
-		$cancellaVisita->setDataInserimento($_GET['datainserimento']);
-		$cancellaVisita->setStato($_GET['stato']);
-		$cancellaVisita->setCognomeRicerca($_GET['cognRic']);
-		$cancellaVisita->setCognome($_GET['cognome']);
-		$cancellaVisita->setNome($_GET['nome']);
-		$cancellaVisita->setDataNascita($_GET['datanascita']);
-		break;
-	case 'POST':
-		$cancellaVisita->setIdPaziente($_POST['idPaziente']);
-		$cancellaVisita->setIdListino($_POST['idListino']);
-		$cancellaVisita->setIdVisita($_POST['idVisita']);
-		$cancellaVisita->setDataInserimento($_POST['datainserimento']);
-		$cancellaVisita->setStato($_POST['stato']);
-		$cancellaVisita->setCognomeRicerca($_POST['cognRic']);
-		$cancellaVisita->setCognome($_POST['cognome']);
-		$cancellaVisita->setNome($_POST['nome']);
-		$cancellaVisita->setDataNascita($_POST['datanascita']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$cancellaVisita = new cancellaVisita();
+	if ($_GET['modo'] == "start") $cancellaVisita->start();
+	if ($_GET['modo'] == "go") $cancellaVisita->go();
 }
+else {
 
-if ($_GET['modo'] == "start") $cancellaVisita->start();
-if ($_GET['modo'] == "go") $cancellaVisita->go();
+	$firewall = new firewall();
+
+	$data = array();
+	if ($_GET['idVisita'] != "") $data['idVisita'] = 'idVisita' . ';' . $_GET['idVisita'];
+	if ($_GET['datainserimento'] != "") $data['dataInserimento'] = 'dataInserimento' . ';' . $_GET['datainserimento'];
+	if ($_GET['stato'] != "") $data['statoVisita'] = 'statoVisita' . ';' . $_GET['stato'];
+
+	if ($firewall->controlloCampiRichiesta($data)) {
+
+		$_SESSION['idVisita'] = trim($_GET['idVisita']);
+		$_SESSION['datainserimentovisita'] = trim($_GET['datainserimento']);
+		$_SESSION['statovisita'] = trim($_GET['stato']);
+
+		$cancellaVisita = new cancellaVisita();
+		if ($_GET['modo'] == "start") $cancellaVisita->start();
+		if ($_GET['modo'] == "go") $cancellaVisita->go();
+	}
+	else {
+
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>

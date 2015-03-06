@@ -2,58 +2,72 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/preventivo:/var/www/html/ellipse/src/utility');
 require_once 'modificaVocePreventivo.class.php';
+require_once 'firewall.class.php';
 
-$modificaVocePreventivo = new modificaVocePreventivo();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$modificaVocePreventivo->setIdPaziente($_GET['idPaziente']);
-		$modificaVocePreventivo->setIdListino($_GET['idListino']);
-		$modificaVocePreventivo->setDescrizioneVoce($_GET['descrizionevoce']);
-		$modificaVocePreventivo->setDescrizioneVoceListino($_GET['descrizionevocelistino']);
-		$modificaVocePreventivo->setPrezzo($_GET['prezzo']);
-		$modificaVocePreventivo->setIdVocePreventivo($_GET['idvocepreventivo']);
-		$modificaVocePreventivo->setIdVoceSottoPreventivo($_GET['idvocesottopreventivo']);
-		$modificaVocePreventivo->setIdPreventivo($_GET['idPreventivo']);
-		$modificaVocePreventivo->setIdPreventivoPrincipale($_GET['idPreventivoPrincipale']);
-		$modificaVocePreventivo->setIdSottoPreventivo($_GET['idSottoPreventivo']);
-		$modificaVocePreventivo->setDataInserimento($_GET['datainserimento']);
-		$modificaVocePreventivo->setStato($_GET['stato']);
-		$modificaVocePreventivo->setTabella($_GET['tabella']);
-		$modificaVocePreventivo->setDente($_GET['dente']);
-		$modificaVocePreventivo->setCognomeRicerca($_GET['cognRic']);
-		$modificaVocePreventivo->setCognome($_GET['cognome']);
-		$modificaVocePreventivo->setNome($_GET['nome']);
-		$modificaVocePreventivo->setDataNascita($_GET['datanascita']);
-		break;
-	case 'POST':
-		$modificaVocePreventivo->setIdPaziente($_POST['idPaziente']);
-		$modificaVocePreventivo->setIdListino($_POST['idListino']);
-		$modificaVocePreventivo->setDescrizioneVoce($_POST['descrizionevoce']);
-		$modificaVocePreventivo->setDescrizioneVoceListino($_POST['descrizionevocelistino']);
-		$modificaVocePreventivo->setPrezzo($_POST['prezzo']);
-		$modificaVocePreventivo->setIdVocePreventivo($_POST['idvocepreventivo']);
-		$modificaVocePreventivo->setIdVoceSottoPreventivo($_POST['idvocesottopreventivo']);
-		$modificaVocePreventivo->setIdPreventivo($_POST['idPreventivo']);
-		$modificaVocePreventivo->setIdPreventivoPrincipale($_POST['idPreventivoPrincipale']);
-		$modificaVocePreventivo->setIdSottoPreventivo($_POST['idSottoPreventivo']);
-		$modificaVocePreventivo->setDataInserimento($_POST['datainserimento']);
-		$modificaVocePreventivo->setStato($_POST['stato']);
-		$modificaVocePreventivo->setTabella($_POST['tabella']);
-		$modificaVocePreventivo->setDente($_POST['dente']);
-		$modificaVocePreventivo->setCognomeRicerca($_POST['cognRic']);
-		$modificaVocePreventivo->setCognome($_POST['cognome']);
-		$modificaVocePreventivo->setNome($_POST['nome']);
-		$modificaVocePreventivo->setDataNascita($_POST['datanascita']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION[‘secureCode’] != ‘4406105963138001’) exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+ */
+
+if ($_POST['usa-sessione']) {
+
+	/**
+	 * Controllo i dati immessi in pagina
+	 */
+	$firewall = new firewall();
+	
+	$data = array();
+	if ($_POST['descrizionevoce'] != "") $data['descrizionevoce'] = 'descrizionevoce' . ';' . $_POST['descrizionevoce'];
+	if ($_POST['prezzo'] != "") $data['prezzo'] = 'prezzo' . ';' . $_POST['prezzo'];	
+	
+	if ($firewall->controlloCampiRichiesta($data)) {
+	
+		$_SESSION['descrizionevoce'] = $_POST['descrizionevoce'];
+		$_SESSION['prezzo'] = $_POST['prezzo'];
+	
+		$modificaVocePreventivo = new modificaVocePreventivo();
+		if ($_GET['modo'] == "start") $modificaVocePreventivo->start();
+		if ($_GET['modo'] == "go") $modificaVocePreventivo->go();
+
+	}
+	else {
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
 }
+else {
 
-if ($_GET['modo'] == "start") $modificaVocePreventivo->start();
-if ($_GET['modo'] == "go") $modificaVocePreventivo->go();
+	$firewall = new firewall();
+
+	$data = array();
+	if ($_GET['tabella'] != "") $data['tabella'] = 'tabella' . ';' . $_GET['tabella'];
+	if ($_GET['dente'] != "") $data['dente'] = 'dente' . ';' . $_GET['dente'];
+	if ($_GET['idvocepreventivo'] != "") $data['idvocepreventivo'] = 'idvocepreventivo' . ';' . $_GET['idvocepreventivo'];
+	if ($_GET['idvocesottopreventivo'] != "") $data['idvocesottopreventivo'] = 'idvocesottopreventivo' . ';' . $_GET['idvocesottopreventivo'];
+	
+	if ($firewall->controlloCampiRichiesta($data)) {
+	
+		$_SESSION['tabella'] = $_GET['tabella'];
+		$_SESSION['dente'] = $_GET['dente'];
+		$_SESSION['idVocePreventivo'] = $_GET['idvocepreventivo'];
+		$_SESSION['idVoceSottoPreventivo'] = $_GET['idvocesottopreventivo'];
+	
+		$modificaVocePreventivo = new modificaVocePreventivo();
+		if ($_GET['modo'] == "start") $modificaVocePreventivo->start();
+		if ($_GET['modo'] == "go") $modificaVocePreventivo->go();
+	}
+	else {	
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>

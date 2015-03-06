@@ -41,7 +41,7 @@ class preventivoCureTemplate extends preventivoAbstract {
 		
 		$vociListinoEsteso = "";	// per la tab di aiuto consultazione voci disponibili
 		
-		$replace = array('%idlistino%' => $this->getIdListino());
+		$replace = array('%idlistino%' => $_SESSION['idListino']);
 		
 		$array = $utility->getConfig();
 		$form = self::$root . $array['template'] . self::$pagina;
@@ -51,25 +51,31 @@ class preventivoCureTemplate extends preventivoAbstract {
 		$result = $db->getData($sql);
 		
 		$rows = pg_fetch_all($result);
+
+		if ($_SESSION['totalepreventivocure'] != "") {
+			$totaleCure = "&euro;" . number_format($_SESSION['totalepreventivocure'], 2, ',', '.');
+		}
+		else {
+			$totaleCure = "";
+		}
 		
 		$replace = array(
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%preventivo%' => $this->getPreventivoLabel(),
-				'%cognome%' => $this->getCognome(),
-				'%nome%' => $this->getNome(),
-				'%datanascita%' => $this->getDataNascita(),
+				'%totale%' => $this->getTotalePreventivoLabel(),
+				'%totcure%' => $totaleCure,
+				'%cognome%' => $_SESSION['cognome'],
+				'%nome%' => $_SESSION['nome'],
+				'%datanascita%' => $_SESSION['datanascita'],
 				'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
 				'%azioneGruppi%' => $this->getAzioneGruppi(),
 				'%azioneCure%' => $this->getAzioneCure(),
 				'%confermaTip%' => $this->getConfermaTip(),
 				'%singoliTip%' => $this->getSingoliTip(),
 				'%gruppiTip%' => $this->getGruppiTip(),
-				'%cognomeRicerca%' => $this->getCognomeRicerca(),
-				'%idPaziente%' => $this->getIdPaziente(),
-				'%idListino%' => $this->getIdListino(),
-				'%idPreventivo%' => $this->getIdPreventivo(),
-				'%idSottoPreventivo%' => $this->getIdSottoPreventivo(),
-				'%stato%' => $this->getStato()
+				'%idPreventivo%' => $_SESSION['idPreventivo'],
+				'%idSottoPreventivo%' => $_SESSION['idSottoPreventivo'],
+				'%stato%' => $_SESSION['stato']
 		);
 		
 		if ($rows) {

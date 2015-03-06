@@ -21,7 +21,7 @@ select
 		  		inner join paziente.notavocepreventivo as notavocepreventivo
 		  			on notavocepreventivo.idvocepreventivo = vocepreventivo.idvocepreventivo
 		  		
-		  where vocepreventivo.idpreventivo = 20
+		  where vocepreventivo.idpreventivo = %idpreventivo%
 		    and nomeform in ('singoli', 'gruppi')
 		) as T1
 		

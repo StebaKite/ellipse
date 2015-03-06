@@ -53,12 +53,12 @@ class modificaVocePreventivo extends preventivoAbstract {
 			
 			$dettaglioPreventivo = new dettaglioPreventivo();
 				
-			if ($this->getIdPreventivo() != "") {
+			if ($_SESSION['idPreventivo'] != "") {
 
 				if ($this->modificaPreventivoPrincipale()) $dettaglioPreventivo->setMessaggio("%ml.modificaVoceOk%");
 				else $dettaglioPreventivo->setMessaggio("%ml.modificaVoceKo%");
 			}
-			elseif ($this->getIdSottoPreventivo() != "") {
+			elseif ($_SESSION['idSottoPreventivo'] != "") {
 
 				if ($this->modificaPreventivoSecondario()) $dettaglioPreventivo->setMessaggio("%ml.modificaVoceOk%");
 				else $dettaglioPreventivo->setMessaggio("%ml.modificaVoceKo%");
@@ -78,7 +78,7 @@ class modificaVocePreventivo extends preventivoAbstract {
 	
 		$vocePreventivoTemplate->setAzione(self::$azioneModificaVocePreventivo);
 		$vocePreventivoTemplate->setTestoAzione("%ml.modificaVocePreventivoTip%");
-		$vocePreventivoTemplate->setTitoloPagina("%ml.modificaVocePreventivo" . $this->getTabella() . "%");
+		$vocePreventivoTemplate->setTitoloPagina("%ml.modificaVocePreventivo" . $_SESSION['tabella'] . "%");
 		
 		$vocePreventivoTemplate->setTipDescrizioneVoce("%ml.descrizioneVoceTip%");
 		$vocePreventivoTemplate->setTipPrezzo("%ml.prezzoTip%");	
@@ -90,11 +90,11 @@ class modificaVocePreventivo extends preventivoAbstract {
 		$db = new database();
 		$db->beginTransaction();
 		
-		if ($this->getIdPreventivo() != "") {
-			$vocePreventivoTrovata = $this->leggiVocePreventivoPrincipale($db, $this->getIdVocePreventivo());
+		if ($_SESSION['idPreventivo'] != "") {
+			$vocePreventivoTrovata = $this->leggiVocePreventivoPrincipale($db, $_SESSION['idVocePreventivo']);
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
-			$vocePreventivoTrovata = $this->leggiVocePreventivoSecondario($db, $this->getIdVoceSottoPreventivo());
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			$vocePreventivoTrovata = $this->leggiVocePreventivoSecondario($db, $_SESSION['idVoceSottoPreventivo']);
 		}
 		$db->commitTransaction();
 		
@@ -113,14 +113,14 @@ class modificaVocePreventivo extends preventivoAbstract {
 		$db = new database();
 		$db->beginTransaction();
 		
-		if ($this->getDescrizioneVoce() != "") {
-			if ($this->getDescrizioneVoce() != $this->getDescrizioneVoceListino()) $descrizione = "'" . $this->getDescrizioneVoce() . "'";
+		if ($_SESSION['descrizionevoce'] != "") {
+			if ($_SESSION['descrizionevoce'] != $this->getDescrizioneVoceListino()) $descrizione = "'" . $_SESSION['descrizionevoce'] . "'";
 			else $descrizione = "null";
 		}
 		else $descrizione = "null";
 		
 		
-		if ($this->aggiornaVocePreventivoPrincipale($db, $utility, $descrizione, $this->getPrezzo(), $this->getIdVocePreventivo())) {
+		if ($this->aggiornaVocePreventivoPrincipale($db, $utility, $descrizione, $_SESSION['prezzo'], $_SESSION['idVocePreventivo'])) {
 			$db->commitTransaction();
 			return TRUE;
 		}
@@ -136,14 +136,14 @@ class modificaVocePreventivo extends preventivoAbstract {
 		$db = new database();
 		$db->beginTransaction();
 	
-		if ($this->getDescrizioneVoce() != "") {
-			if ($this->getDescrizioneVoce() != $this->getDescrizioneVoceListino()) $descrizione = "'" . $this->getDescrizioneVoce() . "'";
+		if ($_SESSION['descrizionevoce'] != "") {
+			if ($_SESSION['descrizionevoce'] != $this->getDescrizioneVoceListino()) $descrizione = "'" . $_SESSION['descrizionevoce'] . "'";
 			else $descrizione = "null";
 		}
 		else $descrizione = "null";
 	
 	
-		if ($this->aggiornaVocePreventivoSecondario($db, $utility, $descrizione, $this->getPrezzo(), $this->getIdVoceSottoPreventivo())) {
+		if ($this->aggiornaVocePreventivoSecondario($db, $utility, $descrizione, $_SESSION['prezzo'], $_SESSION['idVoceSottoPreventivo'])) {
 			$db->commitTransaction();
 			return TRUE;
 		}

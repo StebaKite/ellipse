@@ -19,18 +19,13 @@
 				<td>
 					<form class="tooltip" method="post" action="../visita/creaVisitaFacade.class.php?modo=start">
 						<button id="buttonCrea" class="button" title="%ml.nuovoTip%" >%ml.nuovo%</button>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
+						<input type="hidden" name="usa-sessione" value="true"/>
 					</form>
 				</td>
 				<td>
 					<form class="tooltip" method="post" action="../paziente/ricercaPazienteFacade.class.php?modo=go" >
 						<button class="button" title="Torna alla funzione precedente" %azione% >%ml.indietro%</button>
-						<input type="hidden" name="cognome" value="%cognomeRicerca%"/>
+						<input type="hidden" name="usa-sessione" value="true"/>
 					</form>
 				</td>
 			</tr>

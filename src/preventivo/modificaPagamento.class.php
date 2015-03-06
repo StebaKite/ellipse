@@ -73,23 +73,23 @@ class modificaPagamento extends preventivoAbstract {
 		/**
 		 * Salvo i valori originali prelevati da db
 		 */
-		$scontoPercentuale_db = $this->getScontoPercentuale();
-		$scontoContante_db = $this->getScontoContante();
-		$importoDaRateizzare_db =  $this->getImportoDaRateizzare();
-		$dataPrimaRata_db = $this->getDataPrimaRata();
-		$numeroGiorniRata_db = $this->getNumeroGiorniRata();
-		$importoRata_db = $this->getImportoRata();
+		$scontoPercentuale_db = $_SESSION['scontopercentuale'];
+		$scontoContante_db = $_SESSION['scontocontante'];
+		$importoDaRateizzare_db =  $_SESSION['importodarateizzare'];
+		$dataPrimaRata_db = $_SESSION['dataprimarata'];
+		$numeroGiorniRata_db = $_SESSION['numerogiornirata'];
+		$importoRata_db = $_SESSION['importorata'];
 		
 		/**
 		 * Salvo i valori impostati sl form
 		 */
 		$this->prelevaCampiFormPagamento();
-		$scontoPercentuale_form = $this->getScontoPercentuale();
-		$scontoContante_form = $this->getScontoContante();
-		$importoDaRateizzare_form = $this->getImportoDaRateizzare();
-		$dataPrimaRata_form = $this->getDataPrimaRata();
-		$numeroGiorniRata_form = $this->getNumeroGiorniRata();
-		$importoRata_form = $this->getImportoRata();
+		$scontoPercentuale_form = $_SESSION['scontopercentuale'];
+		$scontoContante_form = $_SESSION['scontocontante'];
+		$importoDaRateizzare_form = $_SESSION['importodarateizzare'];
+		$dataPrimaRata_form = $_SESSION['dataprimarata'];
+		$numeroGiorniRata_form = $_SESSION['numerogiornirata'];
+		$importoRata_form = $_SESSION['importorata'];
 		
 		include(self::$testata);
 		
@@ -101,8 +101,9 @@ class modificaPagamento extends preventivoAbstract {
 				/**
 				 * Se è stata inserito una data scadenza acconto lo aggiungo in tabella 
 				 */
-				if ($this->getDataScadenzaAcconto() != "") {
-					if (!$this->creaAccontoPreventivo($db, $utility, $this->getDataScadenzaAcconto(), $this->getDescrizioneAcconto(), $this->getImportoAcconto())) {
+				if ($_SESSION['datascadenzaacconto'] != "") {
+					if (!$this->creaAccontoPreventivo($db, $utility, $_SESSION['datascadenzaacconto'], $_SESSION['descrizioneacconto'], $_SESSION['importoacconto'])) {
+						
 						$pagamentoTemplate->displayPagina();
 						$replace = array('%messaggio%' => '%ml.modPagamentoKo%');
 						$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);
@@ -110,11 +111,12 @@ class modificaPagamento extends preventivoAbstract {
 						$db->rollbackTransaction();
 					}
 				}
+
+				$_SESSION['datascadenzaacconto'] = "";
+				$_SESSION['descrizioneacconto'] = "";
+				$_SESSION['importoacconto'] = "";
 				
 				$this->leggiAccontiPreventivo($db, $utility);
-				$pagamentoTemplate->setDataScadenzaAcconto("");
-				$pagamentoTemplate->setDescrizioneAcconto("");
-				$pagamentoTemplate->setImportoAcconto("");				
 								
 				/**
 				 * Se è stato variato un parametro per la rateizzazione dell'importo cancello tutte le rate del preventivo e le rigenero 
@@ -125,7 +127,7 @@ class modificaPagamento extends preventivoAbstract {
 				or ($importoRata_db != $importoRata_form)) {
 					
 					if (($this->cancellaRatePagamentoPreventivo($db, $utility))
-					and ($this->generaRatePagamentoPreventivo($db, $utility, $this->getImportoDaRateizzare(), $this->getDataPrimaRata(), $this->getNumeroGiorniRata(), $this->getImportoRata()))) {
+					and ($this->generaRatePagamentoPreventivo($db, $utility, $_SESSION['importodarateizzare'], $_SESSION['dataprimarata'], $_SESSION['numerogiornirata'], $_SESSION['importorata']))) {
 						
 						$this->leggiRatePagamentoPreventivo($db, $utility);
 						$this->preparaPagina($db, $utility, $pagamentoTemplate);
@@ -174,42 +176,52 @@ class modificaPagamento extends preventivoAbstract {
 		$pagamentoTemplate->setAzioneCure(self::$azioneCure);
 		$pagamentoTemplate->setAzionePagamento(self::$azionePagamento);
 	
-		if ($this->getIdPreventivo() != "") {
+		if ($_SESSION['idPreventivo'] != "") {
 			$pagamentoTemplate->setTitoloPagina("%ml.modificaPagamentoPrincipaleDentiSingoli%");
-			$this->leggiCondizioniPagamentoPreventivoPrincipale($db, $utility, $this->getIdPreventivo());
-			$pagamentoTemplate->setRatePagamento($this->leggiRatePagamentoPreventivoPrincipale($db, $utility, $this->getIdPreventivo()));
-			$pagamentoTemplate->setAcconti($this->leggiAccontiPreventivoPrincipale($db, $utility, $this->getIdPreventivo()));
-			$pagamentoTemplate->setTotalePagatoInPiano($this->sommaImportoVociPreventivoPrincipale($db, $utility, $this->getIdPreventivo(), '01'));
-			$pagamentoTemplate->setTotaleDaPagareInPiano($this->sommaImportoVociPreventivoPrincipale($db, $utility, $this->getIdPreventivo(), '00'));
+			$this->leggiCondizioniPagamentoPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo']);
+			$_SESSION['ratepagamento'] = $this->leggiRatePagamentoPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo']);
+			$_SESSION['acconti'] = $this->leggiAccontiPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo']);
+			$vociPagateInPiano = $this->sommaImportoVociPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo'], '01');
+			$vociDaPagareInPiano = $this->sommaImportoVociPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo'], '00');
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
 			$pagamentoTemplate->setTitoloPagina("%ml.modificaPagamentoSecondarioDentiSingoli%");
-			$this->leggiCondizioniPagamentoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo());
-			$pagamentoTemplate->setRatePagamento($this->leggiRatePagamentoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo()));				
-			$pagamentoTemplate->setAcconti($this->leggiAccontiPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo()));
-			$pagamentoTemplate->setTotalePagatoInPiano($this->sommaImportoVociPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo(), '01'));
-			$pagamentoTemplate->setTotaleDaPagareInPiano($this->sommaImportoVociPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo(), '00'));
+			$this->leggiCondizioniPagamentoPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo']);
+			$_SESSION['ratepagamento'] = $this->leggiRatePagamentoPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo']);
+			$_SESSION['acconti'] = $this->leggiAccontiPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo']);
+			$vociPagateInPiano = $this->sommaImportoVociPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo'], '01');
+			$vociDaPagareInPiano = $this->sommaImportoVociPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo'], '00');
 		}
 
 		/**
 		 * Determino la situazione del preventivo solo quando provengo dallo start della funzione
 		 */
-		
-		if ($this->getTotaleDaPagareFuoriPiano() == null) {
 			
-			foreach ($this->getTotalePagatoInPiano() as $row) {
-				$totalePagatoInPiano += $row['totale'];
-			}
-				
-			foreach ($this->getTotaleDaPagareInPiano() as $row) {
-				$totaleDaPagareInPiano += $row['totale'];
-			}
-			$this->setTotaleDaPagareFuoriPiano($this->calcolaTotalePreventivo() - $totaleDaPagareInPiano - $totalePagatoInPiano - $this->getScontoContante());				
+		foreach ($vociPagateInPiano as $row) {
+			$totalePagatoInPiano += $row['totale'];
 		}
+		$_SESSION['totalepagatoinpiano'] = $totalePagatoInPiano;
+						
+		foreach ($vociDaPagareInPiano as $row) {
+			$totaleDaPagareInPiano += $row['totale'];
+		}
+		$_SESSION['totaledapagareinpiano'] = $totaleDaPagareInPiano;
 		
-		$pagamentoTemplate->setDataScadenzaAcconto("");
-		$pagamentoTemplate->setDescrizioneAcconto("");
-		$pagamentoTemplate->setImportoAcconto("");
+		$_SESSION['totalepreventivo'] = $this->calcolaTotalePreventivo($db);
+
+		/**
+		 * Ricalcolo l'importo o la percentuale di sconto sul totale del preventivo, se il totale cambia a causa dell'inserimento di
+		 * nuove voci, lo sconto viene ricalcolato ed il fuori piano adeguato di conseguenza
+		 */
+		if ($_SESSION['scontopercentuale'] > 0) {
+			$_SESSION['scontocontante'] = ($_SESSION['totalepreventivo'] / 100) * $_SESSION['scontopercentuale'];			// calcolo il contante da sommare al residuo fuori piano
+		}		
+		
+		$_SESSION['totaledapagarefuoripiano'] = $_SESSION['totalepreventivo'] - $_SESSION['totaledapagareinpiano'] - $_SESSION['totalepagatoinpiano'] - $_SESSION['scontocontante'];				
+					
+		unset($_SESSION['datascadenzaacconto']);
+		unset($_SESSION['descrizioneacconto']);
+		unset($_SESSION['importoacconto']);
 		$pagamentoTemplate->setPreventivoLabel("Preventivo");
 		$pagamentoTemplate->setTotalePreventivoLabel("Totale:");
 		$pagamentoTemplate->setConfermaTip("%ml.confermaModificaPreventivo%");
@@ -217,26 +229,25 @@ class modificaPagamento extends preventivoAbstract {
 	
 	private function creaAccontoPreventivo($db, $utility, $dataScadenzaAcconto, $descrizioneAcconto, $importoAcconto) {
 
-		if ($this->getIdPreventivo() != "") {
-			if ($this->creaAccontoPreventivoPrincipale($db, $utility, $this->getIdPreventivo(), $dataScadenzaAcconto, $descrizioneAcconto, $importoAcconto)) return TRUE;
+		if ($_SESSION['idPreventivo'] != "") {
+			if ($this->creaAccontoPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo'], $dataScadenzaAcconto, $descrizioneAcconto, $importoAcconto)) return TRUE;
 			else return FALSE;
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
-			if ($this->creaAccontoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo(), $dataScadenzaAcconto, $descrizioneAcconto, $importoAcconto)) return TRUE;
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			if ($this->creaAccontoPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo'], $dataScadenzaAcconto, $descrizioneAcconto, $importoAcconto)) return TRUE;
 			else return FALSE;
-		}
-		
+		}		
 	}
 	
 	
 	private function modifica($db, $utility, $pagamentoTemplate) {
 
-		if ($this->getIdPreventivo() != "") {
-			if ($this->modificaPreventivoPrincipale($db, $utility, $this->getIdPreventivo(), $pagamentoTemplate)) return TRUE;
+		if ($_SESSION['idPreventivo'] != "") {
+			if ($this->modificaPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo'], $pagamentoTemplate)) return TRUE;
 			else return FALSE; 
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
-			if ($this->modificaPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo(), $pagamentoTemplate)) return TRUE;
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			if ($this->modificaPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo'], $pagamentoTemplate)) return TRUE;
 			else return FALSE;
 		}		
 	}
@@ -245,24 +256,24 @@ class modificaPagamento extends preventivoAbstract {
 
 		$array = $utility->getConfig();
 	
-		if ($pagamentoTemplate->getScontoPercentuale() == "") $scontoPercentuale = 'null';
-		else $scontoPercentuale = $pagamentoTemplate->getScontoPercentuale();
-
-		if ($pagamentoTemplate->getScontoContante() == "") $scontoContante = 'null';
-		else $scontoContante = $pagamentoTemplate->getScontoCOntante();
-
-		if ($pagamentoTemplate->getNumeroGiorniRata() == "") $numeroGiorniRata = 'null';
-		else $numeroGiorniRata = $pagamentoTemplate->getNumeroGiorniRata();
-
-		if ($pagamentoTemplate->getImportoRata() == "") $importoRata = 'null';
-		else $importoRata = $pagamentoTemplate->getImportoRata();
-
-		if ($pagamentoTemplate->getImportoDaRateizzare() == "") $importoDaRateizzare = 'null';
-		else $importoDaRateizzare = $pagamentoTemplate->getImportoDaRateizzare();
-
-		if ($pagamentoTemplate->getDataPrimaRata() == "") $dataPrimaRata = 'null';
-		else $dataPrimaRata = "'" . $pagamentoTemplate->getDataPrimaRata() . "'";
+		if ($_SESSION['scontopercentuale'] == "") $scontoPercentuale = 'null';
+		else $scontoPercentuale = $_SESSION['scontopercentuale'];
 		
+		if ($_SESSION['scontocontante'] == "") $scontoContante = 'null';
+		else $scontoContante = $_SESSION['scontocontante'];
+		
+		if ($_SESSION['numerogiornirata'] == "") $numeroGiorniRata = 'null';
+		else $numeroGiorniRata = $_SESSION['numerogiornirata'];
+
+		if ($_SESSION['importorata'] == "") $importoRata = 'null';
+		else $importoRata = $_SESSION['importorata'];
+
+		if ($_SESSION['importodarateizzare'] == "") $importoDaRateizzare = 'null';
+		else $importoDaRateizzare = $_SESSION['importodarateizzare'];
+
+		if ($_SESSION['dataprimarata'] == "") $dataPrimaRata = 'null';
+		else $dataPrimaRata = "'" . $_SESSION['dataprimarata'] . "'";
+				
 		$replace = array(
 				'%idpreventivo%' => $idPreventivo,
 				'%scontopercentuale%' => $scontoPercentuale,
@@ -284,31 +295,28 @@ class modificaPagamento extends preventivoAbstract {
 
 		$array = $utility->getConfig();
 
-		if ($pagamentoTemplate->getScontoPercentuale() == "") $scontoPercentuale = 'null';
-		else $scontoPercentuale = $pagamentoTemplate->getScontoPercentuale();
+		if ($_SESSION['scontopercentuale'] == "") $scontoPercentuale = 'null';
+		else $scontoPercentuale = $_SESSION['scontopercentuale'];
 		
-		if ($pagamentoTemplate->getScontoContante() == "") $scontoContante = 'null';
-		else $scontoContante = $pagamentoTemplate->getScontoCOntante();
+		if ($_SESSION['scontocontante'] == "") $scontoContante = 'null';
+		else $scontoContante = $_SESSION['scontocontante'];
 		
-		if ($pagamentoTemplate->getNumeroGiorniRata() == "") $numeroGiorniRata = 'null';
-		else $numeroGiorniRata = $pagamentoTemplate->getNumeroGiorniRata();
+		if ($_SESSION['numerogiornirata'] == "") $numeroGiorniRata = 'null';
+		else $numeroGiorniRata = $_SESSION['numerogiornirata'];
 
-		if ($pagamentoTemplate->getImportoRata() == "") $importoRata = 'null';
-		else $importoRata = $pagamentoTemplate->getImportoRata();
+		if ($_SESSION['importorata'] == "") $importoRata = 'null';
+		else $importoRata = $_SESSION['importorata'];
 
-		if ($pagamentoTemplate->getImportoDaRateizzare() == "") $importoDaRateizzare = 'null';
-		else $importoDaRateizzare = $pagamentoTemplate->getImportoDaRateizzare();
+		if ($_SESSION['importodarateizzare'] == "") $importoDaRateizzare = 'null';
+		else $importoDaRateizzare = $_SESSION['importodarateizzare'];
 
-		if ($pagamentoTemplate->getDataPrimaRata() == "") $dataPrimaRata = 'null';
-		else $dataPrimaRata = "'" . $pagamentoTemplate->getDataPrimaRata() . "'";
+		if ($_SESSION['dataprimarata'] == "") $dataPrimaRata = 'null';
+		else $dataPrimaRata = "'" . $_SESSION['dataprimarata'] . "'";
 		
 		$replace = array(
 				'%idsottopreventivo%' => $idSottoPreventivo,
 				'%scontopercentuale%' => $scontoPercentuale,
 				'%scontocontante%' => $scontoContante,
-				'%accontoiniziocura%' => $accontoInizioCura,
-				'%accontometacura%' => $accontoMetaCura,
-				'%saldofinecura%' => $saldoFineCura,
 				'%numerogiornirata%' => $numeroGiorniRata,
 				'%importorata%' => $importoRata,
 				'%importodarateizzare%' => $importoDaRateizzare,
@@ -324,44 +332,44 @@ class modificaPagamento extends preventivoAbstract {
 
 	public function cancellaRatePagamentoPreventivo($db, $utility) {
 
-		if ($this->getIdPreventivo() != "") {
-			if ($this->cancellaRatePagamentoPreventivoPrincipale($db, $utility, $this->getIdPreventivo())) return TRUE;
+		if ($_SESSION['idPreventivo'] != "") {
+			if ($this->cancellaRatePagamentoPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo'])) return TRUE;
 			else return FALSE;
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
-			if ($this->cancellaRatePagamentoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo())) return TRUE;
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			if ($this->cancellaRatePagamentoPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo'])) return TRUE;
 			else return FALSE;
 		}		
 	}
 
 	public function leggiAccontiPreventivo($db, $utility) {
 	
-		if ($this->getIdPreventivo() != "") {
-			$this->setAcconti($this->leggiAccontiPreventivoPrincipale($db, $utility, $this->getIdPreventivo()));
+		if ($_SESSION['idPreventivo'] != "") {
+			$_SESSION['acconti'] = $this->leggiAccontiPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo']);
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
-			$this->setAcconti($this->leggiAccontiPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo()));
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			$_SESSION['acconti'] = $this->leggiAccontiPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo']);
 		}
 	}
 	
 	public function leggiRatePagamentoPreventivo($db, $utility) {
 
-		if ($this->getIdPreventivo() != "") {
-			$this->setRatePagamento($this->leggiRatePagamentoPreventivoPrincipale($db, $utility, $this->getIdPreventivo()));
+		if ($_SESSION['idPreventivo'] != "") {
+			$_SESSION['ratepagamento'] = $this->leggiRatePagamentoPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo']);
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
-			$this->setRatePagamento($this->leggiRatePagamentoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo()));
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			$_SESSION['ratepagamento'] = $this->leggiRatePagamentoPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo']);
 		}
 	}	
 	
 	public function generaRatePagamentoPreventivo($db, $utility, $importoDaRateizzare, $dataPrimaRata, $numeroGiorniRata, $importoRata) {
 		
-		if ($this->getIdPreventivo() != "") {
-			if ($this->generaRatePagamentoPreventivoPrincipale($db, $utility, $this->getIdPreventivo(), $importoDaRateizzare, $dataPrimaRata, $numeroGiorniRata, $importoRata)) return TRUE;
+		if ($_SESSION['idPreventivo'] != "") {
+			if ($this->generaRatePagamentoPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo'], $importoDaRateizzare, $dataPrimaRata, $numeroGiorniRata, $importoRata)) return TRUE;
 			else return FALSE;
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
-			if ($this->generaRatePagamentoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo(), $importoDaRateizzare, $dataPrimaRata, $numeroGiorniRata, $importoRata)) return TRUE;
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			if ($this->generaRatePagamentoPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo'], $importoDaRateizzare, $dataPrimaRata, $numeroGiorniRata, $importoRata)) return TRUE;
 			else return FALSE;
 		}		
 	}		
@@ -372,7 +380,7 @@ class modificaPagamento extends preventivoAbstract {
 		 * Se l'importo da rateizzare passato è vuoto non genero le rate e restituisco ok
 		 */
 
-		if ($importoDaRateizzare != "") {
+		if ($importoDaRateizzare > 0) {
 
 			$dataScadenza = $dataPrimaRata;
 			
@@ -427,7 +435,7 @@ class modificaPagamento extends preventivoAbstract {
 		 * Se l'importo da rateizzare passato è vuoto non genero le rate e restituisco ok
 		 */
 	
-		if ($importoDaRateizzare != "") {
+		if ($importoDaRateizzare > 0) {
 	
 			$dataScadenza = $dataPrimaRata;
 				

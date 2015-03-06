@@ -34,9 +34,9 @@ class includiVocePreventivo extends preventivoAbstract {
 		$db = new database();
 		$db->beginTransaction();
 
-		if ($this->creaVoceSottoPreventivo($db, $this->getIdSottoPreventivo(), $this->getNomeForm(), $this->getNomeCampoForm(), $this->getCodiceVoceListino())) {
+		if ($this->creaVoceSottoPreventivo($db, $_SESSION['idSottoPreventivo'], $_SESSION['nomeform'], $_SESSION['nomecampoform'], $_SESSION['codicevocelistino'])) {
 			
-			if ($this->cancellaVocePreventivo($db, $this->getIdVocePreventivo())) {
+			if ($this->cancellaVocePreventivo($db, $_SESSION['idVocePreventivo'])) {
 				$db->commitTransaction();
 				return TRUE;				
 			}

@@ -2,34 +2,57 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/preventivo:/var/www/html/ellipse/src/utility');
 require_once 'creaPreventivo.gruppi.class.php';
+require_once 'firewall.class.php';
 
-$creaPreventivoGruppi = new creaPreventivoGruppi();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$creaPreventivoGruppi->setIdPaziente($_GET['idPaziente']);
-		$creaPreventivoGruppi->setIdListino($_GET['idListino']);
-		$creaPreventivoGruppi->setCognomeRicerca($_GET['cognRic']);
-		$creaPreventivoGruppi->setCognome($_GET['cognome']);
-		$creaPreventivoGruppi->setNome($_GET['nome']);
-		$creaPreventivoGruppi->setDataNascita($_GET['datanascita']);
-		break;
-	case 'POST':
-		$creaPreventivoGruppi->setIdPaziente($_POST['idPaziente']);
-		$creaPreventivoGruppi->setIdListino($_POST['idListino']);
-		$creaPreventivoGruppi->setCognomeRicerca($_POST['cognRic']);
-		$creaPreventivoGruppi->setCognome($_POST['cognome']);
-		$creaPreventivoGruppi->setNome($_POST['nome']);
-		$creaPreventivoGruppi->setDataNascita($_POST['datanascita']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$creaPreventivoGruppi = new creaPreventivoGruppi();
+	if ($_GET['modo'] == "start") $creaPreventivoGruppi->start();
+	if ($_GET['modo'] == "go") $creaPreventivoGruppi->go();
 }
+else {
 
-if ($_GET['modo'] == "start") $creaPreventivoGruppi->start();
-if ($_GET['modo'] == "go") $creaPreventivoGruppi->go();
+	$firewall = new firewall();
+
+	$data = array();
+	if ($_GET['idPreventivo'] != "") $data['idPreventivo'] = 'idPreventivo' . ';' . $_GET['idPreventivo'];
+	if ($_GET['idPreventivoPrincipale'] != "") $data['idPreventivoPrincipale'] = 'idPreventivoPrincipale' . ';' . $_GET['idPreventivoPrincipale'];
+	if ($_GET['idSottoPreventivo'] != "") $data['idSottoPreventivo'] = 'idSottoPreventivo' . ';' . $_GET['idSottoPreventivo'];
+	if ($_GET['datainserimento'] != "") $data['dataInserimento'] = 'dataInserimento' . ';' . $_GET['datainserimento'];
+	if ($_GET['stato'] != "") $data['stato'] = 'stato' . ';' . $_GET['stato'];
+
+
+	if ($firewall->controlloCampiRichiesta($data)) {
+
+		$_SESSION['idPreventivo'] = $_GET['idPreventivo'];
+		$_SESSION['idPreventivoPrincipale'] = $_GET['idPreventivoPrincipale'];
+		$_SESSION['idSottoPreventivo'] = $_GET['idSottoPreventivo'];
+		$_SESSION['dataInserimento'] = $_GET['datainserimento'];
+		$_SESSION['stato'] = $_GET['stato'];
+
+		$creaPreventivoGruppi = new creaPreventivoGruppi();
+		if ($_GET['modo'] == "start") $creaPreventivoGruppi->start();
+		if ($_GET['modo'] == "go") $creaPreventivoGruppi->go();
+	}
+	else {
+
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>

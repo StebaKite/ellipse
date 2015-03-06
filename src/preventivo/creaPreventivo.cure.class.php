@@ -77,10 +77,7 @@ class creaPreventivoCure extends preventivoAbstract {
 			if ($this->inserisciCure($preventivoCureTemplate)) {
 	
 				$ricercaPreventivo = new ricercaPreventivo();
-				$ricercaPreventivo->setIdPaziente($this->getIdPaziente());
-				$ricercaPreventivo->setIdListino($this->getIdListino());
 				$ricercaPreventivo->setMessaggio("%ml.creaPreventivoOk%");
-				$ricercaPreventivo->setCognomeRicerca($this->getCognomeRicerca());
 				$ricercaPreventivo->start();
 			}
 			else {
@@ -92,9 +89,6 @@ class creaPreventivoCure extends preventivoAbstract {
 		}
 		else {
 			$ricercaPreventivo = new ricercaPreventivo();
-			$ricercaPreventivo->setIdPaziente($this->getIdPaziente());
-			$ricercaPreventivo->setIdListino($this->getIdListino());
-			$ricercaPreventivo->setCognomeRicerca($this->getCognomeRicerca());
 			$ricercaPreventivo->start();
 		}
 		include(self::$piede);
@@ -111,7 +105,7 @@ class creaPreventivoCure extends preventivoAbstract {
 		 * Una riga in "preventivo" e tutte le voci in tabella "vocepreventivo"
 		*/
 	
-		if ($this->creaPreventivo($db)) {
+		if ($this->creaPreventivo($db, self::$root)) {
 	
 			$vociGeneriche = $preventivoCureTemplate->getCureGeneriche();
 			$idPreventivoUsato = $db->getLastIdUsed();
@@ -145,6 +139,11 @@ class creaPreventivoCure extends preventivoAbstract {
 		$preventivoCureTemplate->setTitoloPagina("%ml.creaNuovoPreventivoCure%");
 		$preventivoCureTemplate->setPreventivoLabel("");
 		$preventivoCureTemplate->setIdPreventivo("");
+
+		unset($_SESSION['idPreventivo']);
+		unset($_SESSION['idSottoPreventivo']);
+		unset($_SESSION['totalepreventivocure']);
+		
 	}
 }
 	

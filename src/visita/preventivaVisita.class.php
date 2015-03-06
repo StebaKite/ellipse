@@ -25,12 +25,12 @@ class preventivaVisita extends visitaAbstract {
 		
 		$db->beginTransaction();
 		
-		if ($this->creaPreventivo($db)) {
+		if ($this->creaPreventivo($db, self::$root)) {
 
 			$db->commitTransaction();
 				
 			$idPreventivoUsato = $db->getLastIdUsed();				
-			$vociVisita = $this->prelevaVociVisita($db, $utility, $this->getIdPaziente(), $this->getIdVisita());
+			$vociVisita = $this->prelevaVociVisita($db, $utility, $_SESSION['idPaziente'], $_SESSION['idVisita']);
 			$esito = TRUE;
 
 			$db->beginTransaction();
@@ -51,14 +51,10 @@ class preventivaVisita extends visitaAbstract {
 			else {
 				
 				// metto la visita in stato "Preventivata"
-				if ($this->aggiornaStatoVisita($db, $this->getIdVisita(), '01')) {
+				if ($this->aggiornaStatoVisita($db, $_SESSION['idVisita'], '01')) {
 					
 					$db->commitTransaction();
 					$ricercaPreventivo = new ricercaPreventivo();
-					$ricercaPreventivo->setIdPaziente($this->getIdPaziente());
-					$ricercaPreventivo->setCognome($this->getCognome());
-					$ricercaPreventivo->setNome($this->getNome());
-					$ricercaPreventivo->setDataNascita($this->getDataNascita());
 					$ricercaPreventivo->setMessaggio('%ml.creaPreventivoOk%');
 					$ricercaPreventivo->start();
 				}

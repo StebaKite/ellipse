@@ -8,37 +8,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 	public static $root;
 	public static $messaggio;
-	public static $numeroPreventiviTrovati;
-	public static $preventiviTrovati;
-	
-	public static $cognomeRicerca;
-	public static $idPaziente;
-	public static $idListino;
-	public static $idPreventivo;
-	public static $idPreventivoPrincipale;
-	public static $idSottoPreventivo;
-	public static $idVocePreventivo;
-	public static $idVoceSottoPreventivo;
-	public static $cognome;
-	public static $nome;
-	public static $dataInserimento;
-	public static $dataNascita;
-	public static $stato;
-	public static $nomeForm;
-	public static $nomeCampoForm;
-	public static $codiceVoceListino;
-	public static $totalePreventivoPrincipale;
-	public static $totalePreventivoSecondario;
-	public static $totalePreventivo;
-	public static $totalePreventivoDentiSingoli;
-	public static $totalePreventivoGruppi;
-	public static $totalePreventivoCure;
-	public static $intestazioneColonnaAzioni;
-	public static $importoSconto;
-	
-	public static $totaleDaPagareFuoriPiano;
-	public static $totaleDaPagareInPiano;
-	public static $totalePagatoInPiano;
+ 	public static $intestazioneColonnaAzioni;
 	
 	public static $azioneDentiSingoli;
 	public static $azioneGruppi;
@@ -58,65 +28,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $titoloPagina;
 	public static $preventivoLabel;
 	public static $totalePreventivoLabel;
-	
-	public static $dentiSingoli;
-	public static $impostazioniVoci;
-
-	private static $voceGruppo_1;
-	private static $dentiGruppo_1;
-	private static $voceGruppo_2;
-	private static $dentiGruppo_2;
-	private static $voceGruppo_3;
-	private static $dentiGruppo_3;
-	private static $voceGruppo_4;
-	private static $dentiGruppo_4;
-	
-	public static $cureGeneriche;
-	
-	public static $scontopercentuale;
-	public static $scontocontante;
-	public static $accontoiniziocura;
-	public static $accontometacura;
-	public static $saldofinecura;
-	
-	public static $ratePagamento;
-	public static $importodarateizzare;
-	public static $importodarateizzareStyle;
-	public static $importodarateizzareTip;
-	public static $numerogiornirata;
-	public static $numerogiornirataStyle;
-	public static $numerogiornirataTip;
-	public static $importorata;
-	public static $importorataStyle;
-	public static $importorataTip;
-	public static $dataprimarata;
-	public static $dataprimarataStyle;
-	public static $dataprimarataTip;
-
-	public static $acconti;	
-	public static $idAcconto;
-	public static $dataScadenzaAcconto;
-	public static $dataScadenzaAccontoStyle;
-	public static $dataScadenzaAccontoTip;
-	public static $descrizioneAcconto;
-	public static $descrizioneAccontoStyle;
-	public static $descrizioneAccontoTip;
-	public static $importoAcconto;
-	public static $importoAccontoStyle;
-	public static $importoAccontoTip;
-
-	public static $codiceVoce;
-	public static $descrizioneVoce;
-	public static $descrizioneVoceStyle;
-	public static $descrizioneVoceTip;
-	public static $descrizioneVoceListino;
-	public static $prezzo;
-	public static $prezzoStyle;
-	public static $prezzoTip;
-
-	public static $tabella;
-	public static $dente;
-	
+		
 	// Query -----------------------------------------------------------------------------
 	
 	public static $queryVociListinoPaziente = "/preventivo/ricercaVociListinoPaziente.sql";
@@ -276,260 +188,10 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function setMessaggio($messaggio) {
 		self::$messaggio = $messaggio;
 	}
-	public function setNumeroPreventiviTrovati($numEle) {
-		self::$numeroPreventiviTrovati = $numEle;
-	}
-	public function setPreventiviTrovati($preventiviTrovati) {
-		self::$preventiviTrovati = $preventiviTrovati;
-	}
-	public function setIdPaziente($idPaziente) {
-		self::$idPaziente = $idPaziente;
-	}
-	public function setIdListino($idListino) {
-		self::$idListino = $idListino;
-	}
-	public function setIdPreventivo($idPreventivo) {
-		self::$idPreventivo = $idPreventivo;
-	}
-	public function setIdPreventivoPrincipale($idPreventivoPrincipale) {
-		self::$idPreventivoPrincipale = $idPreventivoPrincipale;
-	}
-	public function setIdSottoPreventivo($idSottoPreventivo) {
-		self::$idSottoPreventivo = $idSottoPreventivo;
-	}
-	public function setIdVocePreventivo($idVocePreventivo) {
-		self::$idVocePreventivo = $idVocePreventivo;
-	}
-	public function setIdVoceSottoPreventivo($idVoceSottoPreventivo) {
-		self::$idVoceSottoPreventivo = $idVoceSottoPreventivo;
-	}
-	public function setCognomeRicerca($cognomeRicerca) {
-		self::$cognomeRicerca = $cognomeRicerca;
-	}
-	public function setCognome($cognome) {
-		self::$cognome = $cognome;
-	}
-	public function setNome($nome) {
-		self::$nome = $nome;
-	}
-	public function setDataNascita($dataNascita) {
-		self::$dataNascita = $dataNascita;
-	}
-	public function setDataInserimento($dataInserimento) {
-		self::$dataInserimento = $dataInserimento;
-	}
-	public function setStato($stato) {
-		self::$stato = $stato;
-	}
-	public function setNomeForm($nomeForm) {
-		self::$nomeForm = $nomeForm;
-	}
-	public function setNomeCampoForm($nomeCampoForm) {
-		self::$nomeCampoForm = $nomeCampoForm;
-	}
-	public function setCodiceVoceListino($codiceVoceListino) {
-		self::$codiceVoceListino = $codiceVoceListino;
-	}
-	public function setTotalePreventivoPrincipale($totalePreventivoPrincipale) {
-		self::$totalePreventivoPrincipale = $totalePreventivoPrincipale;
-	}
-	public function setTotalePreventivoSecondario($totalePreventivoSecondario) {
-		self::$totalePreventivoSecondario = $totalePreventivoSecondario;
-	}
-	public function setTotalePreventivo($totalePreventivo) {
-		self::$totalePreventivo = $totalePreventivo;
-	}
-	public function setTotalePreventivoDentiSingoli($totalePreventivoDentiSingoli) {
-		self::$totalePreventivoDentiSingoli = $totalePreventivoDentiSingoli;
-	}
-	public function setTotalePreventivoGruppi($totalePreventivoGruppi) {
-		self::$totalePreventivoGruppi = $totalePreventivoGruppi;
-	}
-	public function setTotalePreventivoCure($totalePreventivoCure) {
-		self::$totalePreventivoCure = $totalePreventivoCure;
-	}
-	
-	public function setTotaleDaPagareFuoriPiano($totaleDaPagareFuoriPiano) {
-		self::$totaleDaPagareFuoriPiano = $totaleDaPagareFuoriPiano;
-	}
-	public function setTotaleDaPagareInPiano($totaleDaPagareInPiano) {
-		self::$totaleDaPagareInPiano = $totaleDaPagareInPiano;
-	}
-	public function setTotalePagatoInPiano($totalePagatoInPiano) {
-		self::$totalePagatoInPiano = $totalePagatoInPiano;
-	}
-	public function setImportoSconto($importoSconto) {
-		self::$importoSconto = $importoSconto;
-	}	
-	
-	
 	
 	public function setIntestazioneColonnaAzioni($intestazioneColonnaAzioni) {
 		self::$intestazioneColonnaAzioni = $intestazioneColonnaAzioni;
 	}	
-	
-	public function setDentiSingoli($dentiSingoli) {
-		self::$dentiSingoli = $dentiSingoli;
-	}
-	public function setImpostazioniVoci($impostazioniVoci) {
-		self::$impostazioniVoci = $impostazioniVoci;
-	}
-
-	public function setDentiGruppo_1($dentiGruppo_1) {
-		self::$dentiGruppo_1 = $dentiGruppo_1;
-	}
-	public function setDentiGruppo_2($dentiGruppo_2) {
-		self::$dentiGruppo_2 = $dentiGruppo_2;
-	}
-	public function setDentiGruppo_3($dentiGruppo_3) {
-		self::$dentiGruppo_3 = $dentiGruppo_3;
-	}
-	public function setDentiGruppo_4($dentiGruppo_4) {
-		self::$dentiGruppo_4 = $dentiGruppo_4;
-	}
-	public function setVoceGruppo_1($voceGruppo_1) {
-		self::$voceGruppo_1 = $voceGruppo_1;
-	}
-	public function setVoceGruppo_2($voceGruppo_2) {
-		self::$voceGruppo_2 = $voceGruppo_2;
-	}
-	public function setVoceGruppo_3($voceGruppo_3) {
-		self::$voceGruppo_3 = $voceGruppo_3;
-	}
-	public function setVoceGruppo_4($voceGruppo_4) {
-		self::$voceGruppo_4 = $voceGruppo_4;
-	}
-	
-	public function setCureGeneriche($cureGeneriche) {
-		self::$cureGeneriche = $cureGeneriche;
-	}
-
-	public function setScontoPercentuale($scontoPercentuale) {
-		self::$scontopercentuale = $scontoPercentuale;
-	}
-	public function setScontoContante($scontoContante) {
-		self::$scontocontante = $scontoContante;
-	}
-	public function setAccontoInizioCura($accontoInizioCura) {
-		self::$accontoiniziocura = $accontoInizioCura;
-	}
-	public function setAccontoMetaCura($accontoMetaCura) {
-		self::$accontometacura = $accontoMetaCura;
-	}
-	public function setSaldoFineCura($saldoFineCura) {
-		self::$saldofinecura = $saldoFineCura;
-	}
-	
-	public function setImportoDaRateizzare($importoDaRateizzare) {
-		self::$importodarateizzare = $importoDaRateizzare;
-	}
-	public function setStyleImportoDaRateizzare($style) {
-		self::$importodarateizzareStyle = $style;
-	}
-	public function setTipImportoDaRateizzare($tip) {
-		self::$importodarateizzareTip = $tip;
-	}
-	
-	public function setNumeroGiorniRata($numeroGiorniRata) {
-		self::$numerogiornirata = $numeroGiorniRata;
-	}
-	public function setStyleNumeroGiorniRata($style) {
-		self::$numerogiornirataStyle = $style;
-	}
-	public function setTipNumeroGiorniRata($tip) {
-		self::$numerogiornirataTip = $tip;
-	}
-	
-	public function setImportoRata($importoRata) {
-		self::$importorata = $importoRata;
-	}
-	public function setStyleImportoRata($style) {
-		self::$importorataStyle = $style;
-	}
-	public function setTipImportoRata($tip) {
-		self::$importorataTip = $tip;
-	}
-	
-	public function setDataPrimaRata($dataPrimaRata) {
-		self::$dataprimarata = $dataPrimaRata;
-	}
-	public function setStyleDataPrimaRata($style) {
-		self::$dataprimarataStyle = $style;
-	}
-	public function setTipDataPrimaRata($tip) {
-		self::$dataprimarataTip = $tip;
-	}
-
-	public function setAcconti($acconti) {
-		self::$acconti = $acconti;
-	}
-	public function setIdAcconto($idacconti) {
-		self::$idAcconto = $idacconti;
-	}
-	public function setRatePagamento($ratePagamento) {
-		self::$ratePagamento = $ratePagamento;
-	}
-	public function setdataScadenzaAcconto($dataScadenzaAcconto) {
-		self::$dataScadenzaAcconto = $dataScadenzaAcconto;
-	}
-	public function setStyledataScadenzaAcconto($style) {
-		self::$dataScadenzaAccontoStyle = $style;
-	}
-	public function setTipdataScadenzaAcconto($tip) {
-		self::$dataScadenzaAccontoTip = $tip;
-	}
-	public function setdescrizioneAcconto($descrizioneAcconto) {
-		self::$descrizioneAcconto = $descrizioneAcconto;
-	}
-	public function setStyledescrizioneAcconto($style) {
-		self::$descrizioneAccontoStyle = $style;
-	}
-	public function setTipdescrizioneAcconto($tip) {
-		self::$descrizioneAccontoTip = $tip;
-	}
-	public function setimportoAcconto($importoAcconto) {
-		self::$importoAcconto = $importoAcconto;
-	}
-	public function setStyleimportoAcconto($style) {
-		self::$importoAccontoStyle = $style;
-	}
-	public function setTipimportoAcconto($tip) {
-		self::$importoAccontoTip = $tip;
-	}
-
-	public function setCodiceVoce($codiceVoce) {
-		self::$codiceVoce = $codiceVoce;
-	}
-	
-	public function setDescrizioneVoce($descrizioneVoce) {
-		self::$descrizioneVoce = $descrizioneVoce;
-	}
-	public function setDescrizioneVoceListino($descrizioneVoceListino) {
-		self::$descrizioneVoceListino = $descrizioneVoceListino;
-	}
-	public function setStyleDescrizioneVoce($style) {
-		self::$descrizioneVoceStyle = $style;
-	}
-	public function setTipDescrizioneVoce($tip) {
-		self::$descrizioneVoceTip = $tip;
-	}
-	
-	public function setStylePrezzo($style) {
-		self::$prezzoStyle = $style;
-	}
-	public function setTipPrezzo($tip) {
-		self::$prezzoTip = $tip;
-	}
-	public function setPrezzo($prezzo) {
-		self::$prezzo = $prezzo;
-	}
-
-	public function setTabella($tabella) {
-		self::$tabella = $tabella;
-	}
-	public function setDente($dente) {
-		self::$dente = $dente;
-	}
 	
 	// Getters -----------------------------------------------------------------------------
 
@@ -581,263 +243,10 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function getMessaggio() {
 		return self::$messaggio;
 	}
-	public function getNumeroPreventiviTrovati() {
-		return self::$numeroPreventiviTrovati;
-	}
-	public function getPreventiviTrovati() {
-		return self::$preventiviTrovati;
-	}
-	public function getIdPaziente() {
-		return self::$idPaziente;
-	}
-	public function getIdListino() {
-		return self::$idListino;
-	}
-	public function getIdPreventivo() {
-		return self::$idPreventivo;
-	}
-	public function getIdVocePreventivo() {
-		return self::$idVocePreventivo;
-	}
-	public function getIdVoceSottoPreventivo() {
-		return self::$idVoceSottoPreventivo;
-	}
-	public function getIdPreventivoPrincipale() {
-		return self::$idPreventivoPrincipale;
-	}
-	public function getIdSottoPreventivo() {
-		return self::$idSottoPreventivo;
-	}
-	public function getCognomeRicerca() {
-		return self::$cognomeRicerca;
-	}
-	public function getCognome() {
-		return self::$cognome;
-	}
-	public function getNome() {
-		return self::$nome;
-	}
-	public function getDataNascita() {
-		return self::$dataNascita;
-	}
-	public function getDataInserimento() {
-		return self::$dataInserimento;
-	}
-	public function getStato() {
-		return self::$stato;
-	}
-	public function getNomeForm() {
-		return self::$nomeForm;
-	}
-	public function getNomeCampoForm() {
-		return self::$nomeCampoForm;
-	}
-	public function getCodiceVoceListino() {
-		return self::$codiceVoceListino;
-	}
-	public function getTotalePreventivoPrincipale() {
-		return self::$totalePreventivoPrincipale;
-	}
-	public function getTotalePreventivoSecondario() {
-		return self::$totalePreventivoSecondario;
-	}
-	public function getTotalePreventivo() {
-		return self::$totalePreventivo;
-	}
-	public function getTotalePreventivoDentiSingoli() {
-		return self::$totalePreventivoDentiSingoli;
-	}
-	public function getTotalePreventivoGruppi() {
-		return self::$totalePreventivoGruppi;
-	}
-	public function getTotalePreventivoCure() {
-		return self::$totalePreventivoCure;
-	}
-	
-	public function getTotaleDaPagareInPiano() {
-		return self::$totaleDaPagareInPiano;
-	}
-	public function getTotaleDaPagareFuoriPiano() {
-		return self::$totaleDaPagareFuoriPiano;
-	}
-	public function getTotalePagatoInPiano() {
-		return self::$totalePagatoInPiano;
-	}
-	public function getImportoSconto() {
-		return self::$importoSconto;
-	}
-	
-	
 	
 	public function getIntestazioneColonnaAzioni() {
 		return self::$intestazioneColonnaAzioni;
 	}
-	
-	public function getDentiSingoli() {
-		return self::$dentiSingoli;
-	}
-	public function getImpostazioniVoci() {
-		return self::$impostazioniVoci;
-	}
-
-	
-	public function getDentiGruppo_1() {
-		return self::$dentiGruppo_1;
-	}
-	public function getDentiGruppo_2() {
-		return self::$dentiGruppo_2;
-	}
-	public function getDentiGruppo_3() {
-		return self::$dentiGruppo_3;
-	}
-	public function getDentiGruppo_4() {
-		return self::$dentiGruppo_4;
-	}
-	public function getVoceGruppo_1() {
-		return self::$voceGruppo_1;
-	}
-	public function getVoceGruppo_2() {
-		return self::$voceGruppo_2;
-	}
-	public function getVoceGruppo_3() {
-		return self::$voceGruppo_3;
-	}
-	public function getVoceGruppo_4() {
-		return self::$voceGruppo_4;
-	}
-	
-	public function getCureGeneriche() {
-		return self::$cureGeneriche;
-	}
-
-	public function getScontoPercentuale() {
-		return self::$scontopercentuale;
-	}
-	public function getScontoContante() {
-		return self::$scontocontante;
-	}
-	public function getAccontoInizioCura() {
-		return self::$accontoiniziocura;
-	}
-	public function getAccontoMetaCura() {
-		return self::$accontometacura;
-	}
-	public function getSaldoFineCura() {
-		return self::$saldofinecura;
-	}
-
-	public function getRatePagamento() {
-		return self::$ratePagamento;
-	}
-	public function getImportoDaRateizzare() {
-		return self::$importodarateizzare;
-	}
-	public function getStyleImportoDaRateizzare() {
-		return self::$importodarateizzareStyle;
-	}
-	public function getTipImportoDaRateizzare() {
-		return self::$importodarateizzareTip;
-	}
-	
-	public function getNumeroGiorniRata() {
-		return self::$numerogiornirata;
-	}
-	public function getStyleNumeroGiorniRata() {
-		return self::$numerogiornirataStyle;
-	}
-	public function getTipNumeroGiorniRata() {
-		return self::$numerogiornirataTip;
-	}
-	
-	public function getImportoRata() {
-		return self::$importorata;
-	}
-	public function getStyleImportoRata() {
-		return self::$importorataStyle;
-	}
-	public function getTipImportoRata() {
-		return self::$importorataTip;
-	}
-	
-	public function getDataPrimaRata() {
-		return self::$dataprimarata;
-	}
-	public function getStyleDataPrimaRata() {
-		return self::$dataprimarataStyle;
-	}
-	public function getTipDataPrimaRata() {
-		return self::$dataprimarataTip;
-	}
-	
-	public function getAcconti() {
-		return self::$acconti;
-	}	
-	public function getIdAcconto() {
-		return self::$idAcconto;
-	}	
-	public function getdataScadenzaAcconto() {
-		return self::$dataScadenzaAcconto;
-	}
-	public function getStyledataScadenzaAcconto() {
-		return self::$dataScadenzaAccontoStyle;
-	}
-	public function getTipdataScadenzaAcconto() {
-		return self::$dataScadenzaAccontoTip;
-	}
-	
-	public function getdescrizioneAcconto() {
-		return self::$descrizioneAcconto;
-	}
-	public function getStyledescrizioneAcconto() {
-		return self::$descrizioneAccontoStyle;
-	}
-	public function getTipdescrizioneAcconto() {
-		return self::$descrizioneAccontoTip;
-	}
-	
-	public function getimportoAcconto() {
-		return self::$importoAcconto;
-	}
-	public function getStyleimportoAcconto() {
-		return self::$importoAccontoStyle;
-	}
-	public function getTipimportoAcconto() {
-		return self::$importoAccontoTip;
-	}
-
-	public function getCodiceVoce() {
-		return self::$codiceVoce;
-	}
-	
-	public function getDescrizioneVoceListino() {
-		return self::$descrizioneVoceListino;
-	}
-	public function getDescrizioneVoce() {
-		return self::$descrizioneVoce;
-	}
-	public function getStyleDescrizioneVoce() {
-		return self::$descrizioneVoceStyle;
-	}
-	public function getTipDescrizioneVoce() {
-		return self::$descrizioneVoceTip;
-	}
-
-	public function getPrezzo() {
-		return self::$prezzo;
-	}
-	public function getStylePrezzo() {
-		return self::$prezzoStyle;
-	}
-	public function getTipPrezzo() {
-		return self::$prezzoTip;
-	}
-	
-	public function getTabella() {
-		return self::$tabella;
-	}
-	public function getDente() {
-		return self::$dente;
-	}	
 	
 	// Start e Go funzione ----------------------------------------------------------------
 	
@@ -1111,21 +520,17 @@ abstract class preventivoAbstract extends ellipseAbstract {
 
 	public function prelevaCampiFormPagamento() {
 		
-		$this->setScontoPercentuale($_POST['scontopercentuale']);
-		$this->setScontoContante($_POST['scontocontante']);
+		$_SESSION['scontopercentuale'] = $_POST['scontopercentuale'];
+		$_SESSION['scontocontante'] = $_POST['scontocontante'];
 
-		$this->setDataScadenzaAcconto($_POST['datascadenzaacconto']);
-		$this->setDescrizioneAcconto($_POST['descrizioneacconto']);
-		$this->setImportoAcconto($_POST['importoacconto']);
+		$_SESSION['datascadenzaacconto'] = $_POST['datascadenzaacconto'];
+		$_SESSION['descrizioneacconto'] = $_POST['descrizioneacconto'];
+		$_SESSION['importoacconto'] = $_POST['importoacconto'];
 		
-// 		$this->setAccontoInizioCura($_POST['accontoiniziocura']);
-// 		$this->setAccontoMetaCura($_POST['accontometacura']);
-// 		$this->setSaldoFineCura($_POST['saldofinecura']);
-		
-		$this->setImportoDaRateizzare($_POST['importodarateizzare']);
-		$this->setDataPrimaRata($_POST['dataprimarata']);		
-		$this->setNumeroGiorniRata($_POST['numerogiornirata']);
-		$this->setImportoRata($_POST['importorata']);
+		$_SESSION['importodarateizzare'] = $_POST['importodarateizzare'];
+		$_SESSION['dataprimarata'] = $_POST['dataprimarata'];		
+		$_SESSION['numerogiornirata'] = $_POST['numerogiornirata'];
+		$_SESSION['importorata'] = $_POST['importorata'];		
 	}
 	
 	/**
@@ -1138,7 +543,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$utility = new utility();
 		$array = $utility->getConfig();
 	
-		$replace = array('%idpreventivo%' => $this->getIdpreventivo());
+		$replace = array('%idpreventivo%' => $_SESSION['idPreventivo']);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaSottoPreventivo;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
@@ -1267,7 +672,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 				'%nomecampoform%' => trim($nomeCampoForm),
 				'%codicevocelistino%' => trim($codiceVoceListino),
 				'%idpreventivo%' => $idPreventivoUsato,
-				'%prezzo%' => $this->prelevaPrezzoVoceListino($db, $this->getIdlistino(), $codiceVoceListino)
+				'%prezzo%' => $this->prelevaPrezzoVoceListino($db, $_SESSION['idListino'], $codiceVoceListino)
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVocePreventivo;
@@ -1279,7 +684,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		*/
 	
 		if ($result) {
-			$this->aggiornaUsoVoceListino($db, $this->getIdlistino(), trim($codiceVoceListino), '+');
+			$this->aggiornaUsoVoceListino($db, $_SESSION['idListino'], trim($codiceVoceListino), '+');
 		}
 		return $result;
 	}
@@ -1303,7 +708,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 				'%nomecampoform%' => trim($nomeCampoForm),
 				'%codicevocelistino%' => trim($codiceVoceListino),
 				'%idpreventivo%' => $idPreventivoUsato,
-				'%prezzo%' => $this->prelevaPrezzoVoceListino($db, $this->getIdlistino(), $codiceVoceListino)
+				'%prezzo%' => $this->prelevaPrezzoVoceListino($db, $_SESSION['idListino'], $codiceVoceListino)
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCreaVoceSottoPreventivo;
@@ -1315,7 +720,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		*/
 	
 		if ($result) {
-			$this->aggiornaUsoVoceListino($db, $this->getIdlistino(), trim($codiceVoceListino), '+');
+			$this->aggiornaUsoVoceListino($db, $_SESSION['idListino'], trim($codiceVoceListino), '+');
 		}
 		return $result;
 	}
@@ -1702,7 +1107,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		*/
 	
 		if ($result) {
-			$this->aggiornaUsoVoceListino($db, $this->getIdlistino(), trim($codiceVoceListino), '-');
+			$this->aggiornaUsoVoceListino($db, $_SESSION['idListino'], trim($codiceVoceListino), '-');
 		}
 		return $result;
 	}
@@ -1732,7 +1137,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		*/
 	
 		if ($result) {
-			$this->aggiornaUsoVoceListino($db, $this->getIdlistino(), trim($codiceVoceListino), '-');
+			$this->aggiornaUsoVoceListino($db, $_SESSION['idListino'], trim($codiceVoceListino), '-');
 		}
 		return $result;
 	}
@@ -1923,8 +1328,8 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$array = $utility->getConfig();
 	
 		$replace = array(
-				'%idpaziente%' => $this->getIdPaziente(),
-				'%idpreventivo%' => $this->getIdPreventivo()
+			'%idpaziente%' => $_SESSION['idPaziente'],
+			'%idpreventivo%' => $_SESSION['idPreventivo']
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaTipiVociPreventivoPrincipalePaziente;
@@ -1933,11 +1338,15 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 		$tipiVoci = pg_fetch_all($result);
 	
+		unset($_SESSION['vociPreventivoDentiSingoli']);
+		unset($_SESSION['vociPreventivoGruppi']);
+		unset($_SESSION['vociPreventivoCure']);
+				
 		if ($tipiVoci) {
 			foreach ($tipiVoci as $row) {
-				if (trim($row['tipovoce']) == 'singoli') $this->prelevaVociDentiSingoli($db, $this->getIdPreventivo(), self::$queryRiepilogoVociPreventivoPrincipalePaziente, $utility, $array, $dettaglioPreventivoTemplate);
-				if (trim($row['tipovoce']) == 'gruppi') $this->prelevaVociGruppi($db, $this->getIdPreventivo(), self::$queryRiepilogoVociGruppiPreventivoPrincipalePaziente, $utility, $array, $dettaglioPreventivoTemplate);
-				if (trim($row['tipovoce']) == 'cure') $this->prelevaVociCure($db, $this->getIdPreventivo(), self::$queryRiepilogoVociPreventivoPrincipalePaziente, $utility, $array, $dettaglioPreventivoTemplate);
+				if (trim($row['tipovoce']) == 'singoli') $this->prelevaVociDentiSingoli($db, $_SESSION['idPreventivo'], self::$queryRiepilogoVociPreventivoPrincipalePaziente, $utility, $array, $dettaglioPreventivoTemplate);
+				if (trim($row['tipovoce']) == 'gruppi') $this->prelevaVociGruppi($db, $_SESSION['idPreventivo'], self::$queryRiepilogoVociGruppiPreventivoPrincipalePaziente, $utility, $array, $dettaglioPreventivoTemplate);
+				if (trim($row['tipovoce']) == 'cure') $this->prelevaVociCure($db, $_SESSION['idPreventivo'], self::$queryRiepilogoVociPreventivoPrincipalePaziente, $utility, $array, $dettaglioPreventivoTemplate);
 			}
 		}
 	}
@@ -1954,9 +1363,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$array = $utility->getConfig();
 	
 		$replace = array(
-				'%idpaziente%' => $this->getIdPaziente(),
-				'%idpreventivo%' => $this->getIdPreventivoPrincipale(),
-				'%idsottopreventivo%' => $this->getIdSottoPreventivo()
+				'%idpaziente%' => $_SESSION['idPaziente'],
+				'%idpreventivo%' => $_SESSION['idPreventivoPrincipale'],
+				'%idsottopreventivo%' => $_SESSION['idSottoPreventivo']
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaTipiVociPreventivoSecondarioPaziente;
@@ -1964,12 +1373,16 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$result = $db->getData($sql);
 	
 		$tipiVoci = pg_fetch_all($result);
-	
+		
+		unset($_SESSION['vociPreventivoDentiSingoli']);
+		unset($_SESSION['vociPreventivoGruppi']);
+		unset($_SESSION['vociPreventivoCure']);
+		
 		if ($tipiVoci) {
 			foreach ($tipiVoci as $row) {
-				if (trim($row['tipovoce']) == 'singoli') $this->prelevaVociDentiSingoli($db, $this->getIdPreventivoPrincipale(), self::$queryRiepilogoVociPreventivoSecondarioPaziente, $utility, $array, $dettaglioPreventivoTemplate);
-				if (trim($row['tipovoce']) == 'gruppi') $this->prelevaVociGruppi($db, $this->getIdPreventivoPrincipale(), self::$queryRiepilogoVociGruppiPreventivoSecondarioPaziente, $utility, $array, $dettaglioPreventivoTemplate);
-				if (trim($row['tipovoce']) == 'cure') $this->prelevaVociCure($db, $this->getIdPreventivoPrincipale(), self::$queryRiepilogoVociPreventivoSecondarioPaziente, $utility, $array, $dettaglioPreventivoTemplate);
+				if (trim($row['tipovoce']) == 'singoli') $this->prelevaVociDentiSingoli($db, $_SESSION['idPreventivoPrincipale'], self::$queryRiepilogoVociPreventivoSecondarioPaziente, $utility, $array, $dettaglioPreventivoTemplate);
+				if (trim($row['tipovoce']) == 'gruppi') $this->prelevaVociGruppi($db, $_SESSION['idPreventivoPrincipale'], self::$queryRiepilogoVociGruppiPreventivoSecondarioPaziente, $utility, $array, $dettaglioPreventivoTemplate);
+				if (trim($row['tipovoce']) == 'cure') $this->prelevaVociCure($db, $_SESSION['idPreventivoPrincipale'], self::$queryRiepilogoVociPreventivoSecondarioPaziente, $utility, $array, $dettaglioPreventivoTemplate);
 			}
 		}
 	}
@@ -1985,9 +1398,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function prelevaVociDentiSingoli($db, $idPreventivo, $query, $utility, $array, $dettaglioPreventivoTemplate) {
 	
 		$replace = array(
-				'%idpaziente%' => $this->getIdPaziente(),
+				'%idpaziente%' => $_SESSION['idPaziente'],
 				'%idpreventivo%' => $idPreventivo,
-				'%idsottopreventivo%' => $this->getIdSottoPreventivo(),
+				'%idsottopreventivo%' => $_SESSION['idSottoPreventivo'],
 				'%nomeform%' => 'singoli'
 		);
 	
@@ -1995,7 +1408,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->getData($sql);
 	
-		$dettaglioPreventivoTemplate->setVociPreventivoDentiSingoli(pg_fetch_all($result));
+		$_SESSION['vociPreventivoDentiSingoli'] = pg_fetch_all($result);
 	}
 
 	/**
@@ -2009,9 +1422,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function prelevaVociGruppi($db, $idPreventivo, $query, $utility, $array, $dettaglioPreventivoTemplate) {
 	
 		$replace = array(
-				'%idpaziente%' => $this->getIdPaziente(),
+				'%idpaziente%' => $_SESSION['idPaziente'],
 				'%idpreventivo%' => $idPreventivo,
-				'%idsottopreventivo%' => $this->getIdSottoPreventivo(),
+				'%idsottopreventivo%' => $_SESSION['idSottoPreventivo'],
 				'%nomeform%' => 'gruppi'
 		);
 	
@@ -2019,7 +1432,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->getData($sql);
 	
-		$dettaglioPreventivoTemplate->setVociPreventivoGruppi(pg_fetch_all($result));
+		$_SESSION['vociPreventivoGruppi'] = pg_fetch_all($result);
 	}
 
 	/**
@@ -2033,9 +1446,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public function prelevaVociCure($db, $idPreventivo, $query, $utility, $array, $dettaglioPreventivoTemplate) {
 		
 		$replace = array(
-				'%idpaziente%' => $this->getIdPaziente(),
+				'%idpaziente%' => $_SESSION['idPaziente'],
 				'%idpreventivo%' => $idPreventivo,
-				'%idsottopreventivo%' => $this->getIdSottoPreventivo(),
+				'%idsottopreventivo%' => $_SESSION['idSottoPreventivo'],
 				'%nomeform%' => 'cure'
 		);
 	
@@ -2043,7 +1456,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->getData($sql);
 	
-		$dettaglioPreventivoTemplate->setVociPreventivoCure(pg_fetch_all($result));
+		$_SESSION['vociPreventivoCure'] = pg_fetch_all($result);
 	}	
 
 	/**
@@ -2429,12 +1842,12 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$rows = pg_fetch_all($result);
 	
 		foreach ($rows as $row) {
-			$this->setScontoPercentuale($row['scontopercentuale']);
-			$this->setScontoContante($row['scontocontante']);
-			$this->setImportoDaRateizzare($row['importodarateizzare']);
-			$this->setNumeroGiorniRata($row['numerogiornirata']);
-			$this->setImportoRata($row['importorata']);
-			$this->setDataPrimaRata($row['dataprimarata']);
+			$_SESSION['scontopercentuale'] = $row['scontopercentuale'];
+			$_SESSION['scontocontante'] = $row['scontocontante'];
+			$_SESSION['importodarateizzare'] = $row['importodarateizzare'];
+			$_SESSION['numerogiornirata'] = $row['numerogiornirata'];
+			$_SESSION['importorata'] = $row['importorata'];
+			$_SESSION['dataprimarata'] = $row['dataprimarata'];
 		}
 	}
 
@@ -2450,12 +1863,12 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$rows = pg_fetch_all($result);
 		
 		foreach ($rows as $row) {
-			$this->setScontoPercentuale($row['scontopercentuale']);
-			$this->setScontoContante($row['scontocontante']);
-			$this->setImportoDaRateizzare($row['importodarateizzare']);
-			$this->setNumeroGiorniRata($row['numerogiornirata']);
-			$this->setImportoRata($row['importorata']);
-			$this->setDataPrimaRata($row['dataprimarata']);
+			$_SESSION['scontopercentuale'] = $row['scontopercentuale'];
+			$_SESSION['scontocontante'] = $row['scontocontante'];
+			$_SESSION['importodarateizzare'] = $row['importodarateizzare'];
+			$_SESSION['numerogiornirata'] = $row['numerogiornirata'];
+			$_SESSION['importorata'] = $row['importorata'];
+			$_SESSION['dataprimarata'] = $row['dataprimarata'];
 		}		
 	}	
 
@@ -2553,8 +1966,8 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$array = $utility->getConfig();
 	
 		$replace = array(
-				'%idpaziente%' => $this->getIdPaziente(),
-				'%idpreventivo%' => $this->getIdPreventivo()
+				'%idpaziente%' => $_SESSION['idPaziente'],
+				'%idpreventivo%' => $_SESSION['idPreventivo']
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociPreventivoGruppiPaziente;
@@ -2579,9 +1992,9 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$array = $utility->getConfig();
 	
 		$replace = array(
-				'%idpaziente%' => $this->getIdPaziente(),
-				'%idpreventivo%' => $this->getIdPreventivoPrincipale(),
-				'%idsottopreventivo%' => $this->getIdSottoPreventivo()
+				'%idpaziente%' => $_SESSION['idPaziente'],
+				'%idpreventivo%' => $_SESSION['idPreventivoPrincipale'],
+				'%idsottopreventivo%' => $_SESSION['idSottoPreventivo']
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociSottoPreventivoGruppiPaziente;
@@ -2601,7 +2014,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	
 		$array = $utility->getConfig();
 	
-		$replace = array('%idpaziente%' => $this->getIdPaziente());
+		$replace = array('%idpaziente%' => $_SESSION['idPaziente']);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaIdPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
@@ -2614,13 +2027,69 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	 * 
 	 * @return number
 	 */
-	public function calcolaTotalePreventivo() {
-	
-		$singoli = substr(str_replace(",",".",str_replace(".","",$this->getTotalePreventivoDentiSingoli())),3);
-		$gruppi = substr(str_replace(",",".",str_replace(".","",$this->getTotalePreventivoGruppi())),3);
-		$cure = substr(str_replace(",",".",str_replace(".","",$this->getTotalePreventivoCure())),3);
-	
-		return $singoli + $gruppi + $cure;
+	public function calcolaTotalePreventivo($db) {
+
+		if ($_SESSION['idPreventivo'] != "") {
+		
+			/**
+			 * Totalizzo i denti singoli
+			 */
+			$totaleSingoli = 0;
+			foreach ($this->leggiVociPreventivoPrincipale($db, $_SESSION['idPreventivo'], "singoli") as $row) {
+				$totaleSingoli += $row['prezzo'];
+			}
+			$_SESSION['totalepreventivodentisingoli'] = $totaleSingoli;
+		
+			/**
+			 * Totalizzo i gruppi
+			 */
+			$totaleGruppi = 0;
+			foreach ($this->leggiVociPreventivoPrincipale($db, $_SESSION['idPreventivo'], "gruppi") as $row) {
+				$totaleGruppi += $row['prezzo'];
+			}
+			$_SESSION['totalepreventivogruppi'] = $totaleGruppi;
+		
+			/**
+			 * Totalizzo le cure
+			 */
+			$totaleCure = 0;
+			foreach ($this->leggiVociPreventivoPrincipale($db, $_SESSION['idPreventivo'], "cure") as $row) {
+				$totaleCure += $row['prezzo'];
+			}
+			$_SESSION['totalepreventivocure'] = $totaleCure;
+		
+		}
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+		
+			/**
+			 * Totalizzo i denti singoli
+			 */
+			$totaleSingoli = 0;
+			foreach ($this->leggiVociPreventivoSecondario($db, $_SESSION['idSottoPreventivo'], "singoli") as $row) {
+				$totaleSingoli += $row['prezzo'];
+			}
+			$_SESSION['totalepreventivodentisingoli'] = $totaleSingoli;
+		
+			/**
+			 * Totalizzo i gruppi
+			 */
+			$totaleGruppi = 0;
+			foreach ($this->leggiVociPreventivoSecondario($db, $_SESSION['idSottoPreventivo'], "gruppi") as $row) {
+				$totaleGruppi += $row['prezzo'];
+			}
+			$_SESSION['totalepreventivogruppi'] = $totaleGruppi;
+				
+			/**
+			 * Totalizzo le cure
+			 */
+			$totaleCure = 0;
+			foreach ($this->leggiVociPreventivoSecondario($db, $_SESSION['idSottoPreventivo'], "cure") as $row) {
+				$totaleCure += $row['prezzo'];
+			}
+			$_SESSION['totalepreventivocure'] = $totaleCure;
+		}
+		
+		return $_SESSION['totalepreventivodentisingoli'] + $_SESSION['totalepreventivogruppi'] + $_SESSION['totalepreventivocure'];
 	}
 
 	/**

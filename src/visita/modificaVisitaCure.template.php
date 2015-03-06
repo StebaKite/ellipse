@@ -7,14 +7,6 @@ class visitaCure extends visitaAbstract {
 	private static $cureForm = "cure";
 	private static $pagina = "/visita/visita.cure.form.html";
 	private static $voceCura;
-
-	public function setVoceCura($voceCura) {
-		self::$voceCura = $voceCura;
-	}
-
-	public function getVoceCura() {
-		return self::$voceCura;
-	}
 	
 	//-----------------------------------------------------------------------------
 
@@ -43,7 +35,7 @@ class visitaCure extends visitaAbstract {
 
 		$vociListinoEsteso = "";	// per la tab di aiuto consultazione voci disponibili
 		
-		$replace = array('%idlistino%' => $this->getIdListino());
+		$replace = array('%idlistino%' => $_SESSION['idListino']);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociGenericheListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
@@ -54,29 +46,26 @@ class visitaCure extends visitaAbstract {
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
 			'%visita%' => $this->getVisitaLabel(),
-			'%cognome%' => $this->getCognome(),
-			'%nome%' => $this->getNome(),
-			'%datanascita%' => $this->getDataNascita(),
+			'%cognome%' => $_SESSION['cognome'],
+			'%nome%' => $_SESSION['nome'],
+			'%datanascita%' => $_SESSION['datanascita'],
 			'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
 			'%azioneGruppi%' => $this->getAzioneGruppi(),
 			'%azioneCure%' => $this->getAzioneCure(),
 			'%confermaTip%' => $this->getConfermaTip(),
 			'%singoliTip%' => $this->getSingoliTip(),
 			'%gruppiTip%' => $this->getGruppiTip(),
-			'%cognomeRicerca%' => $this->getCognomeRicerca(),
-			'%idPaziente%' => $this->getIdPaziente(),
-			'%idListino%' => $this->getIdListino(),
-			'%idVisita%' => $this->getIdVisita()
+			'%idVisita%' => $_SESSION['idVisita']
 		);
 		
 		if ($rows) {
 			$replace['%vociListinoEsteso%'] = $this->preparaListinoEsteso($rows);
 
-			foreach($this->getCureGeneriche() as $comboCure) {
+			foreach($_SESSION['curegeneriche'] as $comboCure) {
 
-				$this->setVoceCura($this->leggiVoceCuraVisita($db, $this->getIdVisita(), $comboCure[0], self::$cureForm));
-				$replace['%' . $comboCure[0] . '%'] = $this->preparaComboGruppo($rows, $this->getVoceCura());
-				
+				$voceCura = $this->leggiVoceCuraVisita($db, $_SESSION['idVisita'], $comboCure[0], self::$cureForm);
+				$replace['%' . $comboCure[0] . '%'] = $this->preparaComboGruppo($rows, $voceCura);
+				$voceCura = "";				
 			}
 			$db->commitTransaction();
 		}
@@ -96,8 +85,6 @@ class visitaCure extends visitaAbstract {
 			
 			if (trim($cod['codicevocelistino']) == trim($voceCura)) {
 				$vociCombo .= "<option selected='selected' value='" . trim($cod['codicevocelistino']) . "'>" . trim($cod['descrizionevoce']) . "</option>";
-				$voceCura = "";
-				$this->setVoceCura($voceCura);
 			}
 			else
 				$vociCombo .= "<option value='" . trim($cod['codicevocelistino']) . "' >" . trim($cod['descrizionevoce']) . "</option>";

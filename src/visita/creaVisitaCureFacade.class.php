@@ -2,34 +2,52 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/paziente:/var/www/html/ellipse/src/utility');
 require_once 'creaVisita.cure.class.php';
+require_once 'firewall.class.php';
 
-$creaVisitaCure = new creaVisitaCure();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$creaVisitaCure->setIdPaziente($_GET['idPaziente']);
-		$creaVisitaCure->setIdListino($_GET['idListino']);
-		$creaVisitaCure->setCognomeRicerca($_GET['cognRic']);
-		$creaVisitaCure->setCognome($_GET['cognome']);
-		$creaVisitaCure->setNome($_GET['nome']);
-		$creaVisitaCure->setDataNascita($_GET['datanascita']);
-		break;
-	case 'POST':
-		$creaVisitaCure->setIdPaziente($_POST['idPaziente']);
-		$creaVisitaCure->setIdListino($_POST['idListino']);
-		$creaVisitaCure->setCognomeRicerca($_POST['cognRic']);
-		$creaVisitaCure->setCognome($_POST['cognome']);
-		$creaVisitaCure->setNome($_POST['nome']);
-		$creaVisitaCure->setDataNascita($_POST['datanascita']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$creaVisitaCure = new creaVisitaCure();
+	if ($_GET['modo'] == "start") $creaVisitaCure->start();
+	if ($_GET['modo'] == "go") $creaVisitaCure->go();
 }
+else {
 
-if ($_GET['modo'] == "start") $creaVisitaCure->start();
-if ($_GET['modo'] == "go") $creaVisitaCure->go();
+	$firewall = new firewall();
+
+	$data = array();
+	if ($_GET['idVisita'] != "") $data['idVisita'] = 'idVisita' . ';' . $_GET['idVisita'];
+	if ($_GET['datainserimento'] != "") $data['dataInserimento'] = 'dataInserimento' . ';' . $_GET['datainserimento'];
+	if ($_GET['stato'] != "") $data['statoVisita'] = 'statoVisita' . ';' . $_GET['stato'];
+
+	if ($firewall->controlloCampiRichiesta($data)) {
+
+		$_SESSION['idVisita'] = trim($_GET['idVisita']);
+		$_SESSION['datainserimentovisita'] = trim($_GET['datainserimento']);
+		$_SESSION['statovisita'] = trim($_GET['stato']);
+
+		$creaVisitaCure = new creaVisitaCure();
+		if ($_GET['modo'] == "start") $creaVisitaCure->start();
+		if ($_GET['modo'] == "go") $creaVisitaCure->go();
+	}
+	else {
+
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>

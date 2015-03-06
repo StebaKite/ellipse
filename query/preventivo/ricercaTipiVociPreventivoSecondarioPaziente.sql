@@ -16,3 +16,4 @@ FROM paziente.preventivo as preventivo
 WHERE paziente.idpaziente = %idpaziente%
   AND preventivo.idpreventivo = %idpreventivo%
   AND sottopreventivo.idsottopreventivo = %idsottopreventivo%
+  AND vocesottopreventivo.stato = '00'

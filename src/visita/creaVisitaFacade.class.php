@@ -2,34 +2,52 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/paziente:/var/www/html/ellipse/src/strumenti:/var/www/html/ellipse/src/utility');
 require_once 'creaVisita.class.php';
+require_once 'firewall.class.php';
 
-$creaVisita = new creaVisita();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$creaVisita->setIdPaziente($_GET['idPaziente']);
-		$creaVisita->setIdListino($_GET['idListino']);
-		$creaVisita->setCognomeRicerca($_GET['cognRic']);
-		$creaVisita->setCognome($_GET['cognome']);
-		$creaVisita->setNome($_GET['nome']);
-		$creaVisita->setDataNascita($_GET['datanascita']);
-		break;
-	case 'POST':
-		$creaVisita->setIdPaziente($_POST['idPaziente']);
-		$creaVisita->setIdListino($_POST['idListino']);
-		$creaVisita->setCognomeRicerca($_POST['cognRic']);
-		$creaVisita->setCognome($_POST['cognome']);
-		$creaVisita->setNome($_POST['nome']);
-		$creaVisita->setDataNascita($_POST['datanascita']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$creaVisita = new creaVisita();
+	if ($_GET['modo'] == "start") $creaVisita->start();
+	if ($_GET['modo'] == "go") $creaVisita->go();
 }
+else {
 
-if ($_GET['modo'] == "start") $creaVisita->start();
-if ($_GET['modo'] == "go") $creaVisita->go();
+	$firewall = new firewall();
+
+	$data = array();
+	if ($_GET['idVisita'] != "") $data['idVisita'] = 'idVisita' . ';' . $_GET['idVisita'];
+	if ($_GET['datainserimento'] != "") $data['dataInserimento'] = 'dataInserimento' . ';' . $_GET['datainserimento'];
+	if ($_GET['stato'] != "") $data['statoVisita'] = 'statoVisita' . ';' . $_GET['stato'];
+
+	if ($firewall->controlloCampiRichiesta($data)) {
+
+		$_SESSION['idVisita'] = trim($_GET['idVisita']);
+		$_SESSION['datainserimentovisita'] = trim($_GET['datainserimento']);
+		$_SESSION['statovisita'] = trim($_GET['stato']);
+
+		$creaVisita = new creaVisita();
+		if ($_GET['modo'] == "start") $creaVisita->start();
+		if ($_GET['modo'] == "go") $creaVisita->go();
+	}
+	else {
+
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>

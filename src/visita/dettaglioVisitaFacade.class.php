@@ -2,40 +2,52 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/paziente:/var/www/html/ellipse/src/utility');
 require_once 'dettaglioVisita.class.php';
+require_once 'firewall.class.php';
 
-$dettaglioVisita = new dettaglioVisita();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$dettaglioVisita->setIdPaziente($_GET['idPaziente']);
-		$dettaglioVisita->setIdVisita($_GET['idVisita']);
-		$dettaglioVisita->setIdListino($_GET['idListino']);
-		$dettaglioVisita->setDataInserimento($_GET['datainserimento']);
-		$dettaglioVisita->setStato($_GET['stato']);
-		$dettaglioVisita->setCognomeRicerca($_GET['cognRic']);
-		$dettaglioVisita->setCognome($_GET['cognome']);
-		$dettaglioVisita->setNome($_GET['nome']);
-		$dettaglioVisita->setDataNascita($_GET['datanascita']);
-		break;
-	case 'POST':
-		$dettaglioVisita->setIdPaziente($_POST['idPaziente']);
-		$dettaglioVisita->setIdVisita($_POST['idVisita']);
-		$dettaglioVisita->setIdListino($_POST['idListino']);
-		$dettaglioVisita->setDataInserimento($_POST['datainserimento']);
-		$dettaglioVisita->setStato($_POST['stato']);
-		$dettaglioVisita->setCognomeRicerca($_POST['cognRic']);
-		$dettaglioVisita->setCognome($_POST['cognome']);
-		$dettaglioVisita->setNome($_POST['nome']);
-		$dettaglioVisita->setDataNascita($_POST['datanascita']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$dettaglioVisita = new dettaglioVisita();
+	if ($_GET['modo'] == "start") $dettaglioVisita->start();
+	if ($_GET['modo'] == "go") $dettaglioVisita->go();
 }
+else {
 
-if ($_GET['modo'] == "start") $dettaglioVisita->start();
-if ($_GET['modo'] == "go") $dettaglioVisita->go();
+	$firewall = new firewall();
+
+	$data = array();
+	if ($_GET['idVisita'] != "") $data['idVisita'] = 'idVisita' . ';' . $_GET['idVisita'];
+	if ($_GET['datainserimento'] != "") $data['dataInserimento'] = 'dataInserimento' . ';' . $_GET['datainserimento'];
+	if ($_GET['stato'] != "") $data['statoVisita'] = 'statoVisita' . ';' . $_GET['stato'];
+	
+	if ($firewall->controlloCampiRichiesta($data)) {
+
+		$_SESSION['idVisita'] = trim($_GET['idVisita']);
+		$_SESSION['datainserimentovisita'] = trim($_GET['datainserimento']);
+		$_SESSION['statovisita'] = trim($_GET['stato']);
+		
+		$dettaglioVisita = new dettaglioVisita();
+		if ($_GET['modo'] == "start") $dettaglioVisita->start();
+		if ($_GET['modo'] == "go") $dettaglioVisita->go();
+	}
+	else {
+
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>

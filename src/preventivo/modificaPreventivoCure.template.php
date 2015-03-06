@@ -50,7 +50,7 @@ class preventivoCureTemplate extends preventivoAbstract {
 		
 		$vociListinoEsteso = "";	// per la tab di aiuto consultazione voci disponibili
 		
-		$replace = array('%idlistino%' => $this->getIdListino());
+		$replace = array('%idlistino%' => $_SESSION['idListino']);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociGenericheListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
@@ -62,12 +62,9 @@ class preventivoCureTemplate extends preventivoAbstract {
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%preventivo%' => $this->getPreventivoLabel(),
 				'%totale%' => $this->getTotalePreventivoLabel(),
-				'%totsingoli%' => $this->getTotalePreventivoDentiSingoli(),
-				'%totgruppi%' => $this->getTotalePreventivoGruppi(),
-				'%importoSconto%' => $this->getImportoSconto(),
-				'%cognome%' => $this->getCognome(),
-				'%nome%' => $this->getNome(),
-				'%datanascita%' => $this->getDataNascita(),
+				'%cognome%' => $_SESSION['cognome'],
+				'%nome%' => $_SESSION['nome'],
+				'%datanascita%' => $_SESSION['datanascita'],
 				'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
 				'%azioneGruppi%' => $this->getAzioneGruppi(),
 				'%azioneCure%' => $this->getAzioneCure(),
@@ -75,13 +72,10 @@ class preventivoCureTemplate extends preventivoAbstract {
 				'%confermaTip%' => $this->getConfermaTip(),
 				'%singoliTip%' => $this->getSingoliTip(),
 				'%gruppiTip%' => $this->getGruppiTip(),
-				'%cognomeRicerca%' => $this->getCognomeRicerca(),
-				'%idPaziente%' => $this->getIdPaziente(),
-				'%idListino%' => $this->getIdListino(),
-				'%idPreventivo%' => $this->getIdPreventivo(),
-				'%idPreventivoPrincipale%' => $this->getIdPreventivoPrincipale(),
-				'%idSottoPreventivo%' => $this->getIdSottoPreventivo(),
-				'%stato%' => $this->getStato()
+				'%idPreventivo%' => $_SESSION['idPreventivo'],
+				'%idPreventivoPrincipale%' => $_SESSION['idPreventivoPrincipale'],
+				'%idSottoPreventivo%' => $_SESSION['idSottoPreventivo'],
+				'%stato%' => $_SESSION['stato']
 		);
 		
 		if ($rows) {
@@ -89,26 +83,35 @@ class preventivoCureTemplate extends preventivoAbstract {
 		
 			$this->setTotaleCure(0);
 			
-			foreach($this->getCureGeneriche() as $comboCure) {
+			foreach($_SESSION['curegeneriche']  as $comboCure) {
 
-				if ($this->getIdPreventivo() != "") {
+				if ($_SESSION['idPreventivo'] != "") {
 					
-					foreach ($this->leggiVoceCuraPreventivoPrincipale($db, $this->getIdPreventivo(), $comboCure[0], self::$cureForm) as $voceInserita) {
+					foreach ($this->leggiVoceCuraPreventivoPrincipale($db, $_SESSION['idPreventivo'], $comboCure[0], self::$cureForm) as $voceInserita) {
 						$this->setVoceCura($voceInserita['codicevocelistino']);
 						$this->setTotaleCure($this->getTotaleCure() + $voceInserita['prezzo']);
 					}
 				}
-				elseif ($this->getIdSottoPreventivo() != "") {
+				elseif ($_SESSION['idSottoPreventivo'] != "") {
 					
-					foreach ($this->leggiVoceCuraPreventivoSecondario($db, $this->getIdSottoPreventivo(), $comboCure[0], self::$cureForm) as $voceInserita) {
+					foreach ($this->leggiVoceCuraPreventivoSecondario($db, $_SESSION['idSottoPreventivo'], $comboCure[0], self::$cureForm) as $voceInserita) {
 						$this->setVoceCura($voceInserita['codicevocelistino']);
-						$this->setTotaleCure($this->getTotaleCure() + $voceInserita['prezzo']);						
+						$this->setTotaleCure($this->getTotaleCure() + $voceInserita['prezzo']);
 					}				
 				}				
 				$replace['%' . $comboCure[0] . '%'] = $this->preparaComboGruppo($rows, $this->getVoceCura());
 			}
-			$replace['%totcure%'] = '&euro;' . number_format($this->getTotaleCure(), 2, ',', '.');
-			$this->setTotalePreventivoCure($this->getTotaleCure());
+			
+
+			if ($this->getTotaleCure() > 0) {
+				$totaleCure = "&euro;" . number_format($this->getTotaleCure(), 2, ',', '.');
+			}
+			else {
+				$totaleCure = $this->getTotaleCure();
+			}
+			
+			$replace['%totcure%'] = $totaleCure;
+			$_SESSION['totalePreventivoCure'] = $this->getTotaleCure();
 			
 			$db->commitTransaction();
 		}

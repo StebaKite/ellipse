@@ -2,40 +2,52 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/paziente:/var/www/html/ellipse/src/preventivo:/var/www/html/ellipse/src/utility');
 require_once 'preventivaVisita.class.php';
+require_once 'firewall.class.php';
 
-$preventivaVisita = new preventivaVisita();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$preventivaVisita->setIdPaziente($_GET['idPaziente']);
-		$preventivaVisita->setIdListino($_GET['idListino']);
-		$preventivaVisita->setIdVisita($_GET['idVisita']);
-		$preventivaVisita->setDataInserimento($_GET['datainserimento']);
-		$preventivaVisita->setStato($_GET['stato']);
-		$preventivaVisita->setCognomeRicerca($_GET['cognRic']);
-		$preventivaVisita->setCognome($_GET['cognome']);
-		$preventivaVisita->setNome($_GET['nome']);
-		$preventivaVisita->setDataNascita($_GET['datanascita']);
-		break;
-	case 'POST':
-		$preventivaVisita->setIdPaziente($_POST['idPaziente']);
-		$preventivaVisita->setIdListino($_POST['idListino']);
-		$preventivaVisita->setIdVisita($_POST['idVisita']);
-		$preventivaVisita->setDataInserimento($_POST['datainserimento']);
-		$preventivaVisita->setStato($_POST['stato']);
-		$preventivaVisita->setCognomeRicerca($_POST['cognRic']);
-		$preventivaVisita->setCognome($_POST['cognome']);
-		$preventivaVisita->setNome($_POST['nome']);
-		$preventivaVisita->setDataNascita($_POST['datanascita']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$preventivaVisita = new preventivaVisita();
+	if ($_GET['modo'] == "start") $preventivaVisita->start();
+	if ($_GET['modo'] == "go") $preventivaVisita->go();
 }
+else {
 
-if ($_GET['modo'] == "start") $preventivaVisita->start();
-if ($_GET['modo'] == "go") $preventivaVisita->go();
+	$firewall = new firewall();
+
+	$data = array();
+	if ($_GET['idVisita'] != "") $data['idVisita'] = 'idVisita' . ';' . $_GET['idVisita'];
+	if ($_GET['datainserimento'] != "") $data['dataInserimento'] = 'dataInserimento' . ';' . $_GET['datainserimento'];
+	if ($_GET['stato'] != "") $data['statoVisita'] = 'statoVisita' . ';' . $_GET['stato'];
+
+	if ($firewall->controlloCampiRichiesta($data)) {
+
+		$_SESSION['idVisita'] = trim($_GET['idVisita']);
+		$_SESSION['datainserimentovisita'] = trim($_GET['datainserimento']);
+		$_SESSION['statovisita'] = trim($_GET['stato']);
+
+		$preventivaVisita = new preventivaVisita();
+		if ($_GET['modo'] == "start") $preventivaVisita->start();
+		if ($_GET['modo'] == "go") $preventivaVisita->go();
+	}
+	else {
+
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>

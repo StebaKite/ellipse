@@ -1,4 +1,4 @@
-<body onload="impostaProgressBarPagamento(%totalePagatoProgressBar%, %totaleFuoriPianoProgressBar%)">
+<body onload="impostaProgressBarPagamento(%totalePagatoProgressBar%, %totaleDaPagareProgressBar%, %totaleFuoriPianoProgressBar%)">
 	
 <div id="body">	
 	<div id="main">
@@ -9,69 +9,25 @@
 				<td>
 					<form class="tooltip" method="post" action="%azioneDentiSingoli%" >
 						<button class="button" title="%ml.modificaSingoli%" %azione% >%ml.dentiSingoli%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
-						<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
-						<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
-						<input type="hidden" name="stato" value="%stato%"/>
-						<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
-						<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
-						<input type="hidden" name="totalecure" value="%totcure%"/>
-						<input type="hidden" name="importosconto" value="%importoSconto%"/>
+						<input type="hidden" name="usa-sessione" value="true"/>
 					</form>		
 				</td>			
 				<td>
 					<form class="tooltip" method="post" action="%azioneGruppi%" >
 						<button class="button" title="%ml.modificaGruppi%">%ml.gruppi%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
-						<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
-						<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
-						<input type="hidden" name="stato" value="%stato%"/>
-						<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
-						<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
-						<input type="hidden" name="totalecure" value="%totcure%"/>
-						<input type="hidden" name="importosconto" value="%importoSconto%"/>
+						<input type="hidden" name="usa-sessione" value="true"/>
 					</form>		
 				</td>
 				<td>
 					<form class="tooltip" method="post" action="%azioneCure%" >
 						<button class="button" title="%ml.modificaCure%">%ml.cure%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
-						<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
-						<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
-						<input type="hidden" name="stato" value="%stato%"/>
-						<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
-						<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
-						<input type="hidden" name="totalecure" value="%totcure%"/>
-						<input type="hidden" name="importosconto" value="%importoSconto%"/>
+						<input type="hidden" name="usa-sessione" value="true"/>
 					</form>		
 				</td>
 				<td>
 					<form class="tooltip" method="post" action="../preventivo/ricercaPreventivoFacade.class.php?modo=start" >
 						<button class="button" title="%ml.funzPrec%">%ml.indietro%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
+						<input type="hidden" name="usa-sessione" value="true"/>
 					</form>		
 				</td>
 			</tr>
@@ -91,7 +47,7 @@
 					<table>
 						<tbody>
 							<tr>
-								<td width="215" valign="top">
+								<td width="230" valign="top">
 									<table>
 										<tbody>
 											<tr>
@@ -99,7 +55,7 @@
 											</tr>
 											<tr>
 												<td>%ml.totalePagatoInPiano% :</td>
-												<td><h4>%totalePagatoInPiano%</h4></td>
+												<td width="100"><h4>%totalePagatoInPiano%</h4></td>
 											</tr>
 											<tr>
 												<td>%ml.totaleDapagareInPiano% :</td>
@@ -113,7 +69,7 @@
 										</tbody>
 									</table>
 								</td>
-								<td width="80">
+								<td width="10">
 									<table>
 										<tbody>
 											<tr></tr>
@@ -127,9 +83,9 @@
 									<table>
 										<tbody>
 											<tr></tr>
-											<tr><td width="640"><div id="preventivoPagato"></div></td></tr>
-											<tr height="10"></tr>
-											<tr><td width="640"><div id="preventivoFuoriPiano"></div></td></tr>
+											<tr height="20"><td width="640"><div id="preventivoPagato"></div></td></tr>
+											<tr height="20"><td width="640"><div id="preventivoDaPagare"></div></td></tr>
+											<tr height="20"><td width="640"><div id="preventivoFuoriPiano"></div></td></tr>
 										</tbody>
 									</table>									
 								</td>
@@ -138,7 +94,7 @@
 								<table>
 									<tbody>
 										<tr>
-											<td width="200" align="left" valign="top">
+											<td width="250" align="left" valign="top">
 												<table>
 													<tbody>
 
@@ -216,19 +172,7 @@
 										<tr>
 											<td colspan="3" align="right" class="tooltip">
 												<button class="button" title="%confermaTip%" >%ml.conferma%</button>
-												<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-												<input type="hidden" name="idListino" value="%idListino%"/>
-												<input type="hidden" name="idPreventivo" value="%idPreventivo%"/>
-												<input type="hidden" name="idPreventivoPrincipale" value="%idPreventivoPrincipale%"/>
-												<input type="hidden" name="idSottoPreventivo" value="%idSottoPreventivo%"/>
-												<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-												<input type="hidden" name="cognome" value="%cognome%"/>
-												<input type="hidden" name="nome" value="%nome%"/>
-												<input type="hidden" name="datanascita" value="%datanascita%"/>
-												<input type="hidden" name="stato" value="%stato%"/>
-												<input type="hidden" name="totalesingoli" value="%totsingoli%"/>
-												<input type="hidden" name="totalegruppi" value="%totgruppi%"/>
-												<input type="hidden" name="totalecure" value="%totcure%"/>
+												<input type="hidden" name="usa-sessione" value="true"/>
 											</td>								
 										</tr>
 									</tfoot>
@@ -248,9 +192,27 @@
 				<table>
 					<tr valign="top">
 						<td>
-							<p>Note utili sulla funzionalit&agrave di impostazione delle condizioni di pagamento</p>
+							<p>Questa funzionalità permette di creare il piano di pagamento per il preventivo, sono presenti quattro sezioni: Situazione, Sconti, Acconti, Reteizzazione</p>
+							
+							<h2>Situazione</h2>
+							<p>Presenta i totali aggiornati dei pagamenti: Pagato, Da Pagare, Fuori Piano</p>
+							<ul>
+								<li><b>Pagato:</b> è la sommatoria degli acconti e delle rate "pagate"</li>
+								<li><b>Da Pagare:</b> è la sommatoria degli acconti e delle rate "Da pagare"</li>
+								<li><b>Fuori Piano:</b>è il totale delle voci la cui modalità di pagamento non è stata ancora creata</li>
+							</ul>
+							
+							<h2>Sconti</h2>
+							<p>Lo sconto si applica sempre sul totale del preventivo, può essere espresso in percentuale o in cifra. Se il totale del preventivo varia, per effetto dell'inserimento di nuove voci, lo sconto viene ricalcolato.</p>
+							<h2>Acconti</h2>
+							<p>In questa sezione è possibile immettere infiniti acconti e pagamenti fino ad esaurimento del <b>Fuori Piano</b>. Ciascun acconto andrà a incrementare il <b>Da Pagare In Piano</b> e decrementare il <b>Fuori Piano</b></p>
+							<p>Lo stato dell'acconto viene aggiornato dell'emissione della fattura e indica se è stato <b>Pagato</b> oppure no. Solo gli acconti in stato <b>Da Pagare</b> possono essere cancellati</p>
+							
+							<h2>Rateizzazione</h2>
+							<p>Con i dati immessi in questa sezione è possibile generare le rate fino ad esaurimento del <b>Fuori Piano</b>, visibili successivamente nella cartella apposita.</p>
+							<p>La rateizzazione può essere rimossa, cancellando l'importo da rateizzare. Solo le rate <b>Da Pagare</b> verrano rimosse dal piano di pagamento</p>												
 						</td>
-					</tr>
+					</tr> 
 				</table>
 				
 			</div>			

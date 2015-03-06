@@ -43,7 +43,7 @@ class ricercaVisita  extends visitaAbstract {
 
 		// carica e ritaglia il comando sql da lanciare
 		
-		$replace = array('%idpaziente%' => $this->getIdPaziente());
+		$replace = array('%idpaziente%' => $_SESSION['idPaziente']);
 
 		$utility = new utility();
 		$array = $utility->getConfig();
@@ -56,10 +56,11 @@ class ricercaVisita  extends visitaAbstract {
 		$db = new database();
 		$result = $db->getData($sql);
 		
-		$ricercaVisitaTemplate->setNumeroVisiteTrovate(pg_num_rows($result));	
-		$ricercaVisitaTemplate->setVisiteTrovate($result);
+		$_SESSION['numerovisitetrovate'] = pg_num_rows($result);	
+		$_SESSION['visitetrovate'] = pg_fetch_all($result);
 		
 		return $esito;	
 	}
 }
+
 ?>

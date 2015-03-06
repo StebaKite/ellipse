@@ -15,6 +15,7 @@ class accettaPreventivo extends preventivoAbstract {
 
 		error_log("<<<<<<< Start >>>>>>> " . $_SERVER['PHP_SELF']);
 
+		require_once 'ricercaVisita.class.php';
 		require_once 'ricercaPreventivo.class.php';
 //		require_once 'ricercaCartellaClinica.class.php';
 		require_once 'database.class.php';
@@ -28,10 +29,10 @@ class accettaPreventivo extends preventivoAbstract {
 		/**
 		 * Qui lega la cartella clinica al preventivo principale o al secondario
 		 */
-		if ($this->getIdPreventivo() != "") $idPreventivo = $this->getIdPreventivo(); 
-		elseif ($this->getIdSottoPreventivo() != "") $idPreventivo = $this->getIdSottoPreventivo();
+		if ($_SESSION['idPreventivo'] != "") $idPreventivo = $_SESSION['idPreventivo']; 
+		elseif ($_SESSION['idSottoPreventivo'] != "") $idPreventivo = $_SESSION['idSottoPreventivo'];
 		
-		if ($this->creaCartellaClinica($db, $idPreventivo, $this->getIdPaziente())) {
+		if ($this->creaCartellaClinica($db, $idPreventivo, $_SESSION['idPaziente'], self::$root)) {
 
 			$db->commitTransaction();
 
@@ -40,12 +41,12 @@ class accettaPreventivo extends preventivoAbstract {
 			/**
 			 * Prelevo le voci del preventivo principale o secondario 
 			 */
-			if ($this->getIdPreventivo() != "") {
-				$vociPreventivo = $this->prelevaVociPreventivo($db, $utility, $this->getIdPaziente(), $this->getIdPreventivo());
+			if ($_SESSION['idPreventivo'] != "") {
+				$vociPreventivo = $this->prelevaVociPreventivo($db, $utility, $_SESSION['idPaziente'], $_SESSION['idPreventivo']);
 			}
 			else {
-				if ($this->getIdSottoPreventivo() != "")
-					$vociPreventivo = $this->prelevaVociSottoPreventivo($db, $utility, $this->getIdPaziente(), $this->getIdPreventivoPrincipale(), $this->getIdSottoPreventivo());
+				if ($_SESSION['idSottoPreventivo'] != "")
+					$vociPreventivo = $this->prelevaVociSottoPreventivo($db, $utility, $_SESSION['idPaziente'], $_SESSION['idPreventivoPrincipale'], $_SESSION['idSottoPreventivo']);
 			}
 				
 			$esito = TRUE;
@@ -70,18 +71,14 @@ class accettaPreventivo extends preventivoAbstract {
 				/**
 				 * Aggiorno lo stato del preventivo principale
 				 */
-				if ($this->getIdPreventivo() != "") {
-					if ($this->aggiornaStatoPreventivo($db, $this->getIdPreventivo(), '01')) {
+				if ($_SESSION['idPreventivo'] != "") {
+					if ($this->aggiornaStatoPreventivo($db, $_SESSION['idPreventivo'], '01')) {
 
 						/**
 						 * La funzione dovrà atterrare sulla ricerca della cartelle cliniche del paziente
 						 */
 						$db->commitTransaction();
 						$ricercaPreventivo = new ricercaPreventivo();
-						$ricercaPreventivo->setIdPaziente($this->getIdPaziente());
-						$ricercaPreventivo->setCognome($this->getCognome());
-						$ricercaPreventivo->setNome($this->getNome());
-						$ricercaPreventivo->setDataNascita($this->getDataNascita());
 						$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoOk%');
 						$ricercaPreventivo->start();
 					}
@@ -98,53 +95,45 @@ class accettaPreventivo extends preventivoAbstract {
 					 * Aggiorno lo stato del preventivo secondario e del principale 
 					 */
 					
-					if ($this->getIdSottoPreventivo() != "") {
-						if ($this->aggiornaStatoSottoPreventivo($db, $this->getIdSottoPreventivo(), '01')) {
+					if ($_SESSION['idSottoPreventivo'] != "") {
+						if ($this->aggiornaStatoSottoPreventivo($db, $_SESSION['idSottoPreventivo'], '01')) {
 							
 							/**
 							 * Se non ci sono sottopreventivi in stato "Proposto" e l'importo del preventivo principale = 0
 							 * aggiorno il preventivo principale in "Accettato"
 							 */
-							if (($this->leggiStatoPreventiviSecondari($db, $utility, $this->getIdPreventivoPrincipale(), $this->getIdPaziente(), '00') == 0)
-							and ($this->leggiImportoPreventiviPrincipale($db, $utility, $this->getIdPreventivoPrincipale(), $this->getIdPaziente()) == 0)) {
+							if (($this->leggiStatoPreventiviSecondari($db, $utility, $_SESSION['idPreventivoPrincipale'], $_SESSION['idPaziente'], '00') == 0)
+							and ($this->leggiImportoPreventiviPrincipale($db, $utility, $_SESSION['idPreventivoPrincipale'], $_SESSION['idPaziente']) == 0)) {
 								
-								if ($this->aggiornaStatoPreventivo($db, $this->getIdPreventivoPrincipale(), '01')) {
+								if ($this->aggiornaStatoPreventivo($db, $_SESSION['idPreventivoPrincipale'], '01')) {
 									/**
 									 * La funzione dovrà atterrare sulla ricerca della cartelle cliniche del paziente
 									 */
 									$db->commitTransaction();
 									$ricercaPreventivo = new ricercaPreventivo();
-									$ricercaPreventivo->setIdPaziente($this->getIdPaziente());
-									$ricercaPreventivo->setCognome($this->getCognome());
-									$ricercaPreventivo->setNome($this->getNome());
-									$ricercaPreventivo->setDataNascita($this->getDataNascita());
 									$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoOk%');
 									$ricercaPreventivo->start();
 								}
 								else {
 									$db->rollbackTransaction();
-									$ricercaPreventivo = new ricercaVisita();
+									$ricercaPreventivo = new ricercaPreventivo();
 									$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoKo%');
 									$ricercaPreventivo->start();
 								}
 							}
 							else {
-								if ($this->aggiornaStatoPreventivo($db, $this->getIdPreventivoPrincipale(), '02')) {
+								if ($this->aggiornaStatoPreventivo($db, $_SESSION['idPreventivoPrincipale'], '02')) {
 									/**
 									 * La funzione dovrà atterrare sulla ricerca della cartelle cliniche del paziente
 									 */
 									$db->commitTransaction();
 									$ricercaPreventivo = new ricercaPreventivo();
-									$ricercaPreventivo->setIdPaziente($this->getIdPaziente());
-									$ricercaPreventivo->setCognome($this->getCognome());
-									$ricercaPreventivo->setNome($this->getNome());
-									$ricercaPreventivo->setDataNascita($this->getDataNascita());
 									$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoOk%');
 									$ricercaPreventivo->start();
 								}
 								else {
 									$db->rollbackTransaction();
-									$ricercaPreventivo = new ricercaVisita();
+									$ricercaPreventivo = new ricercaPreventivo();
 									$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoKo%');
 									$ricercaPreventivo->start();
 								}
@@ -152,7 +141,7 @@ class accettaPreventivo extends preventivoAbstract {
 						}
 						else {
 							$db->rollbackTransaction();
-							$ricercaPreventivo = new ricercaVisita();
+							$ricercaPreventivo = new ricercaPreventivo();
 							$ricercaPreventivo->setMessaggio('%ml.accettaPreventivoKo%');
 							$ricercaPreventivo->start();
 						}						
@@ -202,8 +191,8 @@ class accettaPreventivo extends preventivoAbstract {
 		$result = $db->getData($sql);
 	
 		if ($result) return pg_fetch_all($result);
-		else return "";	}
-	
+		else return "";
+	}	
 }
 	
 ?>

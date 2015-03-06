@@ -2,48 +2,57 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/preventivo:/var/www/html/ellipse/src/utility');
 require_once 'modificaPreventivoGruppi.class.php';
+require_once 'firewall.class.php';
 
-$modificaPreventivoGruppi = new modificaPreventivoGruppi();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$modificaPreventivoGruppi->setIdPaziente($_GET['idPaziente']);
-		$modificaPreventivoGruppi->setIdListino($_GET['idListino']);
-		$modificaPreventivoGruppi->setIdPreventivo($_GET['idPreventivo']);
-		$modificaPreventivoGruppi->setIdPreventivoPrincipale($_GET['idPreventivoPrincipale']);
-		$modificaPreventivoGruppi->setIdSottoPreventivo($_GET['idSottoPreventivo']);
-		$modificaPreventivoGruppi->setDataInserimento($_GET['datainserimento']);
-		$modificaPreventivoGruppi->setStato($_GET['stato']);
-		$modificaPreventivoGruppi->setCognomeRicerca($_GET['cognRic']);
-		$modificaPreventivoGruppi->setCognome($_GET['cognome']);
-		$modificaPreventivoGruppi->setNome($_GET['nome']);
-		$modificaPreventivoGruppi->setDataNascita($_GET['datanascita']);
-		break;
-	case 'POST':
-		$modificaPreventivoGruppi->setIdPaziente($_POST['idPaziente']);
-		$modificaPreventivoGruppi->setIdListino($_POST['idListino']);
-		$modificaPreventivoGruppi->setIdPreventivo($_POST['idPreventivo']);
-		$modificaPreventivoGruppi->setIdPreventivoPrincipale($_POST['idPreventivoPrincipale']);
-		$modificaPreventivoGruppi->setIdSottoPreventivo($_POST['idSottoPreventivo']);
-		$modificaPreventivoGruppi->setDataInserimento($_POST['datainserimento']);
-		$modificaPreventivoGruppi->setStato($_POST['stato']);
-		$modificaPreventivoGruppi->setCognomeRicerca($_POST['cognRic']);
-		$modificaPreventivoGruppi->setCognome($_POST['cognome']);
-		$modificaPreventivoGruppi->setNome($_POST['nome']);
-		$modificaPreventivoGruppi->setDataNascita($_POST['datanascita']);
-		$modificaPreventivoGruppi->setTotalePreventivoDentiSingoli($_POST['totalesingoli']);
-		$modificaPreventivoGruppi->setTotalePreventivoGruppi($_POST['totalegruppi']);
-		$modificaPreventivoGruppi->setTotalePreventivoCure($_POST['totalecure']);
-		$modificaPreventivoGruppi->setImportoSconto($_POST['importosconto']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$modificaPreventivoGruppi = new modificaPreventivoGruppi();
+	if ($_GET['modo'] == "start") $modificaPreventivoGruppi->start();
+	if ($_GET['modo'] == "go") $modificaPreventivoGruppi->go();
 }
+else {
 
-if ($_GET['modo'] == "start") $modificaPreventivoGruppi->start();
-if ($_GET['modo'] == "go") $modificaPreventivoGruppi->go();
+	$firewall = new firewall();
+
+	$data = array();
+	if ($_GET['idPreventivo'] != "") $data['idPreventivo'] = 'idPreventivo' . ';' . $_GET['idPreventivo'];
+	if ($_GET['idPreventivoPrincipale'] != "") $data['idPreventivoPrincipale'] = 'idPreventivoPrincipale' . ';' . $_GET['idPreventivoPrincipale'];
+	if ($_GET['idSottoPreventivo'] != "") $data['idSottoPreventivo'] = 'idSottoPreventivo' . ';' . $_GET['idSottoPreventivo'];
+	if ($_GET['datainserimento'] != "") $data['dataInserimento'] = 'dataInserimento' . ';' . $_GET['datainserimento'];
+	if ($_GET['stato'] != "") $data['stato'] = 'stato' . ';' . $_GET['stato'];
+
+
+	if ($firewall->controlloCampiRichiesta($data)) {
+
+		$_SESSION['idPreventivo'] = $_GET['idPreventivo'];
+		$_SESSION['idPreventivoPrincipale'] = $_GET['idPreventivoPrincipale'];
+		$_SESSION['idSottoPreventivo'] = $_GET['idSottoPreventivo'];
+		$_SESSION['dataInserimento'] = $_GET['datainserimento'];
+		$_SESSION['stato'] = $_GET['stato'];
+
+		$modificaPreventivoGruppi = new modificaPreventivoGruppi();
+		if ($_GET['modo'] == "start") $modificaPreventivoGruppi->start();
+		if ($_GET['modo'] == "go") $modificaPreventivoGruppi->go();
+	}
+	else {
+
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>

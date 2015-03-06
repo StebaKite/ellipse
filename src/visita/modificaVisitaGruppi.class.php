@@ -57,17 +57,17 @@ class modificaVisitaGruppi extends visitaAbstract {
 		$visitaGruppi = new visitaGruppi();
 		$this->preparaPagina($visitaGruppi);
 		
-		$visitaGruppi->setVoceGruppo_1($_POST['voceGruppo_1']);
-		$visitaGruppi->setDentiGruppo_1($this->prelevaCampiFormGruppo_1());
-		
-		$visitaGruppi->setVoceGruppo_2($_POST['voceGruppo_2']);
-		$visitaGruppi->setDentiGruppo_2($this->prelevaCampiFormGruppo_2());
-		
-		$visitaGruppi->setVoceGruppo_3($_POST['voceGruppo_3']);
-		$visitaGruppi->setDentiGruppo_3($this->prelevaCampiFormGruppo_3());
-		
-		$visitaGruppi->setVoceGruppo_4($_POST['voceGruppo_4']);
-		$visitaGruppi->setDentiGruppo_4($this->prelevaCampiFormGruppo_4());
+		$_SESSION['vocegruppo_1'] = $_POST['voceGruppo_1'];
+		$_SESSION['dentigruppo_1'] = $this->prelevaCampiFormGruppo_1();
+
+		$_SESSION['vocegruppo_2'] = $_POST['voceGruppo_2'];
+		$_SESSION['dentigruppo_2'] = $this->prelevaCampiFormGruppo_2();
+
+		$_SESSION['vocegruppo_3'] = $_POST['voceGruppo_3'];
+		$_SESSION['dentigruppo_3'] = $this->prelevaCampiFormGruppo_3();
+
+		$_SESSION['vocegruppo_4'] = $_POST['voceGruppo_4'];
+		$_SESSION['dentigruppo_4'] = $this->prelevaCampiFormGruppo_4();
 		
 		include(self::$testata);
 
@@ -96,23 +96,21 @@ class modificaVisitaGruppi extends visitaAbstract {
 		$db = new database();
 		$db->beginTransaction();
 
-		$visitaGruppi->setIdPaziente($this->getIdPaziente());
-
-		if ($this->modificaVociGruppo($db, 'voceGruppo_1', $visitaGruppi->getVoceGruppo_1(), $visitaGruppi->getDentiGruppo_1(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {		
-			if ($this->modificaVociGruppo($db, 'voceGruppo_2', $visitaGruppi->getVoceGruppo_2(), $visitaGruppi->getDentiGruppo_2(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
-				if ($this->modificaVociGruppo($db, 'voceGruppo_3', $visitaGruppi->getVoceGruppo_3(), $visitaGruppi->getDentiGruppo_3(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
-					if ($this->modificaVociGruppo($db, 'voceGruppo_4', $visitaGruppi->getVoceGruppo_4(), $visitaGruppi->getDentiGruppo_4(), $visitaGruppi->getIdVisita(), self::$gruppiForm)) {
+		if ($this->modificaVociGruppo($db, 'voceGruppo_1', $_SESSION['vocegruppo_1'], $_SESSION['dentigruppo_1'], $_SESSION['idVisita'], self::$gruppiForm)) {		
+			if ($this->modificaVociGruppo($db, 'voceGruppo_2', $_SESSION['vocegruppo_2'], $_SESSION['dentigruppo_2'], $_SESSION['idVisita'], self::$gruppiForm)) {
+				if ($this->modificaVociGruppo($db, 'voceGruppo_3', $_SESSION['vocegruppo_3'], $_SESSION['dentigruppo_3'], $_SESSION['idVisita'], self::$gruppiForm)) {
+					if ($this->modificaVociGruppo($db, 'voceGruppo_4', $_SESSION['vocegruppo_4'], $_SESSION['dentigruppo_4'], $_SESSION['idVisita'], self::$gruppiForm)) {
 
 						// aggiorno la datamodifica della "visita" prima di consolidare gli aggiornamenti
-						if (!$this->aggiornaVisita($db, $visitaGruppi->getIdVisita())) {
-							error_log("Fallito aggiornamento visita : " . $idVisitaUsato);
+						if (!$this->aggiornaVisita($db, $_SESSION['idVisita'])) {
+							error_log("Fallito aggiornamento visita : " . $_SESSION['idVisita']);
 							$db->rollbackTransaction();
 							return FALSE;
 						}
 
 						// aggiorno la datamodifica del "paziente"
-						if (!$this->aggiornaPaziente($db, $visitaGruppi->getIdPaziente())) {
-							error_log("Fallito aggiornamento paziente : " . $visitaGruppi->getIdPaziente());
+						if (!$this->aggiornaPaziente($db, $_SESSION['idPaziente'], self::$root)) {
+							error_log("Fallito aggiornamento paziente : " . $_SESSION['idPaziente']);
 							$db->rollbackTransaction();
 							return FALSE;
 						}			
@@ -177,31 +175,32 @@ class modificaVisitaGruppi extends visitaAbstract {
 		
 		$visitaGruppi->setTitoloPagina("%ml.modificaVisitaGruppi%");
 		$visitaGruppi->setVisitaLabel("- %ml.visita% : ");
-
-		// Prelevo i nomi dei combo che hanno voci valorizzate ----------------------------
-
-		$rows = $this->preparaVociSelezionateGruppiVisita($visitaGruppi);
 		
 		// imposto le voci selezionate per i quattro gruppi
 		
-		foreach ($rows as $row) {
+		unset($_SESSION['vocegruppo_1']);
+		unset($_SESSION['vocegruppo_2']);
+		unset($_SESSION['vocegruppo_3']);
+		unset($_SESSION['vocegruppo_4']);
+		
+		foreach ($this->preparaVociSelezionateGruppiVisita() as $row) {
 		
 			if (trim($row['nomecomboform']) == 'voceGruppo_1') {
-				$visitaGruppi->setVoceGruppo_1($row['codicevocelistino']);
+				$_SESSION['vocegruppo_1'] = $row['codicevocelistino'];
 			}
 			elseif (trim($row['nomecomboform']) == 'voceGruppo_2') {
-				$visitaGruppi->setVoceGruppo_2($row['codicevocelistino']);
+				$_SESSION['vocegruppo_2'] = $row['codicevocelistino'];
 			}
 			elseif (trim($row['nomecomboform']) == 'voceGruppo_3') {
-				$visitaGruppi->setVoceGruppo_3($row['codicevocelistino']);
+				$_SESSION['vocegruppo_3'] = $row['codicevocelistino'];
 			}
 			elseif (trim($row['nomecomboform']) == 'voceGruppo_4') {
-				$visitaGruppi->setVoceGruppo_4($row['codicevocelistino']);
+				$_SESSION['vocegruppo_4'] = $row['codicevocelistino'];
 			}
 		}
 	}
 
-	public function preparaVociSelezionateGruppiVisita($visitaGruppi) {
+	public function preparaVociSelezionateGruppiVisita() {
 	
 		$utility = new utility();
 		$array = $utility->getConfig();
@@ -209,8 +208,8 @@ class modificaVisitaGruppi extends visitaAbstract {
 		$db = new database();
 	
 		$replace = array(
-				'%idpaziente%' => $visitaGruppi->getIdPaziente(),
-				'%idvisita%' => $visitaGruppi->getIdVisita()
+				'%idpaziente%' => $_SESSION['idPaziente'],
+				'%idvisita%' => $_SESSION['idVisita']
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryComboVisitaGruppiPaziente;

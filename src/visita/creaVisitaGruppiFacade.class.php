@@ -2,34 +2,52 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/paziente:/var/www/html/ellipse/src/utility');
 require_once 'creaVisita.gruppi.class.php';
+require_once 'firewall.class.php';
 
-$creaVisitaGruppi = new creaVisitaGruppi();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$creaVisitaGruppi->setIdPaziente($_GET['idPaziente']);
-		$creaVisitaGruppi->setIdListino($_GET['idListino']);
-		$creaVisitaGruppi->setCognomeRicerca($_GET['cognRic']);
-		$creaVisitaGruppi->setCognome($_GET['cognome']);
-		$creaVisitaGruppi->setNome($_GET['nome']);
-		$creaVisitaGruppi->setDataNascita($_GET['datanascita']);
-		break;
-	case 'POST':
-		$creaVisitaGruppi->setIdPaziente($_POST['idPaziente']);
-		$creaVisitaGruppi->setIdListino($_POST['idListino']);
-		$creaVisitaGruppi->setCognomeRicerca($_POST['cognRic']);
-		$creaVisitaGruppi->setCognome($_POST['cognome']);
-		$creaVisitaGruppi->setNome($_POST['nome']);
-		$creaVisitaGruppi->setDataNascita($_POST['datanascita']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$creaVisitaGruppi = new creaVisitaGruppi();
+	if ($_GET['modo'] == "start") $creaVisitaGruppi->start();
+	if ($_GET['modo'] == "go") $creaVisitaGruppi->go();
 }
+else {
 
-if ($_GET['modo'] == "start") $creaVisitaGruppi->start();
-if ($_GET['modo'] == "go") $creaVisitaGruppi->go();
+	$firewall = new firewall();
+
+	$data = array();
+	if ($_GET['idVisita'] != "") $data['idVisita'] = 'idVisita' . ';' . $_GET['idVisita'];
+	if ($_GET['datainserimento'] != "") $data['dataInserimento'] = 'dataInserimento' . ';' . $_GET['datainserimento'];
+	if ($_GET['stato'] != "") $data['statoVisita'] = 'statoVisita' . ';' . $_GET['stato'];
+
+	if ($firewall->controlloCampiRichiesta($data)) {
+
+		$_SESSION['idVisita'] = trim($_GET['idVisita']);
+		$_SESSION['datainserimentovisita'] = trim($_GET['datainserimento']);
+		$_SESSION['statovisita'] = trim($_GET['stato']);
+
+		$creaVisitaGruppi = new creaVisitaGruppi();
+		if ($_GET['modo'] == "start") $creaVisitaGruppi->start();
+		if ($_GET['modo'] == "go") $creaVisitaGruppi->go();
+	}
+	else {
+
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>

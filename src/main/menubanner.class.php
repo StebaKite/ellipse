@@ -1,8 +1,8 @@
 <?php
 
-class menubanner {
+require_once 'ellipse.abstract.class.php';
 
-	private static $root;
+class menubanner extends ellipseAbstract {
 
 	private static $messaggio;
 	private static $queryTotaliProgressivi = "/main/totaliProgressivi.sql";
@@ -17,12 +17,20 @@ class menubanner {
 
 	public function start() {
 
+		session_start();
+			
 		require_once 'menubanner.template.php';
 		require_once 'utility.class.php';
 		require_once 'database.class.php';
 
 		error_log("<<<<<<< Start >>>>>>> " . $_SERVER['PHP_SELF']);
 
+		/**
+		 * Scrivo in sessione un securecode che tutte le funzioni facade devono riconoscere
+		 */
+				
+		$_SESSION['secureCode'] = '4406105963138001';
+		
 		// Template
 		$utility = new utility();
 		$db = new database();

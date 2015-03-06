@@ -37,10 +37,10 @@ class dettaglioPreventivo extends preventivoAbstract {
 		$dettaglioPreventivoTemplate = new dettaglioPreventivoTemplate();
 		$this->preparaPagina($dettaglioPreventivoTemplate, $db);
 
-		if ($this->getIdpreventivo() != "") {
+		if ($_SESSION['idPreventivo'] != "") {
 			$this->prelevaVociPreventivoPrincipale($db, $dettaglioPreventivoTemplate);
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
 			$this->prelevaVociPreventivoSecondario($db, $dettaglioPreventivoTemplate);
 		}
 		
@@ -56,11 +56,11 @@ class dettaglioPreventivo extends preventivoAbstract {
 		
 		$dettaglioPreventivoTemplate->setIntestazioneColonnaAzioni("<th colspan='2'>&nbsp;</th>");
 
-		if ($this->getIdpreventivo() != "") {
-			$idPreventivo = $this->getIdPreventivo();
+		if ($_SESSION['idPreventivo'] != "") {
+			$idPreventivo = $_SESSION['idPreventivo'];
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
-			$idPreventivo = $this->getIdSottoPreventivo();
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			$idPreventivo = $_SESSION['idSottoPreventivo'];
 		}
 		
 		/**
@@ -68,8 +68,8 @@ class dettaglioPreventivo extends preventivoAbstract {
 		 * 
 		 * La rinucia di un preventivo "Accettato" (01) è possibile solo se la cartella clinica si trova in stato "Attiva" (00)
 		 */
-		if (($this->getStato() == '01')
-		and ($this->leggiStatoCartellaClinica($db, $utility, $idPreventivo, $this->getIdPaziente())) == '00') {
+		if (($_SESSION['stato'] == '01')
+		and ($this->leggiStatoCartellaClinica($db, $utility, $idPreventivo, $_SESSION['idPaziente'])) == '00') {
 			
 			$dettaglioPreventivoTemplate->setAzionePreventivoLabelBottone('%ml.rinuncia%');
 			$dettaglioPreventivoTemplate->setAzionePreventivo(self::$azioneRinunciaPreventivo);
@@ -82,8 +82,8 @@ class dettaglioPreventivo extends preventivoAbstract {
 			 * L'accettazione ricorsiva di un preventivo è consentita solo se la cartella clinica corrispondente è in 
 			 * stato "Attiva" (00). Se è "In Corso" non è consentita l'accettazione dello stesso preventivo 
 			 */
-			if (($this->leggiStatoCartellaClinica($db, $utility, $idPreventivo, $this->getIdPaziente()) == '00') 
-			or  ($this->leggiStatoCartellaClinica($db, $utility, $idPreventivo, $this->getIdPaziente()) == ''))  {
+			if (($this->leggiStatoCartellaClinica($db, $utility, $idPreventivo, $_SESSION['idPaziente']) == '00') 
+			or  ($this->leggiStatoCartellaClinica($db, $utility, $idPreventivo, $_SESSION['idPaziente']) == ''))  {
 				$dettaglioPreventivoTemplate->setAzionePreventivoLabelBottone('%ml.accetta%');
 				$dettaglioPreventivoTemplate->setAzionePreventivo(self::$azioneAccettaPreventivo);
 				$dettaglioPreventivoTemplate->setAzionePreventivoTip('%ml.accettaPreventivoTip%');				
@@ -94,11 +94,11 @@ class dettaglioPreventivo extends preventivoAbstract {
 				$dettaglioPreventivoTemplate->setAzionePreventivoTip('');				
 			}
 		}
-		
-		if ($this->getIdpreventivo() != "") {
+
+		if ($_SESSION['idPreventivo'] != "") {
 			$dettaglioPreventivoTemplate->setTitoloPagina("%ml.dettaglioPreventivoPrincipale%");
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
 			$dettaglioPreventivoTemplate->setTitoloPagina("%ml.dettaglioPreventivoSecondario%");
 		}
 	}

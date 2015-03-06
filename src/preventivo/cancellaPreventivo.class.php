@@ -36,10 +36,10 @@ class cancellaPreventivo extends preventivoAbstract {
 
 		$db = new database();
 
-		if ($this->getIdpreventivo() != "") {
+		if ($_SESSION['idpreventivo'] != "") {
 			$this->prelevaVociPreventivoPrincipale($db, $dettaglioPreventivoTemplate);
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
 			$this->prelevaVociPreventivoSecondario($db, $dettaglioPreventivoTemplate);
 		}
 
@@ -67,9 +67,9 @@ class cancellaPreventivo extends preventivoAbstract {
 		$dettaglioPreventivoTemplate = new dettaglioPreventivoTemplate();
 		$this->preparaPagina($dettaglioPreventivoTemplate);
 		
-		if ($this->getIdPreventivo() != "") {
+		if ($_SESSION['idPreventivo'] != "") {
 
-			if ($this->cancellaPreventivoPrincipale($db, $utility, $this->getIdPaziente(), $this->getIdPreventivo())) {
+			if ($this->cancellaPreventivoPrincipale($db, $utility, $_SESSION['idPaziente'], $_SESSION['idPreventivo'])) {
 				$ricercaPreventivo = new ricercaPreventivo();
 				$ricercaPreventivo->setMessaggio('%ml.canPreventivoOk%');
 				$ricercaPreventivo->start();
@@ -83,9 +83,9 @@ class cancellaPreventivo extends preventivoAbstract {
 				include(self::$piede);
 			}				
 		}	
-		elseif ($this->getIdSottoPreventivo() != "") {
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
 
-			if ($this->cancellaPreventivoSecondario($db, $utility, $this->getIdPaziente(), $this->getIdPreventivoPrincipale(), $this->getIdSottoPreventivo())) {
+			if ($this->cancellaPreventivoSecondario($db, $utility, $_SESSION['idPaziente'], $_SESSION['idPreventivoPrincipale'], $_SESSION['idSottoPreventivo'])) {
 				$ricercaPreventivo = new ricercaPreventivo();
 				$ricercaPreventivo->setMessaggio('%ml.canPreventivoOk%');
 				$ricercaPreventivo->start();
@@ -148,10 +148,10 @@ class cancellaPreventivo extends preventivoAbstract {
 		$dettaglioPreventivoTemplate->setAzionePreventivo(self::$azioneCancellaPreventivo);
 		$dettaglioPreventivoTemplate->setAzionePreventivoTip('%ml.cancellaPreventivoTip%');
 	
-		if ($this->getIdpreventivo() != "") {
+		if ($_SESSION['idPreventivo'] != "") {
 			$dettaglioPreventivoTemplate->setTitoloPagina("%ml.cancellaPreventivoPrincipale%");
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
 			$dettaglioPreventivoTemplate->setTitoloPagina("%ml.cancellaPreventivoSecondario%");
 		}
 	}

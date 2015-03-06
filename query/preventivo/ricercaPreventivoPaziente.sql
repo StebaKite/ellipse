@@ -9,19 +9,22 @@ SELECT
      
  FROM paziente.preventivo AS preventivo 
  
- LEFT OUTER JOIN (
-        SELECT
-            preventivo.idpreventivo ,
-            SUM(vocepreventivo.prezzo) AS totalepreventivo    
-          FROM paziente.preventivo AS preventivo  
-            INNER JOIN paziente.vocepreventivo AS vocepreventivo 
-            	ON vocepreventivo.idpreventivo = preventivo.idpreventivo             
-         WHERE preventivo.idpaziente = %idpaziente%
-         GROUP BY preventivo.idpreventivo
-        
-    	) AS totalipreventivipaziente
-    
-    	ON totalipreventivipaziente.idpreventivo = preventivo.idpreventivo
+		 LEFT OUTER JOIN (
+	        SELECT
+	            preventivo.idpreventivo ,
+	            SUM(vocepreventivo.prezzo) AS totalepreventivo    
+	            
+	          FROM paziente.preventivo AS preventivo  
+	          
+	            INNER JOIN paziente.vocepreventivo AS vocepreventivo 
+	            	ON vocepreventivo.idpreventivo = preventivo.idpreventivo             
+	            	
+	         WHERE preventivo.idpaziente = %idpaziente%
+	           AND vocepreventivo.stato = '00'
+	         GROUP BY preventivo.idpreventivo
+	       
+	     ) AS totalipreventivipaziente	    
+	     ON totalipreventivipaziente.idpreventivo = preventivo.idpreventivo
     	
     WHERE preventivo.idpaziente = %idpaziente%
     
@@ -45,16 +48,20 @@ SELECT
 	        SELECT
 	            sottopreventivo.idsottopreventivo ,
 	            SUM(vocesottopreventivo.prezzo) AS totalesottopreventivo
+	            
 	        FROM paziente.preventivo AS preventivo 
+	        
 	            INNER JOIN paziente.sottopreventivo AS sottopreventivo 
 	            	ON sottopreventivo.idpreventivo = preventivo.idpreventivo 
+	            	
 	            INNER JOIN paziente.vocesottopreventivo AS vocesottopreventivo 
 	            	ON vocesottopreventivo.idsottopreventivo = sottopreventivo.idsottopreventivo 
+	            	
 	        WHERE preventivo.idpaziente = %idpaziente%
+              AND vocesottopreventivo.stato = '00'
 	        GROUP BY sottopreventivo.idsottopreventivo
-	    	) AS totalisottopreventivipaziente
-	    
-		    ON totalisottopreventivipaziente.idsottopreventivo = sottopreventivo.idsottopreventivo
+	    ) AS totalisottopreventivipaziente	    
+		   ON totalisottopreventivipaziente.idsottopreventivo = sottopreventivo.idsottopreventivo
 
  WHERE preventivo.idpaziente = %idpaziente%
 ORDER BY idpreventivo , tipopreventivo , idsottopreventivo , datainserimento

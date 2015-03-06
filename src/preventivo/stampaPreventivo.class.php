@@ -73,7 +73,7 @@ class stampaPreventivo extends preventivoAbstract {
 		$pdf->SetTitle('Stampa Preventivo');
 		$pdf->SetCreator('Ellipse');
 		$pdf->AliasNbPages();
-
+		
 		$db->beginTransaction();
 
 		$pdf->setLogo(self::$logo);
@@ -89,7 +89,11 @@ class stampaPreventivo extends preventivoAbstract {
 		
 		if (self::$stampaSezioneNota) $pdf = $this->generaSezioneNota($pdf);
 		if (self::$stampaSezioneFirma) $pdf = $this->generaSezioneFirma($pdf);
-		if (self::$stampaSezionePianoPagamento) $pdf = $this->generaSezionePianoPagamento($pdf, $db, $utility);
+		
+		if (self::$stampaSezionePianoPagamento) $pdf = $this->generaSezionePianoPagamento($pdf, $db, $utility);				
+		if (self::$stampaSezioneNota) $pdf = $this->generaSezioneNota($pdf);
+		if (self::$stampaSezioneFirma) $pdf = $this->generaSezioneFirma($pdf);
+		
 		if (self::$stampaSezioneAnnotazioni) $pdf = $this->generaSezioneAnnotazioni($pdf, $db, $utility);
 		if (self::$stampaSezioneAnnotazioniVoci) $pdf = $this->generaSezioneAnnotazioniVoci($pdf, $db, $utility);
 		
@@ -139,10 +143,10 @@ class stampaPreventivo extends preventivoAbstract {
 		
 		$pdf->SetFont('Arial','B',12);
 		
-		if ($this->getIdPreventivo() != "") $idPreventivo = $this->getIdPreventivo();
-		if ($this->getIdSottoPreventivo() != "") $idPreventivo = $this->getIdSottoPreventivo();
+		if ($_SESSION['idPreventivo'] != "") $idPreventivo = $_SESSION['idPreventivo'];
+		elseif ($_SESSION['idSottoPreventivo'] != "") $idPreventivo = $_SESSION['idSottoPreventivo'];
 		
-		$pdf->Cell(40,10,"Preventivo:  " . $idPreventivo . "  del  " . $this->getDataInserimento());
+		$pdf->Cell(40,10,"Preventivo:  " . $idPreventivo . "  del  " . $_SESSION['dataInserimento']);
 		$pdf->Ln(10);
 		
 		$pdf->SetFont('Arial','B',12);
@@ -216,7 +220,8 @@ class stampaPreventivo extends preventivoAbstract {
 			$header = array("Sconto", "Valore", "Importo");
 			$pdf->SetFont('Arial','',9);
 			$pdf->ScontiTable($header,$sconti);
-		}		
+		}
+		
 		return $pdf;		
 	}
 	
@@ -325,66 +330,66 @@ class stampaPreventivo extends preventivoAbstract {
 	
 	public function caricaAnnotazioni($db, $utility) {
 
-		if ($this->getIdpreventivo() != "") {
-			return $this->leggiAnnotazioniPreventivoPrincipale($db, $utility, $this->getIdPreventivo());
+		if ($_SESSION['idPreventivo'] != "") {
+			return $this->leggiAnnotazioniPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo']);
 		}
-		elseif ($this->getIdSottopreventivo() != "") {
-			return $this->leggiAnnotazioniPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo());
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			return $this->leggiAnnotazioniPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo']);
 		}
 	}
 
 	public function caricaAnnotazioniVoci($db, $utility) {
 	
-		if ($this->getIdpreventivo() != "") {
-			return $this->leggiAnnotazioniVociPreventivoPrincipale($db, $utility, $this->getIdPreventivo());
+		if ($_SESSION['idPreventivo'] != "") {
+			return $this->leggiAnnotazioniVociPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo']);
 		}
-		elseif ($this->getIdSottopreventivo() != "") {
-			return $this->leggiAnnotazioniVociPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo());
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			return $this->leggiAnnotazioniVociPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo']);
 		}
 	}
 	
 	public function caricaRiassuntoVoci($db, $root) {
 		
-		if ($this->getIdpreventivo() != "") {
-			return $this->prelevaRiassuntoVociStampaPreventivoPrincipale($db, $root, $this->getIdPaziente(), $this->getIdPreventivo());
+		if ($_SESSION['idPreventivo'] != "") {
+			return $this->prelevaRiassuntoVociStampaPreventivoPrincipale($db, $root, $_SESSION['idPaziente'], $_SESSION['idPreventivo']);
 		}
-		elseif ($this->getIdSottopreventivo() != "") {
-			return $this->prelevaRiassuntoVociStampaPreventivoSecondario($db, $root, $this->getIdPaziente(), $this->getIdSottoPreventivo());
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			return $this->prelevaRiassuntoVociStampaPreventivoSecondario($db, $root, $_SESSION['idPaziente'], $_SESSION['idSottoPreventivo']);
 		}
 	}
 
 	public function caricaSconti($db, $utility) {
 	
-		if ($this->getIdpreventivo() != "") {
+		if ($_SESSION['idPreventivo'] != "") {
 			$this->setRoot(self::$root);
-			return $this->leggiCondizioniPagamentoPreventivoPrincipale($db, $utility, $this->getIdPreventivo());
+			return $this->leggiCondizioniPagamentoPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo']);
 		}
-		elseif ($this->getIdSottopreventivo() != "") {
-			return $this->leggiCondizioniPagamentoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo());
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			return $this->leggiCondizioniPagamentoPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo']);
 		}
 	}
 	
 	public function caricaAcconti($db, $utility) {
 		
-		if ($this->getIdpreventivo() != "") {
+		if ($_SESSION['idPreventivo'] != "") {
 			$this->setRoot(self::$root);
-			return $this->leggiAccontiPreventivoPrincipale($db, $utility, $this->getIdPreventivo());
+			return $this->leggiAccontiPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo']);
 		}		
-		elseif ($this->getIdSottopreventivo() != "") {
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
 			$this->setRoot(self::$root);
-			return $this->leggiAccontiPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo());
+			return $this->leggiAccontiPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo']);
 		}
 	}
 
 	public function caricaRate($db, $utility) {
 	
-		if ($this->getIdpreventivo() != "") {
+		if ($_SESSION['idPreventivo'] != "") {
 			$this->setRoot(self::$root);
-			return $this->leggiRatePagamentoPreventivoPrincipale($db, $utility, $this->getIdPreventivo());
+			return $this->leggiRatePagamentoPreventivoPrincipale($db, $utility, $_SESSION['idPreventivo']);
 		}
-		elseif ($this->getIdSottopreventivo() != "") {
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
 			$this->setRoot(self::$root);
-			return $this->leggiRatePagamentoPreventivoSecondario($db, $utility, $this->getIdSottoPreventivo());
+			return $this->leggiRatePagamentoPreventivoSecondario($db, $utility, $_SESSION['idSottoPreventivo']);
 		}
 	}
 

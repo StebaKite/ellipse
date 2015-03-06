@@ -2,50 +2,48 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/preventivo:/var/www/html/ellipse/src/utility');
 require_once 'cancellaAcconto.class.php';
+require_once 'firewall.class.php';
 
-$cancellaAcconto = new cancellaAcconto();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$cancellaAcconto->setIdPaziente($_GET['idPaziente']);
-		$cancellaAcconto->setIdListino($_GET['idListino']);
-		$cancellaAcconto->setIdPreventivo($_GET['idPreventivo']);
-		$cancellaAcconto->setIdAcconto($_GET['idAcconto']);
-		$cancellaAcconto->setIdPreventivoPrincipale($_GET['idPreventivoPrincipale']);
-		$cancellaAcconto->setIdSottoPreventivo($_GET['idSottoPreventivo']);
-		$cancellaAcconto->setDataInserimento($_GET['datainserimento']);
-		$cancellaAcconto->setStato($_GET['stato']);
-		$cancellaAcconto->setCognomeRicerca($_GET['cognRic']);
-		$cancellaAcconto->setCognome($_GET['cognome']);
-		$cancellaAcconto->setNome($_GET['nome']);
-		$cancellaAcconto->setDataNascita($_GET['datanascita']);
-		$cancellaAcconto->setTotalePreventivoDentiSingoli($_GET['totalesingoli']);
-		$cancellaAcconto->setTotalePreventivoGruppi($_GET['totalegruppi']);
-		$cancellaAcconto->setTotalePreventivoCure($_GET['totalecure']);
-		$cancellaAcconto->setImportoSconto($_GET['importosconto']);
-		break;
-	case 'POST':
-		$cancellaAcconto->setIdPaziente($_POST['idPaziente']);
-		$cancellaAcconto->setIdListino($_POST['idListino']);
-		$cancellaAcconto->setIdPreventivo($_POST['idPreventivo']);
-		$cancellaAcconto->setIdAcconto($_POST['idAcconto']);
-		$cancellaAcconto->setIdPreventivoPrincipale($_POST['idPreventivoPrincipale']);
-		$cancellaAcconto->setIdSottoPreventivo($_POST['idSottoPreventivo']);
-		$cancellaAcconto->setDataInserimento($_POST['datainserimento']);
-		$cancellaAcconto->setStato($_POST['stato']);
-		$cancellaAcconto->setCognomeRicerca($_POST['cognRic']);
-		$cancellaAcconto->setCognome($_POST['cognome']);
-		$cancellaAcconto->setNome($_POST['nome']);
-		$cancellaAcconto->setDataNascita($_POST['datanascita']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata non prevista!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$cancellaAcconto = new cancellaAcconto();
+	if ($_GET['modo'] == "start") $cancellaAcconto->start();
+	if ($_GET['modo'] == "go") $cancellaAcconto->go();
 }
+else {
 
-if ($_GET['modo'] == "start") $cancellaAcconto->start();
-if ($_GET['modo'] == "go") $cancellaAcconto->go();
+	$firewall = new firewall();
+
+	$data = array();
+	if ($_GET['idAcconto'] != "") $data['idAcconto'] = 'idAcconto' . ';' . $_GET['idAcconto'];
+
+	if ($firewall->controlloCampiRichiesta($data)) {
+
+		$_SESSION['idAcconto'] = $_GET['idAcconto'];
+
+		$cancellaAcconto = new cancellaAcconto();
+		if ($_GET['modo'] == "start") $cancellaAcconto->start();
+		if ($_GET['modo'] == "go") $cancellaAcconto->go();
+	}
+	else {
+
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>

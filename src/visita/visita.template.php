@@ -5,32 +5,11 @@ require_once 'visita.abstract.class.php';
 class visita extends visitaAbstract {
 	
 	private static $pagina = "/visita/visita.form.html";
-	
-	private static $dentiSingoli;	
-	private static $impostazioniVoci;
-	
+		
 	//-----------------------------------------------------------------------------
 
 	function __construct() {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
-	}
-
-	// Setters --------------------------------------------------------------------
-	
-	public function setDentiSingoli($dentiSingoli) {
-		self::$dentiSingoli = $dentiSingoli;
-	}
-	public function setImpostazioniVoci($impostazioniVoci) {
-		self::$impostazioniVoci = $impostazioniVoci;
-	}
-	
-	// Getters --------------------------------------------------------------------
-
-	public function getDentiSingoli() {
-		return self::$dentiSingoli;
-	}
-	public function getImpostazioniVoci() {
-		return self::$impostazioniVoci;
 	}
 
 	// template ------------------------------------------------
@@ -44,16 +23,14 @@ class visita extends visitaAbstract {
 		
 		// Template --------------------------------------------------------------
 
-		$visita = $this->getVisita();
-
 		$utility = new utility();
 		$db = new database();
 
 		//-------------------------------------------------------------
 		$array = $utility->getConfig();
 
-		$replace = array('%idlistino%' => $this->getIdListino());
-		error_log("Carica le voci del listino : " . $this->getIdListino());
+		$replace = array('%idlistino%' => $_SESSION['idListino']);
+		error_log("Carica le voci del listino : " . $_SESSION['idListino']);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
@@ -68,7 +45,7 @@ class visita extends visitaAbstract {
 		// controllo esistenza delle voci immesse in pagina
 		// alla prima voce non esistente termina il controllo con un errore
 
-		$dentiSingoli = $this->getDentiSingoli();
+		$dentiSingoli = $_SESSION['dentisingoli'];
 		$numElePagina = sizeof($dentiSingoli);
 		error_log("Elementi in pagina : " . $numElePagina);
 		
@@ -101,8 +78,8 @@ class visita extends visitaAbstract {
 
 		$db = new database();
 		$replace = array(
-			'%idpaziente%' => $this->getIdPaziente(),
-			'%idvisita%' => $this->getIdVisita()
+			'%idpaziente%' => $_SESSION['idPaziente'],
+			'%idvisita%' => $_SESSION['idVisita']
 		);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociVisitaDentiSingoliPaziente;
@@ -112,8 +89,6 @@ class visita extends visitaAbstract {
 		$vociInserite = pg_fetch_all($result);
 	
 		$impostazioniVoci = "";
-
-		$dentiDecidui = array("51","52","53","54","55","61","62","63","64","65","71","72","73","74","75","81","82","83","84","85");
 		$campiImpostati = "";
 
 		foreach ($vociInserite as $voce) {
@@ -124,7 +99,7 @@ class visita extends visitaAbstract {
 	
 			$dente = split("_", $name);
 
-			if (in_array($dente[1], $dentiDecidui)) 
+			if (in_array($dente[1], self::$dentiDecidui)) 
 				$color = "f6a828";
 			else
 				$color = "3399ff";
@@ -136,10 +111,7 @@ class visita extends visitaAbstract {
 		$inpHidden = "<input type='hidden' name='campiValorizzati' size='150' id='campiValorizzati' value='" . $campiImpostati . "'/>";	
 		$impostazioniVoci .= '$("#campimpostati").html("' . $inpHidden . '");';
 
-
-		$this->setImpostazioniVoci($impostazioniVoci);
-		error_log("Voci inserite caricate in pagina");
-		error_log("Listino: " . $this->getIdListino());
+		$_SESSION['impostazionivoci'] = $impostazioniVoci;
 	}
 	
 	public function displayPagina() {
@@ -148,8 +120,6 @@ class visita extends visitaAbstract {
 		require_once 'utility.class.php';
 		
 		// Template --------------------------------------------------------------
-
-		$visita = $this->getVisita();
 
 		$utility = new utility();
 		$array = $utility->getConfig();
@@ -161,7 +131,7 @@ class visita extends visitaAbstract {
 		//-------------------------------------------------------------
 
 		$vociListinoEsteso = "";		
-		$replace = array('%idlistino%' => $this->getIdListino());
+		$replace = array('%idlistino%' => $_SESSION['idListino']);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
@@ -190,7 +160,7 @@ class visita extends visitaAbstract {
 		$tabsCategorie = "";
 		$divCategorie = "";
 		
-		$replace = array('%idlistino%' => $this->getIdListino());
+		$replace = array('%idlistino%' => $_SESSION['idListino']);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCategorieVociListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
@@ -203,7 +173,7 @@ class visita extends visitaAbstract {
 
 			$replace = array(
 					'%codicecategoria%' => trim($cat['codicecategoria']),
-					'%idlistino%' => $this->getIdListino()					
+					'%idlistino%' => $_SESSION['idListino']					
 			);
 			
 			$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoCategoriaPaziente;
@@ -239,30 +209,25 @@ class visita extends visitaAbstract {
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
 			'%visita%' => $this->getVisitaLabel(),
-			'%cognome%' => $this->getCognome(),
-			'%nome%' => $this->getNome(),
-			'%datanascita%' => $this->getDataNascita(),
+			'%cognome%' => $_SESSION['cognome'],
+			'%nome%' => $_SESSION['nome'],
+			'%datanascita%' => $_SESSION['datanascita'],
 			'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
 			'%azioneGruppi%' => $this->getAzioneGruppi(),
 			'%azioneCure%' => $this->getAzioneCure(),
 			'%confermaTip%' => $this->getConfermaTip(),
 			'%gruppiTip%' => $this->getGruppiTip(),
 			'%cureTip%' => $this->getCureTip(),
-			'%cognomeRicerca%' => $this->getCognomeRicerca(),
-			'%idPaziente%' => $this->getIdPaziente(),
-			'%idListino%' => $this->getIdListino(),
-			'%idVisita%' => $this->getIdVisita(),
+			'%idVisita%' => $_SESSION['idVisita'],
 			'%vociListinoEsteso%' => $vociListinoEsteso,
 			'%tabsCategorie%' => $tabsCategorie,
 			'%divCategorie%' =>	$divCategorie,
-			'%impostazioniVoci%' => $this->getImpostazioniVoci()
+			'%impostazioniVoci%' => $_SESSION['impostazionivoci']
 		);
 
 		// prepara form denti singoli -----------------------------
-	
-		$dentiSingoli = $this->getDentiSingoli();
 
-		foreach ($dentiSingoli as $singoli) {
+		foreach ($_SESSION['dentisingoli'] as $singoli) {
 			$chiave = '%' . $singoli[0] . '%';
 			$valore = $singoli[1];
 			$replace[$chiave] = $valore;

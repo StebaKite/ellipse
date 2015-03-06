@@ -23,8 +23,6 @@ class visitaCure extends visitaAbstract {
 		
 		// Template --------------------------------------------------------------
 
-		$visita = $this->getVisitaCure();
-
 		$utility = new utility();
 		$array = $utility->getConfig();
 
@@ -41,7 +39,7 @@ class visitaCure extends visitaAbstract {
 
 		$vociListinoEsteso = "";	// per la tab di aiuto consultazione voci disponibili
 		
-		$replace = array('%idlistino%' => $this->getIdListino());
+		$replace = array('%idlistino%' => $_SESSION['idListino']);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociGenericheListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
@@ -52,24 +50,21 @@ class visitaCure extends visitaAbstract {
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
 			'%visita%' => $this->getVisitaLabel(),
-			'%cognome%' => $this->getCognome(),
-			'%nome%' => $this->getNome(),
-			'%datanascita%' => $this->getDataNascita(),
+			'%cognome%' => $_SESSION['cognome'],
+			'%nome%' => $_SESSION['nome'],
+			'%datanascita%' => $_SESSION['datanascita'],
 			'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
 			'%azioneGruppi%' => $this->getAzioneGruppi(),
 			'%azioneCure%' => $this->getAzioneCure(),
 			'%confermaTip%' => $this->getConfermaTip(),
 			'%singoliTip%' => $this->getSingoliTip(),
 			'%gruppiTip%' => $this->getGruppiTip(),
-			'%cognomeRicerca%' => $this->getCognomeRicerca(),
-			'%idPaziente%' => $this->getIdPaziente(),
-			'%idListino%' => $this->getIdListino(),
-			'%idVisita%' => $this->getIdVisita()
+			'%idVisita%' => $_SESSION['idVisita']
 		);
 
 		if ($rows) {			
 			$replace['%vociListinoEsteso%'] = $this->preparaListinoEsteso($rows);
-			foreach($this->getCureGeneriche() as $row) {
+			foreach($_SESSION['curegeneriche'] as $row) {
 				$replace['%' . $row['0'] . '%'] = $this->preparaComboGruppo($rows, $row['1']);
 			}
 		}

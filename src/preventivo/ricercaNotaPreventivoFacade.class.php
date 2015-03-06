@@ -1,7 +1,7 @@
 <?php
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/preventivo:/var/www/html/ellipse/src/utility');
-require_once 'splitPreventivo.class.php';
+require_once 'ricercaNotaPreventivo.class.php';
 require_once 'firewall.class.php';
 
 /**
@@ -21,36 +21,35 @@ if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
 
 if ($_POST['usa-sessione']) {
 
-	$splitPreventivo = new splitPreventivo();
-	if ($_GET['modo'] == "start") $splitPreventivo->start();
-	if ($_GET['modo'] == "go") $splitPreventivo->go();
+	$ricercaNotaPreventivo = new ricercaNotaPreventivo();
+	if ($_GET['modo'] == "start") $ricercaNotaPreventivo->start();
+	if ($_GET['modo'] == "go") $ricercaNotaPreventivo->go();
 }
 else {
 
 	$firewall = new firewall();
-
+	
 	$data = array();
 	if ($_GET['idPreventivo'] != "") $data['idPreventivo'] = 'idPreventivo' . ';' . $_GET['idPreventivo'];
 	if ($_GET['idPreventivoPrincipale'] != "") $data['idPreventivoPrincipale'] = 'idPreventivoPrincipale' . ';' . $_GET['idPreventivoPrincipale'];
 	if ($_GET['idSottoPreventivo'] != "") $data['idSottoPreventivo'] = 'idSottoPreventivo' . ';' . $_GET['idSottoPreventivo'];
 	if ($_GET['datainserimento'] != "") $data['dataInserimento'] = 'dataInserimento' . ';' . $_GET['datainserimento'];
-	if ($_GET['stato'] != "") $data['stato'] = 'stato' . ';' . $_GET['stato'];
-
-
+	if ($_GET['stato'] != "") $data['stato'] = 'stato' . ';' . $_GET['stato'];	
+	
 	if ($firewall->controlloCampiRichiesta($data)) {
-
+	
 		$_SESSION['idPreventivo'] = $_GET['idPreventivo'];
 		$_SESSION['idPreventivoPrincipale'] = $_GET['idPreventivoPrincipale'];
 		$_SESSION['idSottoPreventivo'] = $_GET['idSottoPreventivo'];
 		$_SESSION['dataInserimento'] = $_GET['datainserimento'];
 		$_SESSION['stato'] = $_GET['stato'];
 
-		$splitPreventivo = new splitPreventivo();
-		if ($_GET['modo'] == "start") $splitPreventivo->start();
-		if ($_GET['modo'] == "go") $splitPreventivo->go();
+		$ricercaNotaPreventivo = new ricercaNotaPreventivo();
+		if ($_GET['modo'] == "start") $ricercaNotaPreventivo->start();
+		if ($_GET['modo'] == "go") $ricercaNotaPreventivo->go();
 	}
 	else {
-
+	
 		echo 'ATTENZIONE! Parametro non corretto';
 	}
 }

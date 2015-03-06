@@ -69,10 +69,10 @@ class creaPreventivo extends preventivoAbstract {
 			if ($this->inserisciSingoli($preventivoTemplate)) {
 		
 				$ricercaPreventivo = new ricercaPreventivo();
-				$ricercaPreventivo->setIdPaziente($this->getIdPaziente());
-				$ricercaPreventivo->setIdListino($this->getIdListino());
+// 				$ricercaPreventivo->setIdPaziente($this->getIdPaziente());
+// 				$ricercaPreventivo->setIdListino($this->getIdListino());
 				$ricercaPreventivo->setMessaggio("%ml.creaPreventivoOk%");
-				$ricercaPreventivo->setCognomeRicerca($this->getCognomeRicerca());
+// 				$ricercaPreventivo->setCognomeRicerca($this->getCognomeRicerca());
 				$ricercaPreventivo->start();
 			}
 			else {
@@ -103,7 +103,7 @@ class creaPreventivo extends preventivoAbstract {
 		 * Una riga in "preventivo" e tutte le voci in tabella "vocepreventivo"
 		*/
 	
-		if ($this->creaPreventivo($db)) {
+		if ($this->creaPreventivo($db, self::$root)) {
 	
 			$dentiSingoli = $preventivoTemplate->getDentiSingoli();
 			$idPreventivoUsato = $db->getLastIdUsed();
@@ -137,7 +137,11 @@ class creaPreventivo extends preventivoAbstract {
 		
 		$preventivoTemplate->setTitoloPagina("%ml.creaNuovoPreventivoDentiSingoli%");
 		$preventivoTemplate->setPreventivoLabel("");
-		$preventivoTemplate->setIdPreventivo("");
+		
+		unset($_SESSION['impostazionivoci']);
+		unset($_SESSION['idPreventivo']);
+		unset($_SESSION['idSottoPreventivo']);
+		unset($_SESSION['totalepreventivodentisingoli']);
 	}
 }
 

@@ -10,52 +10,33 @@ class creaVisitaGruppi extends visitaAbstract {
 	public static $azioneCure = "../visita/creaVisitaCureFacade.class.php?modo=start";
 
 	function __construct() {
-		self::$root = $_SERVER['DOCUMENT_ROOT'];
-	}
-
-	// ------------------------------------------------
 	
-	public function getGruppiForm() {
-		return self::$gruppiForm;
+		self::$root = $_SERVER['DOCUMENT_ROOT'];
+	
+		require_once 'utility.class.php';
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		self::$testata = self::$root . $array['testataPagina'];
+		self::$piede = self::$root . $array['piedePagina'];
+		self::$messaggioErrore = self::$root . $array['messaggioErrore'];
+		self::$messaggioInfo = self::$root . $array['messaggioInfo'];
 	}
-
 	// ------------------------------------------------
 
 	public function start() {
 
 		require_once 'visitaGruppi.template.php';
-		require_once 'utility.class.php';
-
-		// Template
-		$utility = new utility();
-		$array = $utility->getConfig();
-
-		$testata = self::$root . $array['testataPagina'];
-		$piede = self::$root . $array['piedePagina'];
-		$messaggioErrore = self::$root . $array['messaggioErrore'];
-		$messaggioInfo = self::$root . $array['messaggioInfo'];
 
 		$visitaGruppi = new visitaGruppi();		
-		$visitaGruppi->setIdPaziente($this->getIdPaziente());
-		$visitaGruppi->setIdListino($this->getIdListino());
-		$visitaGruppi->setTitoloPagina('%ml.creaNuovaVisita%');
-
-		$visitaGruppi->setAzioneGruppi(self::$azioneGruppi);
-		$visitaGruppi->setAzioneDentiSingoli(self::$azioneDentiSingoli);
-		$visitaGruppi->setAzioneCure(self::$azioneCure);
-		
-		$visitaGruppi->setConfermaTip("%ml.confermaCreazioneVisita%");		
-		$visitaGruppi->setSingoliTip("%ml.creaSingoli%");		
-		$visitaGruppi->setCureTip("%ml.creaCure%");		
-				
-		$visitaGruppi->setTitoloPagina("%ml.creaNuovaVisitaDentiGruppi%");
-		$visitaGruppi->setVisita($visitaGruppi);		
+		$this->preparaPagina($visitaGruppi);
 
 		// Compone la pagina
-		include($testata);
+		include(self::$testata);
 		$visitaGruppi->inizializzaGruppiPagina();
 		$visitaGruppi->displayPagina();
-		include($piede);		
+		include(self::$piede);		
 	}
 		
 	public function go() {
@@ -68,57 +49,54 @@ class creaVisitaGruppi extends visitaAbstract {
 		$utility = new utility();
 		$array = $utility->getConfig();
 
-		$this->setTestata(self::$root . $array['testataPagina']);
-		$this->setPiede(self::$root . $array['piedePagina']);
-		$this->setMessaggioErrore(self::$root . $array['messaggioErrore']);
-		$this->setMessaggioInfo(self::$root . $array['messaggioInfo']);
-
 		$visitaGruppi = new visitaGruppi();
-
-		$visitaGruppi->setIdListino($this->getIdListino());	
-		$visitaGruppi->setTitoloPagina('%ml.creaNuovaVisita%');
+		$this->preparaPagina($visitaGruppi);
 		
-		$visitaGruppi->setVoceGruppo_1($_POST['voceGruppo_1']);
-		$visitaGruppi->setDentiGruppo_1($this->prelevaCampiFormGruppo_1());
+		$_SESSION['vocegruppo_1'] = $_POST['voceGruppo_1'];
+		$_SESSION['dentigruppo_1'] = $this->prelevaCampiFormGruppo_1();
 		
-		$visitaGruppi->setVoceGruppo_2($_POST['voceGruppo_2']);
-		$visitaGruppi->setDentiGruppo_2($this->prelevaCampiFormGruppo_2());
+		$_SESSION['vocegruppo_2'] = $_POST['voceGruppo_2'];
+		$_SESSION['dentigruppo_2'] = $this->prelevaCampiFormGruppo_2();
 		
-		$visitaGruppi->setVoceGruppo_3($_POST['voceGruppo_3']);
-		$visitaGruppi->setDentiGruppo_3($this->prelevaCampiFormGruppo_3());
+		$_SESSION['vocegruppo_3'] = $_POST['voceGruppo_3'];
+		$_SESSION['dentigruppo_3'] = $this->prelevaCampiFormGruppo_3();
 		
-		$visitaGruppi->setVoceGruppo_4($_POST['voceGruppo_4']);
-		$visitaGruppi->setDentiGruppo_4($this->prelevaCampiFormGruppo_4());
-	
-		$visitaGruppi->setAzioneDentiSingoli(self::$azioneDentiSingoli);
-		$visitaGruppi->setAzioneGruppi(self::$azioneGruppi);
-		$visitaGruppi->setAzioneCure(self::$azioneCure);
+		$_SESSION['vocegruppo_4'] = $_POST['voceGruppo_4'];
+		$_SESSION['dentigruppo_4'] = $this->prelevaCampiFormGruppo_4();
 		
-		$visitaGruppi->setConfermaTip("%ml.confermaCreazioneVisita%");		
-		$visitaGruppi->setGruppiTip("%ml.creaGruppi%");		
-		$visitaGruppi->setCureTip("%ml.creaCure%");		
-		
-		include($this->getTestata());
+		include(self::$testata);
 			
 		if ($this->inserisciGruppi($visitaGruppi)) {
 
 			$ricercaVisita = new ricercaVisita();
-			$ricercaVisita->setIdPaziente($this->getIdPaziente());
-			$ricercaVisita->setIdListino($this->getIdListino());
 			$ricercaVisita->setMessaggio("%ml.creaVisitaOk%");
-			$ricercaVisita->setCognomeRicerca($this->getCognomeRicerca());
 			$ricercaVisita->start();
 		}
 		else {
 			$visitaGruppi->displayPagina();
 			$replace = array('%messaggio%' => '%ml.creaVisitaKo%');				
-			$template = $utility->tailFile($utility->getTemplate($this->getMessaggioErrore()), $replace);			
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);			
 			echo $utility->tailTemplate($template);
 		}
-
-		include($this->getPiede());		
+		include(self::$piede);
 	}
+
+	private function preparaPagina($visitaGruppi) {
+
+		$visitaGruppi->setAzioneGruppi(self::$azioneGruppi);
+		$visitaGruppi->setAzioneDentiSingoli(self::$azioneDentiSingoli);
+		$visitaGruppi->setAzioneCure(self::$azioneCure);		
+		$visitaGruppi->setConfermaTip("%ml.confermaCreazioneVisita%");
+		$visitaGruppi->setSingoliTip("%ml.creaSingoli%");
+		$visitaGruppi->setCureTip("%ml.creaCure%");
+		$visitaGruppi->setTitoloPagina("%ml.creaNuovaVisitaDentiGruppi%");
 				
+		unset($_SESSION['vocegruppo_1']);
+		unset($_SESSION['vocegruppo_2']);
+		unset($_SESSION['vocegruppo_3']);
+		unset($_SESSION['vocegruppo_4']);
+	}
+	
 	private function inserisciGruppi($visitaGruppi) {
 
 		require_once 'database.class.php';
@@ -126,18 +104,15 @@ class creaVisitaGruppi extends visitaAbstract {
 		$db = new database();
 		$db->beginTransaction();
 
-		$visitaGruppi->setIdPaziente($this->getIdPaziente());
-
 		/*
 		 * Una riga in "visita" e tutte le voci in tabella "voceVisita"
 		 */ 
-
 		if ($this->creaVisita($db)) {
 
-			if ($this->inserisciVociGruppo($db, 'voceGruppo_1', $visitaGruppi->getVoceGruppo_1(), $visitaGruppi->getDentiGruppo_1(), $db->getLastIdUsed())) {
-				if ($this->inserisciVociGruppo($db, 'voceGruppo_2', $visitaGruppi->getVoceGruppo_2(), $visitaGruppi->getDentiGruppo_2(), $db->getLastIdUsed())) {
-					if ($this->inserisciVociGruppo($db, 'voceGruppo_3', $visitaGruppi->getVoceGruppo_3(), $visitaGruppi->getDentiGruppo_3(), $db->getLastIdUsed())) {
-						if ($this->inserisciVociGruppo($db, 'voceGruppo_4', $visitaGruppi->getVoceGruppo_4(), $visitaGruppi->getDentiGruppo_4(), $db->getLastIdUsed())) {
+			if ($this->inserisciVociGruppo($db, 'voceGruppo_1', $_SESSION['vocegruppo_1'], $_SESSION['dentigruppo_1'], $db->getLastIdUsed())) {
+				if ($this->inserisciVociGruppo($db, 'voceGruppo_2', $_SESSION['vocegruppo_2'], $_SESSION['dentigruppo_2'], $db->getLastIdUsed())) {
+					if ($this->inserisciVociGruppo($db, 'voceGruppo_3', $_SESSION['vocegruppo_3'], $_SESSION['dentigruppo_3'], $db->getLastIdUsed())) {
+						if ($this->inserisciVociGruppo($db, 'voceGruppo_4', $_SESSION['vocegruppo_4'], $_SESSION['dentigruppo_4'], $db->getLastIdUsed())) {
 							$db->commitTransaction();
 							return TRUE;				
 						}
@@ -153,9 +128,8 @@ class creaVisitaGruppi extends visitaAbstract {
 		foreach($dentiGruppo as $row) {
 
 			if ($row[1] != "") {
-				if (!$this->creaVoceVisita($db, $idVisitaUsato, $this->getGruppiForm(), $nomeCampoForm . ";" . trim($row[0]), $voceGruppo)) {
+				if (!$this->creaVoceVisita($db, $idVisitaUsato, self::$gruppiForm, $nomeCampoForm . ";" . trim($row[0]), $voceGruppo)) {
 					$db->rollbackTransaction();
-					error_log("Errore inserimento voce, eseguito Rollback");
 					return FALSE;	
 				}
 			}			

@@ -59,9 +59,9 @@ class cancellaVisita extends visitaAbstract {
 		$array = $utility->getConfig();
 
 		$riepilogoVociVisita = new riepilogoVociVisita();
-		$visita = $this->preparaPagina($db, $utility, $array, $riepilogoVociVisita);
+		$this->preparaPagina($db, $utility, $array, $riepilogoVociVisita);
 
-		if ($this->cancella($this->getIdPaziente(), $this->getIdVisita())) {
+		if ($this->cancella($_SESSION['idPaziente'], $_SESSION['idVisita'])) {
 			$ricercaVisita = new ricercaVisita();
 			$ricercaVisita->setMessaggio('%ml.canVisitaOk%');
 			$ricercaVisita->start();
@@ -78,11 +78,6 @@ class cancellaVisita extends visitaAbstract {
 
 	public function preparaPagina($db, $utility, $array, $riepilogoVociVisita) {
 
-//		$riepilogoVociVisita->setIdPaziente($this->getIdPaziente());
-//		$riepilogoVociVisita->setIdListino($this->getIdListino());
-		$riepilogoVociVisita->setTitoloPagina('%ml.creaNuovaVisita%');
-		$riepilogoVociVisita->setCognomeRicerca($this->getCognomeRicerca());
-					
 		$riepilogoVociVisita->setAzione(self::$azione);
 		$riepilogoVociVisita->setLabelBottone("%ml.conferma%");
 		$riepilogoVociVisita->setConfermaTip("%ml.confermaCancellazioneVisita%");						
@@ -93,8 +88,8 @@ class cancellaVisita extends visitaAbstract {
 		//-- Prelevo i tipi voci caricati -----------------------------------------------------------
 		
 		$replace = array(
-			'%idpaziente%' => $this->getIdPaziente(),
-			'%idvisita%' => $this->getIdVisita()
+			'%idpaziente%' => $_SESSION['idPaziente'],
+			'%idvisita%' => $_SESSION['idVisita']
 		);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryRiepilogoTipiVociVisitaPaziente;
@@ -103,6 +98,10 @@ class cancellaVisita extends visitaAbstract {
 
 		$tipiVoci = pg_fetch_all($result);
 
+		unset($_SESSION['vocivisitadentisingoli']);
+		unset($_SESSION['vocivisitagruppi']);
+		unset($_SESSION['vocivisitacure']);
+		
 		if ($tipiVoci) {
 			foreach ($tipiVoci as $row) {
 				if (trim($row['tipovoce']) == 'singoli') $this->prelevaVociDentiSingoli($db, $utility, $array, $riepilogoVociVisita); 
@@ -110,7 +109,6 @@ class cancellaVisita extends visitaAbstract {
 				if (trim($row['tipovoce']) == 'cure') $this->prelevaVociCure($db, $utility, $array, $riepilogoVociVisita); 
 			}
 		}
-		return $riepilogoVociVisita;
 	}
 
 	public function cancella($idPaziente, $idVisita) {
@@ -131,16 +129,10 @@ class cancellaVisita extends visitaAbstract {
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaVisita;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 
-		$esito = TRUE;
-
 		$db = new database();						
 		$result = $db->getData($sql);
-		error_log($sql);
-			
-		if (!$result) {
-			$esito = FALSE;
-		}
-		return $esito;
+
+		return $result;
 	}
 
 
@@ -148,8 +140,8 @@ class cancellaVisita extends visitaAbstract {
 	public function prelevaVociDentiSingoli($db, $utility, $array, $riepilogoVociVisita) {
 	
 		$replace = array(
-			'%idpaziente%' => $this->getIdPaziente(),
-			'%idvisita%' => $this->getIdVisita(),
+			'%idpaziente%' => $_SESSION['idPaziente'],
+			'%idvisita%' => $_SESSION['idVisita'],
 			'%nomeform%' => 'singoli'
 		);
 
@@ -157,14 +149,14 @@ class cancellaVisita extends visitaAbstract {
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->getData($sql);
 		
-		$riepilogoVociVisita->setVociVisitaDentiSingoli(pg_fetch_all($result));
+		$_SESSION['vocivisitadentisingoli'] = pg_fetch_all($result);
 	}
 
 	public function prelevaVociGruppi($db, $utility, $array, $riepilogoVociVisita) {
 	
 		$replace = array(
-			'%idpaziente%' => $this->getIdPaziente(),
-			'%idvisita%' => $this->getIdVisita(),
+			'%idpaziente%' => $_SESSION['idPaziente'],
+			'%idvisita%' => $_SESSION['idVisita'],
 			'%nomeform%' => 'gruppi'
 		);
 
@@ -172,14 +164,14 @@ class cancellaVisita extends visitaAbstract {
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->getData($sql);
 		
-		$riepilogoVociVisita->setVociVisitaGruppi(pg_fetch_all($result));	
+		$_SESSION['vocivisitagruppi'] = pg_fetch_all($result);	
 	}
 
 	public function prelevaVociCure($db, $utility, $array, $riepilogoVociVisita) {
 	
 		$replace = array(
-			'%idpaziente%' => $this->getIdPaziente(),
-			'%idvisita%' => $this->getIdVisita(),
+			'%idpaziente%' => $_SESSION['idPaziente'],
+			'%idvisita%' => $_SESSION['idVisita'],
 			'%nomeform%' => 'cure'
 		);
 
@@ -187,7 +179,7 @@ class cancellaVisita extends visitaAbstract {
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->getData($sql);
 		
-		$riepilogoVociVisita->setVociVisitaCure(pg_fetch_all($result));	
+		$_SESSION['vocivisitacure'] = pg_fetch_all($result);	
 	}
 }
 

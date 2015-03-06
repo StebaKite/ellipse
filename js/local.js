@@ -64,19 +64,29 @@ $( "#slider" ).slider({
 	values: [ 17, 67 ]
 });
 
-function impostaProgressBarPagamento(pagato, fuoriPiano) {
+function impostaProgressBarPagamento(pagato, daPagare, fuoriPiano) {
 
 	impostaProgressBarPagato(pagato);
+	impostaProgressBarDaPagare(daPagare);
 	impostaProgressBarFuoriPiano(fuoriPiano);
 }
 
 function impostaProgressBarPagato(valore) {
+	$( "#preventivoPagato" ).height(10);
 	$( "#preventivoPagato" ).progressbar({
 		value: valore
 	});
 }
 
+function impostaProgressBarDaPagare(valore) {
+	$( "#preventivoDaPagare" ).height(10);
+	$( "#preventivoDaPagare" ).progressbar({
+		value: valore
+	});
+}
+
 function impostaProgressBarFuoriPiano(valore) {
+	$( "#preventivoFuoriPiano" ).height(10);
 	$( "#preventivoFuoriPiano" ).progressbar({
 		value: valore
 	});

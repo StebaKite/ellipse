@@ -9,9 +9,9 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 	private static $risultatiCorpo = "/visita/ricercaVisita.risultati.corpo.html";
 	private static $risultatiPiede = "/visita/ricercaVisita.risultati.piede.html";
 
-	private static $numeroVisiteTrovate;
-	private static $visiteTrovate;
-	private static $visite;
+// 	private static $numeroVisiteTrovate;
+// 	private static $visiteTrovate;
+// 	private static $visite;
 
 	//-----------------------------------------------------------------------------
 
@@ -31,27 +31,27 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 		
 	// Setters ---------------------------------
 
-	public function setNumeroVisiteTrovate($numEle) {
-		self::$numeroVisiteTrovate = $numEle;
-	}
-	public function setVisiteTrovate($visiteTrovate) {
-		self::$visiteTrovate = $visiteTrovate;
-	}
-	public function setVisite($visite) {
-		self::$visite = $visite;
-	}
+// 	public function setNumeroVisiteTrovate($numEle) {
+// 		self::$numeroVisiteTrovate = $numEle;
+// 	}
+// 	public function setVisiteTrovate($visiteTrovate) {
+// 		self::$visiteTrovate = $visiteTrovate;
+// 	}
+// 	public function setVisite($visite) {
+// 		self::$visite = $visite;
+// 	}
 		
-	// Getters --------------------------------
+// 	// Getters --------------------------------
 	
-	public function getNumeroVisiteTrovate() {
-		return self::$numeroVisiteTrovate;
-	}
-	public function getVisiteTrovate() {
-		return self::$visiteTrovate;
-	}
-	public function getVisite() {
-		return self::$visite;
-	}
+// 	public function getNumeroVisiteTrovate() {
+// 		return self::$numeroVisiteTrovate;
+// 	}
+// 	public function getVisiteTrovate() {
+// 		return self::$visiteTrovate;
+// 	}
+// 	public function getVisite() {
+// 		return self::$visite;
+// 	}
 	
 	// template ------------------------------------------------
 
@@ -63,33 +63,20 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 		require_once 'utility.class.php';
 
 		// Template ----------------------------------
-		
-		// SB - Sta roba va sistemata un attimo... (il foreach non serve per far vedere i dati del paziente nei filtri)
-		//      meglio passarli nella GET
 	
 		$utility = new utility();
 		$array = $utility->getConfig();
-
 		$filtri = self::$root . $array['template'] . self::$filtri;
-		$visiteTrovate = $this->getVisiteTrovate();
-
-		$this->setVisite(pg_fetch_all($visiteTrovate));
-
-		foreach($this->getVisite() as $row) {
 			
-			$this->setCognome($row['cognome']);
-			$this->setNome($row['nome']);
-			$this->setDataNascita($row['datanascita']);
+		$replace = array(
+			'%idPaziente%' => $_SESSION['idPaziente'],
+			'%idListino%' => $_SESSION['idListino'],
+			'%cognomeRicerca%' => $_SESSION['cognRic'],
+			'%cognome%' => $_SESSION['cognome'],
+			'%nome%' => $_SESSION['nome'],
+			'%datanascita%' => $_SESSION['datanascita']
+		);
 			
-			$replace = array(
-				'%idPaziente%' => $row['idpaziente'],
-				'%idListino%' => $row['idlistino'],
-				'%cognomeRicerca%' => $this->getCognomeRicerca(),
-				'%cognome%' => $row['cognome'],
-				'%nome%' => $row['nome'],
-				'%datanascita%' => $row['datanascita']
-			);
-		}
 		echo $utility->tailFile($utility->getTemplate($filtri), $replace);
 	}	
 
@@ -109,7 +96,7 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 		
 		// Gestione del messaggio -------------------
 		
-		$numVisite = $this->getNumeroVisiteTrovate();
+		$numVisite = $_SESSION['numerovisitetrovate'];
 
 		if ($numVisite > 0) {
 			if ($numVisite > 1) { 
@@ -132,18 +119,17 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 			echo $utility->getTemplate($risultatiTesta);
 
 			$templateRiga = $utility->getTemplate($risultatiCorpo);
-			$visiteTrovate = $this->getVisiteTrovate();
 
 			$rowcounter = 0;
 			$oggi = date('d/m/Y');
 			
-			foreach($this->getVisite() as $row) {
+			foreach($_SESSION['visitetrovate'] as $row) {
 
 				// evidenzia in bold la riga se è stata inserita o modificata oggi
 				
 				if ($rowcounter % 2 == 0) {
 					
-					if ($row['stato'] == "Preventivata") {
+					if ($row['stato'] == "01") {
 						$class = "class='preventivataOn'";
 					}
 					else {
@@ -157,7 +143,7 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 				}
 				else {
 
-					if ($row['stato'] == "Preventivata") {
+					if ($row['stato'] == "01") {
 						$class = "class='preventivataOff'";
 					}
 					else {
@@ -173,7 +159,7 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 				// BOTTONE MODIFICA -----------------------------------------------
 				// nasconde il bottone modifica visita se ha generato un preventivo
 				
-				$bottoneModifica = "<a class='tooltip' href='../visita/modificaVisitaFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&idVisita=" . stripslashes($row['idvisita']) . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-pencil'></span></li></a>";
+				$bottoneModifica = "<a class='tooltip' href='../visita/modificaVisitaFacade.class.php?modo=start&idVisita=" . stripslashes($row['idvisita']) . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=%ml.stato" . trim($row['stato']) . "visita%'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a>";
 				
 				if ($row['stato'] == "Preventivata") {
 					$bottoneModifica = "";
@@ -182,7 +168,7 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 				// BOTTONE CANCELLA -----------------------------------------------
 				// nasconde il bottone cancella visita se ha generato un preventivo
 
-				$bottoneCancella = "<a class='tooltip' href='cancellaVisitaFacade.class.php?modo=start&idPaziente=" . stripslashes($row['idpaziente']) . "&idListino=" . stripslashes($row['idlistino']) . "&idVisita=" . stripslashes($row['idvisita']) . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "&cognRic=" . $this->getCognomeRicerca() . "&cognome=" . $this->getCognome() . "&nome=" . $this->getNome() . "&datanascita=" . $this->getDataNascita() . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
+				$bottoneCancella = "<a class='tooltip' href='cancellaVisitaFacade.class.php?modo=start&idVisita=" . stripslashes($row['idvisita']) . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
 
 				if ($row['stato'] == "Preventivata") {
 					$bottoneCancella = "";
@@ -195,18 +181,14 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 					'%idvisita%' => stripslashes($row['idvisita']),
 					'%idpaziente%' => stripslashes($row['idpaziente']),
 					'%idlistino%' => stripslashes($row['idlistino']),
-					'%cognome%' => $this->getCognome(),
-					'%nome%' => $this->getNome(),
-					'%datanascita%' => $this->getDataNascita(),
-					'%cognomeRicerca%' => $this->getCognomeRicerca(),
 					'%datainserimento%' => stripslashes($row['datainserimento']),
 					'%bottoneCancella%' => $bottoneCancella,
 					'%bottoneModifica%' => $bottoneModifica,
-					'%stato%' => stripslashes($row['stato'])
+					'%stato%' => '%ml.stato' . trim($row['stato']) . 'visita%'
 				);
 
-				$riga = $templateRiga;
-				echo $utility->tailFile($riga, $replace);	
+				$template = $utility->tailFile($templateRiga, $replace);
+				echo $utility->tailTemplate($template);
 			}
 		}
 		else {

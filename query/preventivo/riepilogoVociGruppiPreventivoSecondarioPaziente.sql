@@ -32,5 +32,6 @@ WHERE paziente.idpaziente = %idpaziente%
   AND preventivo.idpreventivo = %idpreventivo%
   AND sottopreventivo.idsottopreventivo = %idsottopreventivo%
   AND vocesottopreventivo.nomeform = '%nomeform%'
+  AND vocesottopreventivo.stato = '00'
   
 ORDER BY vocesottopreventivo.codicevocelistino, vocesottopreventivo.nomecampoform

@@ -37,15 +37,15 @@ class cancellaAcconto extends preventivoAbstract {
 		$db = new database();
 		$db->beginTransaction();
 
-		if ($this->getIdPreventivo() != "") {
-			if ($this->cancellaAccontoPagamentoPreventivoPrincipale($db, $utility, $this->getIdAcconto())) {
+		if ($_SESSION['idPreventivo'] != "") {
+			if ($this->cancellaAccontoPagamentoPreventivoPrincipale($db, $utility, $_SESSION['idAcconto'])) {
 				$db->commitTransaction();
 				return TRUE;
 			}
 			return FALSE;
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
-			if ($this->cancellaAccontoPagamentoPreventivoSecondario($db, $utility, $this->getIdAcconto())) {
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			if ($this->cancellaAccontoPagamentoPreventivoSecondario($db, $utility, $_SESSION['idAcconto'])) {
 				$db->commitTransaction();
 				return TRUE;
 			}

@@ -32,38 +32,43 @@ class preventivoGruppiTemplate extends preventivoAbstract {
 	
 		$vociListinoEsteso = "";	// per la tab di aiuto consultazione voci disponibili
 	
-		$replace = array('%idlistino%' => $this->getIdListino());
+		$replace = array('%idlistino%' => $_SESSION['idListino']);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->getData($sql);
 	
 		$rows = pg_fetch_all($result);
-	
+
+		if ($_SESSION['totalepreventivogruppi'] != "") {
+			$totaleGruppi = "&euro;" . number_format($_SESSION['totalepreventivogruppi'], 2, ',', '.');
+		}
+		else {
+			$totaleGruppi = "";
+		}
+		
 		$replace = array(
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%preventivo%' => $this->getPreventivoLabel(),
-				'%cognome%' => $this->getCognome(),
-				'%nome%' => $this->getNome(),
-				'%datanascita%' => $this->getDataNascita(),
+				'%totale%' => $this->getTotalePreventivoLabel(),
+				'%totgruppi%' => $totaleGruppi,
+				'%cognome%' => $_SESSION['cognome'],
+				'%nome%' => $_SESSION['nome'],
+				'%datanascita%' => $_SESSION['datanascita'],
 				'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
 				'%azioneGruppi%' => $this->getAzioneGruppi(),
 				'%azioneCure%' => $this->getAzioneCure(),
 				'%singoliTip%' => $this->getSingoliTip(),
 				'%cureTip%' => $this->getCureTip(),
 				'%confermaTip%' => $this->getConfermaTip(),
-				'%cognomeRicerca%' => $this->getCognomeRicerca(),
-				'%idPaziente%' => $this->getIdPaziente(),
-				'%idListino%' => $this->getIdListino(),
-				'%idPreventivo%' => $this->getIdPreventivo(),
-				'%idPreventivoPrincipale%' => $this->getIdPreventivoPrincipale(),
-				'%idSottoPreventivo%' => $this->getIdSottoPreventivo(),
-				'%stato%' => $this->getStato(),
+				'%idPreventivo%' => $_SESSION['idPreventivo'],
+				'%idSottoPreventivo%' => $_SESSION['idSottoPreventivo'],
+				'%stato%' => $_SESSION['stato'],
 				'%vociListinoEsteso%' => $this->preparaListinoEsteso($rows),
-				'%vociListinoGruppo_1%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_1()),
-				'%vociListinoGruppo_2%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_2()),
-				'%vociListinoGruppo_3%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_3()),
-				'%vociListinoGruppo_4%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_4())
+				'%vociListinoGruppo_1%' => $this->preparaComboGruppo($rows, $_SESSION['vocegruppo_1']),
+				'%vociListinoGruppo_2%' => $this->preparaComboGruppo($rows, $_SESSION['vocegruppo_2']),
+				'%vociListinoGruppo_3%' => $this->preparaComboGruppo($rows, $_SESSION['vocegruppo_3']),
+				'%vociListinoGruppo_4%' => $this->preparaComboGruppo($rows, $_SESSION['vocegruppo_4'])
 		);
 
 		$replaceArray = array();

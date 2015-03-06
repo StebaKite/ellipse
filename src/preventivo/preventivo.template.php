@@ -29,8 +29,8 @@ class preventivoTemplate extends preventivoAbstract {
 		//-------------------------------------------------------------
 		$array = $utility->getConfig();
 		
-		$replace = array('%idlistino%' => $this->getIdListino());
-		error_log("Carica le voci del listino : " . $this->getIdListino());
+		$replace = array('%idlistino%' => $_SESSION['idListino']);
+		error_log("Carica le voci del listino : " . $_SESSION['idListino']);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
@@ -45,8 +45,9 @@ class preventivoTemplate extends preventivoAbstract {
 		// controllo esistenza delle voci immesse in pagina
 		// alla prima voce non esistente termina il controllo con un errore
 		
-		$dentiSingoli = $this->getDentiSingoli();
-		$numElePagina = sizeof($dentiSingoli);
+		$dentiSingoli = $_SESSION['dentisingoli'];
+		$numElePagina = sizeof($_SESSION['dentisingoli']);
+		
 		error_log("Elementi in pagina : " . $numElePagina);
 		
 		for ($i = 0; $i < $numElePagina; $i++) {
@@ -68,43 +69,39 @@ class preventivoTemplate extends preventivoAbstract {
 		return $esito;
 	}
 
-	public function impostaVoci() {
+	public function impostaVoci($db, $utility) {
 			
-		if ($this->getIdPreventivo() != "") {
-			$this->impostaVociPreventivoPrincipale();
+		if ($_SESSION['idPreventivo'] != "") {
+			$this->impostaVociPreventivoPrincipale($db, $utility);
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
-			$this->impostaVociPreventivoSecondario();			
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
+			$this->impostaVociPreventivoSecondario($db, $utility);			
 		}
 	}
 	
-	public function impostaVociPreventivoPrincipale() {
+	public function impostaVociPreventivoPrincipale($db, $utility) {
 	
 		require_once 'database.class.php';
 		require_once 'utility.class.php';
 	
-		$utility = new utility();
 		$array = $utility->getConfig();
 	
-		$db = new database();
 		$replace = array(
-				'%idpaziente%' => $this->getIdPaziente(),
-				'%idpreventivo%' => $this->getIdPreventivo()
+			'%idpaziente%' => $_SESSION['idPaziente'],
+			'%idpreventivo%' => $_SESSION['idPreventivo']
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociPreventivoDentiSingoliPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
-		$result = $db->getData($sql);
+		$result = $db->execSql($sql);
 	
 		$vociInserite = pg_fetch_all($result);
 	
 		$impostazioniVoci = "";	
 		$campiImpostati = "";
-		$totaleDentiSingoli = 0;
 	
 		foreach ($vociInserite as $voce) {
 	
-			$totaleDentiSingoli += $voce['prezzo'];
 			$name = trim($voce['nomecampoform']);
 			$value = trim($voce['codicevocelistino']);
 			$campiImpostati .= $name . ",";
@@ -123,11 +120,10 @@ class preventivoTemplate extends preventivoAbstract {
 		$inpHidden = "<input type='hidden' name='campiValorizzati' size='150' id='campiValorizzati' value='" . $campiImpostati . "'/>";
 		$impostazioniVoci .= '$("#campimpostati").html("' . $inpHidden . '");';
 	
-		$this->setTotalePreventivoDentiSingoli($totaleDentiSingoli);		
-		$this->setImpostazioniVoci($impostazioniVoci);
+		$_SESSION['impostazionivoci'] = $impostazioniVoci;
 	}
 
-	public function impostaVociPreventivoSecondario() {
+	public function impostaVociPreventivoSecondario($db, $utility) {
 	
 		require_once 'database.class.php';
 		require_once 'utility.class.php';
@@ -137,24 +133,22 @@ class preventivoTemplate extends preventivoAbstract {
 	
 		$db = new database();
 		$replace = array(
-				'%idpaziente%' => $this->getIdPaziente(),
-				'%idpreventivo%' => $this->getIdPreventivoPrincipale(),
-				'%idsottopreventivo%' => $this->getIdSottoPreventivo()
+				'%idpaziente%' => $_SESSION['idPaziente'],
+				'%idpreventivo%' => $_SESSION['idPreventivoPrincipale'],
+				'%idsottopreventivo%' => $_SESSION['idSottoPreventivo']
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociSottoPreventivoDentiSingoliPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
-		$result = $db->getData($sql);
+		$result = $db->execSql($sql);
 	
 		$vociInserite = pg_fetch_all($result);
 	
 		$impostazioniVoci = "";
 		$campiImpostati = "";
-		$totaleDentiSingoli = 0;
 		
 		foreach ($vociInserite as $voce) {
 	
-			$totaleDentiSingoli += $voce['prezzo'];
 			$name = trim($voce['nomecampoform']);
 			$value = trim($voce['codicevocelistino']);
 			$campiImpostati .= $name . ",";
@@ -173,8 +167,7 @@ class preventivoTemplate extends preventivoAbstract {
 		$inpHidden = "<input type='hidden' name='campiValorizzati' size='150' id='campiValorizzati' value='" . $campiImpostati . "'/>";
 		$impostazioniVoci .= '$("#campimpostati").html("' . $inpHidden . '");';
 	
-		$this->setTotalePreventivoDentiSingoli($totaleDentiSingoli);
-		$this->setImpostazioniVoci($impostazioniVoci);
+		$_SESSION['impostazionivoci'] = $impostazioniVoci;
 	}
 	
 	public function displayPagina() {
@@ -191,66 +184,124 @@ class preventivoTemplate extends preventivoAbstract {
 	
 		$db = new database();
 		$db->beginTransaction();
-		//-------------------------------------------------------------
+		
+		$this->preparaTabListinoAlfabetico($db, $utility);
+		$this->preparaTabCategorieListino($db, $utility);
 	
-		$vociListinoEsteso = "";
-		$replace = array('%idlistino%' => $this->getIdListino());
+		$db->commitTransaction();
 	
+		if ($_SESSION['totalepreventivodentisingoli'] != "") {
+			$totaleDentiSingoli = "&euro;" . number_format($_SESSION['totalepreventivodentisingoli'], 2, ',', '.');
+		}
+		else {
+			$totaleDentiSingoli = "";
+		} 
+		
+		$replace = array(
+				'%titoloPagina%' => $this->getTitoloPagina(),
+				'%preventivo%' => $this->getPreventivoLabel(),
+				'%totale%' => $this->getTotalePreventivoLabel(),
+				'%totsingoli%' => $totaleDentiSingoli,
+				'%cognome%' => $_SESSION['cognome'],
+				'%nome%' => $_SESSION['nome'],
+				'%datanascita%' => $_SESSION['datanascita'],
+				'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
+				'%azioneGruppi%' => $this->getAzioneGruppi(),
+				'%azioneCure%' => $this->getAzioneCure(),
+				'%azionePagamento%' => $this->getAzionePagamento(),
+				'%confermaTip%' => $this->getConfermaTip(),
+				'%gruppiTip%' => $this->getGruppiTip(),
+				'%cureTip%' => $this->getCureTip(),
+				'%idPreventivo%' => $_SESSION['idPreventivo'],
+				'%idPreventivoPrincipale%' => $_SESSION['idPreventivoPrincipale'],
+				'%idSottoPreventivo%' => $_SESSION['idSottoPreventivo'],
+				'%stato%' => $_SESSION['stato'],
+				'%vociListinoEsteso%' => $_SESSION['vocilistinoesteso'],
+				'%tabsCategorie%' => $_SESSION['tabscategorie'],
+				'%divCategorie%' =>	$_SESSION['divcategorie'],
+				'%impostazioniVoci%' => $_SESSION['impostazionivoci']
+		);
+	
+		// prepara form denti singoli -----------------------------
+	
+		$dentiSingoli = $_SESSION['dentisingoli'];
+	
+		foreach ($dentiSingoli as $singoli) {
+			$chiave = '%' . $singoli[0] . '%';
+			$valore = $singoli[1];
+			$replace[$chiave] = $valore;
+		}
+	
+		$template = $utility->tailFile($utility->getTemplate($form), $replace);
+		echo $utility->tailTemplate($template);
+	}
+	
+	public function preparaTabListinoAlfabetico($db, $utility) {
+
+		$array = $utility->getConfig();
+		
+		$vociListinoEsteso = "";		
+		$replace = array('%idlistino%' => $_SESSION['idListino']);
+		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
-	
+		
 		$rows = pg_fetch_all($result);
-	
+		
 		$x = 0;
-	
+		
 		foreach ($rows as $cod) {
-	
+		
 			if ($x == 0) {
 				$vociListinoEsteso .= "<tr>";
 			}
 			$vociListinoEsteso .= "<td><input type='checkbox' value='" . trim($cod['codicevocelistino']) . "' onchange='addEle(this)'/></td><td width='30' class='tooltip' title='" . trim($cod['descrizionevoce']) . "'>" . trim($cod['codicevocelistino']) . "</td>";
 			$x++;
-				
+		
 			if ($x == 5) {
 				$vociListinoEsteso .= "</tr>";
 				$x = 0;
 			}
-		}
+		}		
+		$_SESSION['vocilistinoesteso'] = $vociListinoEsteso;
+	}
 	
-		//-------------------------------------------------------------
-	
+	public function preparaTabCategorieListino($db, $utility) {
+
+		$array = $utility->getConfig();
+		
 		$tabsCategorie = "";
 		$divCategorie = "";
-	
-		$replace = array('%idlistino%' => $this->getIdListino());
-	
+		
+		$replace = array('%idlistino%' => $_SESSION['idListino']);
+		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryCategorieVociListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 		$result = $db->execSql($sql);
 		$rows = pg_fetch_all($result);
-	
+		
 		foreach ($rows as $cat) {
-				
+		
 			$tabsCategorie .= "<li class='tooltip'><a title='" . trim($cat['descrizionecategoria']) . "' href='#" . trim($cat['codicecategoria']) . "'>" . trim($cat['codicecategoria']) . "</a></li>";
-	
+		
 			$replace = array(
 					'%codicecategoria%' => trim($cat['codicecategoria']),
-					'%idlistino%' => $this->getIdListino()
+					'%idlistino%' => $_SESSION['idListino']
 			);
-				
+		
 			$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoCategoriaPaziente;
 			$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
 			$resultVoci = $db->execSql($sql);
 			$rowsvoci = pg_fetch_all($resultVoci);
-	
+		
 			$x = 0;
 			$vociListinoCategoria = "";
-				
+		
 			$divCategorie .= "<div id='" . trim($cat['codicecategoria']) . "'><table class='result-alt' id='resultTable'><tbody>";
-				
+		
 			foreach ($rowsvoci as $voci) {
-	
+		
 				if ($x == 0) {
 					$vociListinoCategoria .= "<tr>";
 				}
@@ -261,60 +312,12 @@ class preventivoTemplate extends preventivoAbstract {
 					$vociListinoCategoria .= "</tr>";
 					$x = 0;
 				}
-	
-			}
-				
+			}		
 			$divCategorie .= $vociListinoCategoria . "</tbody></table></div>";
-		}
-	
-		$db->commitTransaction();
-	
-		$replace = array(
-				'%titoloPagina%' => $this->getTitoloPagina(),
-				'%preventivo%' => $this->getPreventivoLabel(),
-				'%totale%' => $this->getTotalePreventivoLabel(),
-				'%totsingoli%' => '&euro;' . number_format($this->getTotalePreventivoDentiSingoli(), 2, ',', '.'),
-				'%totgruppi%' => $this->getTotalePreventivoGruppi(),
-				'%totcure%' => $this->getTotalePreventivoCure(),
-				'%importoSconto%' => $this->getImportoSconto(),
-				'%cognome%' => $this->getCognome(),
-				'%nome%' => $this->getNome(),
-				'%datanascita%' => $this->getDataNascita(),
-				'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
-				'%azioneGruppi%' => $this->getAzioneGruppi(),
-				'%azioneCure%' => $this->getAzioneCure(),
-				'%azionePagamento%' => $this->getAzionePagamento(),
-				'%confermaTip%' => $this->getConfermaTip(),
-				'%gruppiTip%' => $this->getGruppiTip(),
-				'%cureTip%' => $this->getCureTip(),
-				'%cognomeRicerca%' => $this->getCognomeRicerca(),
-				'%idPaziente%' => $this->getIdPaziente(),
-				'%idListino%' => $this->getIdListino(),
-				'%idPreventivo%' => $this->getIdPreventivo(),
-				'%idPreventivoPrincipale%' => $this->getIdPreventivoPrincipale(),
-				'%idSottoPreventivo%' => $this->getIdSottoPreventivo(),
-				'%stato%' => $this->getStato(),
-				'%vociListinoEsteso%' => $vociListinoEsteso,
-				'%tabsCategorie%' => $tabsCategorie,
-				'%divCategorie%' =>	$divCategorie,
-				'%impostazioniVoci%' => $this->getImpostazioniVoci()
-		);
-	
-		// prepara form denti singoli -----------------------------
-	
-		$dentiSingoli = $this->getDentiSingoli();
-	
-		foreach ($dentiSingoli as $singoli) {
-			$chiave = '%' . $singoli[0] . '%';
-			$valore = $singoli[1];
-			$replace[$chiave] = $valore;
-		}
-	
-		$utility = new utility();
-	
-		$template = $utility->tailFile($utility->getTemplate($form), $replace);
-		echo $utility->tailTemplate($template);
-	}
+		}		
+		$_SESSION['divcategorie'] = $divCategorie;
+		$_SESSION['tabscategorie'] = $tabsCategorie;
+	}	
 }
 	
 ?>

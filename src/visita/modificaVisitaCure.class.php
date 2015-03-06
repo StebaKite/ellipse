@@ -34,7 +34,7 @@ class modificaVisitaCure extends visitaAbstract {
 		error_log("<<<<<<< Start >>>>>>> " . $_SERVER['PHP_SELF']);
 
 		$visitaCure = new visitaCure();
-		$visitaCure->setVisitaCure($this->preparaPagina($visitaCure));		
+		$this->preparaPagina($visitaCure);		
 		
 		// Compone la pagina
 		include(self::$testata);
@@ -51,8 +51,8 @@ class modificaVisitaCure extends visitaAbstract {
 		error_log("<<<<<<< Go >>>>>>> " . $_SERVER['PHP_SELF']);
 
 		$visitaCure = new visitaCure();
-		$visitaCure->setVisitaCure($this->preparaPagina($visitaCure));		
-		$visitaCure->setCureGeneriche($this->prelevaCampiFormCure());
+		$this->preparaPagina($visitaCure);		
+		$_SESSION['curegeneriche'] = $this->prelevaCampiFormCure();
 
 		include(self::$testata);
 		
@@ -81,18 +81,18 @@ class modificaVisitaCure extends visitaAbstract {
 		$db = new database();
 		$db->beginTransaction();
 
-		if ($this->modificaVociCure($db, $visitaCure->getCureGeneriche(), $visitaCure->getIdVisita(), self::$cureForm)) {
+		if ($this->modificaVociCure($db, $_SESSION['curegeneriche'], $_SESSION['idVisita'], self::$cureForm)) {
 
 			// aggiorno la datamodifica della "visita"
-			if (!$this->aggiornaVisita($db, $visitaCure->getIdVisita())) {
-				error_log("Fallito aggiornamento visita : " . $visitaCure->getIdVisita());
+			if (!$this->aggiornaVisita($db, $_SESSION['idVisita'])) {
+				error_log("Fallito aggiornamento visita : " . $_SESSION['idVisita']);
 				$db->rollbackTransaction();
 				return FALSE;
 			}
 
 			// aggiorno la datamodifica del "paziente"
-			if (!$this->aggiornaPaziente($db, $visitaCure->getIdPaziente())) {
-				error_log("Fallito aggiornamento paziente : " . $visitaCure->getIdPaziente());
+			if (!$this->aggiornaPaziente($db, $_SESSION['idPaziente'], self::$root)) {
+				error_log("Fallito aggiornamento paziente : " . $_SESSION['idPaziente']);
 				$db->rollbackTransaction();
 				return FALSE;
 			}			
@@ -139,12 +139,7 @@ class modificaVisitaCure extends visitaAbstract {
 	}
 
 	public function preparaPagina($visitaCure) {
-			
-		$visitaCure->setIdPaziente($this->getIdPaziente());
-		$visitaCure->setIdListino($this->getIdListino());
-		$visitaCure->setIdVisita($this->getIdVisita());
-		$visitaCure->setCognomeRicerca($this->getCognomeRicerca());
-					
+								
 		$visitaCure->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$visitaCure->setAzioneGruppi(self::$azioneGruppi);
 		$visitaCure->setAzioneCure(self::$azioneCure);
@@ -155,8 +150,6 @@ class modificaVisitaCure extends visitaAbstract {
 				
 		$visitaCure->setTitoloPagina("%ml.modificaVisitaCure%");
 		$visitaCure->setVisitaLabel("- %ml.visita% : ");
-
-		return $visitaCure;
 	}
 }
 

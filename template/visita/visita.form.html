@@ -87,36 +87,19 @@
 				<td>
 					<form class="tooltip" method="post" action="%azioneGruppi%" >
 						<button class="button" title="%gruppiTip%">%ml.gruppi%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="idVisita" value="%idVisita%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
+						<input type="hidden" name="usa-sessione" value="true"/>
 					</form>		
 				</td>
 				<td>
 					<form class="tooltip" method="post" action="%azioneCure%" >
 						<button class="button" title="%cureTip%">%ml.cure%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="idVisita" value="%idVisita%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
+						<input type="hidden" name="usa-sessione" value="true"/>
 					</form>		
 				</td>
 				<td>
 					<form class="tooltip" method="post" action="../visita/ricercaVisitaFacade.class.php?modo=start" >
 						<button class="button" title="%ml.funzPrec%">%ml.indietro%</button>
-						<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-						<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-						<input type="hidden" name="idListino" value="%idListino%"/>
-						<input type="hidden" name="cognome" value="%cognome%"/>
-						<input type="hidden" name="nome" value="%nome%"/>
-						<input type="hidden" name="datanascita" value="%datanascita%"/>
+						<input type="hidden" name="usa-sessione" value="true"/>
 					</form>		
 				</td>
 			</tr>
@@ -1529,13 +1512,7 @@
 										<tr height="50">
 											<td align="center" class="tooltip">
 												<button class="button" title="%confermaTip%" >%ml.conferma%</button>
-												<input type="hidden" name="idPaziente" value="%idPaziente%"/>
-												<input type="hidden" name="idListino" value="%idListino%"/>
-												<input type="hidden" name="idVisita" value="%idVisita%"/>
-												<input type="hidden" name="cognRic" value="%cognomeRicerca%"/>
-												<input type="hidden" name="cognome" value="%cognome%"/>
-												<input type="hidden" name="nome" value="%nome%"/>
-												<input type="hidden" name="datanascita" value="%datanascita%"/>
+												<input type="hidden" name="usa-sessione" value="true"/>
 											</td>
 										</tr>
 									</table>

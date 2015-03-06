@@ -10,16 +10,24 @@ class creaVisita extends visitaAbstract {
 	public static $azioneCure = "../visita/creaVisitaCureFacade.class.php?modo=start";
 
 	function __construct() {
+
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
+		
+		require_once 'utility.class.php';
+		
+		$utility = new utility();
+		$array = $utility->getConfig();
+		
+		self::$testata = self::$root . $array['testataPagina'];
+		self::$piede = self::$root . $array['piedePagina'];
+		self::$messaggioErrore = self::$root . $array['messaggioErrore'];
+		self::$messaggioInfo = self::$root . $array['messaggioInfo'];				
 	}
 
 	// ------------------------------------------------
 	
 	public function getAzioneDentiSingoli() {
 		return self::$azioneDentiSingoli;
-	}
-	public function getSingoliForm() {
-		return self::$singoliForm;
 	}
 
 	// ------------------------------------------------
@@ -29,36 +37,13 @@ class creaVisita extends visitaAbstract {
 		require_once 'visita.template.php';
 		require_once 'utility.class.php';
 
-		// Template
-		$utility = new utility();
-		$array = $utility->getConfig();
-
-		$testata = self::$root . $array['testataPagina'];
-		$piede = self::$root . $array['piedePagina'];
-		$messaggioErrore = self::$root . $array['messaggioErrore'];
-		$messaggioInfo = self::$root . $array['messaggioInfo'];
-
 		$visita = new visita();		
-		$visita->setIdPaziente($this->getIdPaziente());
-		$visita->setIdListino($this->getIdListino());
-		$visita->setCognomeRicerca($this->getCognomeRicerca());
-
-		$visita->setAzioneDentiSingoli(self::$azioneDentiSingoli);
-		$visita->setAzioneGruppi(self::$azioneGruppi);
-		$visita->setAzioneCure(self::$azioneCure);
-		
-		$visita->setConfermaTip("%ml.confermaCreazioneVisita%");		
-		$visita->setGruppiTip("%ml.creaGruppi%");		
-		$visita->setCureTip("%ml.creaCure%");		
-				
-		$visita->setTitoloPagina("%ml.creaNuovaVisitaDentiSingoli%");
-		$visita->setVisitaLabel("");
-		$visita->setVisita($visita);		
+		$this->preparaPagina($visita);
 
 		// Compone la pagina
-		include($testata);
+		include(self::$testata);
 		$visita->displayPagina();
-		include($piede);		
+		include(self::$piede);		
 	}
 		
 	public function go() {
@@ -67,57 +52,51 @@ class creaVisita extends visitaAbstract {
 		require_once 'visita.template.php';
 		require_once 'utility.class.php';
 
-		// Template
-		$utility = new utility();
-		$array = $utility->getConfig();
-
-		$this->setTestata(self::$root . $array['testataPagina']);
-		$this->setPiede(self::$root . $array['piedePagina']);
-		$this->setMessaggioErrore(self::$root . $array['messaggioErrore']);
-		$this->setMessaggioInfo(self::$root . $array['messaggioInfo']);
-
 		$visita = new visita();
+		$this->preparaPagina($visita);		
+		$_SESSION['dentisingoli'] = $this->prelevaCampiFormSingoli();
 		
-		$visita->setAzioneDentiSingoli(self::$azioneDentiSingoli);
-		$visita->setAzioneGruppi(self::$azioneGruppi);
-		$visita->setAzioneCure(self::$azioneCure);
-		
-		$visita->setConfermaTip("%ml.confermaCreazioneVisita%");		
-		$visita->setGruppiTip("%ml.creaGruppi%");		
-		$visita->setCureTip("%ml.creaCure%");		
-
-		$visita->setIdListino($this->getIdListino());	
-		$visita->setTitoloPagina('%ml.creaNuovaVisita%');
-		$visita->setDentiSingoli($this->prelevaCampiFormSingoli());
-		
-		include($this->getTestata());
+		include(self::$testata);
 
 		if ($visita->controlliLogici()) {
 			
 			if ($this->inserisciSingoli($visita)) {
 				
 				$ricercaVisita = new ricercaVisita();
-				$ricercaVisita->setIdPaziente($this->getIdPaziente());
-				$ricercaVisita->setIdListino($this->getIdListino());
 				$ricercaVisita->setMessaggio("%ml.creaVisitaOk%");
-				$ricercaVisita->setCognomeRicerca($this->getCognomeRicerca());
 				$ricercaVisita->start();
 			}
 			else {
 				$visita->displayPagina();
-				$replace = array('%messaggio%' => '%ml.creaVisitaKo%');				
-				$template = $utility->tailFile($utility->getTemplate($this->getMessaggioErrore()), $replace);			
+				$replace = array('%messaggio%' => '%ml.creaVisitaKo%');
+				$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);			
 				echo $utility->tailTemplate($template);
 			}
 		}
 		else {
 			$visita->displayPagina();
 			$replace = array('%messaggio%' => '%ml.creaVisitaKo%');				
-			$template = $utility->tailFile($utility->getTemplate($this->getMessaggioErrore()), $replace);			
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);			
 			echo $utility->tailTemplate($template);
 		} 
 
-		include($this->getPiede());		
+		include(self::$piede);		
+	}
+	
+	public function preparaPagina($visita) {
+
+		$visita->setAzioneDentiSingoli(self::$azioneDentiSingoli);
+		$visita->setAzioneGruppi(self::$azioneGruppi);
+		$visita->setAzioneCure(self::$azioneCure);
+		
+		$visita->setConfermaTip("%ml.confermaCreazioneVisita%");
+		$visita->setGruppiTip("%ml.creaGruppi%");
+		$visita->setCureTip("%ml.creaCure%");
+		
+		$visita->setTitoloPagina("%ml.creaNuovaVisitaDentiSingoli%");
+		$visita->setVisitaLabel("");
+		
+		unset($_SESSION['impostazionivoci']);		
 	}
 		
 	private function inserisciSingoli($visita) {
@@ -133,16 +112,13 @@ class creaVisita extends visitaAbstract {
 
 		if ($this->creaVisita($db)) {
 
-			$dentiSingoli = $visita->getDentiSingoli();
-			$idVisitaUsato = $db->getLastIdUsed(); 
-			$visita->setIdVisita($idVisitaUsato);
-			$this->setIdVisita($idVisitaUsato);
-			$visita->setIdPaziente($this->getIdPaziente());
+			$dentiSingoli = $_SESSION['dentisingoli'];
+			$_SESSION['idVisita'] = $db->getLastIdUsed(); 
 				
 			for ($i = 0; $i < sizeof($dentiSingoli); $i++) {
 
 				if ($dentiSingoli[$i][1] != "") {
-					if (!$this->creaVoceVisita($db, $idVisitaUsato, $this->getSingoliForm(), trim($dentiSingoli[$i][0]), trim($dentiSingoli[$i][1]))) {
+					if (!$this->creaVoceVisita($db, $_SESSION['idVisita'], self::$singoliForm, trim($dentiSingoli[$i][0]), trim($dentiSingoli[$i][1]))) {
 						$db->rollbackTransaction();
 						error_log("Errore inserimento voce, eseguito Rollback");
 						return FALSE;	

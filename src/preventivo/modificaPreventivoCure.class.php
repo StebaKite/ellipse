@@ -79,10 +79,10 @@ class modificaPreventivoCure extends preventivoAbstract {
 
 	public function modificaCure($preventivoCureTemplate) {
 		
-		if ($preventivoCureTemplate->getIdPreventivo() != "") {
+		if ($_SESSION['idPreventivo'] != "") {
 			return $this->modificaCurePreventivoPrincipale($preventivoCureTemplate);
 		}
-		elseif ($preventivoCureTemplate->getIdSottoPreventivo() != "") {
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
 			return $this->modificaCurePreventivoSecondario($preventivoCureTemplate);
 		}
 	}
@@ -94,18 +94,18 @@ class modificaPreventivoCure extends preventivoAbstract {
 		$db = new database();
 		$db->beginTransaction();
 	
-		if ($this->modificaVociCurePreventivoPrincipale($db, $preventivoCureTemplate->getCureGeneriche(), $preventivoCureTemplate->getIdPreventivo(), self::$cureForm)) {
+		if ($this->modificaVociCurePreventivoPrincipale($db, $preventivoCureTemplate->getCureGeneriche(), $_SESSION['idPreventivo'], self::$cureForm)) {
 	
 			// aggiorno la datamodifica della "visita"
-			if (!$this->aggiornaPreventivo($db, $preventivoCureTemplate->getIdPreventivo())) {
-				error_log("Fallito aggiornamento preventivo : " . $preventivoCureTemplate->getIdPreventivo());
+			if (!$this->aggiornaPreventivo($db, $_SESSION['idPreventivo'])) {
+				error_log("Fallito aggiornamento preventivo : " . $_SESSION['idPreventivo']);
 				$db->rollbackTransaction();
 				return FALSE;
 			}
 	
 			// aggiorno la datamodifica del "paziente"
-			if (!$this->aggiornaPaziente($db, $preventivoCureTemplate->getIdPaziente())) {
-				error_log("Fallito aggiornamento paziente : " . $preventivoCureTemplate->getIdPaziente());
+			if (!$this->aggiornaPaziente($db, $_SESSION['idPaziente'], self::$root)) {
+				error_log("Fallito aggiornamento paziente : " . $_SESSION['idPaziente']);
 				$db->rollbackTransaction();
 				return FALSE;
 			}
@@ -124,18 +124,18 @@ class modificaPreventivoCure extends preventivoAbstract {
 		$db = new database();
 		$db->beginTransaction();
 	
-		if ($this->modificaVociCurePreventivoSecondario($db, $preventivoCureTemplate->getCureGeneriche(), $preventivoCureTemplate->getIdSottoPreventivo(), self::$cureForm)) {
+		if ($this->modificaVociCurePreventivoSecondario($db, $preventivoCureTemplate->getCureGeneriche(), $_SESSION['idSottoPreventivo'], self::$cureForm)) {
 	
 			// aggiorno la datamodifica della "visita"
-			if (!$this->aggiornaSottoPreventivo($db, $preventivoCureTemplate->getIdSottoPreventivo())) {
-				error_log("Fallito aggiornamento preventivo secondario : " . $preventivoCureTemplate->getIdSottoPreventivo());
+			if (!$this->aggiornaSottoPreventivo($db, $_SESSION['idSottoPreventivo'])) {
+				error_log("Fallito aggiornamento preventivo secondario : " . $_SESSION['idSottoPreventivo']);
 				$db->rollbackTransaction();
 				return FALSE;
 			}
 	
 			// aggiorno la datamodifica del "paziente"
-			if (!$this->aggiornaPaziente($db, $preventivoCureTemplate->getIdPaziente())) {
-				error_log("Fallito aggiornamento paziente : " . $preventivoCureTemplate->getIdPaziente());
+			if (!$this->aggiornaPaziente($db, $_SESSION['idPaziente'], self::$root)) {
+				error_log("Fallito aggiornamento paziente : " . $_SESSION['idPaziente']);
 				$db->rollbackTransaction();
 				return FALSE;
 			}
@@ -166,7 +166,7 @@ class modificaPreventivoCure extends preventivoAbstract {
 
 				// Se il preventivo è in stato "Proposto" la voce può essere cancellata
 				
-				if ($preventivoTemplate->getStato() == "Proposto") {
+				if ($_SESSION['stato'] == "00") {
 						
 					if (!$this->cancellaVocePreventivo($db, $idVoce)) {
 						error_log("Fallita cancellazione idvoce : " . $idVoce);
@@ -174,7 +174,7 @@ class modificaPreventivoCure extends preventivoAbstract {
 						return FALSE;
 					}
 				}
-				elseif ($preventivoTemplate->getStato() == "Accettato") {
+				elseif ($_SESSION['stato'] == "01") {
 				
 					if (!$this->aggiornaStatoVocePreventivoPrincipale($db, $idVoce, '01')) {	// voce sospesa
 						error_log("Fallito cambio stato voce  : " . $idVoce);
@@ -215,7 +215,7 @@ class modificaPreventivoCure extends preventivoAbstract {
 
 				// Se il preventivo è in stato "Proposto" la voce può essere cancellata
 				
-				if ($preventivoTemplate->getStato() == "Proposto") {
+				if ($_SESSION['stato'] == "00") {
 						
 					if (!$this->cancellaVoceSottoPreventivo($db, $idVoce)) {
 						error_log("Fallita cancellazione idvoce : " . $idVoce);
@@ -223,7 +223,7 @@ class modificaPreventivoCure extends preventivoAbstract {
 						return FALSE;
 					}
 				}
-				elseif ($preventivoTemplate->getStato() == "Accettato") {
+				elseif ($_SESSION['stato'] == "01") {
 				
 					if (!$this->aggiornaStatoVocePreventivoSecondario($db, $idVoce, '01')) {	// voce sospesa
 						error_log("Fallito cambio stato voce  : " . $idVoce);
@@ -255,12 +255,12 @@ class modificaPreventivoCure extends preventivoAbstract {
 		$preventivoCureTemplate->setSingoliTip("%ml.modificaSingoli%");
 		$preventivoCureTemplate->setGruppiTip("%ml.modificaGruppi%");
 
-		$preventivoCureTemplate->setCureGeneriche($this->prelevaCampiFormCure());
+ 		$_SESSION['curegeneriche'] = $this->prelevaCampiFormCure();
 		
-		if ($this->getIdPreventivo() != "") {
+		if ($_SESSION['idPreventivo'] != "") {
 			$preventivoCureTemplate->setTitoloPagina("%ml.modificaPreventivoPrincipaleCure%");
 		}
-		elseif ($this->getIdSottoPreventivo() != "") {
+		elseif ($_SESSION['idSottoPreventivo'] != "") {
 			$preventivoCureTemplate->setTitoloPagina("%ml.modificaPreventivoSecondarioCure%");
 		}		
 		$preventivoCureTemplate->setPreventivoLabel("Preventivo:");

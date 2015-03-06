@@ -26,16 +26,20 @@ class ricercaPreventivo extends preventivoAbstract {
 	
 		// Il messaggio
 		$ricercaPreventivoTemplate->setMessaggio($this->getMessaggio());
-		$ricercaPreventivoTemplate->setCognomeRicerca($this->getCognomeRicerca());
-	
+
+		include($testata);
+		$ricercaPreventivoTemplate->displayFiltri();
+		
 		if ($this->ricerca($ricercaPreventivoTemplate)) {
-	
-			// compone la pagina
-			include($testata);
-			$ricercaPreventivoTemplate->displayFiltri();
 			$ricercaPreventivoTemplate->displayRisultati();
-			include($piede);
 		}
+		else {
+			$replace = array('%messaggio%' => $text0 . '%ml.ricercaPreventivoKo%');
+			$template = $utility->tailFile($utility->getTemplate(self::$messaggioErrore), $replace);			
+			echo $utility->tailTemplate($template);				
+		}
+		include($piede);
+		
 	}
 	
 	public function go() { }
@@ -44,11 +48,9 @@ class ricercaPreventivo extends preventivoAbstract {
 	
 		require_once 'database.class.php';
 	
-		$esito = TRUE;
-	
 		// carica e ritaglia il comando sql da lanciare
 	
-		$replace = array('%idpaziente%' => $this->getIdPaziente());
+		$replace = array('%idpaziente%' => $_SESSION['idPaziente']);
 	
 		$utility = new utility();
 		$array = $utility->getConfig();
@@ -61,10 +63,10 @@ class ricercaPreventivo extends preventivoAbstract {
 		$db = new database();
 		$result = $db->getData($sql);
 	
-		$ricercaPreventivoTemplate->setNumeroPreventiviTrovati(pg_num_rows($result));
-		$ricercaPreventivoTemplate->setPreventiviTrovati($result);
+		$_SESSION['numeroPreventiviTrovati'] = pg_num_rows($result);
+		$_SESSION['preventiviTrovati'] = $result;
 	
-		return $esito;
+		return $result;
 	}
 }
 

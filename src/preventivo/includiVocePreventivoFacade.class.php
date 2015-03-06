@@ -2,56 +2,56 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/preventivo:/var/www/html/ellipse/src/utility');
 require_once 'includiVocePreventivo.class.php';
+require_once 'firewall.class.php';
 
-$includiVocePreventivo = new includiVocePreventivo();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$includiVocePreventivo->setIdPaziente($_GET['idpaziente']);
-		$includiVocePreventivo->setIdListino($_GET['idlistino']);
-		$includiVocePreventivo->setCognomeRicerca($_GET['cognRic']);
-		$includiVocePreventivo->setCognome($_GET['cognome']);
-		$includiVocePreventivo->setNome($_GET['nome']);
-		$includiVocePreventivo->setDataNascita($_GET['datanascita']);
-		
-		$includiVocePreventivo->setIdPreventivo($_GET['idpreventivo']);
-		$includiVocePreventivo->setIdSottoPreventivo($_GET['idsottopreventivo']);
-		$includiVocePreventivo->setDataInserimento($_GET['datainserimento']);
-		$includiVocePreventivo->setStato($_GET['stato']);
-		$includiVocePreventivo->setPrezzo($_GET['prezzo']);
-		$includiVocePreventivo->setNomeForm($_GET['nomeform']);
-		$includiVocePreventivo->setNomeCampoForm($_GET['nomecampoform']);
-		$includiVocePreventivo->setCodiceVoceListino($_GET['codicevocelistino']);
-		$includiVocePreventivo->setIdVocePreventivo($_GET['idvocepreventivo']);
-		$includiVocePreventivo->setIdVoceSottoPreventivo($_GET['idvocesottopreventivo']);
-		break;
-	case 'POST':
-		$includiVocePreventivo->setIdPaziente($_POST['idpaziente']);
-		$includiVocePreventivo->setIdListino($_POST['idlistino']);
-		$includiVocePreventivo->setCognomeRicerca($_POST['cognRic']);
-		$includiVocePreventivo->setCognome($_POST['cognome']);
-		$includiVocePreventivo->setNome($_POST['nome']);
-		$includiVocePreventivo->setDataNascita($_POST['datanascita']);
-		
-		$includiVocePreventivo->setIdPreventivo($_POST['idpreventivo']);
-		$includiVocePreventivo->setIdSottoPreventivo($_POST['idsottopreventivo']);
-		$includiVocePreventivo->setDataInserimento($_POST['datainserimento']);
-		$includiVocePreventivo->setStato($_POST['stato']);
-		$includiVocePreventivo->setPrezzo($_POST['prezzo']);
-		$includiVocePreventivo->setNomeForm($_POST['nomeform']);
-		$includiVocePreventivo->setNomeCampoForm($_POST['nomecampoform']);
-		$includiVocePreventivo->setCodiceVoceListino($_POST['codicevocelistino']);
-		$includiVocePreventivo->setIdVocePreventivo($_POST['idvocepreventivo']);
-		$includiVocePreventivo->setIdVoceSottoPreventivo($_POST['idvocesottopreventivo']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$includiVocePreventivo = new includiVocePreventivo();
+	if ($_GET['modo'] == "start") $includiVocePreventivo->start();
+	if ($_GET['modo'] == "go") $includiVocePreventivo->go();
 }
+else {
 
-if ($_GET['modo'] == "start") $includiVocePreventivo->start();
-if ($_GET['modo'] == "go") $includiVocePreventivo->go();
+	$firewall = new firewall();
+
+	$data = array();	
+	if ($_GET['idvocepreventivo'] != "") $data['idVocePreventivo'] = 'idVocePreventivo' . ';' . $_GET['idvocepreventivo'];
+	if ($_GET['codicevocelistino'] != "") $data['codiceVoceListino'] = 'codiceVoceListino' . ';' . $_GET['codicevocelistino'];
+	if ($_GET['prezzo'] != "") $data['prezzo'] = 'prezzo' . ';' . $_GET['prezzo'];
+	if ($_GET['nomeform'] != "") $data['nomeForm'] = 'nomeForm' . ';' . $_GET['nomeform'];
+	if ($_GET['nomecampoform'] != "") $data['nomeCampoForm'] = 'nomeCampoForm' . ';' . $_GET['nomecampoform'];
+
+	if ($firewall->controlloCampiRichiesta($data)) {
+
+		$_SESSION['idVocePreventivo'] = $_GET['idvocepreventivo'];
+		$_SESSION['codicevocelistino'] = $_GET['codicevocelistino'];
+		$_SESSION['prezzo'] = $_GET['prezzo'];
+		$_SESSION['nomeform'] = $_GET['nomeform'];
+		$_SESSION['nomecampoform'] = $_GET['nomecampoform'];
+
+		$includiVocePreventivo = new includiVocePreventivo();
+		if ($_GET['modo'] == "start") $includiVocePreventivo->start();
+		if ($_GET['modo'] == "go") $includiVocePreventivo->go();
+	}
+	else {
+
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>

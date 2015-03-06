@@ -31,7 +31,7 @@ class ricercaPaziente extends gestionePazienteAbstract {
 	}
 	
 	public function go() {
-
+		
 		require_once 'ricercaPaziente.template.php';
 		require_once 'utility.class.php';
 
@@ -43,12 +43,6 @@ class ricercaPaziente extends gestionePazienteAbstract {
 		$piede = self::$root . $array['piedePagina'];		
 		
 		$ricercaPazienteTemplate = new ricercaPazienteTemplate();
-	
-		// cognome dalla POST
-		if ($this->getCognomeRicerca() != "")
-			$ricercaPazienteTemplate->setCognome($this->getCognomeRicerca());
-		else
-			$ricercaPazienteTemplate->setCognome(ucwords($_POST["cognome"]));
 
 		// Il messaggio		
 		$ricercaPazienteTemplate->setMessaggio($this->getMessaggio());
@@ -74,13 +68,10 @@ class ricercaPaziente extends gestionePazienteAbstract {
 
 		require_once 'database.class.php';
 
-		$cognome = $ricercaPazienteTemplate->getCognome();
-		$esito = TRUE;
-
 		// carica e ritaglia il comando sql da lanciare
 		
-		$replace = array('%cognome%' => $ricercaPazienteTemplate->getCognome());
-
+		$replace = array('%cognome%' => str_replace("'","''",$_SESSION['cognome']));
+		
 		$utility = new utility();
 		$array = $utility->getConfig();
 		$sqlTemplate = self::$root . $array['query'] . self::$queryRicercaPaziente;
@@ -92,10 +83,10 @@ class ricercaPaziente extends gestionePazienteAbstract {
 		$db = new database();
 		$result = $db->getData($sql);
 		
-		$ricercaPazienteTemplate->setNumeroPazientiTrovati(pg_num_rows($result));	
-		$ricercaPazienteTemplate->setPazientiTrovati($result);
+		$_SESSION['numeroPazientiTrovati'] = pg_num_rows($result);	
+		$_SESSION['pazientiTrovati'] = $result;
 		
-		return $esito;	
+		return $result;	
 	}
 }
 ?>

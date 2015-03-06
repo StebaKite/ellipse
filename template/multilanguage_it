@@ -82,7 +82,7 @@ cancellaCategoriaTip = Cancella la categoria
 nuovaVoceTip = Crea una nuova voce nella categoria selezionata
 codiceVoceTip = Un codice che identifica la voce
 descrizioneVoceTip = La descrizione estesa della voce
-prezzoTip = Il prezzo della voce. Il separatore per i decimali &egrave; il punto (Es. 100.50 )
+prezzoTip = Il prezzo della voce senza decimali
 modificaVoceTip = Modifica della voce
 cancellaVoceTip = Cancella la voce
 modificaListinoTip = Modifica il listino
@@ -257,6 +257,7 @@ escludiVoceKo = Errore in esclusione voce
 modificaVoceListinoOk = Voce listino modificata con successo
 modificaVoceListinoKo = Errore durante la modifica della voce listino
 ;
+ricercaPreventivoKo = Errore durante la ricerca dei preventivi
 creaPreventivoOk = Preventivo creato
 creaPreventivoKo = Errore durante la creazione del preventivo
 preventivoVuoto = Il preventivo principale è vuoto 
@@ -371,6 +372,8 @@ vociListinoPaziente = Voci Listino Paziente
 idvisita = ID Visita
 datainserimento = Inserita il 
 statovisita = Stato
+stato00visita = Proposta
+stato01visita = Preventivata
 ;
 progressivo = Progressivo
 classe = Classe

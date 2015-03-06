@@ -21,8 +21,6 @@ class visitaGruppi extends visitaAbstract {
 
 		error_log("<<<<<<< Display >>>>>>> " . $_SERVER['PHP_SELF']);
 
-		$visitaGruppi = $this->getVisitaGruppi();
-
 		$utility = new utility();
 		$array = $utility->getConfig();
 
@@ -34,7 +32,7 @@ class visitaGruppi extends visitaAbstract {
 
 		$vociListinoEsteso = "";	// per la tab di aiuto consultazione voci disponibili
 		
-		$replace = array('%idlistino%' => $this->getIdListino());
+		$replace = array('%idlistino%' => $_SESSION['idListino']);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociListinoPaziente;
 		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
@@ -45,34 +43,31 @@ class visitaGruppi extends visitaAbstract {
 		$replace = array(
 			'%titoloPagina%' => $this->getTitoloPagina(),
 			'%visita%' => $this->getVisitaLabel(),
-			'%cognome%' => $this->getCognome(),
-			'%nome%' => $this->getNome(),
-			'%datanascita%' => $this->getDataNascita(),
+			'%cognome%' => $_SESSION['cognome'],
+			'%nome%' => $_SESSION['nome'],
+			'%datanascita%' => $_SESSION['datanascita'],
 			'%azioneDentiSingoli%' => $this->getAzioneDentiSingoli(),
 			'%azioneGruppi%' => $this->getAzioneGruppi(),
 			'%azioneCure%' => $this->getAzioneCure(),
 			'%confermaTip%' => $this->getConfermaTip(),
 			'%singoliTip%' => $this->getSingoliTip(),
 			'%cureTip%' => $this->getCureTip(),
-			'%cognomeRicerca%' => $this->getCognomeRicerca(),
-			'%idPaziente%' => $this->getIdPaziente(),
-			'%idListino%' => $this->getIdListino(),
-			'%idVisita%' => $this->getIdVisita(),
+			'%idVisita%' => $_SESSION['idVisita'],
 			'%vociListinoEsteso%' => $this->preparaListinoEsteso($rows),
-			'%vociListinoGruppo_1%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_1()),
-			'%vociListinoGruppo_2%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_2()),
-			'%vociListinoGruppo_3%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_3()),
-			'%vociListinoGruppo_4%' => $this->preparaComboGruppo($rows, $this->getVoceGruppo_4())
+			'%vociListinoGruppo_1%' => $this->preparaComboGruppo($rows, $_SESSION['vocegruppo_1']),
+			'%vociListinoGruppo_2%' => $this->preparaComboGruppo($rows, $_SESSION['vocegruppo_2']),
+			'%vociListinoGruppo_3%' => $this->preparaComboGruppo($rows, $_SESSION['vocegruppo_3']),
+			'%vociListinoGruppo_4%' => $this->preparaComboGruppo($rows, $_SESSION['vocegruppo_4'])
 		);
 
 		$replaceArray = array();
-		$replaceArray = $this->preparaCheckbox($this->prelevaVociGruppi($db, $visitaGruppi), $replace);
+		$replaceArray = $this->preparaCheckbox($this->prelevaVociGruppi($db), $replace);
 
 		$template = $utility->tailFile($utility->getTemplate($form), $replaceArray);
 		echo $utility->tailTemplate($template);
 	}	
 
-	public function prelevaVociGruppi($db, $visitaGruppi) {
+	public function prelevaVociGruppi($db) {
 
 		require_once 'database.class.php';
 		require_once 'utility.class.php';
@@ -85,8 +80,8 @@ class visitaGruppi extends visitaAbstract {
 		// preleva tutte le voci inserite in gruppi per la visita in modifica
 		
 		$replace = array(
-			'%idpaziente%' => $this->getIdPaziente(),
-			'%idvisita%' => $this->getIdVisita()
+			'%idpaziente%' => $_SESSION['idPaziente'],
+			'%idvisita%' => $_SESSION['idVisita']
 		);
 		
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociVisitaGruppiPaziente;
@@ -103,7 +98,7 @@ class visitaGruppi extends visitaAbstract {
 		
 		foreach ($rows as $cod) {
 			 
-			if (trim($cod['codicevocelistino']) === trim($voceGruppo))
+			if (trim($cod['codicevocelistino']) == trim($voceGruppo))
 				$vociCombo .= "<option value='" . $cod['codicevocelistino'] . "' selected >" . $cod['descrizionevoce'] . "</option>";
 			else
 				$vociCombo .= "<option value='" . $cod['codicevocelistino'] . "' >" . $cod['descrizionevoce'] . "</option>";

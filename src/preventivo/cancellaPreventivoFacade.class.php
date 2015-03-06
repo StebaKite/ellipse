@@ -2,44 +2,57 @@
 
 set_include_path('/var/www/html/ellipse/src/main:/var/www/html/ellipse/src/preventivo:/var/www/html/ellipse/src/utility');
 require_once 'cancellaPreventivo.class.php';
+require_once 'firewall.class.php';
 
-$cancellaPreventivo = new cancellaPreventivo();
+/**
+ * Avvio la sessione
+ */
+session_start();
 
-$method = $_SERVER['REQUEST_METHOD'];
+/**
+ * Controllo il secureCode in sessione
+*/
 
-switch ($method) {
-	case 'GET':
-		$cancellaPreventivo->setIdPaziente($_GET['idPaziente']);
-		$cancellaPreventivo->setIdListino($_GET['idListino']);
-		$cancellaPreventivo->setIdPreventivo($_GET['idPreventivo']);
-		$cancellaPreventivo->setIdPreventivoPrincipale($_GET['idPreventivoPrincipale']);
-		$cancellaPreventivo->setIdSottoPreventivo($_GET['idSottoPreventivo']);
-		$cancellaPreventivo->setDataInserimento($_GET['datainserimento']);
-		$cancellaPreventivo->setStato($_GET['stato']);
-		$cancellaPreventivo->setCognomeRicerca($_GET['cognRic']);
-		$cancellaPreventivo->setCognome($_GET['cognome']);
-		$cancellaPreventivo->setNome($_GET['nome']);
-		$cancellaPreventivo->setDataNascita($_GET['datanascita']);
-		break;
-	case 'POST':
-		$cancellaPreventivo->setIdPaziente($_POST['idPaziente']);
-		$cancellaPreventivo->setIdListino($_POST['idListino']);
-		$cancellaPreventivo->setIdPreventivo($_POST['idPreventivo']);
-		$cancellaPreventivo->setIdPreventivoPrincipale($_POST['idPreventivoPrincipale']);
-		$cancellaPreventivo->setIdSottoPreventivo($_POST['idSottoPreventivo']);
-		$cancellaPreventivo->setDataInserimento($_POST['datainserimento']);
-		$cancellaPreventivo->setStato($_POST['stato']);
-		$cancellaPreventivo->setCognomeRicerca($_POST['cognRic']);
-		$cancellaPreventivo->setCognome($_POST['cognome']);
-		$cancellaPreventivo->setNome($_POST['nome']);
-		$cancellaPreventivo->setDataNascita($_POST['datanascita']);
-		break;
-	default:
-		error_log("ERRORE: tipo di chiamata REST non previsto!!");
-		break;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
+
+/**
+ * Controllo dei parametri passati nella request
+*/
+
+if ($_POST['usa-sessione']) {
+
+	$cancellaPreventivo = new cancellaPreventivo();
+	if ($_GET['modo'] == "start") $cancellaPreventivo->start();
+	if ($_GET['modo'] == "go") $cancellaPreventivo->go();
 }
+else {
 
-if ($_GET['modo'] == "start") $cancellaPreventivo->start();
-if ($_GET['modo'] == "go") $cancellaPreventivo->go();
+	$firewall = new firewall();
+
+	$data = array();
+	if ($_GET['idPreventivo'] != "") $data['idPreventivo'] = 'idPreventivo' . ';' . $_GET['idPreventivo'];
+	if ($_GET['idPreventivoPrincipale'] != "") $data['idPreventivoPrincipale'] = 'idPreventivoPrincipale' . ';' . $_GET['idPreventivoPrincipale'];
+	if ($_GET['idSottoPreventivo'] != "") $data['idSottoPreventivo'] = 'idSottoPreventivo' . ';' . $_GET['idSottoPreventivo'];
+	if ($_GET['datainserimento'] != "") $data['dataInserimento'] = 'dataInserimento' . ';' . $_GET['datainserimento'];
+	if ($_GET['stato'] != "") $data['stato'] = 'stato' . ';' . $_GET['stato'];
+
+
+	if ($firewall->controlloCampiRichiesta($data)) {
+
+		$_SESSION['idPreventivo'] = $_GET['idPreventivo'];
+		$_SESSION['idPreventivoPrincipale'] = $_GET['idPreventivoPrincipale'];
+		$_SESSION['idSottoPreventivo'] = $_GET['idSottoPreventivo'];
+		$_SESSION['dataInserimento'] = $_GET['datainserimento'];
+		$_SESSION['stato'] = $_GET['stato'];
+
+		$cancellaPreventivo = new cancellaPreventivo();
+		if ($_GET['modo'] == "start") $cancellaPreventivo->start();
+		if ($_GET['modo'] == "go") $cancellaPreventivo->go();
+	}
+	else {
+
+		echo 'ATTENZIONE! Parametro non corretto';
+	}
+}
 
 ?>
