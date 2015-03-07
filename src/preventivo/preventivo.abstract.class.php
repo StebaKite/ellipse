@@ -126,6 +126,17 @@ abstract class preventivoAbstract extends ellipseAbstract {
 	public static $queryAnnotazioniPreventivoSecondario = "/preventivo/leggiAnnotazioniPreventivoSecondario.sql";
 	public static $queryAnnotazioniVociPreventivoPrincipale = "/preventivo/leggiAnnotazioniVociPreventivoPrincipale.sql";
 	public static $queryAnnotazioniVociPreventivoSecondario = "/preventivo/leggiAnnotazioniVociPreventivoSecondario.sql";
+
+	public static $queryRicercaNotaPreventivoPrincipale = "/preventivo/ricercaNotaPreventivoPrincipale.sql";
+	public static $queryRicercaNotaPreventivoSecondario = "/preventivo/ricercaNotaPreventivoSecondario.sql";	
+	public static $queryCreaNotaPreventivoPrincipale = "/preventivo/creaNotaPreventivoPrincipale.sql"; 
+	public static $queryCreaNotaPreventivoSecondario = "/preventivo/creaNotaPreventivoSecondario.sql";
+	public static $queryLeggiNotaPreventivoPrincipale = "/preventivo/leggiNotaPreventivoPrincipale.sql";
+	public static $queryLeggiNotaPreventivoSecondario = "/preventivo/leggiNotaPreventivoSecondario.sql";
+	public static $queryAggiornaNotaPreventivoPrincipale = "/preventivo/aggiornaNotaPreventivoPrincipale.sql";
+	public static $queryAggiornaNotaPreventivoSecondario = "/preventivo/aggiornaNotaPreventivoSecondario.sql";
+	public static $queryCancellaNotaPreventivoPrincipale = "/preventivo/cancellaNotaPreventivoPrincipale.sql";
+	public static $queryCancellaNotaPreventivoSecondario = "/preventivo/cancellaNotaPreventivoSecondario.sql";
 	
 	// Costruttore -----------------------------------------------------------------------------
 	
@@ -2150,6 +2161,12 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		
 	}
 
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idSottoPreventivo
+	 */
 	public function leggiAnnotazioniVociPreventivoSecondario($db, $utility, $idSottoPreventivo) {
 	
 		$array = $utility->getConfig();
@@ -2161,6 +2178,202 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		$result = $db->execSql($sql);
 	
 		return pg_fetch_all($result);
+	}
+
+	/**
+	 * 
+	 * @param unknown $idPreventivo
+	 * @param unknown $query
+	 * @return unknown
+	 */
+	public function leggiNotaPreventivo($idPreventivo, $query) {
+	
+		require_once 'database.class.php';
+	
+		// carica e ritaglia il comando sql da lanciare
+	
+		$replace = array('%idpreventivo%' => $idPreventivo);
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+		$sqlTemplate = self::$root . $array['query'] . $query;
+	
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+	
+		// esegue la query
+	
+		$db = new database();
+		$result = $db->getData($sql);
+	
+		$_SESSION['numeronotetrovate'] = pg_num_rows($result);
+		$_SESSION['notetrovate'] = $result;
+	
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idpreventivo
+	 * @param unknown $query
+	 */
+	public function creaNotaPreventivo($db, $utility, $idpreventivo, $query) {
+		
+		$array = $utility->getConfig();
+		
+		$replace = array(
+				'%idpreventivo%' => $idpreventivo,
+				'%nota%' => $_SESSION['notapreventivo']
+		);
+		
+		$sqlTemplate = self::$root . $array['query'] . $query;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		return $result;		
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idNotaPreventivo
+	 * @return NULL
+	 */
+	public function leggiNotaPreventivoPrincipale($db, $utility, $idNotaPreventivo) {
+
+		$array = $utility->getConfig();
+		
+		$replace = array(
+				'%idnotapreventivo%' => $idNotaPreventivo,
+				'%idpreventivo%' => $_SESSION['idPreventivo']
+		);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryLeggiNotaPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+
+		foreach (pg_fetch_all($result) as $row) {
+			return trim($row['nota']);
+		}
+		return null;	
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @param unknown $idNotaPreventivo
+	 * @return NULL
+	 */
+	public function leggiNotaPreventivoSecondario($db, $utility, $idNotaPreventivo) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idnotasottopreventivo%' => $idNotaPreventivo,
+				'%idsottopreventivo%' => $_SESSION['idSottoPreventivo']
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryLeggiNotaPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		foreach (pg_fetch_all($result) as $row) {
+			return trim($row['nota']);
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @return unknown
+	 */
+	public function modificaNotaPreventivoPrincipale($db, $utility) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idpreventivo%' => $_SESSION['idPreventivo'],
+				'%idnotapreventivo%' => $_SESSION['idNotaPreventivo'],
+				'%notapreventivo%' => $_SESSION['notapreventivo']
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaNotaPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @return unknown
+	 */
+	public function modificaNotaPreventivoSecondario($db, $utility) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idsottopreventivo%' => $_SESSION['idSottoPreventivo'],
+				'%idnotasottopreventivo%' => $_SESSION['idNotaPreventivo'],
+				'%notapreventivo%' => $_SESSION['notapreventivo']
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryAggiornaNotaPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @return unknown
+	 */
+	public function cancellaNotaPreventivoPrincipale($db, $utility) {
+
+		$array = $utility->getConfig();
+		
+		$replace = array(
+				'%idpreventivo%' => $_SESSION['idPreventivo'],
+				'%idnotapreventivo%' => $_SESSION['idNotaPreventivo']
+		);
+		
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaNotaPreventivoPrincipale;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+		
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param unknown $db
+	 * @param unknown $utility
+	 * @return unknown
+	 */
+	public function cancellaNotaPreventivoSecondario($db, $utility) {
+	
+		$array = $utility->getConfig();
+	
+		$replace = array(
+				'%idsottopreventivo%' => $_SESSION['idSottoPreventivo'],
+				'%idnotasottopreventivo%' => $_SESSION['idNotaPreventivo']
+		);
+	
+		$sqlTemplate = self::$root . $array['query'] . self::$queryCancellaNotaPreventivoSecondario;
+		$sql = $utility->tailFile($utility->getTemplate($sqlTemplate), $replace);
+		$result = $db->execSql($sql);
+	
+		return $result;
 	}
 	
 }

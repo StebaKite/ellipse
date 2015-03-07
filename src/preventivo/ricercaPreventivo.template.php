@@ -156,7 +156,9 @@ class ricercaPreventivoTemplate extends preventivoAbstract {
 
 				// BOTTONE NOTA -------------------------------------------------
 				
-				$bottoneNota = "<a class='tooltip' href='../preventivo/ricercaNotaPreventivoFacade.class.php?modo=start&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . $row['datainserimento'] . "&stato=" . $row['stato'] . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";
+				$iconabottoneNota = ($row['numeronotepreventivo'] > 0 ) ? 'ui-icon-bullet' : 'ui-icon-radio-off';
+				$titleBottoneNota = ($row['numeronotepreventivo'] > 0 ) ? '%ml.notepresenti%' : '%ml.noteassenti%';
+				$bottoneNota = "<a class='tooltip' href='../preventivo/ricercaNotaPreventivoFacade.class.php?modo=start&idPreventivo=" . $idpreventivo . "&idPreventivoPrincipale=" . $idpreventivoprincipale . "&idSottoPreventivo=" . $idsottopreventivo . "&datainserimento=" . $row['datainserimento'] . "&stato=" . $row['stato'] . "'><li class='ui-state-default ui-corner-all' title='" . $titleBottoneNota . "'><span class='ui-icon " . $iconabottoneNota . "'></span></li></a>";
 				
 				// BOTTONE STAMPA -----------------------------------------------
 				// nasconde il bottone stampa preventivo se è vuoto

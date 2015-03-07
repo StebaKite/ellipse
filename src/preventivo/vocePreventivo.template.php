@@ -65,14 +65,14 @@ class vocePreventivoTemplate extends preventivoAbstract {
 				'%idvocepreventivo%' => $_SESSION['idvocePreventivo'],
 				'%idvocesottopreventivo%' => $_SESSION['IdvoceSottoPreventivo'],
 				'%idPreventivo%' => $idPreventivo,				
-				'%codicevoce%' => $this->getCodiceVoce(),
-				'%descrizionevoce%' => $this->getDescrizioneVoce(),
-				'%descrizionevocelistino%' => $this->getDescrizioneVoceListino(),
-				'%descrizionevoceTip%' => $this->getTipDescrizioneVoce(),
-				'%descrizionevoceStyle%' => $this->getStyleDescrizioneVoce(),
-				'%prezzo%' => $this->getPrezzo(),
-				'%prezzoTip%' => $this->getTipPrezzo(),
-				'%prezzoStyle%' => $this->getStylePrezzo()
+				'%codicevoce%' => $_SESSION['codicevoce'],
+				'%descrizionevoce%' => $_SESSION['descrizionevoce'],
+				'%descrizionevocelistino%' => $_SESSION['descrizionevocelistino'],
+				'%descrizionevoceTip%' => $_SESSION['tipdescrizionevoce'],
+// 				'%descrizionevoceStyle%' => $this->getStyleDescrizioneVoce(),
+				'%prezzo%' => $_SESSION['prezzo'],
+				'%prezzoTip%' => $_SESSION['tipprezzo'],
+// 				'%prezzoStyle%' => $this->getStylePrezzo()
 		);
 
 		if ($_SESSION['stato'] == '00') $replace['%stato%'] = '%ml.proposto%';

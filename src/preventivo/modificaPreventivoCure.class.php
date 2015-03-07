@@ -94,7 +94,7 @@ class modificaPreventivoCure extends preventivoAbstract {
 		$db = new database();
 		$db->beginTransaction();
 	
-		if ($this->modificaVociCurePreventivoPrincipale($db, $preventivoCureTemplate->getCureGeneriche(), $_SESSION['idPreventivo'], self::$cureForm)) {
+		if ($this->modificaVociCurePreventivoPrincipale($db, $_SESSION['curegeneriche'], $_SESSION['idPreventivo'], self::$cureForm)) {
 	
 			// aggiorno la datamodifica della "visita"
 			if (!$this->aggiornaPreventivo($db, $_SESSION['idPreventivo'])) {
@@ -124,7 +124,7 @@ class modificaPreventivoCure extends preventivoAbstract {
 		$db = new database();
 		$db->beginTransaction();
 	
-		if ($this->modificaVociCurePreventivoSecondario($db, $preventivoCureTemplate->getCureGeneriche(), $_SESSION['idSottoPreventivo'], self::$cureForm)) {
+		if ($this->modificaVociCurePreventivoSecondario($db, $_SESSION['curegeneriche'], $_SESSION['idSottoPreventivo'], self::$cureForm)) {
 	
 			// aggiorno la datamodifica della "visita"
 			if (!$this->aggiornaSottoPreventivo($db, $_SESSION['idSottoPreventivo'])) {

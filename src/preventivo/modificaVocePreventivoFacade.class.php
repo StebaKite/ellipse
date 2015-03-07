@@ -13,7 +13,7 @@ session_start();
  * Controllo il secureCode in sessione
 */
 
-if ($_SESSION[‘secureCode’] != ‘4406105963138001’) exit('Errore di sessione') ;
+if ($_SESSION['secureCode'] != '4406105963138001') exit('Errore di sessione') ;
 
 /**
  * Controllo dei parametri passati nella request

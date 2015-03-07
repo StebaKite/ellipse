@@ -80,8 +80,8 @@ class modificaVocePreventivo extends preventivoAbstract {
 		$vocePreventivoTemplate->setTestoAzione("%ml.modificaVocePreventivoTip%");
 		$vocePreventivoTemplate->setTitoloPagina("%ml.modificaVocePreventivo" . $_SESSION['tabella'] . "%");
 		
-		$vocePreventivoTemplate->setTipDescrizioneVoce("%ml.descrizioneVoceTip%");
-		$vocePreventivoTemplate->setTipPrezzo("%ml.prezzoTip%");	
+ 		$_SESSION['tipdescrizionevoce'] = "%ml.descrizioneVoceTip%";
+ 		$_SESSION['tipprezzo'] = "%ml.prezzoTip%";	
 
 		// Preleva i dati della voce selezionata
 		
@@ -98,10 +98,10 @@ class modificaVocePreventivo extends preventivoAbstract {
 		}
 		$db->commitTransaction();
 		
-		$vocePreventivoTemplate->setCodiceVoce($vocePreventivoTrovata[0]['codicevocelistino']);
-		$vocePreventivoTemplate->setDescrizioneVoce(trim($vocePreventivoTrovata[0]['descrizione']));
-		$vocePreventivoTemplate->setDescrizioneVoceListino(trim($vocePreventivoTrovata[0]['descrizionevocelistino']));
-		$vocePreventivoTemplate->setPrezzo($vocePreventivoTrovata[0]['prezzo']);
+		$_SESSION['codicevoce'] = $vocePreventivoTrovata[0]['codicevocelistino'];
+		$_SESSION['descrizionevoce'] = trim($vocePreventivoTrovata[0]['descrizione']);
+		$_SESSION['descrizionevocelistino'] = trim($vocePreventivoTrovata[0]['descrizionevocelistino']);
+		$_SESSION['prezzo'] = $vocePreventivoTrovata[0]['prezzo'];
 	}
 	
 	private function modificaPreventivoPrincipale() {
@@ -114,7 +114,7 @@ class modificaVocePreventivo extends preventivoAbstract {
 		$db->beginTransaction();
 		
 		if ($_SESSION['descrizionevoce'] != "") {
-			if ($_SESSION['descrizionevoce'] != $this->getDescrizioneVoceListino()) $descrizione = "'" . $_SESSION['descrizionevoce'] . "'";
+			if ($_SESSION['descrizionevoce'] != $_SESSION['descrizionevocelistino']) $descrizione = "'" . $_SESSION['descrizionevoce'] . "'";
 			else $descrizione = "null";
 		}
 		else $descrizione = "null";
@@ -137,7 +137,7 @@ class modificaVocePreventivo extends preventivoAbstract {
 		$db->beginTransaction();
 	
 		if ($_SESSION['descrizionevoce'] != "") {
-			if ($_SESSION['descrizionevoce'] != $this->getDescrizioneVoceListino()) $descrizione = "'" . $_SESSION['descrizionevoce'] . "'";
+			if ($_SESSION['descrizionevoce'] != $_SESSION['descrizionevocelistino']) $descrizione = "'" . $_SESSION['descrizionevoce'] . "'";
 			else $descrizione = "null";
 		}
 		else $descrizione = "null";

@@ -69,10 +69,7 @@ class creaPreventivo extends preventivoAbstract {
 			if ($this->inserisciSingoli($preventivoTemplate)) {
 		
 				$ricercaPreventivo = new ricercaPreventivo();
-// 				$ricercaPreventivo->setIdPaziente($this->getIdPaziente());
-// 				$ricercaPreventivo->setIdListino($this->getIdListino());
 				$ricercaPreventivo->setMessaggio("%ml.creaPreventivoOk%");
-// 				$ricercaPreventivo->setCognomeRicerca($this->getCognomeRicerca());
 				$ricercaPreventivo->start();
 			}
 			else {

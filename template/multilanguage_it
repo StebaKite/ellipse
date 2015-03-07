@@ -111,6 +111,11 @@ importodarateizzareTip = Importo totale da rateizzazione
 numerogiornirataTip = Numero giorni che intercorrono tra una rata e la successiva
 importorataTip = Importo della singola rata
 ;
+nuovaNotaTip = Crea una nuova nota pre il preventivo
+cancellaNotaTip = Cancella la nota corrente
+notepresenti = Ci sono note inserite sul preventivo
+noteassenti = Note assenti
+;
 ; Funzioni -----------------------------
 ;
 modificaConfig = Configurazioni di Sistema
@@ -175,6 +180,15 @@ modificaPagamentoSecondarioDentiSingoli = Modifica Preventivo Secondario - Piano
 modificaVocePreventivoSingoli = Modifica Voce Preventivo - Denti Singoli
 modificaVocePreventivoGruppi = Modifica Voce Preventivo - Gruppo di Denti
 modificaVocePreventivoCure = Modifica Voce Preventivo - Cure Generiche
+;
+ricercaNotaPreventivoPrincipale = Ricerca Nota Preventivo Principale
+ricercaNotaPreventivoSecondario = Ricerca Nota Preventivo Secondario
+creaNotaPreventivoPrincipale = Crea Nota Preventivo Principale
+creaNotaPreventivoSecondario = Crea Nota Preventivo Secondario
+modificaNotaPreventivoPrincipale = Modifica Nota Preventivo Principale
+modificaNotaPreventivoSecondario = Modifica Nota Preventivo Secondario
+cancellaNotaPreventivoPrincipale = Cancella Nota Preventivo Principale
+cancellaNotaPreventivoSecondario = Cancella Nota Preventivo Secondario
 ;
 ; Messaggi -----------------------------
 ;
@@ -282,6 +296,16 @@ rateok = Rateizzazione Ok
 modPagamentoKo = Errore durante la modifica delle condizioni pagamento
 cancellaAccontoOk = Acconto cancellato
 cancellaAccontoKo = Errore durante la cancellazione dell'acconto
+;
+nota = Nota
+note = Note
+creaNotaOk = Nota creata
+creaNotaKo = Errore durante la creazione della nota
+ricercaNotaKo = Errore durante la ricerca delle note
+modificaNotaOk = Nota modificata
+modificaNotaKo = Errore durante la modifica della nota
+cancellaNotaOk = Nota cancellata
+cancellaNotaKo = Errore durante la cancellazione della nota
 ;
 ; Campi form ---------------------------
 ;
@@ -452,4 +476,5 @@ sezionePianoPagamento = Piano di Pagamento
 sezioneAnnotazioni = Osservazioni Generali
 sezioneAnnotazioniVoci = Annotazioni
 nota1ValiditaPreventivo = Nota di Validit&agrave;
-
+;
+idnotapreventivo = Id Nota

@@ -9,10 +9,6 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 	private static $risultatiCorpo = "/visita/ricercaVisita.risultati.corpo.html";
 	private static $risultatiPiede = "/visita/ricercaVisita.risultati.piede.html";
 
-// 	private static $numeroVisiteTrovate;
-// 	private static $visiteTrovate;
-// 	private static $visite;
-
 	//-----------------------------------------------------------------------------
 
 	function __construct() {
@@ -28,30 +24,6 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 		self::$messaggioErrore = self::$root . $array['messaggioErrore'];
 		self::$messaggioInfo = self::$root . $array['messaggioInfo'];				
 	}
-		
-	// Setters ---------------------------------
-
-// 	public function setNumeroVisiteTrovate($numEle) {
-// 		self::$numeroVisiteTrovate = $numEle;
-// 	}
-// 	public function setVisiteTrovate($visiteTrovate) {
-// 		self::$visiteTrovate = $visiteTrovate;
-// 	}
-// 	public function setVisite($visite) {
-// 		self::$visite = $visite;
-// 	}
-		
-// 	// Getters --------------------------------
-	
-// 	public function getNumeroVisiteTrovate() {
-// 		return self::$numeroVisiteTrovate;
-// 	}
-// 	public function getVisiteTrovate() {
-// 		return self::$visiteTrovate;
-// 	}
-// 	public function getVisite() {
-// 		return self::$visite;
-// 	}
 	
 	// template ------------------------------------------------
 
@@ -159,7 +131,7 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 				// BOTTONE MODIFICA -----------------------------------------------
 				// nasconde il bottone modifica visita se ha generato un preventivo
 				
-				$bottoneModifica = "<a class='tooltip' href='../visita/modificaVisitaFacade.class.php?modo=start&idVisita=" . stripslashes($row['idvisita']) . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=%ml.stato" . trim($row['stato']) . "visita%'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a>";
+				$bottoneModifica = "<a class='tooltip' href='../visita/modificaVisitaFacade.class.php?modo=start&idVisita=" . $row['idvisita'] . "&datainserimento=" . $row['datainserimento'] . "&stato=" . trim($row['stato']) . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a>";
 				
 				if ($row['stato'] == "Preventivata") {
 					$bottoneModifica = "";
@@ -168,7 +140,7 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 				// BOTTONE CANCELLA -----------------------------------------------
 				// nasconde il bottone cancella visita se ha generato un preventivo
 
-				$bottoneCancella = "<a class='tooltip' href='cancellaVisitaFacade.class.php?modo=start&idVisita=" . stripslashes($row['idvisita']) . "&datainserimento=" . stripslashes($row['datainserimento']) . "&stato=" . stripslashes($row['stato']) . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
+				$bottoneCancella = "<a class='tooltip' href='cancellaVisitaFacade.class.php?modo=start&idVisita=" . $row['idvisita'] . "&datainserimento=" . $row['datainserimento'] . "&stato=" . $row['stato'] . "'><li class='ui-state-default ui-corner-all' title='Cancella'><span class='ui-icon ui-icon-trash'></span></li></a>";
 
 				if ($row['stato'] == "Preventivata") {
 					$bottoneCancella = "";
@@ -184,7 +156,8 @@ class ricercaVisitaTemplate  extends visitaAbstract {
 					'%datainserimento%' => stripslashes($row['datainserimento']),
 					'%bottoneCancella%' => $bottoneCancella,
 					'%bottoneModifica%' => $bottoneModifica,
-					'%stato%' => '%ml.stato' . trim($row['stato']) . 'visita%'
+					'%stato%' => trim($row['stato']),
+					'%statovisita%' => '%ml.stato' . trim($row['stato']) . 'visita%'
 				);
 
 				$template = $utility->tailFile($templateRiga, $replace);

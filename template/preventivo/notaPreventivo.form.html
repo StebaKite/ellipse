@@ -1,0 +1,51 @@
+<body>
+	
+<div id="body">
+	<div id="main">
+		<h2>%titoloPagina%</h2>
+		<table class="ricerca">
+			<tbody>
+				<tr>
+					<td>%ml.paziente% :</td>
+					<td><strong>%cognome% %nome%</strong></td>
+					<td>%ml.dataNasc% :</td>
+					<td><strong>%datanascita%</strong></td>
+					<td>%ml.idpreventivo% :</td>
+					<td><strong>%idPreventivo%</strong></td>					
+				</tr>
+			</tbody>
+		</table>
+		<br/>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="../preventivo/ricercaNotaPreventivoFacade.class.php?modo=start" >
+						<button class="button" title="Torna alla funzione precedente" %azione% >%ml.indietro%</button>
+						<input type="hidden" name="usa-sessione" value="true"/>
+					</form>
+				</td>
+			</tr>
+		</table>			
+
+		<form method="post" action="%azione%" >
+			<table class="datiCreate">
+				<tbody>
+					<tr>
+						<td valign="top">%ml.nota% :</td>
+						<td class="tooltip"><textarea rows="10" cols="100" required name="notapreventivo" %notareadonly%>%notapreventivo%</textarea></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="6" align="right" class="tooltip">
+							<button class="button" title="%testoAzione%" >%ml.conferma%</button>
+							<input type="hidden" name="usa-sessione" value="true"/>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+			<br/>
+		</form>
+	</div>
+</div>
+<br/>					

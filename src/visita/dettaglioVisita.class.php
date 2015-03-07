@@ -8,6 +8,16 @@ class dettaglioVisita extends visitaAbstract {
 
 	function __construct() {
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
+	
+		require_once 'utility.class.php';
+	
+		$utility = new utility();
+		$array = $utility->getConfig();
+	
+		self::$testata = self::$root . $array['testataPagina'];
+		self::$piede = self::$root . $array['piedePagina'];
+		self::$messaggioErrore = self::$root . $array['messaggioErrore'];
+		self::$messaggioInfo = self::$root . $array['messaggioInfo'];
 	}
 
 	// ------------------------------------------------
@@ -23,11 +33,6 @@ class dettaglioVisita extends visitaAbstract {
 		// Template
 		$utility = new utility();
 		$array = $utility->getConfig();
-
-		$testata = self::$root . $array['testataPagina'];
-		$piede = self::$root . $array['piedePagina'];
-		$messaggioErrore = self::$root . $array['messaggioErrore'];
-		$messaggioInfo = self::$root . $array['messaggioInfo'];
 
 		$riepilogoVociVisita = new riepilogoVociVisita();
 		$riepilogoVociVisita->setTitoloPagina('%ml.creaNuovaVisita%');
@@ -66,9 +71,9 @@ class dettaglioVisita extends visitaAbstract {
 		}
 
 		// Compone la pagina
-		include($testata);
+		include(self::$testata);
 		$riepilogoVociVisita->displayPagina();
-		include($piede);		
+		include(self::$piede);		
 	}
 
 	public function prelevaVociDentiSingoli($db, $utility, $array, $riepilogoVociVisita) {
