@@ -251,7 +251,10 @@ class modificaPreventivo extends preventivoAbstract {
 		$preventivoTemplate->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$preventivoTemplate->setAzioneGruppi(self::$azioneGruppi);
 		$preventivoTemplate->setAzioneCure(self::$azioneCure);
-		$preventivoTemplate->setAzionePagamento(self::$azionePagamento);
+
+		$_SESSION['bottonePianoPagamento'] = "<td><form class='tooltip' method='post' action='../preventivo/modificaPagamentoFacade.class.php?modo=start' >";		
+		$_SESSION['bottonePianoPagamento'] .= "<button class='button' title='%ml.pagamentoTip%'>%ml.pagamento%</button>";
+		$_SESSION['bottonePianoPagamento'] .= "<input type='hidden' name='usa-sessione' value='true'/></form></td>";
 		
 		$preventivoTemplate->setConfermaTip("%ml.confermaModificaPreventivo%");
 		$preventivoTemplate->setGruppiTip("%ml.creaGruppi%");

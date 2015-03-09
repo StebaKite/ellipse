@@ -60,6 +60,7 @@ class preventivoCureTemplate extends preventivoAbstract {
 		}
 		
 		$replace = array(
+				'%bottonePianoPagamento%' => $_SESSION['bottonePianoPagamento'],
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%preventivo%' => $this->getPreventivoLabel(),
 				'%totale%' => $this->getTotalePreventivoLabel(),
@@ -80,7 +81,7 @@ class preventivoCureTemplate extends preventivoAbstract {
 		
 		if ($rows) {
 			$replace['%vociListinoEsteso%'] = $this->preparaListinoEsteso($rows);
-			foreach($this->getCureGeneriche() as $row) {
+			foreach($_SESSION['curegeneriche'] as $row) {
 				$replace['%' . $row['0'] . '%'] = $this->preparaComboGruppo($rows, $row['1']);
 			}
 		}

@@ -8,7 +8,7 @@ class creaPreventivo extends preventivoAbstract {
 	public static $azioneDentiSingoli = "../preventivo/creaPreventivoFacade.class.php?modo=go";
 	public static $azioneGruppi = "../preventivo/creaPreventivoGruppiFacade.class.php?modo=start";
 	public static $azioneCure = "../preventivo/creaPreventivoCureFacade.class.php?modo=start";
-
+	
 	function __construct() {
 		
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
@@ -23,15 +23,6 @@ class creaPreventivo extends preventivoAbstract {
 		self::$messaggioErrore = self::$root . $array['messaggioErrore'];
 		self::$messaggioInfo = self::$root . $array['messaggioInfo'];
 		
-	}
-
-	// ------------------------------------------------
-
-	public function getAzioneDentiSingoli() {
-		return self::$azioneDentiSingoli;
-	}
-	public function getSingoliForm() {
-		return self::$singoliForm;
 	}
 
 	// ------------------------------------------------
@@ -60,7 +51,7 @@ class creaPreventivo extends preventivoAbstract {
 		
 		$preventivoTemplate = new preventivoTemplate();
 		$this->preparaPagina($preventivoTemplate);
-		$this->setDentiSingoli($this->prelevaCampiFormSingoli());
+		$_SESSION['dentisingoli'] = $this->prelevaCampiFormSingoli();
 		
 		include(self::$testata);
 		
@@ -102,14 +93,13 @@ class creaPreventivo extends preventivoAbstract {
 	
 		if ($this->creaPreventivo($db, self::$root)) {
 	
-			$dentiSingoli = $preventivoTemplate->getDentiSingoli();
-			$idPreventivoUsato = $db->getLastIdUsed();
-			$this->setIdPreventivo($idPreventivoUsato);
+			$dentiSingoli = $_SESSION['dentisingoli'];
+			$_SESSION['idPreventivo'] = $db->getLastIdUsed();
 	
 			for ($i = 0; $i < sizeof($dentiSingoli); $i++) {
 	
 				if ($dentiSingoli[$i][1] != "") {
-					if (!$this->creaVocePreventivo($db, $idPreventivoUsato, $this->getSingoliForm(), trim($dentiSingoli[$i][0]), trim($dentiSingoli[$i][1]))) {
+					if (!$this->creaVocePreventivo($db, $_SESSION['idPreventivo'], self::$singoliForm, trim($dentiSingoli[$i][0]), trim($dentiSingoli[$i][1]))) {
 						$db->rollbackTransaction();
 						error_log("Errore inserimento voce, eseguito Rollback");
 						return FALSE;
@@ -127,6 +117,8 @@ class creaPreventivo extends preventivoAbstract {
 		$preventivoTemplate->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$preventivoTemplate->setAzioneGruppi(self::$azioneGruppi);
 		$preventivoTemplate->setAzioneCure(self::$azioneCure);
+
+		unset($_SESSION['bottonePianoPagamento']);
 		
 		$preventivoTemplate->setConfermaTip("%ml.confermaCreazionePreventivo%");
 		$preventivoTemplate->setGruppiTip("%ml.creaGruppi%");
@@ -134,6 +126,7 @@ class creaPreventivo extends preventivoAbstract {
 		
 		$preventivoTemplate->setTitoloPagina("%ml.creaNuovoPreventivoDentiSingoli%");
 		$preventivoTemplate->setPreventivoLabel("");
+		$preventivoTemplate->setTotalePreventivoLabel("");
 		
 		unset($_SESSION['impostazionivoci']);
 		unset($_SESSION['idPreventivo']);

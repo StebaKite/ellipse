@@ -198,6 +198,7 @@ class preventivoTemplate extends preventivoAbstract {
 		} 
 		
 		$replace = array(
+				'%bottonePianoPagamento%' => $_SESSION['bottonePianoPagamento'],
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%preventivo%' => $this->getPreventivoLabel(),
 				'%totale%' => $this->getTotalePreventivoLabel(),

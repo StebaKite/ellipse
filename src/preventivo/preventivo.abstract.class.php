@@ -400,7 +400,7 @@ abstract class preventivoAbstract extends ellipseAbstract {
 		array_push($vociGeneriche, array('voceGenerica_5', ''));
 		array_push($vociGeneriche, array('voceGenerica_6', ''));
 	
-		$this->setCureGeneriche($vociGeneriche);
+		$_SESSION['curegeneriche'] = $vociGeneriche;
 	}
 	
 	public function prelevaCampiFormCure() {

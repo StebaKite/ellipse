@@ -6,7 +6,6 @@ SELECT
 	paziente.citta,
 	paziente.cap,
 	paziente.provincia,
-	paziente.eta,
 	paziente.sesso,
 	paziente.tipo,
 	paziente.luogonascita,

@@ -30,6 +30,12 @@ else {
 	$firewall = new firewall();
 
 	$data = array();
+	if ($_GET['cognome'] != "") $data['cognome'] = 'cognome' . ';' . $_GET['cognome'];
+	if ($_GET['nome'] != "") $data['nome'] = 'nome' . ';' . $_GET['nome'];
+	if ($_GET['idListino'] != "") $data['idListino'] = 'idListino' . ';' . $_GET['idListino'];
+	if ($_GET['idPaziente'] != "") $data['idPaziente'] = 'idPaziente' . ';' . $_GET['idPaziente'];
+	if ($_GET['datanascita'] != "") $data['datanascita'] = 'datanascita' . ';' . $_GET['datanascita'];
+	
 	if ($_GET['idPreventivo'] != "") $data['idPreventivo'] = 'idPreventivo' . ';' . $_GET['idPreventivo'];
 	if ($_GET['idPreventivoPrincipale'] != "") $data['idPreventivoPrincipale'] = 'idPreventivoPrincipale' . ';' . $_GET['idPreventivoPrincipale'];
 	if ($_GET['idSottoPreventivo'] != "") $data['idSottoPreventivo'] = 'idSottoPreventivo' . ';' . $_GET['idSottoPreventivo'];
@@ -38,7 +44,13 @@ else {
 
 
 	if ($firewall->controlloCampiRichiesta($data)) {
-
+		
+		$_SESSION['cognome'] = trim($_GET['cognome']);
+		$_SESSION['nome'] = trim($_GET['nome']);
+		$_SESSION['idListino'] = trim($_GET['idListino']);
+		$_SESSION['idPaziente'] = trim($_GET['idPaziente']);
+		$_SESSION['datanascita'] = trim($_GET['datanascita']);
+		
 		$_SESSION['idPreventivo'] = $_GET['idPreventivo'];
 		$_SESSION['idPreventivoPrincipale'] = $_GET['idPreventivoPrincipale'];
 		$_SESSION['idSottoPreventivo'] = $_GET['idSottoPreventivo'];

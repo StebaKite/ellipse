@@ -194,7 +194,7 @@ class modificaPagamento extends preventivoAbstract {
 		}
 
 		/**
-		 * Determino la situazione del preventivo solo quando provengo dallo start della funzione
+		 * Determino la situazione del preventivo
 		 */
 			
 		foreach ($vociPagateInPiano as $row) {

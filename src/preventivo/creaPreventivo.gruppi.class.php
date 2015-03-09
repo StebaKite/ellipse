@@ -8,7 +8,7 @@ class creaPreventivoGruppi extends preventivoAbstract {
 	public static $azioneGruppi = "../preventivo/creaPreventivoGruppiFacade.class.php?modo=go";
 	public static $azioneDentiSingoli = "../preventivo/creaPreventivoFacade.class.php?modo=start";
 	public static $azioneCure = "../preventivo/creaPreventivoCureFacade.class.php?modo=start";
-
+	
 	function __construct() {
 	
 		self::$root = $_SERVER['DOCUMENT_ROOT'];
@@ -135,7 +135,9 @@ class creaPreventivoGruppi extends preventivoAbstract {
 		$preventivoGruppiTemplate->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$preventivoGruppiTemplate->setAzioneGruppi(self::$azioneGruppi);
 		$preventivoGruppiTemplate->setAzioneCure(self::$azioneCure);
-	
+
+		unset($_SESSION['bottonePianoPagamento']);
+		
 		$preventivoGruppiTemplate->setConfermaTip("%ml.confermaCreazionePreventivo%");
 		$preventivoGruppiTemplate->setGruppiTip("%ml.creaSingoli%");
 		$preventivoGruppiTemplate->setCureTip("%ml.creaCure%");

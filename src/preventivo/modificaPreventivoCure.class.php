@@ -8,7 +8,6 @@ class modificaPreventivoCure extends preventivoAbstract {
 	public static $azioneDentiSingoli = "../preventivo/modificaPreventivoFacade.class.php?modo=start";
 	public static $azioneGruppi = "../preventivo/modificaPreventivoGruppiFacade.class.php?modo=start";
 	public static $azioneCure = "../preventivo/modificaPreventivoCureFacade.class.php?modo=go";
-	public static $azionePagamento = "../preventivo/modificaPagamentoFacade.class.php?modo=start";
 	
 	function __construct() {
 
@@ -249,7 +248,10 @@ class modificaPreventivoCure extends preventivoAbstract {
 		$preventivoCureTemplate->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$preventivoCureTemplate->setAzioneGruppi(self::$azioneGruppi);
 		$preventivoCureTemplate->setAzioneCure(self::$azioneCure);
-		$preventivoCureTemplate->setAzionePagamento(self::$azionePagamento);
+
+		$_SESSION['bottonePianoPagamento'] = "<td><form class='tooltip' method='post' action='../preventivo/modificaPagamentoFacade.class.php?modo=start' >";
+		$_SESSION['bottonePianoPagamento'] .= "<button class='button' title='%ml.pagamentoTip%'>%ml.pagamento%</button>";
+		$_SESSION['bottonePianoPagamento'] .= "<input type='hidden' name='usa-sessione' value='true'/></form></td>";
 		
 		$preventivoCureTemplate->setConfermaTip("%ml.confermaModificaPreventivo%");
 		$preventivoCureTemplate->setSingoliTip("%ml.modificaSingoli%");

@@ -131,14 +131,15 @@ class creaPreventivoCure extends preventivoAbstract {
 		$preventivoCureTemplate->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$preventivoCureTemplate->setAzioneGruppi(self::$azioneGruppi);
 		$preventivoCureTemplate->setAzioneCure(self::$azioneCure);
-	
+
+		unset($_SESSION['bottonePianoPagamento']);
+		
 		$preventivoCureTemplate->setConfermaTip('%ml.confermaCreazionePreventivo%');
 		$preventivoCureTemplate->setGruppiTip('%ml.creaGruppi%');
 		$preventivoCureTemplate->setSingoliTip('%ml.creaSingoli%');
 		
 		$preventivoCureTemplate->setTitoloPagina("%ml.creaNuovoPreventivoCure%");
 		$preventivoCureTemplate->setPreventivoLabel("");
-		$preventivoCureTemplate->setIdPreventivo("");
 
 		unset($_SESSION['idPreventivo']);
 		unset($_SESSION['idSottoPreventivo']);

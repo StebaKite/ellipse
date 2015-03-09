@@ -89,10 +89,6 @@ class dettaglioPaziente {
 			$paziente->setProvinciaDisable("readonly");
 			$paziente->setProvinciaStyle("color:#adadad; border:1px solid;");
 			
-			$paziente->setEta(trim($row["eta"]));
-			$paziente->setEtaDisable("readonly");
-			$paziente->setEtaStyle("color:#adadad; border:1px solid;");
-			
 			$paziente->setSesso(trim($row["sesso"]));		
 			$paziente->setSessoDisable("disabled");
 			

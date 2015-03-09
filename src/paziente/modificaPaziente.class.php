@@ -52,7 +52,6 @@ class modificaPaziente extends gestionePazienteAbstract {
 			$paziente->setCitta(trim($row["citta"]));
 			$paziente->setCap(trim($row["cap"]));
 			$paziente->setProvincia(trim($row["provincia"]));
-			$paziente->setEta(trim($row["eta"]));
 			$paziente->setSesso(trim($row["sesso"]));
 			$paziente->setTipo(trim($row["tipo"]));
 			$paziente->setLuogoNascita(trim($row["luogonascita"]));
@@ -112,7 +111,6 @@ class modificaPaziente extends gestionePazienteAbstract {
 		$paziente->setCitta($_POST["citta"]);
 		$paziente->setCap($_POST["cap"]);
 		$paziente->setProvincia($_POST["provincia"]);
-		$paziente->setEta($_POST["eta"]);
 		$paziente->setSesso($_POST["sesso"]);		
 		$paziente->setTipo($_POST["tipo"]);		
 		$paziente->setLuogoNascita($_POST["luogonascita"]);
@@ -181,7 +179,6 @@ class modificaPaziente extends gestionePazienteAbstract {
 			'%citta%' => ucwords(str_replace("'","''",trim($paziente->getCitta()))),
 			'%cap%' => str_replace("'","''",trim($paziente->getCap())),
 			'%provincia%' => ucwords(str_replace("'","''",trim($paziente->getProvincia()))),
-			'%eta%' => trim($paziente->getEta()),
 			'%sesso%' => str_replace("'","''",trim($paziente->getSesso())),
 			'%tipo%' => str_replace("'","''",trim($paziente->getTipo())),
 			'%luogoNascita%' => ucwords(str_replace("'","''",trim($paziente->getLuogoNascita()))),

@@ -8,7 +8,6 @@ class modificaPreventivoGruppi extends preventivoAbstract {
 	public static $azioneGruppi = "../preventivo/modificaPreventivoGruppiFacade.class.php?modo=go";
 	public static $azioneDentiSingoli = "../preventivo/modificaPreventivoFacade.class.php?modo=start";
 	public static $azioneCure = "../preventivo/modificaPreventivoCureFacade.class.php?modo=start";
-	public static $azionePagamento = "../preventivo/modificaPagamentoFacade.class.php?modo=start";
 	
 	function __construct() {
 
@@ -283,7 +282,10 @@ class modificaPreventivoGruppi extends preventivoAbstract {
 		$modificaPreventivoGruppiTemplate->setAzioneDentiSingoli(self::$azioneDentiSingoli);
 		$modificaPreventivoGruppiTemplate->setAzioneGruppi(self::$azioneGruppi);
 		$modificaPreventivoGruppiTemplate->setAzioneCure(self::$azioneCure);
-		$modificaPreventivoGruppiTemplate->setAzionePagamento(self::$azionePagamento);
+		
+		$_SESSION['bottonePianoPagamento'] = "<td><form class='tooltip' method='post' action='../preventivo/modificaPagamentoFacade.class.php?modo=start' >";
+		$_SESSION['bottonePianoPagamento'] .= "<button class='button' title='%ml.pagamentoTip%'>%ml.pagamento%</button>";
+		$_SESSION['bottonePianoPagamento'] .= "<input type='hidden' name='usa-sessione' value='true'/></form></td>";		
 		
 		$modificaPreventivoGruppiTemplate->setConfermaTip("%ml.confermaModificaPreventivo%");
 		$modificaPreventivoGruppiTemplate->setSingoliTip("%ml.modificaSingoli%");

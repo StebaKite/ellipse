@@ -1,0 +1,1 @@
+CREATE INDEX visita_idpaziente_idx ON paziente.visita (idpaziente);

@@ -1,0 +1,1 @@
+CREATE INDEX sottopreventivo_idpreventivo_idx ON paziente.sottopreventivo (idpreventivo);

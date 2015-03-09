@@ -48,6 +48,7 @@ class preventivoGruppiTemplate extends preventivoAbstract {
 		}
 		
 		$replace = array(
+				'%bottonePianoPagamento%' => $_SESSION['bottonePianoPagamento'],
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%preventivo%' => $this->getPreventivoLabel(),
 				'%totale%' => $this->getTotalePreventivoLabel(),
@@ -92,8 +93,8 @@ class preventivoGruppiTemplate extends preventivoAbstract {
 		// preleva tutte le voci inserite in gruppi per la visita in modifica
 	
 		$replace = array(
-				'%idpaziente%' => $this->getIdPaziente(),
-				'%idpreventivo%' => $this->getIdPreventivo()
+				'%idpaziente%' => $_SESSION['idPaziente'],
+				'%idpreventivo%' => $_SESSION['idPreventivo']
 		);
 	
 		$sqlTemplate = self::$root . $array['query'] . self::$queryVociPreventivoGruppiPaziente;

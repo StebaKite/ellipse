@@ -59,6 +59,7 @@ class preventivoCureTemplate extends preventivoAbstract {
 		$rows = pg_fetch_all($result);
 		
 		$replace = array(
+				'%bottonePianoPagamento%' => $_SESSION['bottonePianoPagamento'],
 				'%titoloPagina%' => $this->getTitoloPagina(),
 				'%preventivo%' => $this->getPreventivoLabel(),
 				'%totale%' => $this->getTotalePreventivoLabel(),

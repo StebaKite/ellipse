@@ -36,7 +36,7 @@ class cancellaPreventivo extends preventivoAbstract {
 
 		$db = new database();
 
-		if ($_SESSION['idpreventivo'] != "") {
+		if ($_SESSION['idPreventivo'] != "") {
 			$this->prelevaVociPreventivoPrincipale($db, $dettaglioPreventivoTemplate);
 		}
 		elseif ($_SESSION['idSottoPreventivo'] != "") {
