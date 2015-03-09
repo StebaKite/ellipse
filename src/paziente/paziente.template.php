@@ -39,11 +39,6 @@ class paziente extends gestionePazienteAbstract {
 	private static $capTip;
 	private static $capDisable;
 
-	private static $eta;
-	private static $etaStyle;	
-	private static $etaTip;
-	private static $etaDisable;
-
 	private static $luogoNascita;
 	private static $luogoNascitaStyle;	
 	private static $luogoNascitaTip;
@@ -217,20 +212,7 @@ class paziente extends gestionePazienteAbstract {
 	public function setCapDisable($disable) {
 		self::$capDisable = $disable;
 	}
-	//-----------------------
-	
-	public function setEta($eta) {
-		self::$eta = $eta;	
-	}	
-	public function setEtaStyle($style) {
-		self::$etaStyle = $style;
-	}
-	public function setEtaTip($tip) {
-		self::$etaTip = $tip;
-	}
-	public function setEtaDisable($disable) {
-		self::$etaDisable = $disable;
-	}
+
 	//-----------------------
 	
 	public function setLuogoNascita($luogoNascita) {
@@ -541,20 +523,7 @@ class paziente extends gestionePazienteAbstract {
 	public function getCapDisable() {
 		return self::$capDisable;
 	}
-	//-----------------------
-		
-	public function getEta() {
-		return self::$eta;
-	}
-	public function getEtaStyle() {
-		return self::$etaStyle;
-	}
-	public function getEtaTip() {
-		return self::$etaTip;
-	}
-	public function getEtaDisable() {
-		return self::$etaDisable;
-	}
+
 	//-----------------------
 		
 	public function getLuogoNascita() {
@@ -569,6 +538,7 @@ class paziente extends gestionePazienteAbstract {
 	public function getLuogoNascitaDisable() {
 		return self::$luogoNascitaDisable;
 	}
+
 	//-----------------------
 		
 	public function getDataNascita() {
@@ -583,6 +553,7 @@ class paziente extends gestionePazienteAbstract {
 	public function getDataNascitaDisable() {
 		return self::$dataNascitaDisable;
 	}
+	
 	//-----------------------
 		
 	public function getSesso() {
@@ -597,6 +568,7 @@ class paziente extends gestionePazienteAbstract {
 	public function getSessoDisable() {
 		return self::$sessoDisable;
 	}
+	
 	//-----------------------
 		
 	public function getTipo() {
@@ -611,6 +583,7 @@ class paziente extends gestionePazienteAbstract {
 	public function getTipoDisable() {
 		return self::$tipoDisable;
 	}
+	
 	//-----------------------
 		
 	public function getCodiceFiscale() {
@@ -854,12 +827,6 @@ class paziente extends gestionePazienteAbstract {
 			$paziente->setCapStyle("border-color:#ff0000; border-width:2px;");
 			$paziente->setCapTip("Il CAP del paziente deve contenere numeri");
 		}
-		
-		if (!is_numeric($paziente->getEta())) {
-			$esito = FALSE;
-			$paziente->setEtaStyle("border-color:#ff0000; border-width:2px;");
-			$paziente->setEtaTip("L'eta del paziente deve contenere numeri");
-		}
 
 		$cf = new CodiceFiscale();
 		$cf->SetCF($paziente->getCodiceFiscale());
@@ -1007,10 +974,6 @@ class paziente extends gestionePazienteAbstract {
 			'%capStyle%' => $this->getCapStyle(),
 			'%capTip%' => $this->getCapTip(),
 			'%capDisable%' => $this->getCapDisable(),
-			'%eta%' => $this->getEta(),
-			'%etaStyle%' => $this->getEtaStyle(),
-			'%etaTip%' => $this->getEtaTip(),
-			'%etaDisable%' => $this->getEtaDisable(),
 			'%luogoNascita%' => $this->getLuogoNascita(),
 			'%luogoNascitaStyle%' => $this->getLuogoNascitaStyle(),
 			'%luogoNascitaTip%' => $this->getLuogoNascitaTip(),

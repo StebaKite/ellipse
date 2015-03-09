@@ -6,7 +6,6 @@ SELECT
 	citta,
 	cap,
 	provincia,
-	eta,
 	sesso,
 	tipo,
 	luogonascita,

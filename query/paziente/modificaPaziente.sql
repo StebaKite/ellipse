@@ -7,7 +7,6 @@ UPDATE paziente.paziente
 	citta='%citta%',
 	cap='%cap%',
 	provincia='%provincia%',
-	eta='%eta%',
 	sesso='%sesso%',
 	luogonascita='%luogoNascita%',
 	datanascita='%dataNascita%',
