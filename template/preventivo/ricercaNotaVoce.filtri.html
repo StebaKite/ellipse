@@ -1,0 +1,34 @@
+<body>
+
+<div id="body">
+	<div id="main">
+		<h2>%titoloPagina%</h2>
+		<table class="ricerca">
+			<tbody>
+				<tr>
+					<td>%ml.paziente% :</td>
+					<td><strong>%cognome% %nome%</strong></td>
+					<td>%ml.dataNasc% :</td>
+					<td><strong>%datanascita%</strong></td>
+					<td>%ml.idpreventivo% :</td>
+					<td><strong>%idPreventivo%</strong></td>					
+				</tr>
+			</tbody>
+		</table>
+		<br/>
+		<table>
+			<tr>
+				<td>
+					<form class="tooltip" method="post" action="../preventivo/creaNotaVocePreventivoFacade.class.php?modo=start">
+						<button id="buttonCrea" class="button" title="%ml.nuovaNotaTip%" >%ml.nuovo%</button>
+						<input type="hidden" name="usa-sessione" value="true"/>
+					</form>
+				</td>
+				<td>
+					<form class="tooltip" method="post" action="../preventivo/dettaglioPreventivoFacade.class.php?modo=start" >
+						<button class="button" title="Torna alla funzione precedente" %azione% >%ml.indietro%</button>
+						<input type="hidden" name="usa-sessione" value="true"/>
+					</form>
+				</td>
+			</tr>
+		</table>

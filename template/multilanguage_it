@@ -114,6 +114,7 @@ importorataTip = Importo della singola rata
 nuovaNotaTip = Crea una nuova nota pre il preventivo
 cancellaNotaTip = Cancella la nota corrente
 notepresenti = Ci sono note inserite sul preventivo
+notevocepresenti = Ci sono note inserite sulla voce
 noteassenti = Note assenti
 ;
 ; Funzioni -----------------------------
@@ -189,6 +190,15 @@ modificaNotaPreventivoPrincipale = Modifica Nota Preventivo Principale
 modificaNotaPreventivoSecondario = Modifica Nota Preventivo Secondario
 cancellaNotaPreventivoPrincipale = Cancella Nota Preventivo Principale
 cancellaNotaPreventivoSecondario = Cancella Nota Preventivo Secondario
+;
+ricercaNotaVocePreventivoPrincipale = Ricerca Nota Voce Preventivo Principale
+ricercaNotaVocePreventivoSecondario = Ricerca Nota Voce Preventivo Secondario
+creaNotaVocePreventivoPrincipale = Crea Nota Voce Preventivo Principale
+creaNotaVocePreventivoSecondario = Crea Nota Voce Preventivo Secondario
+modificaNotaVocePreventivoPrincipale = Modifica Nota Voce Preventivo Principale
+modificaNotaVocePreventivoSecondario = Modifica Nota Voce Preventivo Secondario
+cancellaNotaVocePreventivoPrincipale = Cancella Nota Voce Preventivo Principale
+cancellaNotaVocePreventivoSecondario = Cancella Nota Voce Preventivo Secondario
 ;
 ; Messaggi -----------------------------
 ;

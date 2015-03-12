@@ -5,6 +5,7 @@ SELECT
 	vocesottopreventivo.nomecampoform,
 	vocesottopreventivo.nomeform,
 	vocesottopreventivo.prezzo,
+    COALESCE(notavocesottopreventivo.numeronotevocesottopreventivo, 0) AS numeronotevocepreventivo,	
 	case
 		when vocesottopreventivo.descrizione is null then voce.descrizione
 		when vocesottopreventivo.descrizione is not null then vocesottopreventivo.descrizione
@@ -20,6 +21,22 @@ FROM paziente.preventivo as preventivo
 	
 	LEFT OUTER JOIN paziente.vocesottopreventivo as vocesottopreventivo
 		ON vocesottopreventivo.idsottopreventivo = sottopreventivo.idsottopreventivo
+
+	LEFT OUTER JOIN (
+        SELECT
+            vocesottopreventivo.idvocesottopreventivo ,
+            COUNT(*) AS numeronotevocesottopreventivo    
+            
+          FROM paziente.vocesottopreventivo AS vocesottopreventivo  
+          
+            INNER JOIN paziente.notavocesottopreventivo AS notavocesottopreventivo 
+            	ON notavocesottopreventivo.idvocesottopreventivo = vocesottopreventivo.idvocesottopreventivo             
+            	
+         WHERE vocesottopreventivo.idsottopreventivo = %idsottopreventivo%
+         GROUP BY vocesottopreventivo.idvocesottopreventivo
+       
+     ) AS notavocesottopreventivo	    
+     ON notavocesottopreventivo.idvocesottopreventivo = vocesottopreventivo.idvocesottopreventivo		
 	
 	INNER JOIN paziente.vocelistino as vocelistino
 		ON  vocelistino.idlistino = paziente.idlistino

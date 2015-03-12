@@ -142,8 +142,13 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 // 						if ($this->getStato() != '01') $riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
 // 						else $riepilogoVociPreventivoDentiSingoli .= "<td>&nbsp;</td>";
 						
-						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&tabella=Singoli&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";						
-						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/ricercaNoteVocePreventivoFacade.class.php?modo=start&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";
+						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&tabella=Singoli&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
+
+						$iconabottoneNota = ($row['numeronotevocepreventivo'] > 0 ) ? 'ui-icon-bullet' : 'ui-icon-radio-off';
+						$titleBottoneNota = ($row['numeronotevocepreventivo'] > 0 ) ? '%ml.notevocepresenti%' : '%ml.noteassenti%';
+						$bottoneNota = "<a class='tooltip' href='../preventivo/ricercaNotaVocePreventivoFacade.class.php?modo=start&idVocePreventivo=" . $row['idvocepreventivo'] . "&idVoceSottoPreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='" . $titleBottoneNota . "'><span class='ui-icon " . $iconabottoneNota . "'></span></li></a>";
+						
+						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'>" . $bottoneNota . "</td>";
 					}
 					
 					$riepilogoVociPreventivoDentiSingoli .= "</tr>";
@@ -168,7 +173,12 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 // 						else $riepilogoVociPreventivoDentiSingoli .= "<td>&nbsp;</td>";
 						
 						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&tabella=Singoli&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";						
-						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'><a class='tooltip' href='../preventivo/ricercaNoteVocePreventivoFacade.class.php?modo=start&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";
+
+						$iconabottoneNota = ($row['numeronotevocepreventivo'] > 0 ) ? 'ui-icon-bullet' : 'ui-icon-radio-off';
+						$titleBottoneNota = ($row['numeronotevocepreventivo'] > 0 ) ? '%ml.notepresenti%' : '%ml.noteassenti%';
+						$bottoneNota = "<a class='tooltip' href='../preventivo/ricercaNotaVocePreventivoFacade.class.php?modo=start&idVocePreventivo=" . $row['idvocepreventivo'] . "&idVoceSottoPreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='" . $titleBottoneNota . "'><span class='ui-icon " . $iconabottoneNota . "'></span></li></a>";
+						
+						$riepilogoVociPreventivoDentiSingoli .= "<td id='icons'>" . $bottoneNota . "</td>";
 					}
 											
 					$riepilogoVociPreventivoDentiSingoli .= "</tr>";
@@ -222,7 +232,12 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 // 						else $riepilogoVociPreventivoGruppi .= "<td>&nbsp;</td>";
 
 						$riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&tabella=Gruppi&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
-						$riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/ricercaNoteVocePreventivoFacade.class.php?modo=start&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";
+
+						$iconabottoneNota = ($row['numeronotevocepreventivo'] > 0 ) ? 'ui-icon-bullet' : 'ui-icon-radio-off';
+						$titleBottoneNota = ($row['numeronotevocepreventivo'] > 0 ) ? '%ml.notepresenti%' : '%ml.noteassenti%';
+						$bottoneNota = "<a class='tooltip' href='../preventivo/ricercaNotaVocePreventivoFacade.class.php?modo=start&idVocePreventivo=" . $row['idvocepreventivo'] . "&idVoceSottoPreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='" . $titleBottoneNota . "'><span class='ui-icon " . $iconabottoneNota . "'></span></li></a>";
+						
+						$riepilogoVociPreventivoGruppi .= "<td id='icons'>" . $bottoneNota . "</td>";
 					}
 					
 					$riepilogoVociPreventivoGruppi .= "</tr>";
@@ -246,7 +261,12 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 // 						else $riepilogoVociPreventivoGruppi .= "<td>&nbsp;</td>";
 
 						$riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&tabella=Gruppi&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
-						$riepilogoVociPreventivoGruppi .= "<td id='icons'><a class='tooltip' href='../preventivo/ricercaNoteVocePreventivoFacade.class.php?modo=start&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";
+
+						$iconabottoneNota = ($row['numeronotevocepreventivo'] > 0 ) ? 'ui-icon-bullet' : 'ui-icon-radio-off';
+						$titleBottoneNota = ($row['numeronotevocepreventivo'] > 0 ) ? '%ml.notepresenti%' : '%ml.noteassenti%';
+						$bottoneNota = "<a class='tooltip' href='../preventivo/ricercaNotaVocePreventivoFacade.class.php?modo=start&idVocePreventivo=" . $row['idvocepreventivo'] . "&idVoceSottoPreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='" . $titleBottoneNota . "'><span class='ui-icon " . $iconabottoneNota . "'></span></li></a>";
+						
+						$riepilogoVociPreventivoGruppi .= "<td id='icons'>" . $bottoneNota . "</td>";
 					}
 						
 					$riepilogoVociPreventivoGruppi .= "</tr>";
@@ -295,7 +315,12 @@ class dettaglioPreventivoTemplate extends preventivoAbstract {
 // 					else $riepilogoVociPreventivoCure .= "<td>&nbsp;</td>";
 						
 					$riepilogoVociPreventivoCure .= "<td id='icons'><a class='tooltip' href='../preventivo/modificaVocePreventivoFacade.class.php?modo=start&tabella=Cure&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='Modifica'><span class='ui-icon ui-icon-pencil'></span></li></a></td>";
-					$riepilogoVociPreventivoCure .= "<td id='icons'><a class='tooltip' href='../preventivo/ricercaNoteVocePreventivoFacade.class.php?modo=start&dente=" . $dente[1] . "&idvocepreventivo=" . $row['idvocepreventivo'] . "&idvocesottopreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='Note'><span class='ui-icon ui-icon-comment'></span></li></a>";
+
+					$iconabottoneNota = ($row['numeronotevocepreventivo'] > 0 ) ? 'ui-icon-bullet' : 'ui-icon-radio-off';
+					$titleBottoneNota = ($row['numeronotevocepreventivo'] > 0 ) ? '%ml.notepresenti%' : '%ml.noteassenti%';
+					$bottoneNota = "<a class='tooltip' href='../preventivo/ricercaNotaVocePreventivoFacade.class.php?modo=start&idVocePreventivo=" . $row['idvocepreventivo'] . "&idVoceSottoPreventivo=" . $row['idvocesottopreventivo'] . "'><li class='ui-state-default ui-corner-all' title='" . $titleBottoneNota . "'><span class='ui-icon " . $iconabottoneNota . "'></span></li></a>";
+					
+					$riepilogoVociPreventivoCure .= "<td id='icons'>" . $bottoneNota . "</td>";
 				}
 
 				$riepilogoVociPreventivoCure .= "</tr>";
