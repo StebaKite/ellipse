@@ -36,7 +36,9 @@ else {
 	if ($firewall->controlloCampiRichiesta($data)) {
 	
 		$_SESSION['cognome'] = trim($_POST['cognome']);
-	
+		$_SESSION['modificatioggi'] = $_POST['modificatioggi'];
+		$_SESSION['proposte'] = $_POST['proposte'];
+		
 		$ricercaPaziente = new ricercaPaziente();
 		if ($_GET["modo"] == "start") $ricercaPaziente->start();
 		if ($_GET["modo"] == "go") $ricercaPaziente->go();

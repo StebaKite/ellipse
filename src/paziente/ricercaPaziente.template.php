@@ -11,7 +11,6 @@ class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 	public static $messaggioInfo = "/messaggioInfo.html";
 	public static $messaggioErrore = "/messaggioErrore.html";
 	
-	private static $cognome;
 	private static $cognomeStyle;	
 	private static $cognomeTip;	
 	private static $cognomeDisable;
@@ -65,12 +64,16 @@ class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 		$filtri = self::$root . $array['template'] . self::$filtri;
 
 		$replace = array(
-			'%cognomeStyle%' => $this->getCognomeStyle(),
-			'%cognomeTip%' => $this->getCognomeTip(),
-			'%cognome%' => $_SESSION['cognome'],
-			'%cognomeDisable%' => $this->getCognomeDisable(),
-			'%azione%' => $this->getAzione(),
-			'%testoAzione%' => $this->getTestoAzione()
+				'%cognomeStyle%' => $this->getCognomeStyle(),
+				'%cognomeTip%' => $this->getCognomeTip(),
+				'%cognome%' => $_SESSION['cognome'],
+				'%cognomeDisable%' => $this->getCognomeDisable(),
+				'%azione%' => $this->getAzione(),
+				'%testoAzione%' => $this->getTestoAzione(),
+				'%tuttiChecked%' => $_SESSION['tuttiChecked'],
+				'%modificatiOggiChecked%' => $_SESSION['modificatiOggiChecked'],
+				'%conSenzaProposteChecked%' => $_SESSION['conSenzaProposteChecked'],
+				'%conProposteChecked%' => $_SESSION['conProposteChecked'],
 		);
 
 		$utility = new utility();
@@ -186,13 +189,13 @@ class ricercaPazienteTemplate extends gestionePazienteAbstract  {
 				$replace = array(
 					'%class%' => $class,
 					'%cognomeRicerca%' => $_SESSION['cognome'],
-					'%idPaziente%' => stripslashes($row['idpaziente']),
-					'%cognome%' => stripslashes($row['cognome']),
-					'%nome%' => stripslashes($row['nome']),
-					'%dataNascita%' => stripslashes($row['datanascita']),
-					'%numvisite%' => stripslashes($row['numvisite']),
-					'%numpreventivi%' => stripslashes($row['numpreventivi']),
-					'%numcartellecliniche%' => stripslashes($row['numcartellecliniche']),
+					'%idPaziente%' => $row['idpaziente'],
+					'%cognome%' => $row['cognome'],
+					'%nome%' => $row['nome'],
+					'%dataNascita%' => $row['datanascita'],
+					'%numvisite%' => $row['numvisite'],
+					'%numpreventivi%' => $row['numpreventivi'] + $row['numsottopreventivi'],
+					'%numcartellecliniche%' => $row['numcartellecliniche'],
 					'%bottoneCancella%' => $bottoneCancella,
 					'%bottoneVisite%' => $bottoneVisite,
 					'%bottonePreventivi%' => $bottonePreventivi

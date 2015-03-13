@@ -4,12 +4,48 @@
 	<div id="main">
 		<form method="post" action="../paziente/ricercaPazienteFacade.class.php?modo=go" >
 			<h2>%ml.ricercaPaziente%</h2>
-			<table class="ricerca">
+			<table>
 				<tbody>
 					<tr>
-						<td>%ml.cognome% :</td>
-						<td class="tooltip"><input 	type="text" name="cognome" style="%cognomeStyle%" title="%cognomeTip%" size="50" value="%cognome%" %cognomeDisable% /></td>
-						<td class="tooltip"><button class="button" title="%ml.cercaTip%" >%ml.cerca%</button></td>
+						<td>
+							<table class="ricerca">
+								<tbody>
+									<tr>
+										<td>%ml.cognome% :</td>
+										<td class="tooltip"><input 	type="text" name="cognome" style="%cognomeStyle%" title="%cognomeTip%" size="50" value="%cognome%" %cognomeDisable% /></td>
+										<td class="tooltip"><button class="button" title="%ml.cercaTip%" >%ml.cerca%</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+						<td>
+							<table class="ricerca">
+								<tbody>
+									<tr>
+										<td>
+											<div class="radioset">
+												<input type="radio" id="tutti" name="modificatioggi" value="" %tuttiChecked%><label for="tutti">%ml.tutti%</label>
+												<input type="radio" id="modoggi" name="modificatioggi" value="modoggi" %modificatiOggiChecked%><label for="modoggi">%ml.modoggi%</label>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>						
+						</td>
+						<td>
+							<table class="ricerca">
+								<tbody>
+									<tr>
+										<td>
+											<div class="radioset">
+												<input type="radio" id="consenzaproposte" name="proposte" value="" %conSenzaProposteChecked%><label for="consenzaproposte">%ml.consenzaproposte%</label>
+												<input type="radio" id="conproposte" name="proposte" value="conproposte" %conProposteChecked%><label for="conproposte">%ml.conproposte%</label>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>						
+						</td>
 					</tr>
 				</tbody>
 			</table>

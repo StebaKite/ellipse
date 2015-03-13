@@ -23,6 +23,10 @@ class ricercaPaziente extends gestionePazienteAbstract {
 		$piede = self::$root . $array['piedePagina'];		
 
 		$ricercaPazienteTemplate = new ricercaPazienteTemplate();
+		$_SESSION['modificatiOggiChecked'] = '';
+		$_SESSION['tuttiChecked'] = 'checked'; 
+		$_SESSION['conProposteChecked'] = '';
+		$_SESSION['conSenzaProposteChecked'] = 'checked';
 		
 		// compone la pagina
 		include($testata);
@@ -43,7 +47,8 @@ class ricercaPaziente extends gestionePazienteAbstract {
 		$piede = self::$root . $array['piedePagina'];		
 		
 		$ricercaPazienteTemplate = new ricercaPazienteTemplate();
-
+		$this->preparaPagina($ricercaPazienteTemplate);
+		
 		// Il messaggio		
 		$ricercaPazienteTemplate->setMessaggio($this->getMessaggio());
 		
@@ -68,9 +73,34 @@ class ricercaPaziente extends gestionePazienteAbstract {
 
 		require_once 'database.class.php';
 
-		// carica e ritaglia il comando sql da lanciare
+		/**
+		 * Set condizione modificati oggi
+		 */
 		
-		$replace = array('%cognome%' => str_replace("'","''",$_SESSION['cognome']));
+		if ($_SESSION['modificatioggi'] != "") {
+			$oggi = date("Y-m-d");
+			$dataModifica = " and datamodifica = '" . date("Y-m-d") . "'";
+		}
+		else {
+			$dataModifica = "";
+		}
+		
+		/**
+		 * Set condizione pazienti con visite o preventivi proposti
+		 */
+		
+		if ($_SESSION['proposte'] != "") {
+			$conProposte = " and ((numvisiteproposte > 0) or (numpreventiviproposti > 0) or (numsottopreventiviproposti > 0))";
+		}
+		else {
+			$conProposte = "";
+		}
+		
+		$replace = array(
+				'%cognome%' => str_replace("'","''",$_SESSION['cognome']),
+				'%datamodifica%' => $dataModifica,
+				'%proposte%' => $conProposte
+		);
 		
 		$utility = new utility();
 		$array = $utility->getConfig();
@@ -87,6 +117,29 @@ class ricercaPaziente extends gestionePazienteAbstract {
 		$_SESSION['pazientiTrovati'] = $result;
 		
 		return $result;	
+	}
+	
+	private function preparaPagina($ricercaPazienteTemplate) {
+
+		if ($_SESSION['modificatioggi'] != "") {
+			$_SESSION['modificatiOggiChecked'] = 'checked';
+			$_SESSION['tuttiChecked'] = '';
+		}
+		else {
+			$_SESSION['modificatiOggiChecked'] = '';
+			$_SESSION['tuttiChecked'] = 'checked';
+		}
+		
+
+		if ($_SESSION['proposte'] != "") {
+			$_SESSION['conProposteChecked'] = 'checked';
+			$_SESSION['conSenzaProposteChecked'] = '';
+		}
+		else {
+			$_SESSION['conProposteChecked'] = '';
+			$_SESSION['conSenzaProposteChecked'] = 'checked';
+		}
+		
 	}
 }
 ?>

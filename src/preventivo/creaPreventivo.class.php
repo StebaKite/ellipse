@@ -106,6 +106,14 @@ class creaPreventivo extends preventivoAbstract {
 					}
 				}
 			}
+
+			// aggiorno la datamodifica del "paziente"
+			if (!$this->aggiornaPaziente($db, $_SESSION['idPaziente'], self::$root)) {
+				error_log("Fallito aggiornamento paziente : " . $_SESSION['idPaziente']);
+				$db->rollbackTransaction();
+				return FALSE;
+			}
+				
 			$db->commitTransaction();
 			return TRUE;
 		}
