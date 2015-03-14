@@ -121,15 +121,21 @@ class ricercaPaziente extends gestionePazienteAbstract {
 	
 	private function preparaPagina($ricercaPazienteTemplate) {
 
-		if ($_SESSION['modificatioggi'] != "") {
-			$_SESSION['modificatiOggiChecked'] = 'checked';
-			$_SESSION['tuttiChecked'] = '';
-		}
-		else {
+		if ($_SESSION['cognome'] != "") {
+			unset($_SESSION['modificatioggi']);
 			$_SESSION['modificatiOggiChecked'] = '';
 			$_SESSION['tuttiChecked'] = 'checked';
 		}
-		
+		else {
+			if ($_SESSION['modificatioggi'] != "") {
+				$_SESSION['modificatiOggiChecked'] = 'checked';
+				$_SESSION['tuttiChecked'] = '';
+			}
+			else {
+				$_SESSION['modificatiOggiChecked'] = '';
+				$_SESSION['tuttiChecked'] = 'checked';
+			}				
+		}		
 
 		if ($_SESSION['proposte'] != "") {
 			$_SESSION['conProposteChecked'] = 'checked';

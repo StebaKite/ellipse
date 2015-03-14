@@ -55,7 +55,7 @@ SELECT
     to_char(sottopreventivo.datamodifica , 'DD/MM/YYYY') AS datamodifica ,
     sottopreventivo.stato ,
     COALESCE(totalisottopreventivipaziente.totalesottopreventivo , 0) AS totalepreventivo,
-    COALESCE(notepreventivipaziente.numeronotepreventivo, 0) AS numeronotepreventivo
+    COALESCE(notesottopreventivipaziente.numeronotesottopreventivo, 0) AS numeronotepreventivo
      
   FROM paziente.preventivo AS preventivo
     
@@ -86,7 +86,7 @@ SELECT
 		 LEFT OUTER JOIN (
 	        SELECT
 	            sottopreventivo.idsottopreventivo ,
-	            COUNT(*) AS numeronotepreventivo    
+	            COUNT(*) AS numeronotesottopreventivo    
 	            
 	          FROM paziente.preventivo AS preventivo  
 	          
@@ -99,8 +99,8 @@ SELECT
 	         WHERE preventivo.idpaziente = %idpaziente%
 	         GROUP BY sottopreventivo.idsottopreventivo
 	       
-	     ) AS notepreventivipaziente	    
-	     ON notepreventivipaziente.idsottopreventivo = sottopreventivo.idsottopreventivo
+	     ) AS notesottopreventivipaziente	    
+	     ON notesottopreventivipaziente.idsottopreventivo = sottopreventivo.idsottopreventivo
 		   
  WHERE preventivo.idpaziente = %idpaziente%
 ORDER BY idpreventivo , tipopreventivo , idsottopreventivo , datainserimento

@@ -54,10 +54,10 @@ class ricercaNotaPreventivo extends preventivoAbstract {
 	private function ricerca($ricercaNotaTemplate) {
 
 		if ($_SESSION['idPreventivo'] != '') {
-			return $this->leggiNotaVocePreventivo($_SESSION['idVocePreventivo'], self::$queryRicercaNotaVocePreventivoPrincipale);
+			return $this->leggiNotaPreventivo($_SESSION['idPreventivo'], self::$queryRicercaNotaPreventivoPrincipale);
 		}
 		elseif ($_SESSION['idSottoPreventivo'] != '') {
-			return $this->leggiNotaVocePreventivo($_SESSION['idVoceSottoPreventivo'], self::$queryRicercaNotaVocePreventivoSecondario);
+			return $this->leggiNotaPreventivo($_SESSION['idSottoPreventivo'], self::$queryRicercaNotaPreventivoSecondario);
 		}
 	}
 }
