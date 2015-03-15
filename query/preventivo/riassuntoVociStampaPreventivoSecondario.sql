@@ -28,5 +28,6 @@ FROM paziente.sottopreventivo as sottopreventivo
 	
 WHERE paziente.idpaziente = %idpaziente%
   AND sottopreventivo.idsottopreventivo = %idsottopreventivo%
+  AND vocesottopreventivo.stato = '00'
   
 GROUP BY codicevoce, descrizionevoce

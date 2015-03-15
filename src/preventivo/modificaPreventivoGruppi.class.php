@@ -81,11 +81,16 @@ class modificaPreventivoGruppi extends preventivoAbstract {
 		include(self::$testata);
 		
 		if ($this->modificaGruppi($modificaPreventivoGruppiTemplate)) {
-		
+
+			$db->beginTransaction();
+				
+			$modificaPreventivoGruppiTemplate->calcolaTotalePreventivo($db);				
 			$modificaPreventivoGruppiTemplate->displayPagina();
 			$replace = array('%messaggio%' => '%ml.modificaPreventivoOk%');
 			$template = $utility->tailFile($utility->getTemplate(self::$messaggioInfo), $replace);
 			echo $utility->tailTemplate($template);
+		
+			$db->commitTransaction();
 		}
 		else {
 			$modificaPreventivoGruppiTemplate->displayPagina();

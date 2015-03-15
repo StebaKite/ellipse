@@ -194,7 +194,7 @@ class preventivoTemplate extends preventivoAbstract {
 			$totaleDentiSingoli = "&euro;" . number_format($_SESSION['totalepreventivodentisingoli'], 2, ',', '.');
 		}
 		else {
-			$totaleDentiSingoli = "";
+			$totaleDentiSingoli = "0";
 		} 
 		
 		$replace = array(
